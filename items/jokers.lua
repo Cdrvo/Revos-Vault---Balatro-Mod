@@ -38,8 +38,7 @@ SMODS.Joker({
 	key = "revoo_",
 	config = {
 		extra = {
-			xmult = 1,
-			xmultg = 2,
+			xmult = 2,
 		},
 	},
 	rarity = 4,
@@ -57,17 +56,17 @@ SMODS.Joker({
 	cost = 20,
 	loc_vars = function(self, info_queue, card)
 		return {
-			vars = {},
+			vars = { card.ability.extra.xmult },
 		}
 	end,
 	calculate = function(self, card, context)
-		--[[if context.individual and context.cardarea == G.play then
+		if context.individual and context.cardarea == G.play then
 			if context.other_card:get_id() == 14 then
-				return{
-					xmult = card.ability.extra.xmultg
+				return {
+					xmult = card.ability.extra.xmult,
 				}
 			end
-		end]]
+		end
 	end,
 })
 SMODS.Joker({
@@ -246,6 +245,7 @@ SMODS.Joker({
 	config = {
 		extra = {
 			xmult = 2,
+			xmultg = 0.05,
 		},
 	},
 	rarity = 4,
@@ -274,6 +274,7 @@ SMODS.Joker({
 				and not context.blueprint
 				and not context.repetition
 			then
+				card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmultg
 				return {
 					xmult = card.ability.extra.xmult,
 				}
@@ -8119,6 +8120,7 @@ RevosVault.investment = function(card, args)
 						shadow = true,
 						colour = G.C.RED,
 						button = "crv_invest",
+						func = "crv_can_invest",
 					},
 					nodes = {
 						{
@@ -8206,8 +8208,17 @@ G.FUNCS.crv_invest = function(e) -- i am way to lazy to fix this right now. I wi
 			card.ability.extra["invested"] = G.GAME.dollars / 4
 			ease_dollars(-(G.GAME.dollars / 4))
 		end
+	end
+end
+
+G.FUNCS.crv_can_invest = function(e)
+	local card = e.config.ref_table
+	if card.ability.extra["check"] == false then
+		e.config.colour = G.C.RED
+		e.config.button = "crv_invest"
 	else
-		print("Can't invest yet")
+		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+		e.config.button = nil
 	end
 end
 
@@ -8494,18 +8505,20 @@ SMODS.Joker({
 				card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmultg
 			end
 		end
-		if not card.getting_sliced and context.joker_main then
-			for k, v in ipairs(context.scoring_hand) do
+		if context.joker_main then
+			return {
+				xmult = card.ability.xmult,
+			}
+		end
+		if context.before then
+			for k, v in ipairs(G.play.cards) do
 				if v:is_suit("Hearts", true) then
 					card.ability.extra.xmultg = card.ability.extra.xmultg + 0.1
 				end
 				return {
-					xmult = card.ability.extra.xmult,
+					message = localize("k_upgrade_ex"),
 				}
 			end
-			return {
-				xmult = card.ability.xmult,
-			}
 		end
 	end,
 	in_pool = function(self, wawa, wawa2)
@@ -10812,26 +10825,23 @@ SMODS.Joker({
 	end,
 })
 
-
 --
 
-local shopframes = {0,1,2,3}
+local shopframes = { 0, 1, 2, 3 }
 SMODS.Joker({
 	key = "shop_sign",
 	atlas = "Jokers2",
 	rarity = 4,
 	pos = { x = 0, y = 13 },
 	soul_pos = { x = 1, y = 13 },
-	calculate = function(self, card, context) 
-	end,
+	calculate = function(self, card, context) end,
 	update = function(self, card, context)
 		local timer = (G.TIMERS.REAL * 4) -- Thank you TOGA (i found it in #modding_dev)
 		local frame_amount = #shopframes
 		local wrapped_value = (math.floor(timer) - 1) % frame_amount + 1
-		card.children.floating_sprite:set_sprite_pos({x = shopframes[wrapped_value], y = 14})
+		card.children.floating_sprite:set_sprite_pos({ x = shopframes[wrapped_value], y = 14 })
 	end,
 })
-
 
 SMODS.Joker({
 	key = "pay2win",
@@ -10840,15 +10850,107 @@ SMODS.Joker({
 	rarity = 3,
 	loc_vars = function(self, info_queue, card)
 		return {
-			vars = {love.timer.getFPS()},
+			vars = { love.timer.getFPS() },
 		}
 	end,
-	calculate = function(self,card,context)
+	calculate = function(self, card, context)
 		if context.joker_main then
-			return{
-				mult = love.timer.getFPS()
+			return {
+				mult = love.timer.getFPS(),
 			}
 		end
 	end,
 })
 
+SMODS.Joker({
+	key = "heartfive",
+	atlas = "Jokers2",
+	pos = { x = 2, y = 13 },
+	rarity = 1,
+	cost = 5,
+	config = {
+		extra = {
+			mone = 5,
+			suit = "Spades",
+		},
+	},
+	loc_vars = function(self, info_queue, card)
+		local crv = card.ability.extra
+		return {
+			vars = { crv.mone,crv.suit },
+		}
+	end,
+	calculate = function(self, card, context)
+		local crv = card.ability.extra
+		if context.end_of_round and context.main_eval and not context.blueprint then
+			crv.suit = pseudorandom_element(SMODS.Suits).key
+		end
+		if context.individual and context.cardarea == G.play then
+			if context.other_card:is_suit(crv.suit) then
+				return {
+					dollars = crv.mone,
+				}
+			end
+		end
+	end,
+})
+
+SMODS.Joker({
+	key = "cogs",
+	atlas = "Jokers2",
+	pos = { x = 6, y = 13 },
+	rarity = 2,
+	cost = 4,
+	config = {
+		extra = {},
+	},
+	loc_vars = function(self, info_queue, card)
+		local crv = card.ability.extra
+		return {
+			vars = { crv.mone },
+		}
+	end,
+	calculate = function(self, card, context)
+		local crv = card.ability.extra
+		if context.repetition and context.cardarea == G.play and G.GAME.current_round.hands_played == 0 then
+			return {
+				repetitions = 1,
+			}
+		end
+	end,
+})
+
+SMODS.Joker({
+	key = "7ball",
+	atlas = "Jokers2",
+	pos = { x = 3, y = 13 },
+	rarity = 2,
+	cost = 4,
+	config = {
+		extra = {
+			odds = 6,
+		},
+	},
+	loc_vars = function(self, info_queue, card)
+		local crv = card.ability.extra
+		return {
+			vars = { (G.GAME.probabilities.normal or 1), crv.odds },
+		}
+	end,
+	calculate = function(self, card, context)
+		local crv = card.ability.extra
+		if context.individual and context.cardarea == G.play and context.other_card:get_id() == 7 then
+			if pseudorandom("crv_7ball") < G.GAME.probabilities.normal / crv.odds then
+				if G.consumeables.config.card_limit > #G.consumeables.cards then
+					SMODS.add_card({
+						set = "Spectral",
+					})
+				else
+					return {
+						message = "No Room!",
+					}
+				end
+			end
+		end
+	end,
+})

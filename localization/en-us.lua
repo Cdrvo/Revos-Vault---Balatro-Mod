@@ -446,7 +446,9 @@ return {
 				name = "The Ace",
 				text = {
 					"Every card is",
-					"considered an {C:attention}Ace",
+					"considered an {C:attention}Ace.",
+					"each scored {C:attention}Ace{}",
+					"gives {X:mult,C:white}X#1#{} Mult"
 				},
 			},
 			j_crv_spuzzypp = {
@@ -473,6 +475,8 @@ return {
 				text = {
 					"Scored numbered cards",
 					"give {X:mult,C:white}X#1#{} Mult",
+					"Increase by {X:mult,C:white}+#2#{} when",
+					"a numbered card is scored"
 				},
 			},
 			j_crv_snayn3 = {
@@ -2097,6 +2101,39 @@ return {
 					"{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)",
 				},
 			},
+			j_crv_heartfive = {
+				name = "Rainbow Octopus",
+				text = {
+					"Played {C:attention}#2#{} Cards",
+					"give {C:money}#1#{} when scored",
+					"{S:0.8}Suit changes after every round"
+				},
+			},
+			j_crv_cogs = {
+				name = "Sunrise",
+				text = {
+					"{C:attention}Retrigger{} the first",
+					"played hand of this round"
+				},
+			},
+			j_crv_7ball = {
+				name = "7 Ball",
+				text = {
+					"{C:green}#1# in #2#{} Chance to",
+					"create a {C:dark_edition}Spectral{}",
+					"card when a {C:attention}7{}",
+					"is scored."
+				},
+			},
+			j_crv_vball = {
+				name = "VBall",
+				text = {
+					"Create a {C:dark_edition}Spectral{}",
+					"card when an {C:attention}8{} is scored.",
+					"{C:green}#1# in #2#{} Chance to",
+					"destroy every consumeable instead"
+				},
+			},
 			--GARBSHIT below
 			j_crv_stamprinter = {
 				name = "Stamp Printer",
@@ -3206,13 +3243,22 @@ return {
 					"at the end of the round",
 				},
 			},
-			crv_blessed = {
-				name = "Blessed",
+			crv_mystery = {
+				name = "Mystery",
 				text = {
-					"Immune to {C:red}destruction",
-					"{C:attention}#2#{} times"
+					"Turns into a random",
+					"{C:attention}Enabled{} sticker after",
+					"{C:attention}#1#{C:inactive} (#2#) {} Rounds"
 				},
 			},
+			crv_cursed = {
+				name = "Cursed",
+				text = {
+					"Gains a random",
+					"{C:attention}Sticker{} after", 
+					"each round"
+				}
+			}
 		},
 		Tag = {
 			tag_crv_pst = {
@@ -3370,7 +3416,8 @@ return {
 			crv_continuity = "Continuity",
 			crv_overtime = "Overtime",
 			crv_temp = "Temporary",
-			crv_blessed = "Blessed",
+			crv_mystery = "Mystery",
+			crv_cursed = "Cursed",
 			crv_sunbleached = "Sun Bleached",
 			crv_pastel = "Pastel",
 			crv_bloom_edition = "Bloom",

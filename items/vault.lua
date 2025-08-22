@@ -685,3 +685,46 @@ SMODS.Joker({
 	end,
 })
 
+SMODS.Joker({
+	key = "vball",
+	atlas = "Jokers2",
+	pos = {
+		x = 5,
+		y = 13,
+	},
+	rarity = "crv_va",
+	cost = 5,
+	unlocked = true,
+	discovered = false,
+	blueprint_compat = true,
+	config = {
+		extra = {
+			odds = 4
+		},
+	},
+	loc_vars = function(self, info_queue, card)
+		local crv = card.ability.extra
+		return {
+			vars = {(G.GAME.probabilities.normal or 1),crv.odds},
+		}
+	end,
+	calculate = function(self, card, context)
+		local crv = card.ability.extra
+		local c = context
+		if c.individual and c.cardarea == G.play and c.other_card:get_id() == 8 then
+			if pseudorandom("vball") < G.GAME.probabilities.normal / crv.odds then
+				for i = 1, #G.consumeables.cards do
+					SMODS.destroy_cards(G.consumeables.cards[i])
+				end
+			else
+				SMODS.add_card{
+					set = "Spectral"
+				}
+			end
+		end
+	end,
+	in_pool = function(self, wawa, wawa2)
+		return true
+	end,
+})
+
