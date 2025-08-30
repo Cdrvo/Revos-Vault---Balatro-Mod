@@ -4,20 +4,6 @@ SMODS.Rarity({
 	pools = {},
 })
 
-SMODS.Atlas({
-	key = "chaosa",
-	path = "chaos.png",
-	px = 71,
-	py = 95,
-})
-
-SMODS.Atlas({
-	key = "printersoul",
-	path = "Printer_Soul.png",
-	px = 71,
-	py = 95,
-})
-
 SMODS.Consumable({
 	key = "chaoticsol",
 	set = "Spectral",

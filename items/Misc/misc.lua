@@ -135,3 +135,14 @@ function loc_colour(_c, _default)
 
 	return loc_old(_c, _default)
 end
+
+function Card:remove_sticker_calc(sticker, card) 
+    sticker:removed(self, card)
+	SMDOS.calculate_context({sticker_removed = true, other_sticker = self, other_card = card})
+	
+end
+
+function Card:apply_sticker_calc(sticker, card) 
+    sticker:applied(self, card)
+    SMDOS.calculate_context({sticker_applied = true, other_sticker = self, other_card = card})
+end

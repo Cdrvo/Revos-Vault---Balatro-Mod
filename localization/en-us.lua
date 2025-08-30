@@ -3314,6 +3314,16 @@ return {
 					"{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive} Mult)",
 				},
 			},
+			e_crv_radiatede = {
+				name = "Radiated",
+				text = {
+					"When a {C:attention}Blind{} is selected",
+					"or this card is {C:attention}Played",
+					"{C:green}#1# in 4{} chance to",
+					"apply a {C:dark_edition}Random Edition{} to",
+					"adjacent cards"
+				},
+			},
 		},
 		Voucher = {
 			v_crv_printerup = {
@@ -3423,6 +3433,7 @@ return {
 			crv_bloom_edition = "Bloom",
 			crv_magnetised_edition = "Magnetised",
 			crv_antichrome_edition = "Antichrome",
+			crv_radiatede = "Radiated"
 		},
 		dictionary = {
 			k_crv_pbstg = "Printer Pack",

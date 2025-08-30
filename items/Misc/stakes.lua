@@ -166,30 +166,59 @@ SMODS.Stake{
     end
 }
 
---[[SMODS.Stake{
-    key = "frag",
+SMODS.Stake{
+    key = "myster",
     atlas = "stakes",
-    pos = {x=4,y=0},
+    pos = {x=0,y=1},
     colour = HEX("ffe9b5"),
     sticker_atlas = "enh",
-    sticker_pos = {x=5,y=0},
-    applied_stakes = { "crv_absol" },
+    sticker_pos = {x=6,y=0},
+    applied_stakes = { "crv_overt" },
     shiny = true,
     unlocked = false,
     prefix_config = { applied_stakes = { mod = false} },
     loc_txt = {
-        name = "Fragile Stake",
-        text = {"{C:attentionAll{} Jokers can have {C:crv_continuity}Fragile",
-                "{C:inactive,s:0.6}(1/4 Chance to get destroyed when triggered/played)"},
+        name = "Mysterious Stake",
+        text = {"{C:attentionAll{} Jokers can have {C:crv_mystery}Mystery{} Sticker",
+                "{C:inactive,s:0.6}(after 3 rounds gain a turn into a different sticker )"},
                 sticker = {
-                    name = "Transparent Sticker",
+                    name = "Mysterious Sticker",
                     text = {"Used this Joker",
-                            "to win on {C:attention}Fragile",
+                            "to win on {C:attention}Mysterious",
                             "{C:attention}Stake{} difficulty"}
 
                 }
     },
     modifiers = function()
-        G.GAME.modifiers.enable_crv_glasssticker = true
+        G.GAME.modifiers.enable_crv_mystery = true
     end
-}]]
+}
+
+SMODS.Stake{
+    key = "curse",
+    atlas = "stakes",
+    pos = {x=2,y=1},
+    colour = HEX("ffe9b5"),
+    sticker_atlas = "enh",
+    sticker_pos = {x=6,y=3},
+    applied_stakes = { "crv_myster" },
+    shiny = true,
+    unlocked = false,
+    prefix_config = { applied_stakes = { mod = false} },
+    loc_txt = {
+        name = "Pitch Black Stake",
+        text = {"{C:attentionAll{} Jokers can have {C:black}Cursed{} Sticker",
+                "{C:inactive,s:0.6}(gain a sticker after each round)"},
+                sticker = {
+                    name = "Pitch Black Sticker",
+                    text = {
+                            "Used this Joker",
+                            "to win on {C:attention}Mysterious",
+                            "{C:attention}Stake{} difficulty"}
+
+                }
+    },
+    modifiers = function()
+        G.GAME.modifiers.enable_crv_mystery = true
+    end
+}

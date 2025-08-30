@@ -1,3 +1,10 @@
+SMODS.Rarity({
+	key = "secret",
+	badge_colour = G.C.BLACK,
+	pools = {},
+})
+
+
 SMODS.Joker({
 	key = "sgrossprinter",
 	atlas = "Jokers2",
