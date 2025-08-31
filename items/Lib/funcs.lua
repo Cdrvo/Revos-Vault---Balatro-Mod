@@ -1220,6 +1220,7 @@ end
 function Card:apply_sticker_calc(sticker, card) 
     sticker:applied(self, card)
 	SMODS.calculate_context({sticker_applied = true, other_sticker = sticker, other_card = card})
+	RevosVault.sticker_thingy(card)
 end
 
 function RevosVault.joker_pos(card)
@@ -1247,4 +1248,36 @@ function RevosVault.move(card, by)
 		table.insert(area.cards, by, card)
 		card.area = area
 	end
+end
+
+function RevosVault.sticker_thingy(card)
+	local eligable = {}
+	if card and card.ability then
+		for k, v in pairs(SMODS.Stickers) do
+			if string.find(k, "crv") then
+				eligable[#eligable+1] = k
+			end
+		end
+
+		for k, v in pairs(eligable) do
+			if not card.ability[v] then
+				break 
+			else
+				check_for_unlock({type = "howdidwegethere"})
+			end
+		end
+	end
+end
+
+function edge(card)
+	local eligable = {}
+		for k, v in pairs(SMODS.Stickers) do
+			if string.find(k, "crv_") then
+				eligable[#eligable+1] = k
+			end
+		end
+
+		for k, v in pairs(eligable) do
+			SMODS.Stickers[v]:apply(G.jokers.cards[1],true)
+		end
 end

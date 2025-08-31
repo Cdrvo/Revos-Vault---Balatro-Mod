@@ -3423,6 +3423,12 @@ return {
 		},
 	},
 	misc = {
+		achievement_names={
+			ach_crv_get_all_stickers = "How did we get here?"
+		},
+		achievement_descriptions ={
+			ach_crv_get_all_stickers = "Apply all Revo's Vault stickers on one card"
+		},
 		labels = {
 			crv_ps_seal = "Printer's Seal",
 			crv_p = "Printer",
