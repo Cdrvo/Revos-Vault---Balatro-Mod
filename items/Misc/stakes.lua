@@ -222,3 +222,32 @@ SMODS.Stake{
         G.GAME.modifiers.enable_crv_mystery = true
     end
 }
+
+SMODS.Stake{
+    key = "cloudy",
+    atlas = "stakes",
+    pos = {x=3,y=1},
+    colour = HEX("55c6d9"),
+    sticker_atlas = "enh",
+    sticker_pos = {x=7,y=1},
+    applied_stakes = { "crv_curse" },
+    shiny = true,
+    unlocked = false,
+    prefix_config = { applied_stakes = { mod = false} },
+    loc_txt = {
+        name = "Cloudy Stake",
+        text = {"{C:attentionAll{} Jokers can have {C:blue}Fan{} Sticker",
+                "{C:inactive,s:0.6}(slide the joker on the right to right)"},
+                sticker = {
+                    name = "Cloudy Sticker",
+                    text = {
+                            "Used this Joker",
+                            "to win on {C:attention}Cloudy",
+                            "{C:attention}Stake{} difficulty"}
+
+                }
+    },
+    modifiers = function()
+        G.GAME.modifiers.enable_crv_fan = true
+    end
+}

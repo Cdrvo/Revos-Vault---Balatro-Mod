@@ -345,10 +345,11 @@ SMODS.Sticker({
 SMODS.Sticker({
 	key = "fan",
 	pos = {
-		x = 6,
+		x = 7,
 		y = 0,
 	},
 	badge_colour = HEX("55c6d9"),
+	atlas = "enh",
 	sets = {
 		Joker = true,
 	},
