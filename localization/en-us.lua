@@ -3430,7 +3430,8 @@ return {
 			ach_crv_secret_joker = "I'm Secretifying it",
 			ach_crv_buckshotifying = "Buckshot Roulette!",
 			ach_crv_vaultingify = "Vault Bound",
-			ach_crv_lame_card = "Broke as hell!"
+			ach_crv_lame_card = "Broke as hell!",
+			ach_crv_welcome_mine = "Welcome to my mine!"
 		},
 		achievement_descriptions ={
 			ach_crv_get_all_stickers = "Apply all Revo's Vault stickers on one card",
@@ -3439,7 +3440,8 @@ return {
 			ach_crv_secret_joker = "Obtain a secret joker",
 			ach_crv_buckshotifying = "Beat The Dealer joker",
 			ach_crv_vaultingify = "Obtain a Vaulted Joker",
-			ach_crv_lame_card = "Buy Revo's Card"
+			ach_crv_lame_card = "Buy Revo's Card",
+			ach_crv_welcome_mine = "Redeem a gem"
 		},
 		labels = {
 			crv_ps_seal = "Printer's Seal",

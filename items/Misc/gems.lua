@@ -48,6 +48,9 @@ if to_big(card.config.center.cost) > to_big(G.GAME.dollars) - to_big(G.GAME.bank
 end
 
 G.FUNCS.redeem_gem = function(e)
+
+	check_for_unlock({"gemming_it"})
+	
 	local card = e.config.ref_table
 	
 	card.config.center:apply_gem()

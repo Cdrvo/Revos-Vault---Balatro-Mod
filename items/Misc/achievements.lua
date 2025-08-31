@@ -52,6 +52,14 @@ SMODS.Achievement({
     end
 })
 
+SMODS.Achievement({
+    key = "welcome_mine",
+    unlock_condition = function(self, args)
+        if args.type == "gemming_it" then
+            return true
+        end
+    end
+})
 
 
 -- last

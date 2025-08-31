@@ -1,3 +1,71 @@
+-- Thank you JoyousSpring
+SMODS.current_mod.custom_ui = function(modNodes)
+	G.printer_info = CardArea(
+		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
+		G.ROOM.T.h,
+		4.25 * G.CARD_W,
+		0.95 * G.CARD_H,
+		{ card_limit = 5, type = "title", highlight_limit = 0, collection = true }
+	)
+	local random_random = { "crv_p", "BananaPool", "crv_va" }
+	local random_rarity = pseudorandom_element(random_random)
+
+	local random_cards2 = {}
+	local random_cards = {}
+
+	if random_rarity == "BananaPool" then
+		for k, card in pairs(G.P_CENTER_POOLS[random_rarity]) do
+			random_cards2[#random_cards2 + 1] = card.key
+		end
+	elseif random_rarity == "crv_va" and G.P_JOKER_RARITY_POOLS["crv_va"] then
+		for k, card in pairs(G.P_JOKER_RARITY_POOLS[random_rarity]) do
+			random_cards2[#random_cards2 + 1] = card.key
+		end
+	else
+		for k, card in pairs(G.P_JOKER_RARITY_POOLS["crv_p"]) do
+			random_cards2[#random_cards2 + 1] = card.key
+		end
+	end
+
+	pseudoshuffle(random_cards2, pseudoseed("revo_sucks_at_ui"))
+	for i = 1, 5 do
+		random_cards[#random_cards + 1] = random_cards2[1]
+		table.remove(random_cards2, 1)
+	end
+
+	for i, key in ipairs(random_cards) do
+		local card = Card(
+			G.printer_info.T.x + G.printer_info.T.w / 2,
+			G.printer_info.T.y,
+			G.CARD_W,
+			G.CARD_H,
+			G.P_CARDS.empty,
+			G.P_CENTERS[key]
+		)
+		G.printer_info:emplace(card)
+		card:flip()
+		G.E_MANAGER:add_event(Event({
+			blocking = false,
+			trigger = "after",
+			delay = 0.4 * i,
+			func = function()
+				play_sound("card1")
+				card:flip()
+				card:juice_up()
+				return true
+			end,
+		}))
+	end
+
+	modNodes[#modNodes + 1] = {
+		n = G.UIT.R,
+		config = { align = "cm", padding = 0.07, no_fill = true },
+		nodes = {
+			{ n = G.UIT.O, config = { object = G.printer_info } },
+		},
+	}
+end
+
 -- This specific hook exits a lot in my current code. Im not planning to remove them nor move them just yet but the future ones will be implemented here under the same hook
 
 local cardhighold = Card.highlight
@@ -926,7 +994,6 @@ function Card:reroll_cards()
 	SMODS.calculate_context({ reroll_cards = true })
 end
 
-
 -- All gems stuff until "--"
 
 RevosVault.custom_button_set_3 = function(card, args)
@@ -999,7 +1066,6 @@ RevosVault.custom_button_set_3 = function(card, args)
 		},
 	}
 end
-
 
 --Gem tab function to show the gems in a new tab in run info.
 function G.UIDEF.used_gems()
@@ -1116,27 +1182,7 @@ function G.UIDEF.used_gems()
 	return t
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 -- OLD UI CODE (but still used!)
-
 
 -- thanks to bepisfever on discord for helping with this part :D
 
@@ -1399,8 +1445,6 @@ G.FUNCS.crv_modee = function(e)
 	end
 end
 
-
-
 local card_highlighted_ref = Card.highlight
 function Card:highlight(is_highlighted)
 	self.highlighted = is_highlighted
@@ -1625,8 +1669,6 @@ G.FUNCS.crv_clicked = function(e)
 	card.ability.extra["clicks"] = card.ability.extra["clicks"] + 1
 	card.ability.extra["chips"] = card.ability.extra["chips"] + card.ability.extra["chipgain"]
 end
-
-
 
 local card_highlighted_ref = Card.highlight
 function Card:highlight(is_highlighted)
@@ -2355,8 +2397,6 @@ G.FUNCS.crv_changebet = function(e)
 		card.ability.extra["bet"] = "Black"
 	end
 end
-
-
 
 local card_highlighted_ref = Card.highlight
 function Card:highlight(is_highlighted)
