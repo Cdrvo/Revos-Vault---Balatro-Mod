@@ -89,7 +89,6 @@ if RevosVault.config.vault_enabled then
 		elseif self.added_to_deck and self.ability.set == "Joker" and G.GAME.vaultspawn >= 30 then
 			G.GAME.vaultspawn = 0
 			play_sound("holo1")
-			check_for_unlock({type = "vaulting_it"})
 			SMODS.add_card({
 				set = "Joker",
 				area = G.jokers,
@@ -273,6 +272,9 @@ local ret = add_to_deck_old(self, from_debuff)
 	end
 	if self.config.center.key == "j_crv_mycard" then
 		check_for_unlock({type = "revoing_it"})
+	end
+	if self.config.center.rarity == "crv_va" then
+		check_for_unlock({type = "vaulting_it"})
 	end
 return ret
 end

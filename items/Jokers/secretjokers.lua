@@ -128,7 +128,7 @@ SMODS.Joker({
 	},
 	loc_vars = function(self, info_queue, card)
 		return {
-			vars = { card.ability.extra.xmult * stickercheck() + 1, card.ability.extra.xmult },
+			vars = { card.ability.extra.xmult * RevosVault.stickercheck(G.jokers.cards, "perishable") + 1, card.ability.extra.xmult },
 		}
 	end,
 
@@ -147,7 +147,7 @@ SMODS.Joker({
 		end
 		if context.joker_main then
 			return {
-				xmult = card.ability.extra.xmult * stickercheck() + 1,
+				xmult = card.ability.extra.xmult * RevosVault.stickercheck(G.jokers.cards, "perishable") + 1,
 			}
 		end
 		if context.end_of_round and context.game_over and card.ability.extra.save == true then
