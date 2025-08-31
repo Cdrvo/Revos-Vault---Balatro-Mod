@@ -96,6 +96,211 @@ RevosVault.config_tab = function()
 	}
 end
 
+--[[RevosVault.configs = {}
+
+RevosVault.Config = SMODS.GameObject:extend({ -- the arrow thingy
+	rarity = 1,
+	unlocked = true,
+	discovered = true,
+	no_collection = true,
+	pos = { x = 0, y = 0 },
+	cost = 0,
+	obj_table = RevosVault.configs,
+	obj_buffer = {},
+	config = {},
+	set = "RVCONF",
+	atlas = "Jokers2",
+	conf = "blinds_enabled",
+	required_params = {
+		"key",
+	},
+    inject = function(self)
+
+	if not G.P_CENTER_POOLS[self.set] then
+		G.P_CENTER_POOLS[self.set] = {}
+	end
+
+    SMODS.Center.inject(self)
+
+  	end,
+	set_card_type_badge = function(self, card, badges) end,
+})
+RevosVault.Config({ --used for the title screen
+	key = "blinds_enabled",
+		atlas = "Jokers2",
+	rarity = "crv_p",
+	pos = {
+		x = 0,
+		y = 1,
+	},
+	conf = "blinds_enabled",
+})
+RevosVault.Config({ --used for the title screen
+	key = "chaos_enabled",
+		atlas = "Jokers2",
+	rarity = "crv_p",
+	pos = {
+		x = 0,
+		y = 1,
+	},
+	conf = "chaos_enabled",
+})
+RevosVault.Config({ --used for the title screen
+	key = "vault_enabled",
+		atlas = "Jokers2",
+	rarity = "crv_p",
+	pos = {
+		x = 0,
+		y = 1,
+	},
+	conf = "vault_enabled",
+})
+RevosVault.Config({ --used for the title screen
+	key = "superior_enabled",
+		atlas = "Jokers2",
+	rarity = "crv_p",
+	pos = {
+		x = 0,
+		y = 1,
+	},
+	conf = "superior_enabled",
+})
+RevosVault.Config({ --used for the title screen
+	key = "experimental_enabled",
+		atlas = "Jokers2",
+	rarity = "crv_p",
+	pos = {
+		x = 0,
+		y = 1,
+	},
+	conf = "experimental_enabled",
+})
+RevosVault.Config({ --used for the title screen
+	key = "secretjokers_enabled",
+		atlas = "Jokers2",
+	rarity = "crv_p",
+	pos = {
+		x = 0,
+		y = 1,
+	},
+	conf = "secretjokers_enabled",
+})
+RevosVault.Config({ --used for the title screen
+	key = "gems_enabled",
+		atlas = "Jokers2",
+	rarity = "crv_p",
+	pos = {
+		x = 0,
+		y = 1,
+	},
+	conf = "gems_enabled",
+})
+
+
+local old_config = copy_table(RevosVault.config) -- unused
+
+local click_old = Card.click
+function Card:click()
+	local ret = click_old(self)
+	if (self.area == G.printer_info2) or (self.area == G.printer_info3)then
+			self.debuff = RevosVault.config[self.config.center.conf]
+			self:juice_up()
+			play_sound("tarot1")
+			RevosVault.config[self.config.center.conf] = not RevosVault.config[self.config.center.conf]
+	else
+	end
+	return ret
+end
+
+RevosVault.config_tab = function()
+		G.printer_info2 = CardArea(
+		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
+		G.ROOM.T.h,
+		4.25 * G.CARD_W,
+		0.95 * G.CARD_H,
+		{ card_limit = 4, type = "shop", highlight_limit = 0, collection = true }
+	)
+		G.printer_info3 = CardArea(
+		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
+		G.ROOM.T.h,
+		4.25 * G.CARD_W,
+		0.95 * G.CARD_H,
+		{ card_limit = 4, type = "shop", highlight_limit = 0, collection = true }
+	)
+	modNodes = {
+		{
+			n = G.UIT.R,
+			config = { align = "cm" },
+			nodes = {
+				{
+					n = G.UIT.O,
+					config = {
+						object = DynaText({
+							string = "Click to disable/enable",
+							colours = { G.C.WHITE },
+							shadow = true,
+							scale = 0.4,
+						}),
+					},
+				},
+			},
+		},
+		{
+		n = G.UIT.R,
+			config = { align = "cm", padding = 0.07, no_fill = true },
+			nodes = {
+				{ n = G.UIT.O, config = { object = G.printer_info2 } },
+			},
+		},
+		first_row = { n = G.UIT.R, config = { align = "tm", padding = 0.05 }, nodes = {} },
+		{
+		n = G.UIT.R,
+		config = { align = "cm", padding = 0.07, no_fill = true },
+		nodes = {
+			{ n = G.UIT.O, config = { object = G.printer_info3 } },
+		},
+	}
+	}
+
+
+	for i, key in ipairs({"crv_chaos_enabled","crv_vault_enabled","crv_blinds_enabled","crv_secretjokers_enabled"}) do
+		local card = Card(
+			G.printer_info2.T.x + G.printer_info2.T.w / 2,
+			G.printer_info2.T.y,
+			G.CARD_W,
+			G.CARD_H,
+			G.P_CARDS.empty,
+			G.P_CENTERS[key]
+		)
+		G.printer_info2:emplace(card)
+	end
+	for i, key in ipairs({"crv_gems_enabled","crv_superior_enabled","crv_experimental_enabled"}) do
+	local card2 = Card(
+			G.printer_info2.T.x + G.printer_info2.T.w / 2,
+			G.printer_info2.T.y,
+			G.CARD_W,
+			G.CARD_H,
+			G.P_CARDS.empty,
+			G.P_CENTERS[key]
+		)
+		G.printer_info3:emplace(card2)
+	end
+
+	return {
+		n = G.UIT.ROOT,
+		config = {
+			emboss = 0.05,
+			minh = 6,
+			r = 0.1,
+			minw = 10,
+			align = "cm",
+			padding = 0.2,
+			colour = G.C.BLACK,
+		},
+		nodes = modNodes,
+	}
+end]]
+
 
 RevosVault.Lib = {
 	"funcs",

@@ -49,7 +49,6 @@ end
 
 G.FUNCS.redeem_gem = function(e)
 
-	check_for_unlock({"gemming_it"})
 	
 	local card = e.config.ref_table
 	
@@ -62,7 +61,7 @@ G.FUNCS.redeem_gem = function(e)
 		area = G.vouchers
 	}
 
-	
+	check_for_unlock({type = "gemming_it"})
 
 
 	G.GAME.used_gems[#G.GAME.used_gems + 1] = card.config.center.key
@@ -229,7 +228,7 @@ RevosVault.Gem({
 RevosVault.Gem({
 	key = "ruby",
 	atlas = "gemss",
-	pos = { x = 0, y = 3 },
+	pos = { x = 3, y = 0 },
 	config = {
 		extra = {
 			destroy_time = 0,
@@ -291,7 +290,7 @@ RevosVault.Gem({
 RevosVault.Gem({
 	key = "star_sapphire",
 	atlas = "gemss",
-	pos = { x = 0, y = 3 },
+	pos = { x = 5, y = 0 },
 	config = {
 		extra = {
 			destroy_time = 0,
