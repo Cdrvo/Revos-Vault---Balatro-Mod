@@ -936,6 +936,7 @@ SMODS.Joker({
 				table.insert(megap, G.jokers.cards[rr - 1])
 				table.insert(megap, G.jokers.cards[rr])
 				card.fusion = true
+                check_for_unlock({type = "megaify"})
 				SMODS.destroy_cards(megap)
 				SMODS.add_card({
 					key = "j_crv_full",

@@ -1268,16 +1268,3 @@ function RevosVault.sticker_thingy(card)
 		end
 	end
 end
-
-function edge(card)
-	local eligable = {}
-		for k, v in pairs(SMODS.Stickers) do
-			if string.find(k, "crv_") then
-				eligable[#eligable+1] = k
-			end
-		end
-
-		for k, v in pairs(eligable) do
-			SMODS.Stickers[v]:apply(G.jokers.cards[1],true)
-		end
-end

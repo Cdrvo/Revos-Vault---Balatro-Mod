@@ -1609,6 +1609,7 @@ SMODS.Joker({
 					G.jokers:remove_card(card)
 					card:start_dissolve({ HEX("57ecab") }, nil, 1.6)
 					card = nil
+					check_for_unlock({type = "buckshotify"})
 					SMODS.add_card({
 						set = "Joker",
 						area = G.jokers,

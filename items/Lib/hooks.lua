@@ -89,6 +89,7 @@ if RevosVault.config.vault_enabled then
 		elseif self.added_to_deck and self.ability.set == "Joker" and G.GAME.vaultspawn >= 30 then
 			G.GAME.vaultspawn = 0
 			play_sound("holo1")
+			check_for_unlock({type = "vaulting_it"})
 			SMODS.add_card({
 				set = "Joker",
 				area = G.jokers,
@@ -258,4 +259,20 @@ function Game:start_run(args)
 	if G.jokers and G.jokers.config then
 		G.jokers.config.highlighted_limit = G.jokers.config.highlighted_limit + 1
 	end
+end
+
+
+local add_to_deck_old = Card.added_to_deck
+function Card:add_to_deck(from_debuff)
+local ret = add_to_deck_old(self, from_debuff)
+	if self.config.center.rarity == "crv_p" then
+		check_for_unlock({type = "obtain_printer"})
+	end
+	if self.config.center.rarity == "crv_secret" then
+		check_for_unlock({type = "secretify"})
+	end
+	if self.config.center.key == "j_crv_mycard" then
+		check_for_unlock({type = "revoing_it"})
+	end
+return ret
 end

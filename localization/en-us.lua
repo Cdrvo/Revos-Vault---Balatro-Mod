@@ -3424,10 +3424,22 @@ return {
 	},
 	misc = {
 		achievement_names={
-			ach_crv_get_all_stickers = "How did we get here?"
+			ach_crv_get_all_stickers = "How did we get here?",
+			ach_crv_printing_away = "Printing Away!",
+			ach_crv_mega_printer = "Was it worth it?",
+			ach_crv_secret_joker = "I'm Secretifying it",
+			ach_crv_buckshotifying = "Buckshot Roulette!",
+			ach_crv_vaultingify = "Vault Bound",
+			ach_crv_lame_card = "Broke as hell!"
 		},
 		achievement_descriptions ={
-			ach_crv_get_all_stickers = "Apply all Revo's Vault stickers on one card"
+			ach_crv_get_all_stickers = "Apply all Revo's Vault stickers on one card",
+			ach_crv_printing_away = "Obtain a printer",
+			ach_crv_mega_printer = "Combine the parts of the mega printer",
+			ach_crv_secret_joker = "Obtain a secret joker",
+			ach_crv_buckshotifying = "Beat The Dealer joker",
+			ach_crv_vaultingify = "Obtain a Vaulted Joker",
+			ach_crv_lame_card = "Buy Revo's Card"
 		},
 		labels = {
 			crv_ps_seal = "Printer's Seal",
