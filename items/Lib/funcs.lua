@@ -492,7 +492,17 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 			for i = 1, #area do
 				local tab = {}
 				for i = 1, #G.P_CENTER_POOLS.Voucher do
-					tab[#tab + 1] = G.P_CENTER_POOLS.Voucher[i].key
+					if not  G.P_CENTER_POOLS.Voucher[i].requires then
+						if not G.GAME.used_vouchers[G.P_CENTER_POOLS.Voucher[i].key] then
+							tab[#tab + 1] = G.P_CENTER_POOLS.Voucher[i].key
+						end
+					else
+						for k, v in pairs(G.P_CENTER_POOLS.Voucher[i].requires) do
+							if G.GAME.used_vouchers[v] then
+								tab[#tab + 1] = G.P_CENTER_POOLS.Voucher[i].key
+							end
+						end
+					end
 				end
 				if area[i] ~= keeporiginal and area[i].ability.set == "Voucher" then
 					local tab2 = pseudorandom_element(tab)
@@ -1186,5 +1196,55 @@ function RevosVault.poll_sticker(guaranteed, check, check_allowed)
 	end
 	if random_sticker then
 		return random_sticker.key
+	end
+end
+
+function RevosVault.all_stickers(card)
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 1,
+		func = function()
+			for k, v in pairs(SMODS.Stickers) do
+				SMODS.Stickers[k]:apply(card,true)
+			end
+		end
+	}))
+end
+
+
+function Card:remove_sticker_calc(sticker, card) 
+    sticker:removed(self, card)
+	SMODS.calculate_context({sticker_removed = true, other_sticker = sticker, other_card = card})
+end
+
+function Card:apply_sticker_calc(sticker, card) 
+    sticker:applied(self, card)
+	SMODS.calculate_context({sticker_applied = true, other_sticker = sticker, other_card = card})
+end
+
+function RevosVault.joker_pos(card)
+	for i = 1, #G.jokers.cards do
+		if G.jokers.cards[i] == card then
+			return i
+		end
+	end
+end
+
+function RevosVault.move(card, by)
+	local area
+	local cardpos
+	local move
+	if card and card.area then
+		area = G.jokers
+		cardpos = RevosVault.joker_pos(card)
+	end
+
+	if by > area.config.card_limit then
+		sendWarnMessage("num big adashfdgvasdk")
+	else
+
+		area:remove_card(card)
+		table.insert(area.cards, by, card)
+		card.area = area
 	end
 end

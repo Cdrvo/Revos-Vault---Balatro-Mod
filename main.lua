@@ -134,7 +134,8 @@ RevosVault.Misc = {
 	"stakes",
 	"stickers",
 	"tags",
-	"vouchers"
+	"vouchers",
+	"experimental"
 }
 
 RevosVault.CrossMod = {

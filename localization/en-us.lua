@@ -3258,7 +3258,16 @@ return {
 					"{C:attention}Sticker{} after", 
 					"each round"
 				}
-			}
+			},
+			crv_fan = {
+				name = "Fan",
+				text = {
+					"Before scoring",
+					"slide the joker",
+					"on the right",
+					"to right."
+				}
+			},
 		},
 		Tag = {
 			tag_crv_pst = {
@@ -3428,6 +3437,7 @@ return {
 			crv_temp = "Temporary",
 			crv_mystery = "Mystery",
 			crv_cursed = "Cursed",
+			crv_fan = "Fan",
 			crv_sunbleached = "Sun Bleached",
 			crv_pastel = "Pastel",
 			crv_bloom_edition = "Bloom",

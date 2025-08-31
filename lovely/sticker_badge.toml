@@ -1,0 +1,25 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+
+# Add mod badge
+# Apparently, this is taken from Papeback
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = "badges.mod_set = nil"
+position = "before"
+payload = '''
+for k, v in pairs(SMODS.Stickers) do
+  if card and card.ability and string.find(k, "crv") and card.ability[k] and G.your_collection then
+    for i = 1, #G.your_collection do
+        if card.area == G.your_collection[i] then
+            SMODS.create_mod_badges(SMODS.Stickers[k], badges)
+        end
+    end
+  end
+end
+'''
+match_indent = true

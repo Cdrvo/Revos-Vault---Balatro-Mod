@@ -183,8 +183,7 @@ SMODS.Sticker({
 			vars = { card.ability.over_tally, G.GAME.overtime_rounds },
 		}
 	end,
-	apply = function(self, card, val)
-		card.ability.crv_overtime = true
+	applied = function(self, card, val)
 		card.ability.over_tally = G.GAME.overtime_rounds
 	end,
 	calculate = function(self, card, context)
@@ -263,8 +262,7 @@ SMODS.Sticker({
 			vars = { G.GAME.mystery_rounds, card.ability.mystery_tally },
 		}
 	end,
-	apply = function(self, card, val)
-		card.ability.crv_mystery = true
+	applied = function(self, card, val)
 		card.ability.mystery_tally = G.GAME.mystery_rounds
 	end,
 	calculate = function(self, card, context)
@@ -342,4 +340,35 @@ SMODS.Sticker({
 			end
 		end
 	end,
+})
+
+SMODS.Sticker({
+	key = "fan",
+	pos = {
+		x = 6,
+		y = 0,
+	},
+	badge_colour = HEX("55c6d9"),
+	sets = {
+		Joker = true,
+	},
+	config = {},
+	rate = 0.04,
+	needs_enable_flag = true,
+	loc_vars = function(self, info_queue, card)
+	return {
+		vars = {},
+	}
+	end,
+	calculate = function(self, card, context)
+	if context.initial_scoring_step then
+		local ii = 1
+		for i = 1, #G.jokers.cards do
+			ii = RevosVault.joker_pos(card)
+		end
+		if G.jokers.cards[ii + 1] and G.jokers.cards[ii + 2] then
+			RevosVault.move(G.jokers.cards[ii + 1], ii + 2)
+		end
+	end
+end
 })
