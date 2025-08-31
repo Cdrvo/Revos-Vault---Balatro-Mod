@@ -262,7 +262,7 @@ function Game:start_run(args)
 end
 
 
-local add_to_deck_old = Card.added_to_deck
+local add_to_deck_old = Card.add_to_deck
 function Card:add_to_deck(from_debuff)
 local ret = add_to_deck_old(self, from_debuff)
 	if self.config.center.rarity == "crv_p" then
