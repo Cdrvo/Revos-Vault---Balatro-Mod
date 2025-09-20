@@ -143,6 +143,12 @@ if RevosVault.config.superior_enabled then
 				RevosVault.add_gem()
 			end
 		end
+
+		--[[if pseudorandom("get_boon") < 1 / 4 then
+			ease_colour(RevosVault.C.BOONS.CURRENT, RevosVault.C.BOONS.HAVE_BOONS)
+			RevosVault.should_spawn_boon = true
+		end]]
+		
 		return shopcreateold(area)
 	end
 end
@@ -277,4 +283,14 @@ local ret = add_to_deck_old(self, from_debuff)
 		check_for_unlock({type = "vaulting_it"})
 	end
 return ret
+end
+
+local click_old = Card.click
+function Card:click()
+	local ret = click_old(self)
+	if self.config.center.key == "j_crv_clicker" then
+		self.ability.extra["clicks"] = self.ability.extra["clicks"] + 1
+		self.ability.extra["chips"] = self.ability.extra["chips"] + self.ability.extra["chipgain"]
+	end
+	return ret
 end

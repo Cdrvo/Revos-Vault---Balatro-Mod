@@ -1182,6 +1182,34 @@ function G.UIDEF.used_gems()
 	return t
 end
 
+RevosVault.custom_collection_tabs = function()
+	local t = 
+			UIBox_button({
+			button = "your_collection_crv_gems",
+			id = "your_collection_crv_gems",
+			label = { localize("b_gems") },	
+			minw = 5,
+			minh = 1,
+		})
+	--[[local t2 = 
+			UIBox_button({
+			button = "your_collection_crv_boons",
+			id = "your_collection_crv_boons",
+			label = { "Boons" },	
+			minw = 5,
+			minh = 1,
+		})]]
+if RevosVault.config.gem_enabled then
+	return {t} -- t2}
+end
+	
+end
+
+
+
+
+
+
 -- OLD UI CODE (but still used!)
 
 -- thanks to bepisfever on discord for helping with this part :D
@@ -1445,7 +1473,7 @@ G.FUNCS.crv_modee = function(e)
 	end
 end
 
-local card_highlighted_ref = Card.highlight
+--[[local card_highlighted_ref = Card.highlight  // old clicker function
 function Card:highlight(is_highlighted)
 	self.highlighted = is_highlighted
 	if self.highlighted and string.find(self.ability.name, "j_crv_clicker") and self.area == G.jokers then
@@ -1668,7 +1696,7 @@ G.FUNCS.crv_clicked = function(e)
 	local card = e.config.ref_table
 	card.ability.extra["clicks"] = card.ability.extra["clicks"] + 1
 	card.ability.extra["chips"] = card.ability.extra["chips"] + card.ability.extra["chipgain"]
-end
+end]]
 
 local card_highlighted_ref = Card.highlight
 function Card:highlight(is_highlighted)

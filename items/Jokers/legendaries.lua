@@ -1,4 +1,4 @@
-SMODS.Joker({
+--[[SMODS.Joker({
 	key = "oldjimbo",
 	atlas = "Jokers2",
 	rarity = 4,
@@ -78,18 +78,17 @@ SMODS.Joker({
 		return false
 	end,
 })
-
+]]
 
 
 SMODS.Joker({
 	key = "rkn",
 	config = {
 		extra = {
-			xmult = 5,
+			xmult = 3,
 			discard = 4,
 			check = "NXD",
-			xmult2 = 5,
-			xmultg = 2,
+			xmult2 = 3,
 			cardc = 3,
 		},
 	},
@@ -118,26 +117,13 @@ SMODS.Joker({
 			return {
 				x_mult = crv.xmult,
 			}
-		elseif context.joker_main then
-			if
-				(#SMODS.find_card("j_chicot") > 0)
-				or (#SMODS.find_card("j_perkeo") > 0)
-				or (#SMODS.find_card("j_triboulet") > 0)
-				or (#SMODS.find_card("j_yorick") > 0)
-				or (#SMODS.find_card("j_caino") > 0)
-			then
-				return
-			else
-				return {
-					x_mult = crv.xmult2,
-				}
-			end
 		end
 		if context.destroy_card and context.cardarea == G.play then
 			if #SMODS.find_card("j_caino") > 0 then
 				if context.destroy_card:is_face() then
+					card_eval_status_text(card, "extra", nil, nil, nil, { message = "For Canio!" })
 					return {
-						message = "For Canio!",
+						remove = true
 					}
 				end
 			end
@@ -174,16 +160,7 @@ SMODS.Joker({
 			ease_discard(card.ability.extra.discard)
 			crv.check = "EXD"
 		end
-		if context.end_of_round and G.GAME.blind.boss and context.main_eval and (#SMODS.find_card("j_chicot") > 0) then
-			crv.xmult = crv.xmult + crv.xmultg
-			if crv.check == "EXD" then
-				crv.check = "NXD"
-				G.GAME.round_resets.discards = G.GAME.round_resets.discards
-				return {
-					message = "Upgrade!",
-				}
-			end
-		elseif context.end_of_round and context.main_eval then
+		if context.end_of_round and context.main_eval then
 			if crv.check == "EXD" then
 				crv.check = "NXD"
 				G.GAME.round_resets.discards = G.GAME.round_resets.discards

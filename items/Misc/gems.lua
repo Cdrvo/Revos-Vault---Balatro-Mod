@@ -24,18 +24,6 @@ G.FUNCS.your_collection_crv_gems = function()
 	})
 end
 
-RevosVault.custom_collection_tabs = function()
-	return {
-		UIBox_button({
-			button = "your_collection_crv_gems",
-			id = "your_collection_crv_gems",
-			label = { localize("b_gems") },	
-			minw = 5,
-			minh = 1,
-		}),
-	}
-end
-
 G.FUNCS.can_redeem_gem = function(e)
 	local card = e.config.ref_table
 if to_big(card.config.center.cost) > to_big(G.GAME.dollars) - to_big(G.GAME.bankrupt_at) then

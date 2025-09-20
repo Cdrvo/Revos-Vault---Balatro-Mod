@@ -341,7 +341,8 @@ RevosVault.Misc = {
 	"tags",
 	"vouchers",
 	"experimental",
-	"achievements"
+	"achievements",
+	"boons"
 }
 
 RevosVault.CrossMod = {
@@ -372,6 +373,7 @@ RevosVault.CrossMod = {
 	"finity",
 	"stacked",
 	"high_roller",
+	"JoyousSpring",
 }
 
 

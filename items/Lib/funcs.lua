@@ -1268,3 +1268,21 @@ function RevosVault.sticker_thingy(card)
 		end
 	end
 end
+
+--[[
+	local event
+	event = Event({
+		blockable = false,
+		blocking = false,
+		trigger = "after",
+		delay = delay or 0.1,
+		timer = "UPTIME",
+		func = function()
+			if condition then
+				ease_colour(c1, c2)
+				RevosVault.ease_color_until(c1, c2, condition, first, delay)
+			end
+			return true
+		end,
+	})
+	G.E_MANAGER:add_event(event)]]

@@ -1654,13 +1654,13 @@ SMODS.Joker({
 	loc_vars = function(self, info_queue, card)
 		local crv = card.ability.extra
 		return {
-			vars = { crv.xmult * G.GAME.reincarnation, G.GAME.reincarnation, crv.odds, G.GAME.probabilities.normal },
+			vars = { crv.xmult * G.GAME.reincarnation, G.GAME.reincarnation, crv.odds,1 },
 		}
 	end,
 	remove_from_deck = function(self, card, from_debuff)
 		local crv = card.ability.extra
 		G.GAME.reincarnation = G.GAME.reincarnation + 1
-		if pseudorandom("rein") < G.GAME.probabilities.normal / crv.odds then
+		if pseudorandom("rein") < 1 / crv.odds then
 			add_tag(Tag("tag_crv_reintag"))
 		end
 	end,

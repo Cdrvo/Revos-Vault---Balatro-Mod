@@ -63,7 +63,15 @@ end
 RevosVault.C = {
 	SUP = HEX("f7baff"),
 	Continuity = HEX("96a0ff"),
-	Mystery = HEX("8a8a8a")
+	Mystery = HEX("8a8a8a"),
+	--[[BOONS = {
+		DEFAULT = HEX("e8b867"),
+		HAVE_BOONS = HEX("88beb0"),
+		CURRENT = HEX("e8b867"),
+		EPIC = HEX("b472ca"),
+		HEROIC = HEX("fd5f55")
+	},
+	BOONRARITY = {}]]
 }
 
 SMODS.Gradient({
