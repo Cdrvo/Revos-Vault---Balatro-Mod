@@ -351,7 +351,6 @@ RevosVault.CrossMod = {
 	"TOGAPack",
 	"CardSleeves",
 	"JokerDisplay",
-	"Cryptid",
 	"Bakery",
 	"Maximus",
 	"MoreFluff",
