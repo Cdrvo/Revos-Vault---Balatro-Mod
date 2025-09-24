@@ -309,9 +309,13 @@ return {
 			m_crv_superiore = {
 				name = "Superior",
 				text = {
-					"Gives 1/3 of the Card's",
-					"Rank as XCHIPS",
+					"Gives {C:attention}1/3{} of the Card's",
+					"Rank as {X:chips,C:white}XCHIPS",
 				},
+			},
+			m_crv_xmultcard={
+				name = "Xmult Card",
+				text = { "{X:mult,C:white}X#1#{} Mult"},
 			},
 			m_crv_bulletproofglass = {
 				name = "Bulletproof Glass",
