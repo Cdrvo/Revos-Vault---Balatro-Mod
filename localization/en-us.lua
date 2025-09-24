@@ -1892,7 +1892,7 @@ return {
 				text = {
 					"Each scored card has",
 					"a {C:green}#2# in #3#{} Chance to",
-					"give {C:dollars}+$#1#{} when scored",
+					"give {C:money}+$#1#{} when scored",
 				},
 			},
 			j_crv_those = {
@@ -3097,7 +3097,7 @@ return {
 				name = "Superior Immolate",
 				text = {
 					"{C:red}Destroy{} #1# Selected Cards and",
-					"gain {C:dollars}+$#2#{}",
+					"gain {C:money}+$#2#{}",
 				},
 			},
 			c_crv_supankh = {
