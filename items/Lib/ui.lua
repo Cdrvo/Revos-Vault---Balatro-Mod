@@ -33,7 +33,9 @@ SMODS.current_mod.custom_ui = function(modNodes)
 		table.remove(random_cards2, 1)
 	end
 
-	for i, key in ipairs(random_cards) do
+	if not random_cards then random_cards = {"j_crv_printer","j_crv_grossprinter","j_crv_rustyprinter","j_crv_jimboprinter","j_crv_obeliskprinter"} end
+
+	for i, key in pairs(random_cards) do
 		local card = Card(
 			G.printer_info.T.x + G.printer_info.T.w / 2,
 			G.printer_info.T.y,
