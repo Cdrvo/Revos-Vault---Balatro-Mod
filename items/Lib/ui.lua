@@ -1184,16 +1184,16 @@ function G.UIDEF.used_gems()
 	return t
 end
 
-RevosVault.custom_collection_tabs = function()
-	local t = 
-			UIBox_button({
+if RevosVault.config.gem_enabled then
+	RevosVault.custom_collection_tabs = function()
+		local t = UIBox_button({
 			button = "your_collection_crv_gems",
 			id = "your_collection_crv_gems",
-			label = { localize("b_gems") },	
+			label = { localize("b_gems") },
 			minw = 5,
 			minh = 1,
 		})
-	--[[local t2 = 
+		--[[local t2 = 
 			UIBox_button({
 			button = "your_collection_crv_boons",
 			id = "your_collection_crv_boons",
@@ -1201,10 +1201,8 @@ RevosVault.custom_collection_tabs = function()
 			minw = 5,
 			minh = 1,
 		})]]
-if RevosVault.config.gem_enabled then
-	return {t} -- t2}
-end
-	
+		return { t } -- t2}
+	end
 end
 
 
