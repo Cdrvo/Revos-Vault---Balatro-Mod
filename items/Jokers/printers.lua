@@ -1525,10 +1525,24 @@ SMODS.Joker({
 
 	calculate = function(self, card, context)
 		if context.setting_blind then
-			SMODS.add_card({
-				set = "Joker",
-				rarity = "crv_p",
-			})
+			if
+				G.GAME.used_vouchers["v_crv_printerup"] == true
+					and pseudorandom("ALLPRINTER") < G.GAME.probabilities.normal / 4
+				or G.GAME.used_vouchers["v_crv_printeruptier"] == true
+			then
+				SMODS.add_card({
+					set = "Joker",
+					rarity = "crv_p",
+					edition = "e_negative",
+				})
+			else
+				if #G.jokers.cards < G.jokers.config.card_limit then
+					SMODS.add_card({
+					set = "Joker",
+					rarity = "crv_p",
+				})
+				end
+			end
 		end
 	end,
 	in_pool = function(self, wawa, wawa2)
@@ -1612,7 +1626,7 @@ SMODS.Joker({
 					set = "Food",
 					edition = "e_negative",
 				})
-			else
+			elseif #G.jokers.cards < G.jokers.config.card_limit then
 				SMODS.add_card({
 					set = "Food",
 				})
@@ -1657,7 +1671,7 @@ SMODS.Joker({
 					key = "c_crv_heart",
 					edition = "e_negative",
 				})
-			else
+			elseif #G.consumeables.cards < G.consumeables.config.card_limit then
 				SMODS.add_card({
 					area = G.consumeables,
 					key = "c_crv_heart",
@@ -1703,7 +1717,7 @@ SMODS.Joker({
 					key = pseudorandom_element(G.P_CENTER_POOLS.Superior).key,
 					edition = "e_negative",
 				})
-			else
+			elseif #G.consumeables.cards < G.consumeables.config.card_limit then
 				SMODS.add_card({
 					area = G.consumeables,
 					key = pseudorandom_element(G.P_CENTER_POOLS.Superior).key,
