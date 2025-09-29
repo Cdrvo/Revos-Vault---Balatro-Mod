@@ -63,6 +63,15 @@ end
 RevosVault.C = {
 	SUP = HEX("f7baff"),
 	Continuity = HEX("96a0ff"),
+	Mystery = HEX("8a8a8a"),
+	--[[BOONS = {
+		DEFAULT = HEX("e8b867"),
+		HAVE_BOONS = HEX("88beb0"),
+		CURRENT = HEX("e8b867"),
+		EPIC = HEX("b472ca"),
+		HEROIC = HEX("fd5f55")
+	},
+	BOONRARITY = {}]]
 }
 
 SMODS.Gradient({
@@ -118,14 +127,6 @@ SMODS.Gradient({
 	}
 })
 
-SMODS.Gradient({
-	key = "crv_blessed_g",
-	colours = {
-		HEX("cbbf98"),
-		HEX("fff2c9"),
-		cycle = 3,
-	}
-})
 
 local loc_old = loc_colour
 function loc_colour(_c, _default)
@@ -138,7 +139,7 @@ function loc_colour(_c, _default)
 	G.ARGS.LOC_COLOURS.crv_gem = SMODS.Gradients["crv_gem"]
 	G.ARGS.LOC_COLOURS.crv_wip = SMODS.Gradients["crv_wip"]
 	G.ARGS.LOC_COLOURS.crv_temp = SMODS.Gradients["crv_temp"]
-	G.ARGS.LOC_COLOURS.crv_blessed_c = SMODS.Gradients["crv_blessed_g"]
+	G.ARGS.LOC_COLOURS.crv_mystery = RevosVault.C.Mystery
 
 	return loc_old(_c, _default)
 end

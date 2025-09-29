@@ -1,6 +1,108 @@
 --what the FUCK
 --ok they work now :thumbs_up: (they fucking dont :^hauydtgqh4na ısd)
 
+local function voucher_ui()
+	local gems = {}
+
+	for k, v in pairs(G.P_CENTER_POOLS.Gem) do
+		gems[#gems + 1] = v
+	end
+
+	return SMODS.card_collection_UIBox(gems, { 5, 5 }, {
+		snap_back = true,
+		hide_single_page = true,
+		collapse_single_page = true,
+		h_mod = 1.18,
+		back_func = "your_collection_other_gameobjects",
+	})
+end
+
+G.FUNCS.your_collection_crv_gems = function()
+	G.SETTINGS.paused = true
+	G.FUNCS.overlay_menu({
+		definition = voucher_ui(),
+	})
+end
+
+G.FUNCS.can_redeem_gem = function(e)
+	local card = e.config.ref_table
+if to_big(card.config.center.cost) > to_big(G.GAME.dollars) - to_big(G.GAME.bankrupt_at) then
+      e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+      e.config.button = nil
+  else
+    e.config.colour = G.C.GREEN
+    e.config.button = 'redeem_gem'
+  end
+end
+
+G.FUNCS.redeem_gem = function(e)
+
+	
+	local card = e.config.ref_table
+	
+	card.config.center:apply_gem()
+
+	
+
+	SMODS.add_card{
+		key = card.config.center.key,
+		area = G.vouchers
+	}
+
+	check_for_unlock({type = "gemming_it"})
+
+
+	G.GAME.used_gems[#G.GAME.used_gems + 1] = card.config.center.key
+
+	 if card.ability.set == "Gem" then
+        stop_use()
+        if not card.config.center.discovered then
+            discover_card(card.config.center)
+        end
+
+        card.states.hover.can = false
+        local top_dynatext = nil	
+        local bot_dynatext = nil
+        
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+                top_dynatext = DynaText({string = localize{type = 'name_text', set = card.config.center.set, key = card.config.center.key}, colours = {G.C.WHITE}, rotate = 1,shadow = true, bump = true,float=true, scale = 0.9, pop_in = 0.6/G.SPEEDFACTOR, pop_in_rate = 1.5*G.SPEEDFACTOR})
+                bot_dynatext = DynaText({string = localize('b_gem_act'), colours = {G.C.WHITE}, rotate = 2,shadow = true, bump = true,float=true, scale = 0.9, pop_in = 1.4/G.SPEEDFACTOR, pop_in_rate = 1.5*G.SPEEDFACTOR, pitch_shift = 0.25})
+                card:juice_up(0.3, 0.5)
+                play_sound('card1')
+                play_sound('coin1')
+                card.children.top_disp = UIBox{
+                    definition =    {n=G.UIT.ROOT, config = {align = 'tm', r = 0.15, colour = G.C.CLEAR, padding = 0.15}, nodes={
+                                        {n=G.UIT.O, config={object = top_dynatext}}
+                                    }},
+                    config = {align="tm", offset = {x=0,y=0},parent = card}
+                }
+                card.children.bot_disp = UIBox{
+                        definition =    {n=G.UIT.ROOT, config = {align = 'tm', r = 0.15, colour = G.C.CLEAR, padding = 0.15}, nodes={
+                                            {n=G.UIT.O, config={object = bot_dynatext}}
+                                        }},
+                        config = {align="bm", offset = {x=0,y=0},parent = card}
+                    }
+            return true end }))
+        ease_dollars(-card.config.center.cost)
+
+        delay(0.6)
+
+
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 2.6, func = function()
+            top_dynatext:pop_out(4)
+            bot_dynatext:pop_out(4)
+            return true end }))
+        
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.5, func = function()
+            card.children.top_disp:remove()
+            card.children.top_disp = nil
+            card.children.bot_disp:remove()
+            card.children.bot_disp = nil
+			SMODS.destroy_cards(card, true)
+        return true end }))
+    end
+end
+
 SMODS.ObjectType({ -- Do i need this? 
 	key = "Gem",
 })
@@ -114,7 +216,7 @@ RevosVault.Gem({
 RevosVault.Gem({
 	key = "ruby",
 	atlas = "gemss",
-	pos = { x = 0, y = 3 },
+	pos = { x = 3, y = 0 },
 	config = {
 		extra = {
 			destroy_time = 0,
@@ -176,7 +278,7 @@ RevosVault.Gem({
 RevosVault.Gem({
 	key = "star_sapphire",
 	atlas = "gemss",
-	pos = { x = 0, y = 3 },
+	pos = { x = 5, y = 0 },
 	config = {
 		extra = {
 			destroy_time = 0,

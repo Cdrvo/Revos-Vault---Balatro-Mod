@@ -437,9 +437,22 @@ function RevosVault.index(table, cards)
 end
 
 --ok you see nothing. there is nothing for 241 lines
--- _flip does nothing currently
+-- _flip works?
+-- i feel like i need to remake this
+
+-- Playing cards broken
+
+-- RevosVault.replacecards(G.hand.cards,nil,nil,true,nil,nil)
+
 function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporiginal, _flip) --Cards not keeping editions/seals/stickers is intended. //Probably extremely inefficient /// Like why tf did i make the keep n entire seperate section. I probably wont even use "replace" or teh destruction part of this like ever.
-	if G.shop_booster and area == G.shop_booster.cards or G.shop_vouchers and area == G.shop_vouchers.cards then --Setting the area as these 2 disables the entire thing below and will not have a support for them anytime soon cause NONE of the jokers does anything with destroyed booster PACKS and VOUCHERS. Including mods
+	if area == G.hand.cards then
+		sendWarnMessage("replacecards does not work with playing cards.", "RevosVault")
+		sendWarnMessage("use .replace_playing_cards instead", "RevosVault")
+	end
+	if _flip and not keep then
+		sendWarnMessage("Cannot flip while destroying", "RevosVault")
+	end
+	if G.shop_booster and area == G.shop_booster.cards or G.shop_vouchers and area == G.shop_vouchers.cards then --Setting the area as these 2 disables the entire thing below and will not have a support for them anytime soon cause NONE of the jokers does anything with destroyed booster PACKS and VOUCHERS. Including mods --???
 		if area == G.shop_booster.cards then
 			for i = 1, #area do
 				local tab = {}
@@ -447,8 +460,30 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 					tab[#tab + 1] = G.P_CENTER_POOLS.Booster[i].key
 				end
 				if area[i] ~= keeporiginal and area[i].ability.set == "Booster" then
-					area[i]:juice_up()
-					area[i]:set_ability(pseudorandom_element(tab))
+					local tab2 = pseudorandom_element(tab)
+					if _flip then
+						area[i]:flip()
+						G.E_MANAGER:add_event(Event({
+							trigger = "before",
+							delay = 1,
+							func = function()
+								area[i]:set_ability(tab2)
+								return true
+							end,
+						}))
+						G.E_MANAGER:add_event(Event({
+							trigger = "after",
+							delay = 1,
+							func = function()
+								area[i]:juice_up()
+								area[i]:flip()
+								return true
+							end,
+						}))
+					else
+						area[i]:juice_up()
+						area[i]:set_ability(pseudorandom_element(tab))
+					end
 				end
 				tab = {}
 			end
@@ -457,11 +492,43 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 			for i = 1, #area do
 				local tab = {}
 				for i = 1, #G.P_CENTER_POOLS.Voucher do
-					tab[#tab + 1] = G.P_CENTER_POOLS.Voucher[i].key
+					if not  G.P_CENTER_POOLS.Voucher[i].requires then
+						if not G.GAME.used_vouchers[G.P_CENTER_POOLS.Voucher[i].key] then
+							tab[#tab + 1] = G.P_CENTER_POOLS.Voucher[i].key
+						end
+					else
+						for k, v in pairs(G.P_CENTER_POOLS.Voucher[i].requires) do
+							if G.GAME.used_vouchers[v] then
+								tab[#tab + 1] = G.P_CENTER_POOLS.Voucher[i].key
+							end
+						end
+					end
 				end
 				if area[i] ~= keeporiginal and area[i].ability.set == "Voucher" then
-					area[i]:juice_up()
-					area[i]:set_ability(pseudorandom_element(tab))
+					local tab2 = pseudorandom_element(tab)
+					if _flip then
+						area[i]:flip()
+						G.E_MANAGER:add_event(Event({
+							trigger = "before",
+							delay = 1,
+							func = function()
+								area[i]:set_ability(tab2)
+								return true
+							end,
+						}))
+						G.E_MANAGER:add_event(Event({
+							trigger = "after",
+							delay = 1,
+							func = function()
+								area[i]:juice_up()
+								area[i]:flip()
+								return true
+							end,
+						}))
+					else
+						area[i]:juice_up()
+						area[i]:set_ability(pseudorandom_element(tab))
+					end
 				end
 				tab = {}
 			end
@@ -496,9 +563,31 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 							end
 						end
 						if area[i] ~= keeporiginal then
-							area[i]:juice_up()
-							area[i]:set_ability(pseudorandom_element(tab))
-							tab = {}
+							local tab2 = pseudorandom_element(tab)
+							if _flip then
+								area[i]:flip()
+								G.E_MANAGER:add_event(Event({
+									trigger = "before",
+									delay = 1,
+									func = function()
+										area[i]:set_ability(tab2)
+										return true
+									end,
+								}))
+								G.E_MANAGER:add_event(Event({
+									trigger = "after",
+									delay = 1,
+									func = function()
+										area[i]:juice_up()
+										area[i]:flip()
+										return true
+									end,
+								}))
+							else
+								area[i]:juice_up()
+								area[i]:set_ability(pseudorandom_element(tab))
+								tab = {}
+							end
 						end
 					else
 						local set = area[i].ability.set
@@ -520,36 +609,68 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 							end
 						end
 						if area[i] ~= keeporiginal then
-							area[i]:juice_up()
-							area[i]:set_ability(pseudorandom_element(tab))
+							local tab2 = pseudorandom_element(tab)
+							if _flip then
+								area[i]:flip()
+								G.E_MANAGER:add_event(Event({
+									trigger = "before",
+									delay = 1,
+									func = function()
+										area[i]:set_ability(tab2)
+										return true
+									end,
+								}))
+								G.E_MANAGER:add_event(Event({
+									trigger = "after",
+									delay = 1,
+									func = function()
+										area[i]:juice_up()
+										area[i]:flip()
+										return true
+									end,
+								}))
+							else
+								area[i]:juice_up()
+								area[i]:set_ability(pseudorandom_element(tab))
+							end
 						end
 						tab = {}
 					end
 				elseif area[i].ability.set then
 					local set = area[i].ability.set
 					local tab = {}
-					if
-						area[i].ability.set == "Enhanced"
-						or area[i].ability.set == "Default"
-						or area[i].ability.set == "Playing Card"
-						or area == G.hand.cards
-					then
-						area[i]:juice_up()
-						local _suit, _rank =
-							pseudorandom_element(SMODS.Suits).key, pseudorandom_element(SMODS.Ranks).card_key
-						SMODS.change_base(area[i], _suit, _rank)
-						area[i]:set_ability(SMODS.poll_enhancement())
-						area[i]:set_edition(poll_edition())
-					else
-						for i = 1, #G.P_CENTER_POOLS.Consumeables do
-							if G.P_CENTER_POOLS.Consumeables[i].set == set then
-								tab[#tab + 1] = G.P_CENTER_POOLS.Consumeables[i].key
-							end
+
+					for i = 1, #G.P_CENTER_POOLS.Consumeables do
+						if G.P_CENTER_POOLS.Consumeables[i].set == set then
+							tab[#tab + 1] = G.P_CENTER_POOLS.Consumeables[i].key
 						end
 					end
+
 					if area[i] ~= keeporiginal then
-						area[i]:juice_up()
-						area[i]:set_ability(pseudorandom_element(tab))
+						local tab2 = pseudorandom_element(tab)
+						if _flip then
+							area[i]:flip()
+							G.E_MANAGER:add_event(Event({
+								trigger = "before",
+								delay = 1,
+								func = function()
+									area[i]:set_ability(tab2)
+									return true
+								end,
+							}))
+							G.E_MANAGER:add_event(Event({
+								trigger = "after",
+								delay = 1,
+								func = function()
+									area[i]:juice_up()
+									area[i]:flip()
+									return true
+								end,
+							}))
+						else
+							area[i]:juice_up()
+							area[i]:set_ability(pseudorandom_element(tab))
+						end
 					end
 				end
 			end
@@ -600,25 +721,12 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 								area = G.pack_cards,
 							})
 						elseif area[i].ability.set and area[i] ~= keeporiginal then
-							if
-								area[i].ability.set == "Enhanced"
-								or area[i].ability.set == "Default"
-								or area[i].ability.set == "Playing Card"
-								or area == G.hand.cards
-							then
-								area[i]:juice_up()
-								local _suit, _rank =
-									pseudorandom_element(SMODS.Suits).key, pseudorandom_element(SMODS.Ranks).card_key
-								SMODS.change_base(area[i], _suit, _rank)
-								area[i]:set_ability(SMODS.poll_enhancement())
-								area[i]:set_edition(poll_edition())
-							else
-								for i = 1, #G.P_CENTER_POOLS.Consumeables do
-									if G.P_CENTER_POOLS.Consumeables[i].set == set then
-										tab[#tab + 1] = G.P_CENTER_POOLS.Consumeables[i].key
-									end
+							for i = 1, #G.P_CENTER_POOLS.Consumeables do
+								if G.P_CENTER_POOLS.Consumeables[i].set == set then
+									tab[#tab + 1] = G.P_CENTER_POOLS.Consumeables[i].key --unused?
 								end
 							end
+
 							local set = area[i].ability.set
 							SMODS.destroy_cards(area[i], true)
 							SMODS.add_card({
@@ -648,25 +756,6 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 								area = G.pack_cards,
 							})
 						elseif area[i].ability.set and not area[i].ability.eternal and area[i] ~= keeporiginal then
-							if
-								area[i].ability.set == "Enhanced"
-								or area[i].ability.set == "Default"
-								or area[i].ability.set == "Playing Card"
-								or area == G.hand.cards
-							then
-								area[i]:juice_up()
-								local _suit, _rank =
-									pseudorandom_element(SMODS.Suits).key, pseudorandom_element(SMODS.Ranks).card_key
-								SMODS.change_base(area[i], _suit, _rank)
-								area[i]:set_ability(SMODS.poll_enhancement())
-								area[i]:set_edition(poll_edition())
-							else
-								for i = 1, #G.P_CENTER_POOLS.Consumeables do
-									if G.P_CENTER_POOLS.Consumeables[i].set == set then
-										tab[#tab + 1] = G.P_CENTER_POOLS.Consumeables[i].key
-									end
-								end
-							end
 							local set = area[i].ability.set
 							SMODS.destroy_cards(area[i])
 							SMODS.add_card({
@@ -675,6 +764,53 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 							})
 						end
 					end
+				end
+			end
+		end
+	end
+end
+
+function RevosVault.replace_playing_cards(area, _flip) -- FUCK
+	for i = 1, #area do
+		if area[i]:get_id() then
+			if _flip then
+				area[i]:flip()
+				G.E_MANAGER:add_event(Event({
+					trigger = "before",
+					delay = 1,
+					func = function()
+						local _suit, _rank =
+							pseudorandom_element(SMODS.Suits).key, pseudorandom_element(SMODS.Ranks).card_key
+						SMODS.change_base(area[i], _suit, _rank)
+						local ed, enh = poll_edition(), SMODS.poll_enhancement()
+						if ed then
+							area[i]:set_edition(ed)
+						end
+						if enh then
+							area[i]:set_ability(enh)
+						end
+						return true
+					end,
+				}))
+				G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 1,
+					func = function()
+						area[i]:juice_up()
+						area[i]:flip()
+						return true
+					end,
+				}))
+			else
+				area[i]:juice_up()
+				local _suit, _rank = pseudorandom_element(SMODS.Suits).key, pseudorandom_element(SMODS.Ranks).card_key
+				SMODS.change_base(area[i], _suit, _rank)
+				local ed, enh = poll_edition(), SMODS.poll_enhancement()
+				if ed then
+					area[i]:set_edition(ed)
+				end
+				if enh then
+					area[i]:set_ability(enh)
 				end
 			end
 		end
@@ -932,7 +1068,11 @@ function RevosVault.add_gem(key, set)
 end
 
 --I tried some stuff don't question this part. Is this efficent? probably not.
-function RevosVault.values(card, num, extra, only_extra)
+function RevosVault.values(card, num, extra, only_extra, orig)
+	local orig = {
+		name = {},
+		val = {},
+	}
 	if num == 0 then
 		num = 0.1
 	end
@@ -964,6 +1104,8 @@ function RevosVault.values(card, num, extra, only_extra)
 end
 
 -- Fcked up random bullshit
+
+--taking a look afterwards what did i even do here ;-;
 function RevosVault.table_check(card)
 	local full_table = {}
 	for k, v in pairs(card.ability) do
@@ -995,24 +1137,152 @@ function RevosVault.table_check(card)
 end
 
 --Surely there is a better way to do this but im too lazy to check it sakdjnsdaskdaslkdagagahjgfah
-function RevosVault.combine_table(areas,w)
+function RevosVault.combine_table(areas, w)
 	local full_tab = {}
 	if type(areas) == "table" then
 		for i = 1, #areas do
 			if type(areas[i]) == "table" then
-			for k, v in pairs(areas[i]) do 
-				full_tab[#full_tab+1] = v
-			end
+				for k, v in pairs(areas[i]) do
+					full_tab[#full_tab + 1] = v
+				end
 			else
-				sendWarnMessage(tostring(areas[i]) .. " is not a table","RevosVault")
+				sendWarnMessage(tostring(areas[i]) .. " is not a table", "RevosVault")
 			end
 		end
 	else
-		sendWarnMessage(tostring(areas) .. " is not a table","RevosVault")
+		sendWarnMessage(tostring(areas) .. " is not a table", "RevosVault")
 	end
 	if #full_tab > 0 then
 		return full_tab
 	elseif #full_tab == 0 and w then
-		sendWarnMessage("Nothing to return!","RevosVault")
-	end 
+		sendWarnMessage("Nothing to return!", "RevosVault")
+	end
 end
+
+function RevosVault.poll_sticker(guaranteed, check, check_allowed)
+	local tab = {}
+	for k, v in pairs(SMODS.Stickers) do
+		if check ~= nil then
+			if not check.ability[k] and not check[k] then
+				if check_allowed then
+					if
+						G.GAME.modifiers["enable_" .. k] == true
+						or G.GAME.modifiers["enable_" .. k .. "s_in_shop"] == true
+					then
+						tab[#tab + 1] = v
+					end
+				else
+					tab[#tab + 1] = v
+				end
+			end
+		else
+			if check_allowed then
+				if
+					G.GAME.modifiers["enable_" .. k] == true
+					or G.GAME.modifiers["enable_" .. k .. "s_in_shop"] == true
+				then
+					tab[#tab + 1] = v
+				end
+			else
+				tab[#tab + 1] = v
+			end
+		end
+	end
+	local random_sticker = pseudorandom_element(tab)
+	if not guaranteed then
+		if not (pseudorandom("poll_sticker") < tonumber(random_sticker.rate)) then
+			random_sticker = nil
+		end
+	end
+	if random_sticker then
+		return random_sticker.key
+	end
+end
+
+function RevosVault.all_stickers(card)
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 1,
+		func = function()
+			for k, v in pairs(SMODS.Stickers) do
+				SMODS.Stickers[k]:apply(card,true)
+			end
+		end
+	}))
+end
+
+
+function Card:remove_sticker_calc(sticker, card) 
+    sticker:removed(self, card)
+	SMODS.calculate_context({sticker_removed = true, other_sticker = sticker, other_card = card})
+end
+
+function Card:apply_sticker_calc(sticker, card) 
+    sticker:applied(self, card)
+	SMODS.calculate_context({sticker_applied = true, other_sticker = sticker, other_card = card})
+	RevosVault.sticker_thingy(card)
+end
+
+function RevosVault.joker_pos(card)
+	for i = 1, #G.jokers.cards do
+		if G.jokers.cards[i] == card then
+			return i
+		end
+	end
+end
+
+function RevosVault.move(card, by)
+	local area
+	local cardpos
+	local move
+	if card and card.area then
+		area = G.jokers
+		cardpos = RevosVault.joker_pos(card)
+	end
+
+	if by > area.config.card_limit then
+		sendWarnMessage("num big adashfdgvasdk")
+	else
+
+		area:remove_card(card)
+		table.insert(area.cards, by, card)
+		card.area = area
+	end
+end
+
+function RevosVault.sticker_thingy(card)
+	local eligable = {}
+	if card and card.ability then
+		for k, v in pairs(SMODS.Stickers) do
+			if string.find(k, "crv") then
+				eligable[#eligable+1] = k
+			end
+		end
+
+		for k, v in pairs(eligable) do
+			if not card.ability[v] then
+				break 
+			else
+				check_for_unlock({type = "howdidwegethere"})
+			end
+		end
+	end
+end
+
+--[[
+	local event
+	event = Event({
+		blockable = false,
+		blocking = false,
+		trigger = "after",
+		delay = delay or 0.1,
+		timer = "UPTIME",
+		func = function()
+			if condition then
+				ease_colour(c1, c2)
+				RevosVault.ease_color_until(c1, c2, condition, first, delay)
+			end
+			return true
+		end,
+	})
+	G.E_MANAGER:add_event(event)]]

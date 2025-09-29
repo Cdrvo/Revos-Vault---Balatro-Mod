@@ -1,0 +1,32 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+# i dont think these work but whatever
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''
+"m_glass =   {max = 500, order = 5, name = "Glass Card", set = "Enhanced", pos = {x=5,y=1}, effect = "Glass Card", label = "Glass Card", config = {Xmult = 2, extra = 4}},"
+'''
+position = "at"
+payload = '''
+m_glass =   {max = 500, order = 5, name = "Glass Card", set = "Enhanced", pos = {x=5,y=1}, effect = "Glass Card", label = "Glass Card", config = {Xmult = 2, extra = G.GAME.glassodds}},
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = "commen_events.lua"
+pattern = '''
+"elseif _c.effect == 'Glass Card' then loc_vars = {_c.config.Xmult, G.GAME.probabilities.normal, _c.config.extra}"
+'''
+position = "at"
+payload = '''
+elseif _c.effect == 'Glass Card' then loc_vars = {_c.config.Xmult, G.GAME.probabilities.normal, G.GAME.glassodds}
+'''
+match_indent = true
+overwrite = true

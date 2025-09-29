@@ -29,19 +29,21 @@ SMODS.Joker({
 					and pseudorandom("ALLPRINTER") < G.GAME.probabilities.normal / 4
 				or G.GAME.used_vouchers["v_crv_printeruptier"] == true
 			then
-				local card = create_card(nil, G.jokers, nil, nil, nil, nil, nil, "Pizza")
-				card:add_to_deck()
-				card:set_edition({ negative = true }, true)
-				G.jokers:emplace(card)
-			end
+				SMODS.add_card{
+					set = "Pizza",
+					area = G.jokers,
+					edition = "e_negative",
+				}
 		else
 			if #G.jokers.cards < G.jokers.config.card_limit or self.area == G.jokers then
-				local card = create_card(nil, G.jokers, nil, nil, nil, nil, nil, "Pizza")
-				card:add_to_deck()
-				G.jokers:emplace(card)
+				SMODS.add_card{
+					set = "Pizza",
+					area = G.jokers,
+				}
 			end
 		end
-	end,
+	end
+end,
 	in_pool = function(self, wawa, wawa2)
 		return true
 	end,

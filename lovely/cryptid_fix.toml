@@ -1,0 +1,16 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+# Trying to patch into obsidian orb to fix bricking issue
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Cryptid "lib/overrides.lua"]'
+pattern = '		(self.name ~= "cry-oldarm" or not G.GAME.defeated_blinds["bl_psychic"])'
+position = "after"
+payload = '''
+		and (self.name ~= "The Psychic" or not G.GAME.defeated_blinds["bl_crv_minimalizm"])
+'''
+match_indent = true
