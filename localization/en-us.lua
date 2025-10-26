@@ -2135,6 +2135,16 @@ return {
 					"destroy every consumeable instead"
 				},
 			},
+			j_crv_modded_printer = {
+				name = "Modded Printer",
+				text = {
+					"{C:attention}Print{} a random",
+					"{C:attention}Consumable{} or a {C:attention}Joker",
+					"from a {C:dark_edition}Random Mod.",
+					"{s:0.8}Mod and Card changes every round",
+					"{C:inactive}(Mod: {C:attention}#1#{C:inactive}, Card: {C:attention}#2#{C:inactive})"
+				},
+			},
 			--GARBSHIT below
 			j_crv_stamprinter = {
 				name = "Stamp Printer",
@@ -3453,6 +3463,20 @@ return {
 					"to right."
 				}
 			},
+			crv_heavy = {
+				name = "Heavy",
+				text = {
+					"{C:attention}-1{}",
+					"joker slot"
+				}
+			},
+			crv_wet = {
+				name = "Wet",
+				text = {
+					"{C:red}Cannot be",
+					"debuffed"
+				}
+			},
 		},
 		Tag = {
 			tag_crv_pst = {
@@ -3643,6 +3667,8 @@ return {
 			crv_mystery = "Mystery",
 			crv_cursed = "Cursed",
 			crv_fan = "Fan",
+			crv_heavy = "Heavy",
+			crv_wet = "Wet",
 			crv_sunbleached = "Sun Bleached",
 			crv_pastel = "Pastel",
 			crv_bloom_edition = "Bloom",

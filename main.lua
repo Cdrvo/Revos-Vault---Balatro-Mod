@@ -476,6 +476,22 @@ Game.main_menu = function(change_context)
 	newcard.T.h = newcard.T.h * 1.1 * 1.25
 	newcard.no_ui = true
 	newcard.states.visible = true
+
+
+	if next(SMODS.find_mod("HotPotato")) then 
+		table.remove(SMODS.Stakes.stake_crv_water.applied_stakes, 1)
+		table.insert(SMODS.Stakes.stake_crv_water.applied_stakes, "stake_hpot_missingtext")
+	end
+	return ret
+end
+
+SMODS.current_mod.reset_game_globals = function(run_start)
+	if run_start then
+		calculate_modded_printer()
+	end
+
+	calculate_modded_printer()
+
 end
 
 

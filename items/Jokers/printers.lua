@@ -1731,6 +1731,36 @@ SMODS.Joker({
 })
 
 SMODS.Joker({
+	key = "modded_printer",
+	atlas = "Jokers2",
+	rarity = "crv_p",
+	cost = 20,
+	unlocked = true,
+	discovered = false,
+	blueprint_compat = true,
+	pos = {
+		x = 10,
+		y = 12,
+	},
+	config = {
+		extra = {
+		},
+	},
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {(RevosVault.other_mod_display or "Revos Vault"), (RevosVault.other_type or "Joker") },
+		}
+	end,
+	calculate = function(self, card, context)
+		if context.setting_blind then
+		SMODS.add_card({
+			key = RevosVault.other_card
+		})
+	end
+	end,
+})
+
+SMODS.Joker({
 	key = "legendaryprinter",
 	atlas = "Jokers",
 	rarity = 4,
@@ -1773,3 +1803,4 @@ SMODS.Joker({
 		return false
 	end,
 })
+

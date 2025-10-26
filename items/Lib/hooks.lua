@@ -294,3 +294,17 @@ function Card:click()
 	end
 	return ret
 end
+
+local update_old = Game.update
+function Game:update(dt)
+	update_old(self, dt)
+	if SMODS then
+		for _, area in ipairs(SMODS.get_card_areas('jokers')) do
+        	for _, _card in ipairs(area.cards) do
+				if _card.debuff and _card.ability.crv_wet then
+					_card.debuff = false
+				end
+			end
+		end
+	end
+end

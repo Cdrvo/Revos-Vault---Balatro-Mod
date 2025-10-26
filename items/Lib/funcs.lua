@@ -1,4 +1,3 @@
---Had to happen one day.
 
 function RevosVault.check_enhancement(area, enhancement)
 	local blss = 0
@@ -1286,3 +1285,92 @@ end
 		end,
 	})
 	G.E_MANAGER:add_event(event)]]
+
+	
+
+function get_eligable_mods()
+    local tab = {}
+    for k, v in pairs(SMODS.Mods) do
+        if v.can_load then
+            for _, vv in pairs(G.P_CENTER_POOLS.Joker) do
+                if vv.mod and vv.mod.id == v.id then
+					if not tab[v.id] then
+					tab[v.id] = v.id
+                    break
+					end
+                else
+                    for _, vv in pairs(SMODS.ConsumableTypes) do
+                        if vv.mod and vv.mod.id == v.id then
+							if not tab[v.id] then
+								tab[v.id] = v.id
+							end
+                            break
+                        end
+                    end
+                end
+            end
+        end
+    end
+	return tab
+end
+
+function get_eligable_cards(mod, type)
+	G.GAME.unvaulted_jokers = {}
+	G.GAME.unvaulted_cons = {}
+
+
+	if type == "Joker" then
+		for _, v in pairs(G.P_CENTER_POOLS.Joker) do
+			if v.mod and v.mod.id == mod and not v.no_collection then
+				G.GAME.unvaulted_jokers[#G.GAME.unvaulted_jokers+1] = v.key
+			end
+		end
+	else
+		for k, v in pairs(SMODS.ConsumableTypes) do
+			if v.mod and v.mod.id == mod and not v.no_collection then
+				G.GAME.unvaulted_cons[#G.GAME.unvaulted_cons+1] = v.key
+			end
+		end
+	end
+
+
+	if type == "Joker" then
+		return pseudorandom_element(G.GAME.unvaulted_jokers)
+	else
+		return pseudorandom_element(G.P_CENTER_POOLS[pseudorandom_element(G.GAME.unvaulted_cons, pseudoseed("crv_kys"))], pseudoseed("crv_kys")).key
+	end
+end
+
+
+function calculate_modded_printer()
+if G.GAME then
+	RevosVault.other_card = "j_joker"
+	RevosVault.other_type = "Consumable"
+	RevosVault.other_mod = "RevosVault"
+	RevosVault.other_mod_display = "Revo's Vault"
+	
+
+	RevosVault.other_mod = pseudorandom_element(get_eligable_mods(), pseudoseed("wewewewe"))
+	
+	RevosVault.other_type = pseudorandom_element({"Joker", "Consumable"}, pseudoseed("wewewewe"))
+
+	for k, v in pairs(SMODS.Mods) do
+		if v.id == RevosVault.other_mod then
+			RevosVault.other_mod_display = v.name
+		end
+	end
+
+	if RevosVault.other_type == "Consumable" then
+		for k, v in pairs(SMODS.ConsumableTypes) do
+			if v.mod and v.mod.id == RevosVault.other_mod and not v.no_collection then
+				RevosVault.other_type = "Consumable"
+				break
+			else
+				RevosVault.other_type = "Joker"
+			end
+		end
+	end
+
+	RevosVault.other_card = get_eligable_cards(RevosVault.other_mod, RevosVault.other_type)
+end
+end
