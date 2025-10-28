@@ -152,9 +152,6 @@ RevosVault.Gem({
 		},
 	},
 	calculate = function(self, card, context)
-		if context.setting_blind then
-			print("a")
-		end
 		if context.end_of_round and context.main_eval then
 			if card.ability.extra.destroy_time >= card.ability.extra.destroy_time_max then
 				RevosVault.remove_gem(card.config.center.key)
@@ -257,9 +254,6 @@ RevosVault.Gem({
 		},
 	},
 	calculate = function(self, card, context)
-		if context.setting_blind then
-			print("a")
-		end
 		if context.end_of_round and context.main_eval then
 			if card.ability.extra.destroy_time >= card.ability.extra.destroy_time_max then
 				RevosVault.remove_gem(card.config.center.key)
