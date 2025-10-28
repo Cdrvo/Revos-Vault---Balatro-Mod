@@ -1060,9 +1060,11 @@ function RevosVault.add_gem(key, set)
 	if key then
 		acard = SMODS.add_card({ key = key, set = "Gem", area = G.shop_vouchers })
 		create_shop_card_ui(acard)
+		G.shop_vouchers:align_cards()
 	else
 		acard = SMODS.add_card({ set = "Gem", area = G.shop_vouchers })
 		create_shop_card_ui(acard)
+		G.shop_vouchers:align_cards()
 	end
 end
 
@@ -1286,29 +1288,104 @@ end
 	})
 	G.E_MANAGER:add_event(event)]]
 
+
+function RevosVault.random_voucher()
+	local vouchers = RevosVault.get_eligable_vouchers()
+	local voucher_key = pseudorandom_element(vouchers)
+
+	
+	local real_voucher = SMODS.create_card{
+		key = voucher_key
+	}
+
+	real_voucher:add_to_deck()
+
+
+	RevosVault.redeem(real_voucher, 0, true)
+end
+
+function RevosVault.get_eligable_vouchers()
+	local vv = get_current_pool('Voucher')
+        local tab = {}
+        for k, v in pairs(vv) do
+            if v ~= 'UNAVAILABLE' then
+                tab[#tab+1] = v
+			end
+        end
+	return tab
+end
+
+function RevosVault.redeem(card, cost, reset_to_shop)
+
+	local old_state = G.STATE
+
+	if card.area then
+		card.area:remove(card)
+		card:add_to_deck()
+	end
+
+	card.cost = 0
+	card:redeem()
+	G.play:emplace(card)
+
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 1,
+		func = function()
+			card:start_dissolve()
+			G.STATE = old_state
+			return true
+		end
+	}))
+
+end
+
+function check_mod_contents(mod)
+
+	local rvm = RevosVault.mod_categories
+
+	local avb = 0
+	local joker, consumable, voucher = false, false, false
+    for _, vv in pairs(G.P_CENTER_POOLS.Joker) do
+        if vv.mod and vv.mod.id == mod then
+           avb = avb + 1
+		   joker = true
+		   rvm.with_joker[#rvm.with_joker+1] = mod
+		   break
+        end
+    end
+	for _, vv in pairs(SMODS.ConsumableTypes) do
+        if vv.mod and vv.mod.id == mod then
+           avb = avb + 1
+		   consumable = true
+		   rvm.with_consumable[#rvm.with_consumable+1] = mod
+		   break
+        end
+    end
+	for _, vv in pairs(G.P_CENTER_POOLS.Voucher) do
+        if vv.mod and vv.mod.id == mod then
+           avb = avb + 1
+		   voucher = true
+		   rvm.with_voucher[#rvm.with_voucher+1] = mod
+		   break
+        end
+    end
+
+	if avb > 0 then
+		return true
+	end
+	return false
+end
+
 	
 
 function get_eligable_mods()
     local tab = {}
     for k, v in pairs(SMODS.Mods) do
         if v.can_load then
-            for _, vv in pairs(G.P_CENTER_POOLS.Joker) do
-                if vv.mod and vv.mod.id == v.id then
-					if not tab[v.id] then
-					tab[v.id] = v.id
-                    break
-					end
-                else
-                    for _, vv in pairs(SMODS.ConsumableTypes) do
-                        if vv.mod and vv.mod.id == v.id then
-							if not tab[v.id] then
-								tab[v.id] = v.id
-							end
-                            break
-                        end
-                    end
-                end
-            end
+            if check_mod_contents(v.id) then
+				tab[v.id] = v.id
+			end
         end
     end
 	return tab
@@ -1317,6 +1394,7 @@ end
 function get_eligable_cards(mod, type)
 	G.GAME.unvaulted_jokers = {}
 	G.GAME.unvaulted_cons = {}
+	G.GAME.unvaulted_vouchers = {}
 
 
 	if type == "Joker" then
@@ -1325,34 +1403,65 @@ function get_eligable_cards(mod, type)
 				G.GAME.unvaulted_jokers[#G.GAME.unvaulted_jokers+1] = v.key
 			end
 		end
-	else
+	elseif type == "Consumable" then
 		for k, v in pairs(SMODS.ConsumableTypes) do
 			if v.mod and v.mod.id == mod and not v.no_collection then
 				G.GAME.unvaulted_cons[#G.GAME.unvaulted_cons+1] = v.key
 			end
 		end
+	elseif type == "Voucher" then
+		-- hmm
 	end
 
 
 	if type == "Joker" then
-		return pseudorandom_element(G.GAME.unvaulted_jokers)
-	else
+		return pseudorandom_element(G.GAME.unvaulted_jokers, pseudoseed("crv_kys"))
+	elseif type == "Consumable" then
 		return pseudorandom_element(G.P_CENTER_POOLS[pseudorandom_element(G.GAME.unvaulted_cons, pseudoseed("crv_kys"))], pseudoseed("crv_kys")).key
+	else
+		return pseudorandom_element(RevosVault.get_eligable_vouchers(), pseudoseed("crv_kys"))
 	end
 end
 
 
 function calculate_modded_printer()
 if G.GAME then
+
+	RevosVault.mod_categories = {
+		with_voucher = {},
+		with_consumable = {},
+		with_joker = {}
+	}
+
 	RevosVault.other_card = "j_joker"
 	RevosVault.other_type = "Consumable"
 	RevosVault.other_mod = "RevosVault"
 	RevosVault.other_mod_display = "Revo's Vault"
 	
 
-	RevosVault.other_mod = pseudorandom_element(get_eligable_mods(), pseudoseed("wewewewe"))
+	get_eligable_mods()
 	
-	RevosVault.other_type = pseudorandom_element({"Joker", "Consumable"}, pseudoseed("wewewewe"))
+	local categs = {}
+	if #RevosVault.mod_categories.with_joker > 0 then
+		table.insert(categs, "Joker")
+	end
+
+	if #RevosVault.mod_categories.with_consumable > 0 then
+		table.insert(categs, "Consumable")
+	end
+
+	if #RevosVault.mod_categories.with_voucher > 0 then
+		table.insert(categs, "Voucher")
+	end
+	RevosVault.other_type = pseudorandom_element(categs, pseudoseed("wewewewe"))
+
+	if RevosVault.other_type == "Joker" then
+		RevosVault.other_mod = pseudorandom_element(RevosVault.mod_categories.with_joker)
+	elseif RevosVault.other_type == "Consumable" then
+		RevosVault.other_mod = pseudorandom_element(RevosVault.mod_categories.with_consumable)
+	else
+		RevosVault.other_mod = pseudorandom_element(RevosVault.mod_categories.with_voucher)
+	end
 
 	for k, v in pairs(SMODS.Mods) do
 		if v.id == RevosVault.other_mod then
@@ -1360,17 +1469,69 @@ if G.GAME then
 		end
 	end
 
-	if RevosVault.other_type == "Consumable" then
-		for k, v in pairs(SMODS.ConsumableTypes) do
-			if v.mod and v.mod.id == RevosVault.other_mod and not v.no_collection then
-				RevosVault.other_type = "Consumable"
-				break
-			else
-				RevosVault.other_type = "Joker"
-			end
-		end
-	end
-
 	RevosVault.other_card = get_eligable_cards(RevosVault.other_mod, RevosVault.other_type)
 end
 end
+
+
+-- hotpot be like
+function RevosVault.show_shop()
+    if G.shop and G.shop.alignment.offset.py then
+        G.shop.alignment.offset.y = G.shop.alignment.offset.py
+        G.shop.alignment.offset.py = nil
+    end
+end
+
+function RevosVault.hide_shop()
+    if G.shop and not G.shop.alignment.offset.py then
+        G.shop.alignment.offset.py = G.shop.alignment.offset.y
+        G.shop.alignment.offset.y = G.ROOM.T.y + 29
+    end
+end
+
+function RevosVault.move_card(card, _area) 
+    local area = card.area
+    if area == G.jokers and _area ~= G.jokers then
+        card:remove_from_deck()
+    elseif _area == G.jokers and area ~= G.jokers then
+        card:add_to_deck()
+    end
+	if not card.getting_sliced then	
+		area:remove_card(card)
+		_area:emplace(card)
+    end
+end
+
+  function RevosVault.create_gem_timer(card)
+      G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.43,
+        blocking = false,
+        blockable = false,
+        func = (function()
+          if card.opening then return true end
+          local t1 = {
+              n=G.UIT.ROOT, config = {minw = 0.6, align = 'tm', colour = darken(G.C.BLACK, 0.2), shadow = true, r = 0.05, padding = 0.05, minh = 1}, nodes={
+                  {n=G.UIT.R, config={align = "cm", colour = lighten(G.C.BLACK, 0.1), r = 0.1, minw = 1, minh = 0.55, emboss = 0.05, padding = 0.03}, nodes={
+                    {n=G.UIT.O, config={object = DynaText({string = {card.ability.extra.destroy_time .. "/" .. card.ability.extra.destroy_time_max+1}, colours = {G.C.MONEY},shadow = true, silent = true, bump = true, pop_in = 0, scale = 0.5})}},
+                  }}
+              }}
+            
+
+          card.children.gem_time = UIBox{
+            definition = t1,
+            config = {
+              align="tm",
+              offset = {x=0,y=1.5},
+              major = card,
+              bond = 'Weak',
+              parent = card
+            }
+          }
+
+          card.children.gem_time.alignment.offset.y = 0.38
+
+            return true
+        end)
+      }))
+  end

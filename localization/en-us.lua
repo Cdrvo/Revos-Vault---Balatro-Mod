@@ -1210,7 +1210,7 @@ return {
 			},
 			j_crv_dirtinator9999 = {
 				name = "{C:green}Dirtinator9999",
-				text = { "when first hand is drawn,", "Enhances a random ard into {C:green}Dirt{} " },
+				text = { "when first hand is drawn,", "Enhances a random card into {C:green}Dirt{} " },
 			},
 			j_crv_holyprinter = {
 				name = "{C:green}Holy Printer",

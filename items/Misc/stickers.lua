@@ -408,7 +408,7 @@ SMODS.Sticker({
 SMODS.Sticker({
 	key = "wet",
 	pos = {
-		x = 0,
+		x = 2,
 		y = 4,
 	},
 	badge_colour = HEX("0075ff"),

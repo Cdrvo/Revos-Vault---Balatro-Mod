@@ -559,7 +559,8 @@ SMODS.Joker({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = G.P_CENTERS.c_crv_glassdocument
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_glass
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_crv_bulletproofglass
 		return {
 			vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds },
 		}
@@ -618,7 +619,8 @@ SMODS.Joker({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = G.P_CENTERS.c_crv_steeldocument
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_steel
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_crv_diamondcard
 		return {
 			vars = { card.ability.extra.xmult, (G.GAME.probabilities.normal or 1) },
 		}
@@ -825,7 +827,9 @@ SMODS.Joker({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = G.P_CENTERS.c_crv_devilscontract
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_crv_mugged
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_crv_aflame
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_crv_soulcard
 		return {
 			vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds },
 		}
@@ -1011,7 +1015,7 @@ SMODS.Joker({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = G.P_CENTERS.c_crv_megadoc
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_crv_mega
 		return {
 			vars = { card.ability.extra.mult, (G.GAME.probabilities.normal or 1) },
 		}
@@ -1114,7 +1118,8 @@ SMODS.Joker({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = G.P_CENTERS.c_crv_luckydocument
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_lucky
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_crv_blessedcard
 		return {
 			vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds },
 		}
@@ -1174,7 +1179,7 @@ SMODS.Joker({
 SMODS.Joker({
 	key = "pcp",
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = G.P_CENTERS.c_crv_polydoc
+		info_queue[#info_queue + 1] = G.P_CENTERS.e_polychrome
 		return {
 			vars = { card.ability.extra.xmult, (G.GAME.probabilities.normal or 1), card.ability.extra.odds },
 		}
@@ -1221,7 +1226,7 @@ SMODS.Joker({
 SMODS.Joker({
 	key = "fcp",
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = G.P_CENTERS.c_crv_foildoc
+		info_queue[#info_queue + 1] = G.P_CENTERS.e_foil
 		return {
 			vars = { card.ability.extra.chips, (G.GAME.probabilities.normal or 1), card.ability.extra.odds },
 		}
@@ -1263,7 +1268,7 @@ SMODS.Joker({
 SMODS.Joker({
 	key = "hcp",
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = G.P_CENTERS.c_crv_holdoc
+		info_queue[#info_queue + 1] = G.P_CENTERS.e_holo
 		return {
 			vars = { card.ability.extra.mult, (G.GAME.probabilities.normal or 1), card.ability.extra.odds },
 		}
@@ -1310,6 +1315,7 @@ SMODS.Joker({
 SMODS.Joker({
 	key = "ncp",
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
 		return {
 			vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds },
 		}
@@ -1357,7 +1363,7 @@ SMODS.Joker({
 SMODS.Joker({
 	key = "ucp",
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = G.P_CENTERS.c_crv_uedoc
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_crv_boost
 		return {
 			vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds },
 		}
@@ -1731,6 +1737,35 @@ SMODS.Joker({
 })
 
 SMODS.Joker({
+	key = "voucher_printer",
+	atlas = "wip",
+	rarity = "crv_p",
+	cost = 20,
+	unlocked = true,
+	discovered = false,
+	blueprint_compat = true,
+	pos = {
+		x = 0,
+		y = 0,
+	},
+	config = {
+		extra = {
+		},
+	},
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {},
+		}
+	end,
+	calculate = function(self, card, context)
+		if context.setting_blind then
+			RevosVault.random_voucher()
+		end
+	end
+})
+
+
+SMODS.Joker({
 	key = "modded_printer",
 	atlas = "Jokers2",
 	rarity = "crv_p",
@@ -1753,9 +1788,13 @@ SMODS.Joker({
 	end,
 	calculate = function(self, card, context)
 		if context.setting_blind then
-		SMODS.add_card({
-			key = RevosVault.other_card
-		})
+			if RevosVault.other_type ~= "Voucher" then
+			SMODS.add_card({
+				key = RevosVault.other_card
+			})
+		else
+			RevosVault.random_voucher()
+		end
 	end
 	end,
 })

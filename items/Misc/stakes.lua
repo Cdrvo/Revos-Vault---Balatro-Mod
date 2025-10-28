@@ -31,6 +31,41 @@ SMODS.Stake {
     },
     modifiers = function()
         G.GAME.modifiers.enable_crv_wet = true
+    end,
+        inject = function(self)
+        if not self.injected then
+            -- Inject stake in the correct spot
+            self.count = #G.P_CENTER_POOLS[self.set] + 1
+            self.order = self.count
+            if self.above_stake and G.P_STAKES[self.above_stake] then
+                self.order = G.P_STAKES[self.above_stake].order + 1
+            end
+            for _, v in pairs(G.P_STAKES) do
+                if v.order >= self.order then
+                    v.order = v.order + 1
+                end
+            end
+            G.P_STAKES[self.key] = self
+            table.insert(G.P_CENTER_POOLS.Stake, self)
+            -- Sticker sprites (stake_ prefix is removed for vanilla compatiblity)
+            if self.sticker_pos ~= nil then
+                G.shared_stickers[self.key:sub(7)] = Sprite(0, 0, G.CARD_W, G.CARD_H,
+                    G.ASSET_ATLAS[self.sticker_atlas] or G.ASSET_ATLAS["stickers"], self.sticker_pos)
+                G.sticker_map[self.key] = self.key:sub(7)
+            else
+                G.sticker_map[self.key] = nil
+            end
+        else
+            G.P_STAKES[self.key] = self
+            SMODS.insert_pool(G.P_CENTER_POOLS.Stake, self)
+        end
+        self.injected = true
+        -- should only need to do this once per injection routine
+
+        if next(SMODS.find_mod("HotPotato")) then
+            table.remove(self.applied_stakes, 1)
+            table.insert(self.applied_stakes, "stake_hpot_missingtext")
+        end
     end
 }
 
@@ -212,41 +247,6 @@ SMODS.Stake {
     modifiers = function()
         G.GAME.modifiers.enable_crv_vamp = true
     end,
-    inject = function(self)
-        if not self.injected then
-            -- Inject stake in the correct spot
-            self.count = #G.P_CENTER_POOLS[self.set] + 1
-            self.order = self.count
-            if self.above_stake and G.P_STAKES[self.above_stake] then
-                self.order = G.P_STAKES[self.above_stake].order + 1
-            end
-            for _, v in pairs(G.P_STAKES) do
-                if v.order >= self.order then
-                    v.order = v.order + 1
-                end
-            end
-            G.P_STAKES[self.key] = self
-            table.insert(G.P_CENTER_POOLS.Stake, self)
-            -- Sticker sprites (stake_ prefix is removed for vanilla compatiblity)
-            if self.sticker_pos ~= nil then
-                G.shared_stickers[self.key:sub(7)] = Sprite(0, 0, G.CARD_W, G.CARD_H,
-                    G.ASSET_ATLAS[self.sticker_atlas] or G.ASSET_ATLAS["stickers"], self.sticker_pos)
-                G.sticker_map[self.key] = self.key:sub(7)
-            else
-                G.sticker_map[self.key] = nil
-            end
-        else
-            G.P_STAKES[self.key] = self
-            SMODS.insert_pool(G.P_CENTER_POOLS.Stake, self)
-        end
-        self.injected = true
-        -- should only need to do this once per injection routine
-
-        if next(SMODS.find_mod("HotPotato")) then
-            table.remove(self.applied_stakes, 1)
-            table.insert(self.applied_stakes, "stake_hpot_missingtext")
-        end
-    end
 }
 
 SMODS.Stake {
@@ -298,7 +298,7 @@ SMODS.Stake {
         x = 6,
         y = 2
     },
-    applied_stakes = {"crv_radio"},
+    applied_stakes = {"crv_raido"},
     shiny = true,
     unlocked = false,
     prefix_config = {
@@ -333,7 +333,7 @@ SMODS.Stake {
         x = 5,
         y = 0
     },
-    applied_stakes = {"crv_countin"},
+    applied_stakes = {"crv_overt"},
     shiny = true,
     unlocked = false,
     prefix_config = {
@@ -369,7 +369,7 @@ SMODS.Stake {
         x = 6,
         y = 0
     },
-    applied_stakes = {"crv_countin"},
+    applied_stakes = {"crv_contin"},
     shiny = true,
     unlocked = false,
     prefix_config = {

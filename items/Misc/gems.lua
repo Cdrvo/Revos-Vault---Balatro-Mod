@@ -37,8 +37,13 @@ end
 
 G.FUNCS.redeem_gem = function(e)
 
-	
+	RevosVault.hide_shop()
+
 	local card = e.config.ref_table
+
+	if card.children.price then card.children.price = nil end
+	if card.children.use_button then card.children.use_button = nil end
+	RevosVault.move_card(card, G.play)
 	
 	card.config.center:apply_gem()
 
@@ -99,6 +104,7 @@ G.FUNCS.redeem_gem = function(e)
             card.children.bot_disp:remove()
             card.children.bot_disp = nil
 			SMODS.destroy_cards(card, true)
+			RevosVault.show_shop()
         return true end }))
     end
 end
@@ -216,7 +222,7 @@ RevosVault.Gem({
 RevosVault.Gem({
 	key = "ruby",
 	atlas = "gemss",
-	pos = { x = 3, y = 0 },
+	pos = { x = 2, y = 0 },
 	config = {
 		extra = {
 			destroy_time = 0,
@@ -243,7 +249,7 @@ RevosVault.Gem({
 RevosVault.Gem({
 	key = "diamond",
 	atlas = "gemss",
-	pos = { x = 4, y = 0 },
+	pos = { x = 3, y = 0 },
 	config = {
 		extra = {
 			destroy_time = 0,
@@ -278,7 +284,7 @@ RevosVault.Gem({
 RevosVault.Gem({
 	key = "star_sapphire",
 	atlas = "gemss",
-	pos = { x = 5, y = 0 },
+	pos = { x = 4, y = 0 },
 	config = {
 		extra = {
 			destroy_time = 0,
@@ -305,7 +311,7 @@ RevosVault.Gem({
 RevosVault.Gem({
 	key = "obsidian",
 	atlas = "gemss",
-	pos = { x = 0, y = 3},
+	pos = { x = 5, y = 3},
 	config = {
 		extra = {
 			destroy_time = 0,
@@ -329,7 +335,7 @@ RevosVault.Gem({
 RevosVault.Gem({
 	key = "angelite",
 		atlas = "gemss",
-	pos = { x = 0, y = 3 },
+	pos = { x = 6, y = 3 },
 	config = {
 		extra = {
 			destroy_time = 0,
@@ -358,8 +364,8 @@ RevosVault.Gem({
 
 RevosVault.Gem({
 	key = "amethyst",
-			atlas = "gemss",
-	pos = { x = 2, y = 0 },
+	atlas = "gemss",
+	pos = { x = 7, y = 0 },
 	config = {
 		extra = {
 			destroy_time = 0,
