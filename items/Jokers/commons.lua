@@ -342,8 +342,10 @@ SMODS.Joker({
 
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play then
-			context.other_card:flip()
-			context.other_card:flip()
+			if context.other_card then
+				context.other_card:flip()
+				context.other_card:flip()
+			end
 		end
 	end,
 	in_pool = function(self, wawa, wawa2)
