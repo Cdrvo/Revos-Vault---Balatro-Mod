@@ -373,3 +373,58 @@ SMODS.Sticker({
 	end
 end
 })
+
+SMODS.Sticker({
+	key = "heavy",
+	pos = {
+		x = 0,
+		y = 4,
+	},
+	badge_colour = HEX("303030"),
+	atlas = "enh",
+	sets = {
+		Joker = true,
+	},
+	config = {},
+	rate = 0.06,
+	needs_enable_flag = true,
+	loc_vars = function(self, info_queue, card)
+	return {
+		vars = {},
+	}
+	end,
+	applied = function(self, card, val)
+		if card and card.area and card.area.config and card.area.config.card_limit and card.area ~= G.deck then
+			card.area.config.card_limit = card.area.config.card_limit - 1
+		end
+	end,
+	removed = function(self, card, val)
+		if card and card.area and card.area.config and card.area.config.card_limit and card.area ~= G.deck then
+			card.area.config.card_limit = card.area.config.card_limit + 1
+		end
+	end,
+})
+
+SMODS.Sticker({
+	key = "wet",
+	pos = {
+		x = 2,
+		y = 4,
+	},
+	badge_colour = HEX("0075ff"),
+	atlas = "enh",
+	sets = {
+		Joker = true,
+	},
+	config = {},
+	rate = 0.06,
+	needs_enable_flag = true,
+	loc_vars = function(self, info_queue, card)
+	return {
+		vars = {},
+	}
+	end,
+	update = function(self, card, context)
+		if card.debuff then card.debuff = nil end
+	end
+})

@@ -1016,7 +1016,7 @@ RevosVault.custom_button_set_3 = function(card, args)
 						minw = 1.1,
 						maxw = 1.3,
 						padding = 0.1,
-						align = "bm",
+						align = "cm",
 						colour = G.C.GREEN,
 						shadow = true,
 						r = 0.08,
@@ -1112,6 +1112,7 @@ function G.UIDEF.used_gems()
 				center,
 				{ bypass_discovery_center = true, bypass_discovery_ui = true, bypass_lock = true }
 			)
+			-- RevosVault.create_gem_timer(card)
 			card:start_materialize(nil, silent)
 			silent = true
 			voucher_areas[#voucher_areas]:emplace(card)

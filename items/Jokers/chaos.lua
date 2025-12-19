@@ -145,7 +145,7 @@ SMODS.Joker({
 	pos = { x = 2, y = 0 },
 	config = { extra = {} },
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = G.P_CENTERS.c_crv_dirtdocument
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_crv_dirt
 		return { vars = { card.ability.extra.xmult } }
 	end,
 	calculate = function(self, card, context)

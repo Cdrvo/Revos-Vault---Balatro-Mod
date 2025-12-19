@@ -476,6 +476,16 @@ Game.main_menu = function(change_context)
 	newcard.T.h = newcard.T.h * 1.1 * 1.25
 	newcard.no_ui = true
 	newcard.states.visible = true
+	return ret
+end
+
+SMODS.current_mod.reset_game_globals = function(run_start)
+	if run_start then
+		calculate_modded_printer()
+	end
+
+	calculate_modded_printer()
+
 end
 
 
