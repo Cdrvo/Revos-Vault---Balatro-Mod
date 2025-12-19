@@ -435,6 +435,14 @@ function RevosVault.index(table, cards)
 	return nil
 end
 
+function Card:is_playing_card()
+    if self.ability.set == "Default" or self.ability.set == "Enhanced" then
+        return true
+    end
+    return false
+end
+
+
 --ok you see nothing. there is nothing for 241 lines
 -- _flip works?
 -- i feel like i need to remake this
@@ -444,7 +452,13 @@ end
 -- RevosVault.replacecards(G.hand.cards,nil,nil,true,nil,nil)
 
 function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporiginal, _flip) --Cards not keeping editions/seals/stickers is intended. //Probably extremely inefficient /// Like why tf did i make the keep n entire seperate section. I probably wont even use "replace" or teh destruction part of this like ever.
-	if area == G.hand.cards then
+	local playing_card_detected = false
+	for k, v in pairs(area) do
+		if v:is_playing_card() then
+			playing_card_detected = true
+		end
+	end
+	if playing_card_detected then
 		sendWarnMessage("replacecards does not work with playing cards.", "RevosVault")
 		sendWarnMessage("use .replace_playing_cards instead", "RevosVault")
 	end
