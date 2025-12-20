@@ -1,4 +1,6 @@
 local cardtomake = { 1, 2, 3 }
+local lpmc = { 1, 2, 3, 4 }
+local scrapselecta = { 1, 2 }
 
 SMODS.Joker({
 	key = "defaultprinter",
