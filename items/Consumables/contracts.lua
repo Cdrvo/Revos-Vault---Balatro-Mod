@@ -26,6 +26,7 @@ SMODS.Consumable({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_CENTERS["m_glass"]
 		return { vars = { card.ability.extra.cards, (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
 	end,
 	can_use = function(self, card)
@@ -50,7 +51,8 @@ SMODS.Consumable({
 		if
 			context.destroy_card
 			and context.cardarea == G.play
-			and pseudorandom("glassdocument") < G.GAME.probabilities.normal / G.GAME.glassodds
+			and (pseudorandom("glassdocument") < G.GAME.probabilities.normal / G.GAME.glassodds
+				or SMODS.has_enhancement(context.destroy_card, "m_glass"))
 		then
 			return {
 				remove = true,
@@ -76,6 +78,7 @@ SMODS.Consumable({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_CENTERS["m_steel"]
 		return { vars = { card.ability.extra.cards, (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
 	end,
 	can_use = function(self, card)
@@ -129,6 +132,8 @@ SMODS.Consumable({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_CENTERS["m_crv_mugged"]
+		info_queue[#info_queue+1] = G.P_CENTERS["m_crv_aflame"]
 		return { vars = { card.ability.extra.cards, (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
 	end,
 	can_use = function(self, card)
@@ -187,6 +192,7 @@ SMODS.Consumable({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_CENTERS["m_crv_mega"]
 		return { vars = { card.ability.extra.cards, (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
 	end,
 	can_use = function(self, card)
@@ -239,6 +245,7 @@ SMODS.Consumable({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_CENTERS["m_crv_tier1card"]
 		return { vars = { card.ability.extra.cards, (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
 	end,
 	can_use = function(self, card)
@@ -292,6 +299,7 @@ SMODS.Consumable({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_CENTERS["m_crv_tier2card"]
 		return { vars = { card.ability.extra.cards, (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
 	end,
 	can_use = function(self, card)
@@ -346,6 +354,7 @@ SMODS.Consumable({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_CENTERS["m_crv_tier3card"]
 		return { vars = { card.ability.extra.cards, (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
 	end,
 	can_use = function(self, card)
@@ -435,6 +444,7 @@ SMODS.Consumable({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_CENTERS["m_lucky"]
 		return { vars = { card.ability.extra.cards, (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
 	end,
 	can_use = function(self, card)

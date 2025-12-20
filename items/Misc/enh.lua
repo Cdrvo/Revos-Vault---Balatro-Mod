@@ -312,7 +312,9 @@ SMODS.Enhancement({
 		}
 	end,
 	calculate = function(self, card, context, effect)
-		local effect = {}
+		local effect = {
+			repetition = 0
+		}
 		if
 			pseudorandom("blessedcard") < G.GAME.probabilities.normal / card.ability.extra.odds2
 			and context.main_scoring
