@@ -1303,8 +1303,8 @@ end
 	G.E_MANAGER:add_event(event)]]
 
 
-function RevosVault.random_voucher()
-	local vouchers = RevosVault.get_eligable_vouchers()
+function RevosVault.random_voucher(mod)
+	local vouchers = RevosVault.get_eligable_vouchers(mod)
 	local voucher_key = pseudorandom_element(vouchers)
 
 	
@@ -1318,11 +1318,11 @@ function RevosVault.random_voucher()
 	RevosVault.redeem(real_voucher, 0, true)
 end
 
-function RevosVault.get_eligable_vouchers()
+function RevosVault.get_eligable_vouchers(mod)
 	local vv = get_current_pool('Voucher')
         local tab = {}
         for k, v in pairs(vv) do
-            if v ~= 'UNAVAILABLE' then
+            if v ~= 'UNAVAILABLE' and G.P_CENTERS[v] and G.P_CENTERS[v].mod and G.P_CENTERS[v].mod.id == mod then
                 tab[#tab+1] = v
 			end
         end
@@ -1354,36 +1354,56 @@ function RevosVault.redeem(card, cost, reset_to_shop)
 
 end
 
+function RevosVault.get_consumable_pool(mod)
+	local tab = {}
+	for k, v in pairs(SMODS.ConsumableTypes) do
+		for k, vv in pairs(get_current_pool(k)) do
+			if vv ~= "UNAVAILABLE" and G.P_CENTERS[vv] and G.P_CENTERS[vv].mod and G.P_CENTERS[vv].mod.id == mod then
+				tab[#tab+1] = G.P_CENTERS[vv]
+			end
+		end
+	end
+	return tab
+end
+
 function check_mod_contents(mod)
 
 	local rvm = RevosVault.mod_categories
 
 	local avb = 0
 	local joker, consumable, voucher = false, false, false
-    for _, vv in pairs(G.P_CENTER_POOLS.Joker) do
-        if vv.mod and vv.mod.id == mod then
-           avb = avb + 1
-		   joker = true
-		   rvm.with_joker[#rvm.with_joker+1] = mod
-		   break
-        end
-    end
-	for _, vv in pairs(SMODS.ConsumableTypes) do
-        if vv.mod and vv.mod.id == mod then
-           avb = avb + 1
-		   consumable = true
-		   rvm.with_consumable[#rvm.with_consumable+1] = mod
-		   break
-        end
-    end
-	for _, vv in pairs(G.P_CENTER_POOLS.Voucher) do
-        if vv.mod and vv.mod.id == mod then
-           avb = avb + 1
-		   voucher = true
-		   rvm.with_voucher[#rvm.with_voucher+1] = mod
-		   break
-        end
-    end
+	for _, vv in pairs(get_current_pool("Joker")) do
+		if vv ~= "UNAVAILABLE" then
+			if G.P_CENTERS[vv] and G.P_CENTERS[vv].mod and G.P_CENTERS[vv].mod.id == mod then
+				avb = avb + 1
+				joker = true
+				rvm.with_joker[#rvm.with_joker + 1] = mod
+				break
+			end
+		end
+	end
+	for k, v in pairs(SMODS.ConsumableTypes) do
+		for k, vv in pairs(get_current_pool(k)) do
+			if vv ~= "UNAVAILABLE" then
+				if G.P_CENTERS[vv] and G.P_CENTERS[vv].mod and G.P_CENTERS[vv].mod.id == mod then
+					avb = avb + 1
+					consumable = true
+					rvm.with_consumable[#rvm.with_consumable + 1] = mod
+					break
+				end
+			end
+		end
+	end
+	for _, vv in pairs(get_current_pool("Voucher")) do
+		if vv ~= "UNAVAILABLE" then
+			if G.P_CENTERS[vv] and G.P_CENTERS[vv].mod and G.P_CENTERS[vv].mod.id == mod then
+				avb = avb + 1
+				voucher = true
+				rvm.with_voucher[#rvm.with_voucher + 1] = mod
+				break
+			end
+		end
+	end
 
 	if avb > 0 then
 		return true
@@ -1412,17 +1432,17 @@ function get_eligable_cards(mod, type)
 
 
 	if type == "Joker" then
-		for _, v in pairs(G.P_CENTER_POOLS.Joker) do
-			if v.mod and v.mod.id == mod and not v.no_collection then
-				G.GAME.unvaulted_jokers[#G.GAME.unvaulted_jokers+1] = v.key
+		for _, v in pairs(get_current_pool("Joker")) do
+			if G.P_CENTERS[v] and G.P_CENTERS[v].mod and G.P_CENTERS[v].mod.id == mod and not G.P_CENTERS[v].no_collection then
+				G.GAME.unvaulted_jokers[#G.GAME.unvaulted_jokers+1] = v
 			end
 		end
 	elseif type == "Consumable" then
-		for k, v in pairs(SMODS.ConsumableTypes) do
-			if v.mod and v.mod.id == mod and not v.no_collection then
-				G.GAME.unvaulted_cons[#G.GAME.unvaulted_cons+1] = v.key
+			for k, v in pairs(RevosVault.get_consumable_pool(mod)) do
+				if v.mod and v.mod.id == mod and not v.no_collection then
+					G.GAME.unvaulted_cons[#G.GAME.unvaulted_cons+1] = v.key
+				end
 			end
-		end
 	elseif type == "Voucher" then
 		-- hmm
 	end
@@ -1431,9 +1451,9 @@ function get_eligable_cards(mod, type)
 	if type == "Joker" then
 		return pseudorandom_element(G.GAME.unvaulted_jokers, pseudoseed("crv_kys"))
 	elseif type == "Consumable" then
-		return pseudorandom_element(G.P_CENTER_POOLS[pseudorandom_element(G.GAME.unvaulted_cons, pseudoseed("crv_kys"))], pseudoseed("crv_kys")).key
+		return pseudorandom_element(G.GAME.unvaulted_cons, pseudoseed("crv_kys"))
 	else
-		return pseudorandom_element(RevosVault.get_eligable_vouchers(), pseudoseed("crv_kys"))
+		return pseudorandom_element(RevosVault.get_eligable_vouchers(), pseudoseed("crv_kys")) -- unused
 	end
 end
 

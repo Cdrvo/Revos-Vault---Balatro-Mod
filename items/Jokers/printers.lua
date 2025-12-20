@@ -1793,7 +1793,7 @@ SMODS.Joker({
 				key = RevosVault.other_card
 			})
 		else
-			RevosVault.random_voucher()
+			RevosVault.random_voucher(RevosVault.other_mod)
 		end
 	end
 	end,
