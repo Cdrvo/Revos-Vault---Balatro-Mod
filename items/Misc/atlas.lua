@@ -358,21 +358,21 @@ SMODS.Atlas({
 
 SMODS.Atlas({
 	key = "Superior",
-	path = "Cross-Mod/superior.png",
+	path = "superior.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "corrupt",
-	path = "Cross-Mod/corrupt.png",
+	path = "corrupt.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "gemss",
-	path = "Cross-Mod/gems.png",
+	path = "gems.png",
 	px = 50,
 	py = 50,
 })
