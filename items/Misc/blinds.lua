@@ -103,7 +103,7 @@ SMODS.Blind({
 	},
 	atlas = "blinds",
 	pos = { x = 0, y = 7 },
-	boss_colour = HEX("372c15"),
+	boss_colour = HEX("ffc954"),
 	recalc_debuff = function(self, card, from_blind)
 		if card.ability.set == "Enhanced" then
 			return true
