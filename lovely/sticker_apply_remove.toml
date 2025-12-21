@@ -1,0 +1,68 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -9
+
+# Sticker applied / removed
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/game_object.lua"]'
+pattern = '''
+        apply = function(self, card, val)
+            card.ability[self.key] = val
+            if val and self.config and next(self.config) then
+                card.ability[self.key] = {}
+                for k, v in pairs(self.config) do
+                    if type(v) == 'table' then
+                        card.ability[self.key][k] = copy_table(v)
+                    else
+                        card.ability[self.key][k] = v
+                    end
+                end
+            end
+        end
+'''
+position = 'after'
+payload = '''
+,applied = function(self, card)
+end,
+removed = function(self, card)
+end,
+'''
+match_indent = false
+
+# sticker functions
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/game_object.lua"]'
+pattern = '''
+            card.ability[self.key] = val
+            if val and self.config and next(self.config) then
+                card.ability[self.key] = {}
+                for k, v in pairs(self.config) do
+                    if type(v) == 'table' then
+                        card.ability[self.key][k] = copy_table(v)
+                    else
+                        card.ability[self.key][k] = v
+                    end
+                end
+            end
+        end
+'''
+position = 'before'
+payload = '''
+	if val == false and card.ability[self.key] then
+        card = card
+        if self and self.removed then
+        card:remove_sticker_calc(self, card)
+        end
+    else
+        card = card
+        if self and self.applied then
+        card:apply_sticker_calc(self, card)
+        end
+    end
+'''
+match_indent = false
