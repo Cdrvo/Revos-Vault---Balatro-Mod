@@ -147,8 +147,8 @@ return {
 			bl_crv_theaneye = {
 				name = "The Ancient",
 				text = {
-					"Any card with an edition",
-					"or enhancement is debuffed"
+					"Any card with an",
+					"enhancement is debuffed"
 				},
 			},
 			bl_crv_rrp = {
