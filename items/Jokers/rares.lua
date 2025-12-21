@@ -1804,7 +1804,7 @@ SMODS.Joker({
 		end
 		if context.joker_main then
 			return {
-				xmult = card.ability.extra.xmult * stickercheck() + 1,
+				xmult = card.ability.extra.xmult * RevosVault.stickercheck(G.jokers.cards, "perishable") + 1,
 			}
 		end
 		if RevosVault.config.secret_enabled then

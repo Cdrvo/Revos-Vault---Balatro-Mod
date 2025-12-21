@@ -1305,17 +1305,25 @@ end
 
 function RevosVault.random_voucher(mod)
 	local vouchers = RevosVault.get_eligable_vouchers(mod)
-	local voucher_key = pseudorandom_element(vouchers)
+	local voucher_key = nil
+	local real_voucher = nil
+	if vouchers then
+		voucher_key = pseudorandom_element(vouchers)
+	end
 
 	
-	local real_voucher = SMODS.create_card{
-		key = voucher_key
-	}
+	if voucher_key then
+		real_voucher = SMODS.create_card{
+			key = voucher_key
+		}
+	end
 
-	real_voucher:add_to_deck()
+	if real_voucher then
+		real_voucher:add_to_deck()
 
 
-	RevosVault.redeem(real_voucher, 0, true)
+		RevosVault.redeem(real_voucher, 0, true)
+	end
 end
 
 function RevosVault.get_eligable_vouchers(mod)
