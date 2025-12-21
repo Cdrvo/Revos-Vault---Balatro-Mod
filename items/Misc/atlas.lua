@@ -190,7 +190,7 @@ SMODS.Atlas({
 
 SMODS.Atlas({
 	key = "sleeves",
-	path = "sleeves.png",
+	path = "Cross-Mod/sleeves.png",
 	px = 73,
 	py = 95,
 })
@@ -204,84 +204,84 @@ SMODS.Atlas({
 
 SMODS.Atlas({
 	key = "cryp",
-	path = "cryp.png",
+	path = "Cross-Mod/cryp.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "riftr",
-	path = "rift.png",
+	path = "Cross-Mod/rift.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "rtarot",
-	path = "reversetarot.png",
+	path = "Cross-Mod/reversetarot.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "togap",
-	path = "togabpack.png",
+	path = "Cross-Mod/togabpack.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "togaw",
-	path = "togaprint.png",
+	path = "Cross-Mod/togaprint.png",
 	px = 72,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "bakerycharms",
-	path = "charms.png",
+	path = "Cross-Mod/charms.png",
 	px = 68,
 	py = 68,
 })
 
 SMODS.Atlas({
 	key = "maximusc",
-	path = "maximus.png",
+	path = "Cross-Mod/maximus.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "morefluff45",
-	path = "morefluff45.png",
+	path = "Cross-Mod/morefluff45.png",
 	px = 114,
 	py = 114,
 })
 
 SMODS.Atlas({
 	key = "prismc",
-	path = "prism.png",
+	path = "Cross-Mod/prism.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "sdm0",
-	path = "sdm0.png",
+	path = "Cross-Mod/sdm0.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "aiko",
-	path = "aiko.png",
+	path = "Cross-Mod/aiko.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "garb",
-	path = "garb.png",
+	path = "Cross-Mod/garb.png",
 	px = 71,
 	py = 95,
 })
@@ -290,110 +290,110 @@ SMODS.Atlas({
 	key = "partners",
 	px = 46,
 	py = 58,
-	path = "part.png",
+	path = "Cross-Mod/part.png",
 })
 
 SMODS.Atlas({
 	key = "tangent",
 	px = 71,
 	py = 95,
-	path = "tangent.png",
+	path = "Cross-Mod/tangent.png",
 })
 
 SMODS.Atlas({
 	key = "notvanilla",
-	path = "tickets.png",
+	path = "Cross-Mod/tickets.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "grabbag",
-	path = "grab.png",
+	path = "Cross-Mod/grab.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "luckyrab",
-	path = "luckyr.png",
+	path = "Cross-Mod/luckyr.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "paradox",
-	path = "paradox.png",
+	path = "Cross-Mod/paradox.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "pokerjoker",
-	path = "pokerjoker.png",
+	path = "Cross-Mod/pokerjoker.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "entropy",
-	path = "entropy.png",
+	path = "Cross-Mod/entropy.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "kino",
-	path = "kino.png",
+	path = "Cross-Mod/kino.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "ortalab",
-	path = "ortalab.png",
+	path = "Cross-Mod/ortalab.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "Superior",
-	path = "superior.png",
+	path = "Cross-Mod/superior.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "corrupt",
-	path = "corrupt.png",
+	path = "Cross-Mod/corrupt.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "gemss",
-	path = "gems.png",
+	path = "Cross-Mod/gems.png",
 	px = 50,
 	py = 50,
 })
 
 SMODS.Atlas({
 	key = "pta",
-	path = "pta.png",
+	path = "Cross-Mod/pta.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "finity_atlas",
-	path = "finity.png",
+	path = "Cross-Mod/finity.png",
 	px = 71,
 	py = 95,
 })
 
 SMODS.Atlas({
 	key = "highroller",
-	path = "high.png",
+	path = "Cross-Mod/high.png",
 	px = 71,
 	py = 95,
 })
