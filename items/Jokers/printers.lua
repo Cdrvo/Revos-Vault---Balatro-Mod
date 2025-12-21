@@ -1738,7 +1738,7 @@ SMODS.Joker({
 	end,
 })
 
-SMODS.Joker({
+--[[SMODS.Joker({
 	key = "voucher_printer",
 	atlas = "wip",
 	rarity = "crv_p",
@@ -1764,7 +1764,7 @@ SMODS.Joker({
 			RevosVault.random_voucher()
 		end
 	end
-})
+})]]
 
 
 SMODS.Joker({
