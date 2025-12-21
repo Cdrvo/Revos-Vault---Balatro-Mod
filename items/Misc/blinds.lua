@@ -105,7 +105,7 @@ SMODS.Blind({
 	pos = { x = 0, y = 7 },
 	boss_colour = HEX("372c15"),
 	recalc_debuff = function(self, card, from_blind)
-		if card.ability.set == "Enhanced" or card.edition or (card.area == G.hand and card.edition) then
+		if card.ability.set == "Enhanced" then
 			return true
 		end
 		return false
