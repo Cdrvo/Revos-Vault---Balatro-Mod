@@ -1302,9 +1302,50 @@ end
 	})
 	G.E_MANAGER:add_event(event)]]
 
+function RevosVault.vanilla_cards(args) -- incomplete
+	local tab = {}
+	if not args.type then
+		args.type = "Joker"
+	end
+	args.rarity = args.rarity or nil
+	args.set = args.set or nil
 
-function RevosVault.random_voucher(mod)
-	local vouchers = RevosVault.get_eligable_vouchers(mod)
+	if args.type == "Voucher" then
+		for k, v in pairs(get_current_pool("Voucher")) do
+			if G.P_CENTERS[v] and not G.P_CENTERS[v].mod and v ~= "UNAVAILABLE" then
+				tab[#tab + 1] = v
+			end
+		end
+	end
+	return tab
+end
+
+
+function RevosVault.random_voucher(mod) --i love overcomplicating stuff
+	local mode
+	if not mod then
+		if pseudorandom_element({ "Mod", "Vanilla" }) == "Mod" then
+			mode = "Mod"
+			get_eligable_mods()
+			if #RevosVault.mod_categories.with_voucher > 0 then
+				mod = pseudorandom_element(RevosVault.mod_categories.with_voucher, pseudoseed("rv_random_voucher"))
+			else
+				mode = "Vanilla"
+			end
+		else
+			mode = "Vanilla"
+		end
+	else
+		mode = "Mod"
+	end
+
+
+	local vouchers = {}
+	if mode == "Mod" then
+		vouchers = RevosVault.get_eligable_vouchers(mod)
+	else
+		vouchers = RevosVault.vanilla_cards({type = "Voucher"})
+	end
 	local voucher_key = nil
 	local real_voucher = nil
 	if vouchers then
@@ -1376,6 +1417,13 @@ end
 
 function check_mod_contents(mod)
 
+
+	RevosVault.mod_categories = {
+		with_voucher = {},
+		with_consumable = {},
+		with_joker = {}
+	}
+
 	local rvm = RevosVault.mod_categories
 
 	local avb = 0
@@ -1441,7 +1489,7 @@ function get_eligable_cards(mod, type)
 
 	if type == "Joker" then
 		for _, v in pairs(get_current_pool("Joker")) do
-			if G.P_CENTERS[v] and G.P_CENTERS[v].mod and G.P_CENTERS[v].mod.id == mod and not G.P_CENTERS[v].no_collection then
+			if G.P_CENTERS[v] and G.P_CENTERS[v].mod and G.P_CENTERS[v].mod.id == mod and not G.P_CENTERS[v].no_collection and v ~= "UNAVAILABLE" then
 				G.GAME.unvaulted_jokers[#G.GAME.unvaulted_jokers+1] = v
 			end
 		end
