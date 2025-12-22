@@ -1738,17 +1738,17 @@ SMODS.Joker({
 	end,
 })
 
---[[SMODS.Joker({
+SMODS.Joker({
 	key = "voucher_printer",
-	atlas = "wip",
+	atlas = "Jokers2",
 	rarity = "crv_p",
 	cost = 20,
 	unlocked = true,
 	discovered = false,
 	blueprint_compat = true,
 	pos = {
-		x = 0,
-		y = 0,
+		x = 7,
+		y = 13,
 	},
 	config = {
 		extra = {
@@ -1764,7 +1764,7 @@ SMODS.Joker({
 			RevosVault.random_voucher()
 		end
 	end
-})]]
+})
 
 
 SMODS.Joker({

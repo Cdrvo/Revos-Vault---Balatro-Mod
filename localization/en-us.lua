@@ -2146,6 +2146,15 @@ return {
 					"{C:inactive}(Mod: {C:attention}#1#{C:inactive}, Card: {C:attention}#2#{C:inactive})"
 				},
 			},
+			j_crv_voucher_printer = {
+				name = "Voucher Printer",
+				text = {
+					"When a {C:attention}Blind{}",
+					"is selected,",
+					"print a random",
+					"voucher"
+				},
+			},
 			--GARBSHIT below
 			j_crv_stamprinter = {
 				name = "Stamp Printer",
