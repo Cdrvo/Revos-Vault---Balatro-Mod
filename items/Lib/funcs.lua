@@ -1326,6 +1326,7 @@ function RevosVault.random_voucher(mod) --i love overcomplicating stuff
 	if not mod then
 		if pseudorandom_element({ "Mod", "Vanilla" }) == "Mod" then
 			mode = "Mod"
+			reset_other_types()
 			get_eligable_mods()
 			if #RevosVault.mod_categories.with_voucher > 0 then
 				mod = pseudorandom_element(RevosVault.mod_categories.with_voucher, pseudoseed("rv_random_voucher"))
@@ -1415,14 +1416,18 @@ function RevosVault.get_consumable_pool(mod)
 	return tab
 end
 
-function check_mod_contents(mod)
+function reset_other_types()
 
+	if not RevosVault.mod_categories then RevosVault.mod_categories = {} end
 
 	RevosVault.mod_categories = {
 		with_voucher = {},
 		with_consumable = {},
 		with_joker = {}
 	}
+end
+
+function check_mod_contents(mod)
 
 	local rvm = RevosVault.mod_categories
 
@@ -1487,6 +1492,7 @@ function get_eligable_cards(mod, type)
 	G.GAME.unvaulted_vouchers = {}
 
 
+	
 	if type == "Joker" then
 		for _, v in pairs(get_current_pool("Joker")) do
 			if G.P_CENTERS[v] and G.P_CENTERS[v].mod and G.P_CENTERS[v].mod.id == mod and not G.P_CENTERS[v].no_collection and v ~= "UNAVAILABLE" then
@@ -1514,14 +1520,10 @@ function get_eligable_cards(mod, type)
 end
 
 
-function calculate_modded_printer()
+function calculate_modded_printer()	
 if G.GAME then
 
-	RevosVault.mod_categories = {
-		with_voucher = {},
-		with_consumable = {},
-		with_joker = {}
-	}
+	reset_other_types()
 
 	RevosVault.other_card = "j_joker"
 	RevosVault.other_type = "Consumable"

@@ -2139,8 +2139,9 @@ return {
 				name = "Modded Printer",
 				text = {
 					"{C:attention}Print{} a random",
-					"{C:attention}Consumable{} or a {C:attention}Joker",
-					"from a {C:dark_edition}Random Mod.",
+					"{C:attention}Consumable{}, {C:attention}Joker",
+					"or a {C:attention}Voucher{} from",
+					"a {C:dark_edition}Random Mod.",
 					"{s:0.8}Mod and Card changes every round",
 					"{C:inactive}(Mod: {C:attention}#1#{C:inactive}, Card: {C:attention}#2#{C:inactive})"
 				},
