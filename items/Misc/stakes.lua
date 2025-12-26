@@ -1,3 +1,5 @@
+-- will turn these into one stake if i decide to add more stickers
+
 SMODS.Stake {
     key = "water",
     atlas = "stakes",

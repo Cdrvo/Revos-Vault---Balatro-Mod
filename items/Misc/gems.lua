@@ -305,7 +305,7 @@ RevosVault.Gem({
 RevosVault.Gem({
 	key = "obsidian",
 	atlas = "gemss",
-	pos = { x = 5, y = 3},
+	pos = { x = 5, y = 0},
 	config = {
 		extra = {
 			destroy_time = 0,
@@ -329,7 +329,7 @@ RevosVault.Gem({
 RevosVault.Gem({
 	key = "angelite",
 		atlas = "gemss",
-	pos = { x = 6, y = 3 },
+	pos = { x = 6, y = 0 },
 	config = {
 		extra = {
 			destroy_time = 0,

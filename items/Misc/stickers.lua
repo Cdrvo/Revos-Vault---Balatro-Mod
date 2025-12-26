@@ -272,7 +272,7 @@ SMODS.Sticker({
 					card.ability.mystery_tally = 0
 					local s = RevosVault.poll_sticker(true, card, true)
 					if s then
-						SMODS.Stickers[s]:apply(card, true)
+						card:add_sticker(s, true)
 						card_eval_status_text(
 							card,
 							"extra",
@@ -328,7 +328,7 @@ SMODS.Sticker({
 		if context.end_of_round and context.main_eval then
 			local s = RevosVault.poll_sticker(true, card)
 			if s then
-				SMODS.Stickers[s]:apply(card, true)
+				card:add_sticker(s, true)
 				card_eval_status_text(
 					card,
 					"extra",

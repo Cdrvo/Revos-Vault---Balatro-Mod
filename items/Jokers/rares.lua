@@ -2312,7 +2312,7 @@ SMODS.Joker({
 				if not context.blueprint then
 					local chosen_joker = pseudorandom_element(jokers, pseudoseed("mathness"))
 					if pseudorandom("mathness") < G.GAME.probabilities.normal / crv.odds then
-						SMODS.Stickers["crv_absolute"]:apply(chosen_joker, true)
+						chosen_joker:add_sticker("crv_absolute", true)
 					else
 						chosen_joker:start_dissolve({ HEX("57ecab") }, nil, 1.6)
 					end

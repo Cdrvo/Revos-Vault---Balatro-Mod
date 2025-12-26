@@ -64,11 +64,10 @@ SMODS.Consumable({
 		end
 	end,
 })
---[[
 
-ts shit triggers way before everyting for sum reason
+-- am i dumb
 
-SMODS.Seal({
+--[[SMODS.Seal({
 	key = "themoon",
 	atlas = "enh",
 	pos = { x = 2, y = 1 },
@@ -78,6 +77,10 @@ SMODS.Seal({
 	sound = { sound = "gold_seal", per = 1.2, vol = 0.4 },
 	calculate = function(self, card, context)
 		if context.final_scoring_step and context.cardarea == G.play then
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.1,
+			func = function()
                 local suit = card.base.suit
                 local suit_suffix = tostring(suit)
                 local rank = card.base.id
@@ -101,10 +104,11 @@ SMODS.Seal({
                 }, G.hand, nil, nil, { G.C.SECONDARY_SET.Enhanced })
                 assert(SMODS.change_base(acard, suit_suffix, rank))
             end
-			return {
-				message = "The Moon Haunts you!",
-			}
+
+			RevosVault.c_message(card, localize("k_upgrade"))
+			return true
+		end
+		}))
 		end
     end
-})
-]]
+})]]

@@ -2590,7 +2590,7 @@ SMODS.Joker({
 				end
 			end
 			if G.jokers.cards[rr + 1] ~= nil and not G.jokers.cards[rr + 1].ability.crv_vamp then
-				SMODS.Stickers["crv_vamp"]:apply(G.jokers.cards[rr + 1], true)
+				G.jokers.cards[rr + 1]:add_sticker("crv_vamp", true)
 				card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmultg
 			end
 		end
@@ -2702,7 +2702,7 @@ SMODS.Joker({
 					local chosen_joker = pseudorandom_element(jokers, pseudoseed("haunted"))
 					local card2 =
 						copy_card(chosen_joker, nil, nil, nil, chosen_joker.edition and chosen_joker.edition.negative)
-					SMODS.Stickers["crv_haunted"]:apply(card2, true)
+					card2:add_sticker("crv_haunted", true)
 					card2:add_to_deck()
 					G.jokers:emplace(card2)
 				else
@@ -2772,14 +2772,14 @@ SMODS.Joker({
 				and G.jokers.cards[rr - 1] ~= nil
 				and not G.jokers.cards[rr - 1].ability.crv_radioactive
 			then
-				SMODS.Stickers["crv_radioactive"]:apply(G.jokers.cards[rr - 1], true)
+				G.jokers.cards[rr - 1]:add_sticker("crv_radioactive", true)
 				crv.stored = crv.stored + crv.gain
 			elseif
 				choosencard == "Right"
 				and G.jokers.cards[rr + 1] ~= nil
 				and not G.jokers.cards[rr + 1].ability.crv_radioactive
 			then
-				SMODS.Stickers["crv_radioactive"]:apply(G.jokers.cards[rr + 1], true)
+				G.jokers.cards[rr + 1]:add_sticker("crv_radioactive", true)
 				crv.stored = crv.stored + crv.gain
 			end
 		end

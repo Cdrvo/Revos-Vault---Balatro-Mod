@@ -14,7 +14,7 @@ local ExtraEffects_vault = {
 				local card2 = copy_card(card)
 				card2:add_to_deck()
 				card2:set_edition({ negative = true }, true)
-                SMODS.Stickers["crv_temp"]:apply(card2,true)
+                card2:add_sticker("crv_temp", true)
 				G.jokers:emplace(card2)
 			end
 		end,

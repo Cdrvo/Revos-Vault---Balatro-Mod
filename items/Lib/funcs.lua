@@ -70,7 +70,7 @@ function joker_add(jKey)
 		j:add_to_deck()
 		G.jokers:emplace(j)
 		-- (Credit to @AstroLighz for the deck codes) --My dumbass couldn't figure this out back then ;-;
-		SMODS.Stickers["eternal"]:apply(j, true)
+		j:add_sticker("eternal", true)
 	end
 end
 
@@ -1220,7 +1220,7 @@ function RevosVault.all_stickers(card)
 		delay = 1,
 		func = function()
 			for k, v in pairs(SMODS.Stickers) do
-				SMODS.Stickers[k]:apply(card,true)
+				card:add_sticker(k, true)
 			end
 		end
 	}))
@@ -1627,3 +1627,8 @@ end
         end)
       }))
   end
+
+function RevosVault.c_message(card, message, type)
+	if not type then type = "extra" end
+	card_eval_status_text(card, type, nil, nil, nil, { message = message })
+end
