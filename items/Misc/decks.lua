@@ -1,4 +1,42 @@
 SMODS.Back {
+    key = 'pdeck',
+    atlas = 'Decks',
+    pos = {
+        x = 0,
+        y = 0
+    },
+
+    apply = function()
+        if next(SMODS.find_mod("partner")) and Partner_API.config and Partner_API.config.enable_partner then
+            RevosVault.partner_fix = true
+        else
+            G.FUNCS.get_printer_box()
+        end
+    end
+}
+
+SMODS.Back {
+    key = 'thedeal',
+    atlas = 'Decks',
+    pos = {
+        x = 1,
+        y = 0
+    },
+    apply = function()
+
+        G.E_MANAGER:add_event(Event({
+
+            func = function()
+
+                joker_add('j_crv_brj')
+
+                return true
+            end
+        }))
+    end
+}
+
+--[[SMODS.Back {
     name = 'Machinery',
     key = 'mach',
     atlas = 'Decks',
@@ -540,24 +578,4 @@ SMODS.Back {
         }))
     end
 }
-
-SMODS.Back {
-    key = 'thedeal',
-    atlas = 'Decks',
-    pos = {
-        x = 1,
-        y = 4
-    },
-    apply = function()
-
-        G.E_MANAGER:add_event(Event({
-
-            func = function()
-
-                joker_add('j_crv_brj')
-
-                return true
-            end
-        }))
-    end
-}
+]]

@@ -855,6 +855,7 @@ SMODS.Joker({
 	key = "head",
 	atlas = "megaprinter",
 	rarity = "crv_p",
+	no_printer_list = true,
 	cost = 10,
 	unlocked = true,
 	discovered = false,
@@ -898,6 +899,7 @@ SMODS.Joker({
 	unlocked = true,
 	discovered = false,
 	blueprint_compat = true,
+	no_printer_list = true,
 	pos = {
 		x = 1,
 		y = 0,
@@ -963,6 +965,7 @@ SMODS.Joker({
 	unlocked = true,
 	discovered = false,
 	blueprint_compat = true,
+	no_printer_list = true,
 	pos = {
 		x = 2,
 		y = 0,
@@ -1003,6 +1006,7 @@ SMODS.Joker({
 	discovered = false,
 	blueprint_compat = true,
 	no_collection = true,
+	yes_printer_list = true,
 	display_size = {
 		w = 172,
 		h = 95,
@@ -1830,13 +1834,13 @@ SMODS.Joker({
 	calculate = function(self, card, context)
 		if context.setting_blind then
 			if pseudorandom("legendaryprinter") < G.GAME.probabilities.normal / card.ability.extra.odds then
-				SMODS.add_card({
+				local c = SMODS.add_card({
 					set = "Joker",
 					area = G.jokers,
 					legendary = true,
 					edition = "e_negative",
-					stickers = { "perishable" },
 				})
+				c:add_sticker("perishable", true)
 			end
 		end
 	end,

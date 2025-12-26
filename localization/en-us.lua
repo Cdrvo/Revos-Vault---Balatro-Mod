@@ -2,6 +2,18 @@ return {
 	descriptions = {
 
 		Back = {
+
+			b_crv_pdeck = {
+				name = "Printer Deck",
+				text = { "Start with an {C:dark_edition}Eternal{}","{C:red}Printer{} of your choice" },
+			},
+			b_crv_thedeal = {
+				name = "The Deal",
+				text = { "Start with an", "Eternal{C:attention,T:j_crv_brj} Dealer{}." },
+			},
+
+
+			-- Unused
 			b_crv_mach = {
 				name = "Machinery",
 				text = { "Start with an", "Eternal {C:attention,T:j_crv_printer}Blueprinter{}" },
@@ -108,10 +120,6 @@ return {
 			b_crv_und = {
 				name = "Unregistered Deck",
 				text = { "Start with an", "Eternal{C:attention,T:j_crv_urp} Unregistered Printer{}." },
-			},
-			b_crv_thedeal = {
-				name = "The Deal",
-				text = { "Start with an", "Eternal{C:attention,T:j_crv_brj} Dealer{}." },
 			},
 		},
 		Blind = {

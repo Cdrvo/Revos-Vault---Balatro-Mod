@@ -75,8 +75,15 @@ SMODS.Atlas({
 })
 
 SMODS.Atlas({
-	key = "Decks2",
-	path = "Decks2.png",
+	key = "Decks_legacy",
+	path = "Unused/Decks_legacy.png",
+	px = 71,
+	py = 95,
+})
+
+SMODS.Atlas({
+	key = "Decks2_legacy",
+	path = "Unused/Decks2_legacy.png",
 	px = 71,
 	py = 95,
 })
@@ -365,7 +372,7 @@ SMODS.Atlas({
 
 SMODS.Atlas({
 	key = "corrupt",
-	path = "corrupt.png",
+	path = "Unused/corrupt.png",
 	px = 71,
 	py = 95,
 })

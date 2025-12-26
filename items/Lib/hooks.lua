@@ -292,6 +292,29 @@ function Card:click()
 		self.ability.extra["clicks"] = self.ability.extra["clicks"] + 1
 		self.ability.extra["chips"] = self.ability.extra["chips"] + self.ability.extra["chipgain"]
 	end
+
+	if RevosVault.printer_deck_selection then
+		RevosVault.printer_deck_selection = false
+
+
+		G.FUNCS:exit_overlay_menu()
+		
+		local e = SMODS.add_card{
+			key = self.config.center.key,
+			area = G.jokers
+		}
+		e:add_sticker("eternal", true)
+
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			func = function()
+				save_run()
+				return true
+			end
+		}))
+
+
+	end
 	return ret
 end
 
@@ -308,5 +331,32 @@ function Game:update(dt)
 				end
 			end
 		end
+	end
+end
+
+local old_exit_menu = G.FUNCS.exit_overlay_menu
+G.FUNCS.exit_overlay_menu = function()
+	RevosVault.printer_deck_selection = false
+	old_exit_menu()
+end
+
+-- Partner Mod and Printer Deck compat
+
+
+local skip_partner_old = G.FUNCS.skip_partner
+G.FUNCS.skip_partner = function()
+	skip_partner_old()
+	if RevosVault.partner_fix then
+		G.FUNCS.get_printer_box()
+		RevosVault.partner_fix = false
+	end
+end
+
+local select_partner_old = G.FUNCS.select_partner
+G.FUNCS.select_partner = function()
+	select_partner_old()
+	if RevosVault.partner_fix then
+		G.FUNCS.get_printer_box()
+		RevosVault.partner_fix = false
 	end
 end
