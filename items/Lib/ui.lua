@@ -68,6 +68,8 @@ SMODS.current_mod.custom_ui = function(modNodes)
 	}
 end
 
+
+-- Printer Deck
 function RevosVault.printer_box()
   local deck_tables = {}
 
@@ -78,6 +80,8 @@ function RevosVault.printer_box()
 		printers[#printers+1] = v
 	end
   end
+
+  printers[#printers+1] = G.P_CENTERS["j_crv_legendaryprinter"]
 
   G.your_collection = {}
   for j = 1, 3 do
@@ -135,6 +139,8 @@ G.FUNCS.your_collecion_printer_list = function(args)
 		printers[#printers+1] = v
 	end
   end
+
+  printers[#printers+1] = G.P_CENTERS["j_crv_legendaryprinter"]
 
   if not args or not args.cycle_config then return end
   for j = 1, #G.your_collection do
