@@ -142,7 +142,7 @@ SMODS.Joker({
 				end
 			end
 			if G.jokers.cards[rr + 1] ~= nil then
-				SMODS.Stickers["perishable"]:apply(G.jokers.cards[rr + 1], true)
+				G.jokers.cards[rr + 1]:add_sticker("perishable", true)
 			end
 		end
 		if context.joker_main then
