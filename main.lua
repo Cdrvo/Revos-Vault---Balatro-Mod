@@ -384,7 +384,7 @@ end
 
 for k, file in pairs(RevosVault.Misc) do
 	if RevoConfig[file .. "_enabled"] ~= nil then
-		if RevoConfig[file .. "_enabled"] ~= false then -- what the fuck
+		if RevoConfig[file .. "_enabled"] ~= false then 
 			SMODS.load_file("items/Misc/" .. file .. ".lua")()
 		end
 	else

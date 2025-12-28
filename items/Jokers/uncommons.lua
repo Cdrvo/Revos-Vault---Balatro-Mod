@@ -3590,7 +3590,6 @@ SMODS.Joker({
 
 		--Joker Main events
 		if context.joker_main then
-			print(context.scoring_name)
 			if crv.one == "Active" and crv.two == "Inactive" then
 				return {
 					xmult = crv.xmult,
@@ -3620,7 +3619,6 @@ SMODS.Joker({
 				end
 			end
 			if crv.questb == quests.level_three[1] then
-				print("q checj")
 				if context.scoring_name == ("Four of a Kind") then
 					crv.three = "Active"
 					crv.quest = crv.quest + 1

@@ -1,3 +1,5 @@
+if RevoConfig["experimental_enabled"] then
+
 SMODS.Joker({
 	key = "tetorinter",
 	atlas = "wip",
@@ -77,3 +79,5 @@ SMODS.Joker({
 		end
 	end,
 })
+
+end
