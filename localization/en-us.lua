@@ -198,6 +198,20 @@ return {
 			},
 		},
 		Sleeve = {
+			sleeve_crv_psleeve = {
+				name = "Printer Sleeve",
+				text = { "Start with an {C:dark_edition}Eternal{}","{C:red}Printer{} of your choice" },
+			},
+			sleeve_crv_psleeve_alt = {
+				name = "Printer Sleeve",
+				text = {
+					"Choose an extra printer"
+				}
+			},
+
+
+
+			-- Old
 			sleeve_crv_machinerys = {
 				name = "Machinery Sleeve",
 				text = { "Start with an", "Eternal {C:attention,T:j_crv_printer}Blueprinter{}" },

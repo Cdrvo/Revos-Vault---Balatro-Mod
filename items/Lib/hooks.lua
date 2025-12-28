@@ -294,26 +294,30 @@ function Card:click()
 	end
 
 	if RevosVault.printer_deck_selection then
+	if not self.debbuff then
 		RevosVault.printer_deck_selection = false
 
-
-		G.FUNCS:exit_overlay_menu()
-		
-		local e = SMODS.add_card{
-			key = self.config.center.key,
-			area = G.jokers
-		}
-		e:add_sticker("eternal", true)
-
-		G.E_MANAGER:add_event(Event({
-			trigger = "after",
-			func = function()
-				save_run()
-				return true
+			if RevosVault.sleeve_applied  and G.GAME and G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_crv_psleeve" then
+				RevosVault.sleeve_applied = false
+				G.FUNCS:get_printer_box()
+			else
+				G.FUNCS:exit_overlay_menu()
 			end
-		}))
 
+			local e = SMODS.add_card({
+				key = self.config.center.key,
+				area = G.jokers,
+			})
+			e:add_sticker("eternal", true)
 
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				func = function()
+					save_run()
+					return true
+				end,
+			}))
+		end
 	end
 	return ret
 end

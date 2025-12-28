@@ -1,5 +1,32 @@
-
 CardSleeves.Sleeve {
+    key = "psleeve",
+    atlas = "sleeves",
+    unlocked = false,
+    config = {},
+    unlock_condition = {deck = "b_crv_pdeck", stake = "stake_gold"},
+    pos = { x = 0, y = 0 },
+    loc_vars = function(self)
+        local dkey 
+        if not dkey then dkey = self.key end
+        local key
+        if self.get_current_deck_key() == "b_crv_pdeck" then
+            RevosVault.sleeve_applied = true
+            key = self.key .. "_alt"
+        else
+            RevosVault.sleeve_applied = false
+            key = dkey
+        end
+        return { key = key }
+    end,
+    apply = function(self)
+        CardSleeves.Sleeve.apply(self)
+        if not RevosVault.sleeve_applied then
+            G.FUNCS:get_printer_box()  
+        end
+    end
+}
+
+--[[CardSleeves.Sleeve {
     key = "machinerys",
     atlas = "sleeves",
     unlocked = false,
@@ -371,4 +398,4 @@ CardSleeves.Sleeve {
             end
         }))
     end
-}
+}]]
