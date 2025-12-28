@@ -3454,12 +3454,12 @@ local quests = {
 	level_three = {
 		"Play a Four of a Kind",
 		"Get 20 Rerolls in one shop",
-		"Have over $100 while entering shop",
+		"Have over $60 while entering shop",
 	},
 	level_four = {
 		"Play a Five of a Kind",
 		"Win a blind without playing your most played hand",
-		"Have over $120 while entering shop",
+		"Have over $100 while entering shop",
 	},
 }
 
@@ -3531,11 +3531,11 @@ SMODS.Joker({
 
 		--Starting shop events
 		if context.starting_shop then
-			if crv.questb == quests.level_three[3] and to_big(G.GAME.dollars) >= to_big(100) then
+			if crv.questb == quests.level_three[3] and to_big(G.GAME.dollars) >= to_big(60) then
 				crv.three = "Active"
 				crv.quest = crv.quest + 1
 				SMODS.calculate_context({ change_quest = true, card = card, quest_set = "3" })
-			elseif crv.questb == quests.level_four[3] and to_big(G.GAME.dollars) >= to_big(120) then
+			elseif crv.questb == quests.level_four[3] and to_big(G.GAME.dollars) >= to_big(100) then
 				crv.four = "Active"
 				crv.quest = crv.quest + 1
 				SMODS.calculate_context({ change_quest = true, card = card, quest_set = "4" })
@@ -3590,6 +3590,7 @@ SMODS.Joker({
 
 		--Joker Main events
 		if context.joker_main then
+			print(context.scoring_name)
 			if crv.one == "Active" and crv.two == "Inactive" then
 				return {
 					xmult = crv.xmult,
@@ -3600,31 +3601,40 @@ SMODS.Joker({
 					xchips = crv.xchips,
 				}
 			end
+		end
+
+		-- Hand Quests
+		if context.before and not context.blueprint then
 			if crv.questb == quests.level_one[1] then
 				if context.scoring_name == "Flush" then
 					crv.one = "Active"
 					crv.quest = crv.quest + 1
 					SMODS.calculate_context({ change_quest = true, card = card, quest_set = "1" })
 				end
-			elseif crv.questb == quests.level_one[3] then
+			end
+			if crv.questb == quests.level_one[3] then
 				if context.scoring_name == "High Card" then
 					crv.one = "Active"
 					crv.quest = crv.quest + 1
 					SMODS.calculate_context({ change_quest = true, card = card, quest_set = "1" })
 				end
-			elseif crv.questb == quests.level_three[1] then
-				if context.scoring_name == "Four of a Kind" then
+			end
+			if crv.questb == quests.level_three[1] then
+				print("q checj")
+				if context.scoring_name == ("Four of a Kind") then
 					crv.three = "Active"
 					crv.quest = crv.quest + 1
 					SMODS.calculate_context({ change_quest = true, card = card, quest_set = "3" })
 				end
-			elseif crv.questb == quests.level_four[1] then
+			end
+			if crv.questb == quests.level_four[1] then
 				if context.scoring_name == "Five of a Kind" then
 					crv.four = "Active"
 					crv.quest = crv.quest + 1
 					SMODS.calculate_context({ change_quest = true, card = card, quest_set = "4" })
 				end
-			elseif crv.questb == quests.level_four[2] then
+			end
+			if crv.questb == quests.level_four[2] then
 				if context.scoring_name ~= RevosVault.most_played() then
 					crv.four = "Active"
 					crv.quest = crv.quest + 1

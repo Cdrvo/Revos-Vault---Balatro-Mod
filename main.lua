@@ -373,6 +373,7 @@ RevosVault.CrossMod = {
 	"stacked",
 	"high_roller",
 	"JoyousSpring",
+	"Incognito"
 }
 
 
@@ -383,7 +384,7 @@ end
 
 for k, file in pairs(RevosVault.Misc) do
 	if RevoConfig[file .. "_enabled"] ~= nil then
-		if RevoConfig[file .. "_enabled"] ~= false then
+		if RevoConfig[file .. "_enabled"] ~= false then -- what the fuck
 			SMODS.load_file("items/Misc/" .. file .. ".lua")()
 		end
 	else
