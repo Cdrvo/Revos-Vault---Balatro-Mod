@@ -4,8 +4,8 @@ if RevoConfig["experimental_enabled"] then
 STAR_UTIL.Patch {
   key = "blessed",
   badge_colour = HEX("4F5DA1"),
-  atlas = "card_mods",
-  pos = { x = 2, y = 2 },
+  atlas = "starspace",
+  pos = { x = 0, y = 0 },
   patch_sticker = "crv_vamp",
   config = { extra = {
   } },

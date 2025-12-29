@@ -34,7 +34,7 @@ if G.GAME.used_vouchers["v_crv_printerup"] == true and pseudorandom("ALLPRINTER"
 	end,
 })
 
---[[SMODS.Enhancement({
+SMODS.Enhancement({
 	key = "syrup",
 	atlas = "grabbag",
 	pos = { x = 0, y = 0 },
@@ -76,6 +76,8 @@ if G.GAME.used_vouchers["v_crv_printerup"] == true and pseudorandom("ALLPRINTER"
         end
     end
 })
+
+--[[
 
 SMODS.Consumable({
 	key = "honeycontract",

@@ -3509,6 +3509,17 @@ return {
 					"debuffed"
 				}
 			},
+
+			-- Starspace Cross-Mod
+
+			crv_blessed_patch = {
+				name = "Blessed",
+				text = {
+				"{C:green}Protect{} this",
+				"card from {C:red}destruction{}",
+				"once"
+				}
+			},
 		},
 		Tag = {
 			tag_crv_pst = {
