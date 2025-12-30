@@ -421,7 +421,7 @@ SMODS.Atlas({
 
 SMODS.Atlas({
 	key = "starspace",
-	path = "starspace.png",
+	path = "Cross-Mod/starspace.png",
 	px = 71,
 	py = 95,
 })
