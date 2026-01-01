@@ -21,7 +21,11 @@ CardSleeves.Sleeve {
     apply = function(self)
         CardSleeves.Sleeve.apply(self)
         if not RevosVault.sleeve_applied then
-            G.FUNCS:get_printer_box()  
+            if next(SMODS.find_mod("partner")) and Partner_API.config and Partner_API.config.enable_partner then
+                RevosVault.partner_fix = true
+            else
+                G.FUNCS.get_printer_box()
+            end
         end
     end
 }

@@ -1,8 +1,7 @@
 if RevoConfig["experimental_enabled"] then
-
-
+  
 STAR_UTIL.Patch {
-  key = "blessed",
+  key = "blessed_patch",
   badge_colour = HEX("4F5DA1"),
   atlas = "starspace",
   pos = { x = 0, y = 0 },
@@ -16,10 +15,8 @@ STAR_UTIL.Patch {
   end,
 
   calculate = function(self, card, context)
-    if context.crv_joker_destroyed and context.crv_destroyed == card then
-        local _card = copy_card(card)
-        _card:add_to_deck()
-        G.jokers:emplace(_card)
+    if context.crv_joker_destroyed and context.crv_destroyedj == card then
+        RevosVault.revive(card, context.crv_destroy_area, "crv_blessed_patch")
     end
   end
 }

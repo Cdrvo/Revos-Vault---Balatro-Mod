@@ -3796,7 +3796,11 @@ return {
 			crv_enable_gems = "Enable Gems",
 			vars_not_active_yet = "Not Active Yet",
 			vars_not_set_yet = "Not Set Yet",
+			crv_revive = "Revived!",
 
+
+
+			-- Boon stuff (unused)
 			crv_Common = "Common",
 			crv_Rare = "Rare",
 			crv_Epic = "Epic",

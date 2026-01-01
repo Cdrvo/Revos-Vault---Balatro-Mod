@@ -1632,3 +1632,13 @@ function RevosVault.c_message(card, message, type)
 	if not type then type = "extra" end
 	card_eval_status_text(card, type, nil, nil, nil, { message = message })
 end
+
+function RevosVault.revive(card, area, from_sticker)
+	local acard = copy_card(card)
+	acard:add_to_deck()
+	area:emplace(acard)
+	SMODS.calculate_effect({ message = localize("crv_revive") }, acard)
+	if from_sticker then
+		acard:remove_sticker(from_sticker)
+	end
+end

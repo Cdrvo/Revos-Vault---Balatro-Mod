@@ -7,6 +7,7 @@ function Card:remove()
 			SMODS.calculate_context({
 				crv_joker_destroyed = true,
 				crv_destroyedj = self,
+				crv_destroy_area = self.area
 			})
 		end
 	end
