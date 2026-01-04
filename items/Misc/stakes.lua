@@ -1,17 +1,19 @@
 -- will turn these into one stake if i decide to add more stickers
 
+-- decided to do it anyways
+
 SMODS.Stake {
-    key = "water",
+    key = "revosstake",
     atlas = "stakes",
     pos = {
         x = 0,
-        y = 2
+        y = 0
     },
     colour = HEX("55c6d9"),
-    sticker_atlas = "enh",
+    sticker_atlas = "stake_stickers",
     sticker_pos = {
-        x = 7,
-        y = 1
+        x = 0,
+        y = 0
     },
     applied_stakes = {"gold"},
     shiny = true,
@@ -21,18 +23,12 @@ SMODS.Stake {
             mod = false
         }
     },
-    loc_txt = {
-        name = "Wet Stake",
-        text = {"{C:attentionAll{} Jokers can have {C:blue}Wet{} Sticker",
-                "{C:inactive,s:0.6}(card cannot be debuffed, 1/4 to remove self)"},
-        sticker = {
-            name = "Wet Sticker",
-            text = {"Used this Joker", "to win on {C:attention}Wet", "{C:attention}Stake{} difficulty"}
-
-        }
-    },
     modifiers = function()
-        G.GAME.modifiers.enable_crv_wet = true
+        for k, v in pairs(SMODS.Stickers) do
+            if not v.crv_blacklist and string.find(v.key, "crv") then
+                G.GAME.modifiers["enable_" .. k] = true
+            end 
+        end
     end,
         inject = function(self)
         if not self.injected then
@@ -71,7 +67,7 @@ SMODS.Stake {
     end
 }
 
-SMODS.Stake {
+--[[SMODS.Stake {
     key = "weighted",
     atlas = "stakes",
     pos = {
@@ -431,3 +427,4 @@ SMODS.Stake {
 }
 
 
+]]

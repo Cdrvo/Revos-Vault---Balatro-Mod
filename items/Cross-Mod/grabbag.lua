@@ -37,6 +37,7 @@ if G.GAME.used_vouchers["v_crv_printerup"] == true and pseudorandom("ALLPRINTER"
 SMODS.Enhancement({
 	key = "syrup",
 	atlas = "grabbag",
+	from = "m_gb_honey",
 	pos = { x = 0, y = 0 },
 	shatters = true,
 	config = {

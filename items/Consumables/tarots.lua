@@ -149,3 +149,61 @@ SMODS.Consumable({
 		end
 	end,
 })
+
+SMODS.Consumable({
+	key = "mastery",
+	set = "Tarot",
+	discovered = true,
+	atlas = "tarots",
+	pos = { x = 1, y = 1 },
+	config = {
+		extra = {
+			cards = 2,
+		},
+	},
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.extra.cards } }
+	end,
+	can_use = function(self, card)
+		if G and G.hand then
+			if
+				#G.hand.highlighted ~= 0
+				and #G.hand.highlighted <= card.ability.extra.cards
+			then
+				for i = 1, #G.hand.highlighted do
+					if RevosVault.upgrade_enhancement(G.hand.highlighted[i], true) then
+						return true
+					end
+				end
+			end
+		end
+		return false
+	end,
+	use = function(self, card, area, copier)
+		for i, card in pairs(G.hand.highlighted) do
+		if RevosVault.upgrade_enhancement(card, true) then
+			G.E_MANAGER:add_event(Event({
+				trigger = "before",
+				delay = 0.2,
+				func = function()
+					card:flip()
+					card:juice_up()
+					return true
+				end,
+			}))
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.5,
+				func = function()
+					card:set_ability(RevosVault.upgrade_enhancement(card))
+					G.hand:unhighlight_all()
+					card:flip()
+					return true
+				end,
+			}))
+		end
+		end
+		G.hand:unhighlight_all()
+	end,
+})
+

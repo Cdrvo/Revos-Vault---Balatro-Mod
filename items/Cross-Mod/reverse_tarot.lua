@@ -131,6 +131,7 @@ SMODS.Joker({
 
 SMODS.Enhancement({
 	key = "quartz",
+	from = "m_reverse_crystal",
 	atlas = "rtarot",
 	dependencies = "reverse_tarot",
 	pos = { x = 0, y = 2 },
@@ -256,6 +257,7 @@ SMODS.Joker({
 
 SMODS.Enhancement({
 	key = "coatedcopper",
+	from = "m_reverse_copper",
 	atlas = "rtarot",
 	pos = { x = 0, y = 3 },
 	shatters = true,

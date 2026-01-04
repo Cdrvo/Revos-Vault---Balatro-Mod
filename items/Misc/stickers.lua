@@ -31,6 +31,7 @@ SMODS.Sticker({
 	key = "haunted",
 	badge_colour = HEX("232323"),
 	atlas = "enh",
+	crv_blacklist = true,
 	pos = {
 		x = 3,
 		y = 2,

@@ -1,5 +1,6 @@
 SMODS.Enhancement({
 	key = "ignited",
+	from = "m_para_ashen",
 	atlas = "paradox",
 	pos = { x = 2, y = 0 },
 	shatters = true,

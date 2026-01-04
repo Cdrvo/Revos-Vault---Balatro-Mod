@@ -32,6 +32,7 @@ SMODS.Joker({
 
 SMODS.Enhancement({
 	key = "brightest",
+	from = "m_entr_prismatic",
 	atlas = "entropy",
 	pos = { x = 0, y = 2 },
 	shatters = true,
@@ -150,6 +151,7 @@ SMODS.Joker({
 
 SMODS.Enhancement({
 	key = "darkest",
+	from = "m_entr_dark",
 	atlas = "entropy",
 	pos = { x = 1, y = 2 },
 	shatters = true,

@@ -1010,8 +1010,11 @@ return {
 			j_crv_checkpoint = {
 				name = "Checkpoint",
 				text = {
-					"When sold, gives back {C:attention}All {C:blue}Hands",
-					"and {C:red}Discards{} used but {C:attention}Halves {}your total score",
+					"When sold, gives back",
+					"{C:attention}All {C:blue}Hands",
+					"and {C:red}Discards{} used",
+					"but {C:attention}Halves {}your",
+					"total score",
 				},
 			},
 			j_crv_goldenshark = {
@@ -2440,11 +2443,11 @@ return {
 				text = { "When {C:attention}Blind{} is selected,", "creates a {C:attention}Jester{}" },
 			},
 			j_crv_loteriaprinter = {
-				name = "Confection Printer",
+				name = "Loteria Printer",
 				text = { "When {C:attention}Blind{} is selected,", "creates a {C:attention}Loteria{} Card" },
 			},
 			j_crv_zodiacprinterortalab = {
-				name = "Confection Printer",
+				name = "Zodiac Printer",
 				text = { "When {C:attention}Blind{} is selected,", "creates a {C:attention}Zodiac{} Card" },
 			},
 			-- Paya's Terrible Additions here
@@ -2652,6 +2655,14 @@ return {
 				text = {
 					"Removes any {C:dark_edition}Edition",
 					"from any card or joker",
+				},
+			},
+			c_crv_mastery = {
+				name = "The Mastery",
+				text = {
+					"Upgrades the {C:attention}Enhancement",
+					"of #1# cards",
+					"if eligible"
 				},
 			},
 		},
@@ -3336,6 +3347,10 @@ return {
 			},
 		},
 		Other = {
+			crv_revosstake_sticker = {
+				name = "Revo's Sticker",
+				text = {"Used this Joker", "to win on {C:attention}Revo's", "{C:attention}Stake{} difficulty"}
+			},
 			crv_ps_seal = {
 				name = "Printer's Seal",
 				text = {
@@ -3585,6 +3600,15 @@ return {
 					"adjacent cards"
 				},
 			},
+		},
+		Stake = {
+			stake_crv_revosstake = {
+				name = "Revo's Stake",
+				text = {
+					"Enables almost all stickers",
+					"added by {C:attention}Revo's Vault{}",
+				},
+			}
 		},
 		Voucher = {
 			v_crv_printerup = {

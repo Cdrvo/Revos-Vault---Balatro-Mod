@@ -1266,15 +1266,15 @@ function RevosVault.move(card, by)
 end
 
 function RevosVault.sticker_thingy(card)
-	local eligable = {}
+	local eligible = {}
 	if card and card.ability then
 		for k, v in pairs(SMODS.Stickers) do
 			if string.find(k, "crv") then
-				eligable[#eligable+1] = k
+				eligible[#eligible+1] = k
 			end
 		end
 
-		for k, v in pairs(eligable) do
+		for k, v in pairs(eligible) do
 			if not card.ability[v] then
 				break 
 			else
@@ -1327,7 +1327,7 @@ function RevosVault.random_voucher(mod) --i love overcomplicating stuff
 		if pseudorandom_element({ "Mod", "Vanilla" }) == "Mod" then
 			mode = "Mod"
 			reset_other_types()
-			get_eligable_mods()
+			get_eligible_mods()
 			if #RevosVault.mod_categories.with_voucher > 0 then
 				mod = pseudorandom_element(RevosVault.mod_categories.with_voucher, pseudoseed("rv_random_voucher"))
 			else
@@ -1343,7 +1343,7 @@ function RevosVault.random_voucher(mod) --i love overcomplicating stuff
 
 	local vouchers = {}
 	if mode == "Mod" then
-		vouchers = RevosVault.get_eligable_vouchers(mod)
+		vouchers = RevosVault.get_eligible_vouchers(mod)
 	else
 		vouchers = RevosVault.vanilla_cards({type = "Voucher"})
 	end
@@ -1368,7 +1368,7 @@ function RevosVault.random_voucher(mod) --i love overcomplicating stuff
 	end
 end
 
-function RevosVault.get_eligable_vouchers(mod)
+function RevosVault.get_eligible_vouchers(mod)
 	local vv = get_current_pool('Voucher')
         local tab = {}
         for k, v in pairs(vv) do
@@ -1474,7 +1474,7 @@ end
 
 	
 
-function get_eligable_mods()
+function get_eligible_mods()
     local tab = {}
     for k, v in pairs(SMODS.Mods) do
         if v.can_load then
@@ -1486,7 +1486,7 @@ function get_eligable_mods()
 	return tab
 end
 
-function get_eligable_cards(mod, type)
+function get_eligible_cards(mod, type)
 	G.GAME.unvaulted_jokers = {}
 	G.GAME.unvaulted_cons = {}
 	G.GAME.unvaulted_vouchers = {}
@@ -1515,7 +1515,7 @@ function get_eligable_cards(mod, type)
 	elseif type == "Consumable" then
 		return pseudorandom_element(G.GAME.unvaulted_cons, pseudoseed("crv_kys"))
 	else
-		return pseudorandom_element(RevosVault.get_eligable_vouchers(), pseudoseed("crv_kys")) -- unused
+		return pseudorandom_element(RevosVault.get_eligible_vouchers(), pseudoseed("crv_kys")) -- unused
 	end
 end
 
@@ -1531,7 +1531,7 @@ if G.GAME then
 	RevosVault.other_mod_display = "Revo's Vault"
 	
 
-	get_eligable_mods()
+	get_eligible_mods()
 	
 	local categs = {}
 	if #RevosVault.mod_categories.with_joker > 0 then
@@ -1561,7 +1561,7 @@ if G.GAME then
 		end
 	end
 
-	RevosVault.other_card = get_eligable_cards(RevosVault.other_mod, RevosVault.other_type)
+	RevosVault.other_card = get_eligible_cards(RevosVault.other_mod, RevosVault.other_type)
 end
 end
 
@@ -1640,5 +1640,36 @@ function RevosVault.revive(card, area, from_sticker)
 	SMODS.calculate_effect({ message = localize("crv_revive") }, acard)
 	if from_sticker then
 		acard:remove_sticker(from_sticker)
+	end
+end
+
+function RevosVault.upgrade_enhancement(card, ret)
+	local enh
+	local check
+	if card and card.ability and card.ability.name and card.ability.name ~= "Default Base" and card.ability.name ~= "Wild Card" and card.ability.name ~= "Stone Card" and card.ability.name ~= "Gold Card" then
+		if card.ability.name == "Bonus" then enh = "m_bonus"
+		elseif card.ability.name == "Mult" then enh = "m_mult"
+		elseif card.ability.name == "Glass Card" then enh = "m_glass"
+		elseif card.ability.name == "Steel Card" then enh = "m_steel"
+		elseif card.ability.name == "Lucky Card" then enh = "m_lucky"
+		else enh = card.ability.name
+		end
+	end
+	if enh then
+		for k, v in pairs(G.P_CENTER_POOLS.Enhanced) do
+			if v.from == enh then
+				check = v
+				break
+			end
+		end
+	end
+	if not ret then
+		return check
+	else
+		if check then
+			return true
+		else
+			return false
+		end
 	end
 end

@@ -1,5 +1,6 @@
 SMODS.Enhancement({
 	key = "bulletproofglass",
+	from = "m_glass",
 	atlas = "enh",
 	pos = { x = 0, y = 0 },
 	discovered = true,
@@ -36,10 +37,14 @@ SMODS.Enhancement({
 			}))
 		end
 	end,
+	in_pool = function(self)
+		return false
+	end,
 })
 
 SMODS.Enhancement({
 	key = "diamondcard",
+	from = "m_steel",
 	atlas = "enh",
 	pos = { x = 2, y = 0 },
 	discovered = true,
@@ -61,6 +66,9 @@ SMODS.Enhancement({
 				x_mult = card.ability.extra.x_mult,
 			}
 		end
+	end,
+	in_pool = function(self)
+		return false
 	end,
 })
 
@@ -106,6 +114,9 @@ SMODS.Enhancement({
 			}
 		end
 	end,
+	in_pool = function(self)
+		return false
+	end,
 })
 
 SMODS.Enhancement({
@@ -131,6 +142,9 @@ SMODS.Enhancement({
 				x_mult = card.ability.extra.xmult,
 			}
 		end
+	end,
+	in_pool = function(self)
+		return false
 	end,
 })
 
@@ -158,10 +172,14 @@ SMODS.Enhancement({
 			}
 		end
 	end,
+	in_pool = function(self)
+		return false
+	end,
 })
 
 SMODS.Enhancement({
 	key = "tier1card",
+	from = "m_bonus",
 	atlas = "t",
 	pos = { x = 0, y = 0 },
 	discovered = true,
@@ -184,10 +202,14 @@ SMODS.Enhancement({
 			}
 		end
 	end,
+	in_pool = function(self)
+		return false
+	end,
 })
 
 SMODS.Enhancement({
 	key = "tier2card",
+	from = "m_crv_tier1card",
 	atlas = "t",
 	pos = { x = 1, y = 0 },
 	discovered = true,
@@ -211,10 +233,14 @@ SMODS.Enhancement({
 			}
 		end
 	end,
+	in_pool = function(self)
+		return false
+	end,
 })
 
 SMODS.Enhancement({
 	key = "tier3card",
+	from = "m_crv_tier2card",
 	atlas = "t",
 	pos = { x = 2, y = 0 },
 	discovered = true,
@@ -238,9 +264,13 @@ SMODS.Enhancement({
 			}
 		end
 	end,
+	in_pool = function(self)
+		return false
+	end,
 })
 
 SMODS.Enhancement({
+	from = "m_crv_tier3card",
 	key = "boostcard",
 	atlas = "t",
 	pos = { x = 3, y = 0 },
@@ -283,6 +313,7 @@ SMODS.Enhancement({
 
 SMODS.Enhancement({
 	key = "blessedcard",
+	from = "m_lucky",
 	atlas = "enh",
 	pos = { x = 0, y = 1 },
 	discovered = true,
@@ -344,6 +375,9 @@ SMODS.Enhancement({
 			effect.dollars = card.ability.extra.money
 		end
 		return effect
+	end,
+	in_pool = function(self)
+		return false
 	end,
 })
 
@@ -423,10 +457,14 @@ SMODS.Enhancement({
 			}
 		end
 	end,
+	in_pool = function(self)
+		return false
+	end,
 })
 
 SMODS.Enhancement({
 	key = "xmultcard",
+	from = "m_mult",
 	atlas = "enh",
 	pos = { x = 3, y = 3 },
 	discovered = true,
@@ -446,6 +484,9 @@ SMODS.Enhancement({
 				x_mult = card.ability.extra.x_mult,
 			}
 		end
+	end,
+	in_pool = function(self)
+		return false
 	end,
 })
 
@@ -470,5 +511,8 @@ SMODS.Enhancement({
 				xchips = card.base.id * card.ability.extra.xchips / 3,
 			}
 		end
+	end,
+	in_pool = function(self)
+		return false
 	end,
 })

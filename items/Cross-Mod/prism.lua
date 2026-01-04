@@ -101,6 +101,7 @@ end
 
 SMODS.Enhancement({
 	key = "saphire",
+	from = "m_prism_crystal",
 	atlas = "prismc",
 	pos = { x = 0, y = 1 },
 	discovered = false,
