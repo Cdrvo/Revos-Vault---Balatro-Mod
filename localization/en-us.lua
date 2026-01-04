@@ -2131,7 +2131,7 @@ return {
 				name = "Rainbow Octopus",
 				text = {
 					"Played {C:attention}#2#{} Cards",
-					"give {C:money}#1#{} when scored",
+					"give {C:money}$#1#{} when scored",
 					"{s:0.8}Suit changes after every round"
 				},
 			},

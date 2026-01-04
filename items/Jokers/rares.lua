@@ -2295,6 +2295,8 @@ SMODS.Joker({
 	},
 	loc_vars = function(self, info_queue, card)
 		local crv = card.ability.extra
+		info_queue[#info_queue + 1] =
+			{ key = "crv_absolute", set = "Other", vars = { (G.GAME.probabilities.normal or 1), 4 } }
 		return {
 			vars = { G.GAME.probabilities.normal, crv.odds, crv.xmultg, crv.xmult },
 		}

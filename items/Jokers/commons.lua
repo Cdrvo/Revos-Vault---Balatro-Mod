@@ -257,6 +257,7 @@ SMODS.Joker({
 		local crv = card.ability.extra
 		if context.buying_card and not context.blueprint and not context.blueprint then
 			crv.mult = crv.mult + crv.multg
+			RevosVault.c_message(card, localize("k_upgrade_ex"))
 		end
 		if context.joker_main then
 			return {
