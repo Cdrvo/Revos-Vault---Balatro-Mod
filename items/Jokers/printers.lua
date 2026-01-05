@@ -1507,7 +1507,14 @@ SMODS.Joker({
 
 	calculate = function(self, card, context)
 		if context.starting_shop and not context.blueprint then
-			RevosVault.create_booster(pseudorandom_element(G.P_CENTER_POOLS.Booster).key)
+			G.E_MANAGER:add_event(Event({
+				trigger = "before",
+				func = function()
+					RevosVault.create_booster(pseudorandom_element(G.P_CENTER_POOLS.Booster).key)
+					return true
+				end,
+			}))
+		
 		end
 	end,
 })

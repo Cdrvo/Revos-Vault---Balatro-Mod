@@ -3156,9 +3156,9 @@ return {
 			c_crv_supankh = {
 				name = "Superior Ankh",
 				text = {
-					"Applies {C:crv_polychrome}Polychrome{} to a",
+					"Create a {C:attention}Copy{} of a",
 					"selected joker.",
-					"{C:green}#2# in #3#{} Chance to {C:red}Desroy{}",
+					"{C:green}#2# in #3#{} Chance to {C:red}Destroy{}",
 					"all jokers",
 				},
 			},
@@ -3173,8 +3173,8 @@ return {
 				name = "Superior Hex",
 				text = {
 					"Applies {C:crv_polychrome}Polychrome{} to a",
-					"selected joker and randomly {C:red}Destroys{}",
-					"the joker to its right or left",
+					"selected joker and ","randomly {C:red}Destroys{}",
+					"the joker to ","its right or left",
 				},
 			},
 			c_crv_suptrance = {
@@ -3271,7 +3271,7 @@ return {
 					"{C:attention}#2#",
 					"{C:mult}+#3#{} Mult and",
 					"{C:chips}+#4#{} chips.",
-					"Played {C:attention}#2#{}s are {C:green}Boosted",
+					"Played {C:attention}#2#{}es are {C:green}Boosted",
 					"until the end of the round",
 				},
 			},
@@ -3304,7 +3304,7 @@ return {
 					"{C:attention}#2#",
 					"{C:mult}+#3#{} Mult and",
 					"{C:chips}+#4#{} chips.",
-					"Played {C:attention}#2#{}s are {C:green}Boosted",
+					"Played {C:attention}#2#{}es are {C:green}Boosted",
 					"until the end of the round",
 				},
 			},

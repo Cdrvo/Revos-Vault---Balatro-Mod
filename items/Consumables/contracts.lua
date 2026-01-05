@@ -49,10 +49,11 @@ SMODS.Consumable({
 			}
 		end
 		if
-			context.destroy_card
+			(context.destroy_card
 			and context.cardarea == G.play
 			and (pseudorandom("glassdocument") < G.GAME.probabilities.normal / G.GAME.glassodds
 				or SMODS.has_enhancement(context.destroy_card, "m_glass"))
+			and card.ability.extra.active)
 		then
 			return {
 				remove = true,

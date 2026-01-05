@@ -845,6 +845,12 @@ function RevosVault.check(check, area)
 		if #area.highlighted > 0 then
 			return #area.highlighted
 		end
+	elseif check == "space" then
+		if #area.cards >= area.config.card_limit then
+			return false
+		else
+			return true
+		end
 	end
 end
 

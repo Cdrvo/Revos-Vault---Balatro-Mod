@@ -1097,61 +1097,38 @@ SMODS.Consumable({
 		SuperiorTarot = true,
 	},
 	can_use = function(self, card)
-		return true
+		return RevosVault.check("space", G.jokers)
 	end,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { self.config.max_highlighted } }
 	end,
 	use = function(self, card, area, copier)
-		local one
-		local two
-		G.E_MANAGER:add_event(Event({
-			trigger = "before",
-			delay = 0.2,
-			blockable = false,
-			blocking = false,
-			func = function()
-				one = SMODS.ObjectTypes["Joker"].rarities[1].weight
-				two = SMODS.ObjectTypes["Joker"].rarities[2].weight
-				SMODS.ObjectTypes["Joker"].rarities[1].weight = 0
-				SMODS.ObjectTypes["Joker"].rarities[2].weight = 0
-				return true
-			end,
-		}))
 		G.E_MANAGER:add_event(Event({
 			trigger = "immediate",
 			delay = 0.2,
-			blockable = false,
-			blocking = false,
 			func = function()
-				local acard = SMODS.add_card({
-					set = "Joker",
-				})
-				local transform = {}
-				if acard.config.center.key == "j_joker" then
-					print("Jimbo got created. Transforming it into a random rare joker")
-					for i = 1, #G.P_CENTER_POOLS.Joker do
-						local rcard = G.P_CENTER_POOLS.Joker
-						if rcard[i].rarity == 3 then
-							transform[#transform + 1] = rcard[i]
+				local keys = {}
+				for k, v in pairs(G.P_CENTER_POOLS.Joker) do
+					if v and (v.rarity ~= 1 and v.rarity ~= 2) and not v.no_collection then
+						if v.in_pool then
+							if v:in_pool() == true then
+								keys[#keys + 1] = v.key
+							end
+						else
+							keys[#keys + 1] = v.key
 						end
 					end
-					acard:set_ability(pseudorandom_element(transform).key)
 				end
+
+				local _key = pseudorandom_element(keys, pseudoseed("supjudgement"))
+				
+				local acard = SMODS.add_card({
+					key = _key,
+					area = G.jokers
+				})
 				return true
 			end,
 		}))
-		SMODS.ObjectTypes["Joker"].rarities[1].weight = one
-		SMODS.ObjectTypes["Joker"].rarities[2].weight = two
-	end,
-	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.play then
-			if SMODS.has_enhancement(context.other_card, "m_stone") then
-				return {
-					xmult = 2,
-				}
-			end
-		end
 	end,
 })
 
@@ -1434,8 +1411,8 @@ SMODS.Consumable({
 					return true
 				end,
 			}))
-			G.jokers:unhighlight_all()
 		end
+		G.jokers:unhighlight_all()
 	end,
 	set_card_type_badge = function(self, card, badges)
 		badges[1] = create_badge(localize("k_superior_s"), get_type_colour(self or card.config, card), nil, 1.2)
