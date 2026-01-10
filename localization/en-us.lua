@@ -2468,6 +2468,23 @@ return {
 					"{C:attention}Monster{} Pack"
 				},
 			},
+			-- Incognito here
+			j_crv_tetorinter = {
+				name = "Teto Printer",
+				text = {
+					"When {C:attention}Blind{} is selected,",
+					"creates a random {C:nic_teto}Teto{} Card",
+					"{C:inactive}(Must have room)"
+				},
+			},
+			j_crv_plantinter = {
+				name = "Plant Printer",
+				text = {
+					"When {C:attention}Blind{} is selected,",
+					"creates a random {C:nic_plants}Plant{} Card",
+					"{C:inactive}(Must have room & Crazy Dave)"
+				},
+			},
 			--ends here
 		},
 		Blessing = {

@@ -432,3 +432,10 @@ SMODS.Atlas({
 	px = 71,
 	py = 95,
 })
+
+SMODS.Atlas({
+	key = "incog",
+	path = "Cross-Mod/incog.png",
+	px = 71,
+	py = 95,
+})

@@ -75,11 +75,13 @@ function RevosVault.printer_box()
 
   local printers = {}
 
+if G.P_JOKER_RARITY_POOLS["crv_p"] then
   for k, v in pairs(G.P_JOKER_RARITY_POOLS["crv_p"]) do
 	if (not v.no_collection and not v.no_printer_list) or v.yes_printer_list then 
 		printers[#printers+1] = v
 	end
   end
+end
 
   printers[#printers+1] = G.P_CENTERS["j_crv_legendaryprinter"]
 
