@@ -1991,7 +1991,7 @@ SMODS.Consumable({
 	end,
 	use = function(self, card, area, copier)
 		card.ability.extra.can_activate = false
-		RevosVault.level_up_hand("High Card", card.ability.extra.level)
+		RevosVault.level_up_hand("High Card", card.ability.extra.level, card)
 		local eval = function()
 			return card.ability.extra.can_activate == false
 		end
@@ -2048,7 +2048,7 @@ SMODS.Consumable({
 	end,
 	use = function(self, card, area, copier)
 		card.ability.extra.can_activate = false
-		RevosVault.level_up_hand("Pair", card.ability.extra.level)
+		RevosVault.level_up_hand("Pair", card.ability.extra.level, card)
 		local eval = function()
 			return card.ability.extra.can_activate == false
 		end
@@ -2112,7 +2112,7 @@ SMODS.Consumable({
 	end,
 	use = function(self, card, area, copier)
 		card.ability.extra.can_activate = false
-		RevosVault.level_up_hand("Three of a Kind", card.ability.extra.level)
+		RevosVault.level_up_hand("Three of a Kind", card.ability.extra.level, card)
 		local eval = function()
 			return card.ability.extra.can_activate == false
 		end
@@ -2180,7 +2180,7 @@ SMODS.Consumable({
 	end,
 	use = function(self, card, area, copier)
 		card.ability.extra.can_activate = false
-		RevosVault.level_up_hand("Full House", card.ability.extra.level)
+		RevosVault.level_up_hand("Full House", card.ability.extra.level, card)
 		local eval = function()
 			return card.ability.extra.can_activate == false
 		end
@@ -2244,7 +2244,7 @@ SMODS.Consumable({
 	end,
 	use = function(self, card, area, copier)
 		card.ability.extra.can_activate = false
-		RevosVault.level_up_hand("Four of a Kind", card.ability.extra.level)
+		RevosVault.level_up_hand("Four of a Kind", card.ability.extra.level, card)
 		local eval = function()
 			return card.ability.extra.can_activate == false
 		end
@@ -2307,7 +2307,7 @@ SMODS.Consumable({
 	end,
 	use = function(self, card, area, copier)
 		card.ability.extra.can_activate = false
-		RevosVault.level_up_hand("Flush", card.ability.extra.level)
+		RevosVault.level_up_hand("Flush", card.ability.extra.level, card)
 		local eval = function()
 			return card.ability.extra.can_activate == false
 		end
@@ -2371,7 +2371,7 @@ SMODS.Consumable({
 	end,
 	use = function(self, card, area, copier)
 		card.ability.extra.can_activate = false
-		RevosVault.level_up_hand("Straight", card.ability.extra.level)
+		RevosVault.level_up_hand("Straight", card.ability.extra.level, card)
 		local eval = function()
 			return card.ability.extra.can_activate == false
 		end
@@ -2435,7 +2435,7 @@ SMODS.Consumable({
 	end,
 	use = function(self, card, area, copier)
 		card.ability.extra.can_activate = false
-		RevosVault.level_up_hand("Two Pair", card.ability.extra.level)
+		RevosVault.level_up_hand("Two Pair", card.ability.extra.level, card)
 		local eval = function()
 			return card.ability.extra.can_activate == false
 		end
@@ -2499,7 +2499,7 @@ SMODS.Consumable({
 	end,
 	use = function(self, card, area, copier)
 		card.ability.extra.can_activate = false
-		RevosVault.level_up_hand("Straight Flush", card.ability.extra.level)
+		RevosVault.level_up_hand("Straight Flush", card.ability.extra.level, card)
 		local eval = function()
 			return card.ability.extra.can_activate == false
 		end
@@ -2564,7 +2564,7 @@ SMODS.Consumable({
 	end,
 	use = function(self, card, area, copier)
 		card.ability.extra.can_activate = false
-		RevosVault.level_up_hand("Flush Five", card.ability.extra.level)
+		RevosVault.level_up_hand("Flush Five", card.ability.extra.level, card)
 		local eval = function()
 			return card.ability.extra.can_activate == false
 		end
@@ -2625,7 +2625,7 @@ SMODS.Consumable({
 	end,
 	use = function(self, card, area, copier)
 		card.ability.extra.can_activate = false
-		RevosVault.level_up_hand("Flush House", card.ability.extra.level)
+		RevosVault.level_up_hand("Flush House", card.ability.extra.level, card)
 		local eval = function()
 			return card.ability.extra.can_activate == false
 		end
@@ -2690,7 +2690,7 @@ SMODS.Consumable({
 	end,
 	use = function(self, card, area, copier)
 		card.ability.extra.can_activate = false
-		RevosVault.level_up_hand("Five of a Kind", card.ability.extra.level)
+		RevosVault.level_up_hand("Five of a Kind", card.ability.extra.level, card)
 		local eval = function()
 			return card.ability.extra.can_activate == false
 		end

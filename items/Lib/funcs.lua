@@ -300,20 +300,8 @@ function RevosVault.wheeloffortune(odds, area)
 	end
 end
 
-function RevosVault.level_up_hand(hand, level)
-	update_hand_text({ sound = "button", volume = 0.7, pitch = 0.8, delay = 0.3 }, {
-		handname = localize(hand, "poker_hands"),
-		chips = G.GAME.hands[hand].chips,
-		mult = G.GAME.hands[hand].mult,
-		level = G.GAME.hands[hand].level,
-	})
-	level_up_hand(used_consumable, hand, nil, level)
-	update_hand_text({ sound = "button", volume = 0.7, pitch = 1.1, delay = 0 }, {
-		mult = 0,
-		chips = 0,
-		handname = localize(hand, "poker_hands"),
-		level = G.GAME.hands[hand].level,
-	})
+function RevosVault.level_up_hand(hand, level, card)
+	level_up_hand(card, hand, nil, level)
 end
 
 function RevosVault.most_played()
