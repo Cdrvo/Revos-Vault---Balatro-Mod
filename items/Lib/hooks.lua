@@ -32,6 +32,7 @@ end
 local unlock1, unlock2, unlock3 = nil, nil, nil
 local gfep = G.FUNCS.evaluate_play --Taken from cryptid as well
 function G.FUNCS.evaluate_play(e)
+	local R = RevosFunctions
 	gfep(e)
 	if SMODS.is_poker_hand_visible("Five of a Kind") and not unlock1 then
 		SMODS.insert_pool(G.P_CENTER_POOLS.SuperiorPlanet, G.P_CENTERS.c_crv_supplanetx)
@@ -46,6 +47,11 @@ function G.FUNCS.evaluate_play(e)
 		unlock3 = true
 	end
 	G.GAME.blind:crv_after_play()
+	if R.c then R.c = nil end
+	if R.m then R.m = nil end
+
+	mult = 0
+	hand_chips = 0
 end
 
 local rerollold = G.FUNCS.reroll_shop

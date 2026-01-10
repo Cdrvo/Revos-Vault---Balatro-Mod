@@ -1,3 +1,4 @@
+RevosFunctions = {}
 
 function RevosVault.check_enhancement(area, enhancement)
 	local blss = 0
@@ -1669,10 +1670,15 @@ function RevosVault.upgrade_enhancement(card, ret)
 end
 
 function RevosVault.boost_hand(m, c)
-	if not c then c = hand_chips*1.5 end
-	if not m then m = mult*1.5 end
-	local tot = c + m
-        update_hand_text({delay = 0}, {mult = m, chips = c})
+	local R = RevosFunctions
+	if not m then m = 1.5 end
+	if not c then c = 1.5 end
+	if not R.c then R.c = hand_chips*1.5 else R.c = R.c*c end
+	if not R.m then R.m = mult*1.5 else R.m = R.m*m end
+	local tot = R.c + R.m
+        update_hand_text({delay = 0}, {mult = R.m, chips = R.c})
+		mult = R.m
+		hand_chips = R.c
 
         G.E_MANAGER:add_event(Event({
             func = (function()
