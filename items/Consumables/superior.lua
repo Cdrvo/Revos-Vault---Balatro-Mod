@@ -1999,19 +1999,9 @@ SMODS.Consumable({
 		card.ability.extra.can_keep = false
 	end,
 	calculate = function(self, card, context)
-		if context.joker_main and card.ability.extra.can_activate == false and context.scoring_name == "High Card" then
+		if context.final_scoring_step and card.ability.extra.can_activate == false and context.scoring_name == "High Card" then
 			card.ability.extra.can_keep = false
-			if G.GAME.talisman == 1 then
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			else
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			end
+			RevosVault.boost_hand()
 		end
 		if context.end_of_round and context.main_eval then
 			if card.ability.extra.can_keep == false then
@@ -2066,19 +2056,9 @@ SMODS.Consumable({
 		card.ability.extra.can_keep = false
 	end,
 	calculate = function(self, card, context)
-		if context.joker_main and card.ability.extra.can_activate == false and context.scoring_name == "Pair" then
+		if context.jokfinal_scoring_steper_main and card.ability.extra.can_activate == false and context.scoring_name == "Pair" then
 			card.ability.extra.can_keep = false
-			if G.GAME.talisman == 1 then
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			else
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			end
+			RevosVault.boost_hand()
 		end
 		if context.end_of_round and context.main_eval then
 			if card.ability.extra.can_keep == false then
@@ -2141,22 +2121,12 @@ SMODS.Consumable({
 	end,
 	calculate = function(self, card, context)
 		if
-			context.joker_main
+			context.final_scoring_step
 			and card.ability.extra.can_activate == false
 			and context.scoring_name == "Three of a Kind"
 		then
 			card.ability.extra.can_keep = false
-			if G.GAME.talisman == 1 then
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			else
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			end
+			RevosVault.boost_hand()
 		end
 		if context.end_of_round and context.main_eval then
 			if card.ability.extra.can_keep == false then
@@ -2218,19 +2188,9 @@ SMODS.Consumable({
 		card.ability.extra.can_keep = false
 	end,
 	calculate = function(self, card, context)
-		if context.joker_main and card.ability.extra.can_activate == false and context.scoring_name == "Full House" then
+		if context.final_scoring_step and card.ability.extra.can_activate == false and context.scoring_name == "Full House" then
 			card.ability.extra.can_keep = false
-			if G.GAME.talisman == 1 then
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			else
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			end
+			RevosVault.boost_hand()
 		end
 		if context.end_of_round and context.main_eval then
 			if card.ability.extra.can_keep == false then
@@ -2293,22 +2253,12 @@ SMODS.Consumable({
 	end,
 	calculate = function(self, card, context)
 		if
-			context.joker_main
+			context.final_scoring_step
 			and card.ability.extra.can_activate == false
 			and context.scoring_name == "Four of a Kind"
 		then
 			card.ability.extra.can_keep = false
-			if G.GAME.talisman == 1 then
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			else
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			end
+			RevosVault.boost_hand()
 		end
 		if context.end_of_round and context.main_eval then
 			if card.ability.extra.can_keep == false then
@@ -2365,19 +2315,9 @@ SMODS.Consumable({
 		card.ability.extra.can_keep = false
 	end,
 	calculate = function(self, card, context)
-		if context.joker_main and card.ability.extra.can_activate == false and context.scoring_name == "Flush" then
+		if context.final_scoring_step and card.ability.extra.can_activate == false and context.scoring_name == "Flush" then
 			card.ability.extra.can_keep = false
-			if G.GAME.talisman == 1 then
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			else
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			end
+			RevosVault.boost_hand()
 		end
 		if context.end_of_round and context.main_eval then
 			if card.ability.extra.can_keep == false then
@@ -2439,19 +2379,9 @@ SMODS.Consumable({
 		card.ability.extra.can_keep = false
 	end,
 	calculate = function(self, card, context)
-		if context.joker_main and card.ability.extra.can_activate == false and context.scoring_name == "Straight" then
+		if context.final_scoring_step and card.ability.extra.can_activate == false and context.scoring_name == "Straight" then
 			card.ability.extra.can_keep = false
-			if G.GAME.talisman == 1 then
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			else
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			end
+			RevosVault.boost_hand()
 		end
 		if context.end_of_round and context.main_eval then
 			if card.ability.extra.can_keep == false then
@@ -2513,19 +2443,9 @@ SMODS.Consumable({
 		card.ability.extra.can_keep = false
 	end,
 	calculate = function(self, card, context)
-		if context.joker_main and card.ability.extra.can_activate == false and context.scoring_name == "Two Pair" then
+		if context.final_scoring_step and card.ability.extra.can_activate == false and context.scoring_name == "Two Pair" then
 			card.ability.extra.can_keep = false
-			if G.GAME.talisman == 1 then
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			else
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			end
+			RevosVault.boost_hand()
 		end
 		if context.end_of_round and context.main_eval then
 			if card.ability.extra.can_keep == false then
@@ -2588,22 +2508,12 @@ SMODS.Consumable({
 	end,
 	calculate = function(self, card, context)
 		if
-			context.joker_main
+			context.final_scoring_step
 			and card.ability.extra.can_activate == false
 			and context.scoring_name == "Straight Flush"
 		then
 			card.ability.extra.can_keep = false
-			if G.GAME.talisman == 1 then
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			else
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			end
+			RevosVault.boost_hand()
 		end
 		if context.end_of_round and context.main_eval then
 			if card.ability.extra.can_keep == false then
@@ -2662,19 +2572,9 @@ SMODS.Consumable({
 		card.ability.extra.can_keep = false
 	end,
 	calculate = function(self, card, context)
-		if context.joker_main and card.ability.extra.can_activate == false and context.scoring_name == "Flush Five" then
+		if context.final_scoring_step and card.ability.extra.can_activate == false and context.scoring_name == "Flush Five" then
 			card.ability.extra.can_keep = false
-			if G.GAME.talisman == 1 then
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			else
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			end
+			RevosVault.boost_hand()
 		end
 		if context.end_of_round and context.main_eval then
 			if card.ability.extra.can_keep == false then
@@ -2734,22 +2634,12 @@ SMODS.Consumable({
 	end,
 	calculate = function(self, card, context)
 		if
-			context.joker_main
+			context.final_scoring_step
 			and card.ability.extra.can_activate == false
 			and context.scoring_name == "Flush House"
 		then
 			card.ability.extra.can_keep = false
-			if G.GAME.talisman == 1 then
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			else
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			end
+			RevosVault.boost_hand()
 		end
 		if context.end_of_round and context.main_eval then
 			if card.ability.extra.can_keep == false then
@@ -2809,22 +2699,12 @@ SMODS.Consumable({
 	end,
 	calculate = function(self, card, context)
 		if
-			context.joker_main
+			context.final_scoring_step
 			and card.ability.extra.can_activate == false
 			and context.scoring_name == "Five of a Kind"
 		then
 			card.ability.extra.can_keep = false
-			if G.GAME.talisman == 1 then
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			else
-				return {
-					xmult = 1.5,
-					xchips = 1.5,
-				}
-			end
+			RevosVault.boost_hand()
 		end
 		if context.end_of_round and context.main_eval then
 			if card.ability.extra.can_keep == false then
