@@ -7,13 +7,19 @@ SMODS.current_mod.custom_ui = function(modNodes)
 		0.95 * G.CARD_H,
 		{ card_limit = 5, type = "title", highlight_limit = 0, collection = true }
 	)
-	local random_random = { "crv_p", "BananaPool", "crv_va" }
+	local random_random = { "crv_p", "BananaPool"}
+	if RevoConfig["superior_enabled"] then
+		random_random[#random_random+1] = "Superior"
+	end
+	if RevoConfig["vault_enabled"] then
+		random_random[#random_random+1] = "crv_va"
+	end
 	local random_rarity = pseudorandom_element(random_random)
 
 	local random_cards2 = {}
 	local random_cards = {}
 
-	if random_rarity == "BananaPool" then
+	if random_rarity ~= "crv_p" and random_rarity ~= "crv_va" then
 		for k, card in pairs(G.P_CENTER_POOLS[random_rarity]) do
 			random_cards2[#random_cards2 + 1] = card.key
 		end
@@ -21,7 +27,7 @@ SMODS.current_mod.custom_ui = function(modNodes)
 		for k, card in pairs(G.P_JOKER_RARITY_POOLS[random_rarity]) do
 			random_cards2[#random_cards2 + 1] = card.key
 		end
-	else
+	elseif random_rarity == "crv_p" and G.P_JOKER_RARITY_POOLS["crv_p"] then
 		for k, card in pairs(G.P_JOKER_RARITY_POOLS["crv_p"]) do
 			random_cards2[#random_cards2 + 1] = card.key
 		end
