@@ -481,10 +481,10 @@ SMODS.Joker({
 						and pseudorandom("ALLPRINTER") < G.GAME.probabilities.normal / 4
 					or G.GAME.used_vouchers["v_crv_printeruptier"] == true
 				then
-					local new_card = create_card("Paper Work", G.jokers, nil, nil, nil, nil, "j_crv_pprwork")
-					new_card:add_to_deck()
-					new_card:set_edition({ negative = true }, true)
-					G.jokers:emplace(new_card)
+					SMODS.add_card{
+						key = "j_crv_pprwork",
+						edition = "e_negative"
+					}
 				else
 					if #G.jokers.cards < G.jokers.config.card_limit or self.area == G.jokers then
 						local new_card = create_card("Paper Work", G.jokers, nil, nil, nil, nil, "j_crv_pprwork")
@@ -1802,13 +1802,37 @@ SMODS.Joker({
 	calculate = function(self, card, context)
 		if context.setting_blind then
 			if RevosVault.other_type ~= "Voucher" then
-			SMODS.add_card({
-				key = RevosVault.other_card
-			})
-		else
-			RevosVault.random_voucher(RevosVault.other_mod)
+				if RevosVault.other_type == "Joker" then
+					if G.GAME.used_vouchers["v_crv_printerup"] == true and pseudorandom("ALLPRINTER") < G.GAME.probabilities.normal / 4 or G.GAME.used_vouchers["v_crv_printeruptier"] == true then
+						SMODS.add_card({
+						 	key = RevosVault.other_card,
+							edition = "e_negative"
+						})
+					elseif #G.jokers.cards < G.jokers.config.card_limit then 
+						SMODS.add_card({
+						 	key = RevosVault.other_card,
+						})
+					else
+						RevosVault.c_message(card, localize("k_no_room_ex"))
+					end
+				elseif RevosVault.other_type == "Consumable" then
+					if G.GAME.used_vouchers["v_crv_printerup"] == true and pseudorandom("ALLPRINTER") < G.GAME.probabilities.normal / 4 or G.GAME.used_vouchers["v_crv_printeruptier"] == true then
+						SMODS.add_card({
+						 	key = RevosVault.other_card,
+							edition = "e_negative"
+						})
+					elseif #G.consumeables.cards < G.consumeables.config.card_limit then 
+						SMODS.add_card({
+						 	key = RevosVault.other_card,
+						})
+					else
+						RevosVault.c_message(card, localize("k_no_room_ex"))
+					end
+				end
+			else
+				RevosVault.random_voucher(RevosVault.other_mod)
+			end
 		end
-	end
 	end,
 })
 

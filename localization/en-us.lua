@@ -2168,7 +2168,8 @@ return {
 					"or a {C:attention}Voucher{} from",
 					"a {C:dark_edition}Random Mod.",
 					"{s:0.8}Mod and Card changes every round",
-					"{C:inactive}(Mod: {C:attention}#1#{C:inactive}, Card: {C:attention}#2#{C:inactive})"
+					"{C:inactive}(Mod: {C:attention}#1#{C:inactive}, Card: {C:attention}#2#{C:inactive})",
+					"{C:inactive,s:0.75}(Must have room)"
 				},
 			},
 			j_crv_voucher_printer = {
@@ -3830,7 +3831,7 @@ return {
 			crv_enable_secret = "Enable Secret Jokers",
 			crv_enable_blinds = "Enable Blinds",
 			ph_active_gems = "Active Gems",
-			no_gems = "No Active Gems",
+			no_gems = "No active gems",
 			b_gems = "Gems",
 			b_gem = "Gem",
 			b_gem_act = "Activated!",
