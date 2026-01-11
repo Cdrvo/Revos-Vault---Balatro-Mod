@@ -1673,8 +1673,8 @@ function RevosVault.boost_hand(m, c)
 	local R = RevosFunctions
 	if not m then m = 1.5 end
 	if not c then c = 1.5 end
-	if not R.c then R.c = hand_chips*1.5 else R.c = R.c*c end
-	if not R.m then R.m = mult*1.5 else R.m = R.m*m end
+	if not R.c then R.c = hand_chips*c else R.c = R.c*c end
+	if not R.m then R.m = mult*m else R.m = R.m*m end
 	local tot = R.c + R.m
         update_hand_text({delay = 0}, {mult = R.m, chips = R.c})
 		mult = R.m

@@ -1629,8 +1629,8 @@ return {
 			j_crv_vsplash = {
 				name = "Vaulted Splash",
 				text = {
-					"{C:red}Temporarily Debuff{} Every scored card after the first.",
-					"Gives {X:mult,C:white}X#1#{} Mult for each debuffed card",
+					"{C:red}Temporarily Debuff{} Every", "scored card after ","the first.",
+					"Gives {X:mult,C:white}X#1#{} Mult for","each debuffed card",
 				},
 			},
 			j_crv_ycard = {
