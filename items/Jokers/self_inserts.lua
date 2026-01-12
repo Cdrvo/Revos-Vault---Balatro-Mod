@@ -273,6 +273,7 @@ SMODS.Joker({
 	},
 	cost = 20,
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_CENTERS["j_crv_snayn32"]
 		return {
 			vars = { card.ability.extra.xmult, card.ability.extra.timer },
 		}
@@ -320,6 +321,7 @@ SMODS.Joker({
 	},
 	cost = 25,
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_CENTERS["j_crv_snayn3"]
 		return {
 			vars = { card.ability.extra.xmult },
 		}
