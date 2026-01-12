@@ -1570,12 +1570,12 @@ return {
 			j_crv_rkn = {
 				name = "Royal Knight",
 				text = {
-					{"Provides a buff for every {C:inactive}Vanilla{} {C:legendary}Legendary{} Joker in possession"},
-					{"If {C:attention}Canio{} is present, destroy each scored face card",
-					"If {C:attention}Triboulet{} is present, spawn {C:money}#5# {C:attention}Queens{} or {C:attention}Kings{} when blind is selected",
-					"If {C:attention}Yorick{} is present, gain {C:red}+#2#{} Discards for each round",
-					"If {C:attention}Chicot{} is present and current blind is a boss blind, gives {X:mult,C:white}X#1#{} Mult",
-					"If {C:attention}Perkeo{} is present, create a {C:dark_edition}Negative{} copy of a {C:attention}Random{} consumable in your possession"},
+					{"Provides a buff for every ","{C:inactive}Vanilla{} {C:legendary}Legendary{}","Joker in possession"},
+					{"{C:attention}Canio:{} destroy each scored face card",
+					"{C:attention}Triboulet:{} spawn {C:money}#5# {C:attention}Queens{} or {C:attention}Kings{} when blind is selected",
+					"{C:attention}Yorick:{} gain {C:red}+#2#{} Discards for each round",
+					"{C:attention}Chicot:{} if current blind is a boss blind, gives {X:mult,C:white}X#1#{} Mult",
+					"{C:attention}Perkeo:{} create a {C:dark_edition}Negative{} copy of a {C:attention}Random{} consumable in your possession"},
 				},
 			},
 			j_crv_themoon = {
