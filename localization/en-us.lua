@@ -357,11 +357,11 @@ return {
 			},
 			m_crv_mugged = {
 				name = "Stained",
-				text = { "{X:mult,C:white}X#1#{} Mult", "if played hand contains a {C:attention}Flush" },
+				text = { "{X:mult,C:white}X#1#{} Mult", "if played hand", "contains a {C:attention}Flush" },
 			},
 			m_crv_aflame = {
 				name = "Aflame",
-				text = { "{X:mult,C:white}X#1#{} Mult", "if played hand contains a {C:attention}Full House" },
+				text = { "{X:mult,C:white}X#1#{} Mult", "if played hand", "contains a {C:attention}Full House" },
 			},
 			m_crv_mega = {
 				name = "Mega",
@@ -586,7 +586,7 @@ return {
 			},
 			j_crv_moneyprinter = {
 				name = "Money Printer",
-				text = { "When round ends,", "Gain {C:money}+$35{}" },
+				text = { "When round ends,", "Gain {C:money}+$#1#{}" },
 			},
 			j_crv_brokenprinter = {
 				name = "Broken Printer",

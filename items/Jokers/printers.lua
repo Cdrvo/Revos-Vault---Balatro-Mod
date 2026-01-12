@@ -394,15 +394,22 @@ SMODS.Joker({
 		y = 1,
 	},
 	config = {
-		extra = {},
+		extra = {
+			money = 20
+		},
 	},
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = { card.ability.extra.money },
+		}
+	end,
 
 	in_pool = function(self, wawa, wawa2)
 		return true
 	end,
 
 	calc_dollar_bonus = function(self, card)
-		return 35
+		return card.ability.extra.money
 	end,
 })
 
