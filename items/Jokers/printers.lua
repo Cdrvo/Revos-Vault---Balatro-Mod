@@ -468,7 +468,6 @@ SMODS.Joker({
 	cost = 10,
 	eternal_compat = true,
 	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = G.P_CENTERS.j_crv_pprwork
 		return {
 			vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds },
 		}
