@@ -1020,10 +1020,8 @@ return {
 			j_crv_goldenshark = {
 				name = "Golden Shark",
 				text = {
-					'After {C:attention}3 rounds{} have passed, trigger a {C:gold}"Gold Rush",',
-					"turning {C:attention}every scored card{} without an",
-					"enhancement to {C:gold}Gold{}",
-					"{C:inactive}(#2#)",
+					'After {C:attention}#2#{C:inactive} (#1#){} rounds{},', 
+					'trigger a {C:gold}"Gold Rush"',
 				},
 			},
 			j_crv_sfj = {
@@ -3542,6 +3540,15 @@ return {
 				}
 			},
 
+			crv_gold_rush_desc = {
+				name = "Gold Rush",
+				text = {
+					"Every {C:attention}scored{} card",
+					"without an enhancement",
+					"is turned into {C:money}Gold{}"
+				},
+			},
+
 			-- Starspace Cross-Mod
 
 			crv_blessed_patch = {
@@ -3838,6 +3845,7 @@ return {
 			vars_not_active_yet = "Not Active Yet",
 			vars_not_set_yet = "Not Set Yet",
 			crv_revive = "Revived!",
+			crv_gold_rush_ex = "Gold Rush!",
 
 
 

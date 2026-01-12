@@ -1482,43 +1482,52 @@ SMODS.Joker({
 	},
 	config = {
 		extra = {
+			timer_max = 3,
 			timer = 0,
-			status = "Not Ready",
+			texted = false,
+			unshook = true,
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = {set = "Other", key = "crv_gold_rush_desc"}
+		info_queue[#info_queue+1] = G.P_CENTERS.m_gold
 		return {
-			vars = { card.ability.extra.timer, card.ability.extra.status },
+			vars = { card.ability.extra.timer,card.ability.extra.timer_max, card.ability.extra.status },
 		}
 	end,
 	calculate = function(self, card, context)
-		if
-			context.end_of_round
-			and not context.repetition
-			and not context.individual
-			and not (card.ability.extra.timer == 3)
-		then
-			card.ability.extra.timer = card.ability.extra.timer + 1
+		if context.end_of_round and context.main_eval and not context.blueprint then
+			if (card.ability.extra.timer < card.ability.extra.timer_max) then
+				card.ability.extra.timer = card.ability.extra.timer + 1
+			end
+				
+			if card.ability.extra.unshook and card.ability.extra.timer == (card.ability.extra.timer_max) then
+				print("should shake")
+				card.ability.extra.unshook = false
+				local eval = function()
+					return card.ability.extra.timer == card.ability.extra.timer_max
+				end
+				juice_card_until(card, eval, true)
+			end
 		end
 
-		if card.ability.extra.timer == 3 then
-			card.ability.extra.status = "Ready"
-			if context.cardarea == G.play then
-				for k, v in ipairs(context.scoring_hand) do
-					if context.other_card.ability.effect == "Base" then
-						context.other_card:set_ability(G.P_CENTERS.m_gold)
-						G.E_MANAGER:add_event(Event({
-							func = function()
-								return true
-							end,
-						}))
-					end
+		if card.ability.extra.timer == card.ability.extra.timer_max and context.individual and context.cardarea == G.play then
+			if not card.ability.texted then
+				card.ability.extra.texted = true
+				attention_text({
+					scale = 1.4, text = localize("crv_gold_rush_ex"), hold = 2, align = 'cm', offset = {x = 0,y = -2.7},major = G.play
+				})
+			end
+			for k, v in ipairs(context.scoring_hand) do
+				if context.other_card.ability.effect == "Base" then
+					context.other_card:set_ability(G.P_CENTERS.m_gold)
 				end
 			end
 		end
-		if card.ability.extra.timer == 3 and context.final_scoring_step then
+		if card.ability.extra.timer >= card.ability.extra.timer_max and context.after then
 			card.ability.extra.timer = 0
-			card.ability.extra.status = "Not Ready"
+			card.ability.extra.texted = false
+			card.ability.extra.unshook = true
 		end
 	end,
 	in_pool = function(self, wawa, wawa2)
