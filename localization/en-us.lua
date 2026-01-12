@@ -1581,8 +1581,8 @@ return {
 			j_crv_themoon = {
 				name = "The Moon",
 				text = {
-					"Each played {C:hearts}Hearts{} card turns into {C:spades}Spades{}",
-					"Each played {C:diamonds}Diamonds{} card turns into {C:clubs}Clubs{}",
+					"Each played {C:hearts}Hearts{} card", "turns into {C:spades}Spades{}",
+					"Each played {C:diamonds}Diamonds{} card", "turns into {C:clubs}Clubs{}",
 				},
 			},
 			j_crv_spin = {
@@ -1595,8 +1595,8 @@ return {
 			j_crv_thenightrose = {
 				name = "The Night Rose",
 				text = {
-					"Each played {C:spades}Spades{} card turns into {C:hearts}Hearts{}",
-					"Each played {C:clubs}Clubs{} card turns into {C:diamonds}Diamonds{}",
+					"Each played {C:spades}Spades{} card", "turns into {C:hearts}Hearts{}",
+					"Each played {C:clubs}Clubs{} card", "turns into {C:diamonds}Diamonds{}",
 				},
 			},
 			j_crv_vmrbones = {
