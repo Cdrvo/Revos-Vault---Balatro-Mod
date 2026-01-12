@@ -381,7 +381,7 @@ SMODS.Joker({
 
 	calculate = function(self, card, context)
 		if context.setting_blind and G.GAME.blind.boss then
-			for i = 1, G.jokers.config.total_limit - #G.jokers.cards do
+			for i = 1, G.jokers.config.card_limit - #G.jokers.cards do
 		SMODS.add_card{
 			key = "j_chicot"
 		}
