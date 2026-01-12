@@ -1726,7 +1726,7 @@ SMODS.Joker({
 	},
 	loc_vars = function(self, info_queue, card)
 		return {
-			vars = { card.ability.extra.odds, (G.GAME.probabilities.normal or 1) },
+			vars = { 2, 1 },
 		}
 	end,
 	calculate = function(self, card, context)
@@ -1737,30 +1737,21 @@ SMODS.Joker({
 			and not context.individual
 			and G.GAME.current_round.hands_left == 0
 		then
-			local rr = nil
-			for i = 1, #G.jokers.cards do
-				if G.jokers.cards[i] == card then
-					rr = i
-					break
-				end
-			end
 			if
-				G.jokers.cards[rr + 1] == nil
-				and G.GAME.talisman == 1
-				and pseudorandom("dont") < G.GAME.probabilities.normal / card.ability.extra.odds
+				G.GAME.talisman == 1
+				and pseudorandom("dont") < 1 / 2
 			then
 				return {
 					chip_mod = to_number(G.GAME.blind.chips * 2),
 					message = localize("k_crv_double"),
 				}
-			elseif G.jokers.cards[rr + 1] == nil and G.GAME.talisman == 1 then
+			elseif  G.GAME.talisman == 1 then
 				return {
 					x_mult = to_number(G.GAME.blind.chips * 0),
 					message = localize("k_crv_nothing"),
 				}
 			elseif
-				G.jokers.cards[rr + 1] == nil
-				and pseudorandom("dont") < G.GAME.probabilities.normal / card.ability.extra.odds
+				pseudorandom("dont") < 1 / 2
 			then
 				return {
 					chip_mod = G.GAME.blind.chips * 2,

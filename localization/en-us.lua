@@ -1094,6 +1094,7 @@ return {
 					"has a {C:green}#2# in #1#{} chance to",
 					"{C:legendary}overscore{}",
 					"otherwise set the mult to {C:red}0",
+					"{C:inactive,s:0.8}(Chances cannot be affected)",
 				},
 			},
 			j_crv_inga = {
