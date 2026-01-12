@@ -1,4 +1,7 @@
 SMODS.Edition({
+	in_shop = true,
+	extra_cost = 5,
+	weight = 3,
 	key = "sunbleached",
 	shader = "sunwashed",
 	config = {
@@ -35,6 +38,9 @@ SMODS.Shader({
 })
 
 SMODS.Edition({
+	in_shop = true,
+	extra_cost = 5,
+	weight = 10,
 	key = "pastel",
 	shader = "pastel_shader",
 	config = {
@@ -63,6 +69,9 @@ SMODS.Shader({
 })
 
 SMODS.Edition({
+	in_shop = true,
+	extra_cost = 5,
+	weight = 10,
 	key = "bloom_edition",
 	shader = "bloom",
 	config = {
@@ -91,6 +100,9 @@ SMODS.Shader({
 })
 
 SMODS.Edition({
+	in_shop = true,
+	extra_cost = 5,
+	weight = 5,
 	key = "magnetised_edition",
 	shader = "magnetised",
 	config = {
@@ -144,6 +156,9 @@ SMODS.Shader({
 })
 
 SMODS.Edition({
+	in_shop = true,
+	extra_cost = 5,
+	weight = 6,
 	key = "antichrome_edition",
 	shader = "antichrome",
 	config = {
@@ -184,6 +199,9 @@ SMODS.Shader({
 })
 
 SMODS.Edition({
+	in_shop = true,
+	extra_cost = 5,
+	weight = 5,
 	key = "radiatede",
 	shader = "radiated",
 		loc_vars = function(self, info_queue, card)
@@ -234,7 +252,7 @@ SMODS.Edition({
 				end
 			end
 
-	end
+	end,
 })
 
 SMODS.Shader({

@@ -297,7 +297,7 @@ function RevosVault.wheeloffortune(odds, area)
 				jokas[#jokas + 1] = area[i]
 			end
 		end
-		RevosVault.random_joker(jokas):set_edition(poll_edition("wheel_of_fortune", nil, true, true))
+		RevosVault.random_joker(jokas):set_edition(poll_edition(nil, nil, true, true))
 	end
 end
 
