@@ -602,7 +602,7 @@ return {
 					"When blind is selected,",
 					"{C:green}#1# in #2#{} chance this",
 					"card prints a",
-					"random {C:attention} Contract",
+					"random {C:attention}Contract",
 					"{C:inactive}(Must have room)",
 				},
 			},
