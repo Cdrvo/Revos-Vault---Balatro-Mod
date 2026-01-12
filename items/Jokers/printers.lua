@@ -475,23 +475,39 @@ SMODS.Joker({
 	end,
 	calculate = function(self, card, context)
 		if context.setting_blind then
-			if pseudorandom("faxprinter") < G.GAME.probabilities.normal / card.ability.extra.odds then
-				if
-					G.GAME.used_vouchers["v_crv_printerup"] == true
-						and pseudorandom("ALLPRINTER") < G.GAME.probabilities.normal / 4
-					or G.GAME.used_vouchers["v_crv_printeruptier"] == true
-				then
-					SMODS.add_card{
-						key = "j_crv_pprwork",
-						edition = "e_negative"
-					}
-				else
-					if #G.jokers.cards < G.jokers.config.card_limit or self.area == G.jokers then
-						local new_card = create_card("Paper Work", G.jokers, nil, nil, nil, nil, "j_crv_pprwork")
-						new_card:add_to_deck()
-						G.jokers:emplace(new_card)
+			local _key = nil
+			local key_tab = {}
+			for k, v in pairs(get_current_pool("EnchancedDocuments")) do
+				if G.P_CENTERS[v] then
+					key_tab[#key_tab + 1] = v
+				end
+			end
+			if #key_tab > 0 then
+				_key = pseudorandom_element(key_tab, pseudoseed("j_crv_faxprinter"))
+			end
+			if _key then
+				if pseudorandom("faxprinter") < G.GAME.probabilities.normal / card.ability.extra.odds then
+					if
+						G.GAME.used_vouchers["v_crv_printerup"] == true
+							and pseudorandom("ALLPRINTER") < G.GAME.probabilities.normal / 4
+						or G.GAME.used_vouchers["v_crv_printeruptier"] == true
+					then
+						SMODS.add_card({
+							key = _key,
+							edition = "e_negative",
+							area = G.consumeables
+						})
+					else
+						if #G.consumeables.cards < G.consumeables.config.card_limit then
+							SMODS.add_card({
+								key = _key,
+								area = G.consumeables
+							})
+						end
 					end
 				end
+			else
+				RevosVault.c_message(card, localize("k_nope_ex"))
 			end
 		end
 	end,
