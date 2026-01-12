@@ -1502,7 +1502,6 @@ SMODS.Joker({
 			end
 				
 			if card.ability.extra.unshook and card.ability.extra.timer == (card.ability.extra.timer_max) then
-				print("should shake")
 				card.ability.extra.unshook = false
 				local eval = function()
 					return card.ability.extra.timer == card.ability.extra.timer_max
