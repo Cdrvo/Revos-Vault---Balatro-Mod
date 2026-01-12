@@ -3640,7 +3640,7 @@ return {
 				text = {
 					"Certain {C:red}Printers{} will now",
 					"have a {C:green}1 in 4{} Chance to print",
-					"{C:dark_edition}Random Edition",
+					"{C:dark_edition}Negative",
 				},
 			},
 			v_crv_printeruptier = {
