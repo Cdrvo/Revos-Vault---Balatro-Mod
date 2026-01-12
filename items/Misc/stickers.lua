@@ -20,11 +20,11 @@ SMODS.Sticker({
 					break
 				end
 			end
-		if rr then
-			if G.jokers.cards[rr + 1] == nil or G.jokers.cards[rr - 1] == nil and not context.blueprint then
-				card:start_dissolve({ HEX("57ecab") }, nil, 1.6)
+			if rr then
+				if G.jokers.cards[rr + 1] == nil or G.jokers.cards[rr - 1] == nil and not context.blueprint then
+					card:start_dissolve({ HEX("57ecab") }, nil, 1.6)
+				end
 			end
-		end
 		end
 	end,
 })
@@ -74,11 +74,13 @@ SMODS.Sticker({
 			end
 			local lc = { "Left", "Right" }
 			local choosencard = pseudorandom_element(lc, pseudoseed("radioactive"))
+		if rr then
 			if choosencard == "Left" and G.jokers.cards[rr - 1] ~= nil then
 				G.jokers.cards[rr - 1]:start_dissolve({ HEX("57ecab") }, nil, 1.6)
 			elseif choosencard == "Right" and G.jokers.cards[rr + 1] ~= nil then
 				G.jokers.cards[rr + 1]:start_dissolve({ HEX("57ecab") }, nil, 1.6)
 			end
+		end
 		end
 	end,
 })
@@ -111,11 +113,13 @@ SMODS.Sticker({
 						break
 					end
 				end
+			if rr then
 				local card2 = G.jokers.cards[rr].config.center_key
 				SMODS.add_card({
 					area = G.jokers,
 					key = card2,
 				})
+			end
 			end
 		end
 	end,
