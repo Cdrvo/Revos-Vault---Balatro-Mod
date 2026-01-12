@@ -20,9 +20,11 @@ SMODS.Sticker({
 					break
 				end
 			end
+		if rr then
 			if G.jokers.cards[rr + 1] == nil or G.jokers.cards[rr - 1] == nil and not context.blueprint then
 				card:start_dissolve({ HEX("57ecab") }, nil, 1.6)
 			end
+		end
 		end
 	end,
 })
