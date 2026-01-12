@@ -410,7 +410,7 @@ return {
 			},
 			m_crv_honey = {
 				name = "Honey",
-				text = { "Gives {C:attention}+$#1#{}", "when scored" },
+				text = { "Gives {C:money}+$#1#{}", "when scored" },
 			},
 			--reverse tarot
 			m_crv_quartz = {
@@ -1529,8 +1529,8 @@ return {
 			j_crv_bee = {
 				name = "Bee",
 				text = {
-					"Gives {C:money}+$#1#{}.",
-					"If played hand contains a {C:attention}Honey{} card,",
+					"If played hand ", 
+					"contains a {C:attention}Honey{} card,",
 					"turns other scored cards",
 					"into {C:attention}Honey{}",
 				},

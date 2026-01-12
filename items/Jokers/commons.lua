@@ -303,14 +303,9 @@ SMODS.Joker({
 				end
 			end
 		end
-		if context.joker_main then
-			return {
-				dollars = card.ability.extra.dollars,
-			}
-		end
 	end,
 	in_pool = function(self, wawa, wawa2)
-		return true
+		return (RevosVault.check_enhancement(G.playing_cards, "m_crv_honey") > 0)
 	end,
 })
 
