@@ -405,8 +405,8 @@ return {
 				text = { "Needs to go down!", "{C:inactive} art by gmoonfucker" },
 			},
 			m_crv_dirt = {
-				name = "DIRT",
-				text = { "{C:green}Contains the power of Mother Nature" },
+				name = "Dirt",
+				text = { "{C:green}Contains the power", "of Mother Nature" },
 			},
 			m_crv_honey = {
 				name = "Honey",
@@ -1218,8 +1218,6 @@ return {
 					"When Blind is selected,",
 					"{C:green}#1# in #2#{} chance to",
 					"create all of the {C:attention}Printers",
-					"{C:inactive}(Trust me, limiting this by luck",
-					"{C:inactive}is needed.)",
 				},
 			},
 			j_crv_thefaxprinter = {
