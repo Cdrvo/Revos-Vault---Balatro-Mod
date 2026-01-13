@@ -47,11 +47,8 @@ function G.FUNCS.evaluate_play(e)
 		unlock3 = true
 	end
 	G.GAME.blind:crv_after_play()
-	if R.c then R.c = nil end
-	if R.m then R.m = nil end
-
-	mult = 0
-	hand_chips = 0
+	if R.c then R.c = nil hand_chips = 0 end
+	if R.m then R.m = nil mult = 0 end
 end
 
 local rerollold = G.FUNCS.reroll_shop
