@@ -1,6 +1,6 @@
 SMODS.Tag({
 	key = "pst",
-
+	min_ante = 3,
 	atlas = "tags",
 	pos = { x = 0, y = 0 },
 	apply = function(self, tag, context)
@@ -64,6 +64,7 @@ SMODS.Tag({
 
 SMODS.Tag({
 	key = "packtag",
+	min_ante = 4,
 	atlas = "tags",
 	pos = { x = 2, y = 0 },
 	apply = function(self, tag, context)
