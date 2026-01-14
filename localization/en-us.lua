@@ -2490,6 +2490,12 @@ return {
 					"{C:inactive}(Must have room & Crazy Dave)"
 				},
 			},
+			-- Multiverse here
+			j_crv_mulmythprinter = {
+				name = "Myth Printer",
+				text = { "When {C:attention}Blind{} is selected", "print a random {C:mul_transmuted}Myth{} Card"
+			}
+			}
 			--ends here
 		},
 		Blessing = {

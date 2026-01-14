@@ -439,3 +439,10 @@ SMODS.Atlas({
 	px = 71,
 	py = 95,
 })
+
+SMODS.Atlas({
+	key = "omniverse",
+	path = "Cross-Mod/multiverse.png",
+	px = 71,
+	py = 95,
+})

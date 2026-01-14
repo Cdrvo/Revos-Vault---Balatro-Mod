@@ -170,6 +170,10 @@ G.FUNCS.your_collecion_printer_list = function(args)
   end
 end
 
+-- The Vault
+
+--boom
+
 -- This specific hook exits a lot in my current code. Im not planning to remove them nor move them just yet but the future ones will be implemented here under the same hook
 
 local cardhighold = Card.highlight

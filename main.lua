@@ -374,7 +374,8 @@ RevosVault.CrossMod = {
 	"high_roller",
 	"JoyousSpring",
 	"Incognito",
-	"starspace"
+	"starspace",
+	"Multiverse"
 }
 
 
