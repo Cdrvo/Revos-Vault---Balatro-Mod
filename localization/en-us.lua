@@ -181,6 +181,13 @@ return {
 					"by the amount of your jokers",
 				},
 			},
+			bl_crv_ssp = {
+				name = "Stygian Spade",
+				text = {
+					"One random suit is debuffed",
+					"after every hand",
+				},
+			}
 		},
 		Partner = {
 			pnr_crv_pprinter = {

@@ -142,12 +142,74 @@ SMODS.Blind({
 		end
 		if #jokers > 0 then
 			self.prepper = false
-			local joker = pseudorandom_element(jokers, pseudoseed("cry_landlord"))
+			local joker = pseudorandom_element(jokers, pseudoseed("crv_rrp_blind"))
 			SMODS.destroy_cards(joker)
 			G.GAME.blind:wiggle()
 		end
 	end,
 	press_play = function(self)
 		self.prepped = true
+	end,
+})
+
+SMODS.Blind({
+	key = "ssp",
+	boss = {
+		min = 1,
+		max = 10,
+		showdown = true,
+	},
+	config = {
+		current_suit = nil
+	},
+	atlas = "blinds",
+	pos = { x = 0, y = 8 },
+	boss_colour = HEX("3c4b4e"),
+	crv_after_play = function(self)
+		if self.prepped then
+			local cards, suits, final_suits = {}, {}, {}
+			for k, v in pairs(G.playing_cards) do
+				if not suits[v.base.suit] and not v:is_suit(self.config.current_suit, true) then
+					suits[v.base.suit] = v.base.suit
+				end
+			end
+			self.prepped = false
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.3,
+				func = function()
+					if suits then
+
+						self.config.current_suit = pseudorandom_element(suits, pseudoseed("crv_ssp_blind"))
+
+						RevosVault.attention_text(localize(self.config.current_suit, "suits_plural"))
+
+						for k, v in pairs(G.playing_cards) do
+							if v:is_suit(self.config.current_suit) then
+								SMODS.debuff_card(v, true, "crv_ssp")
+							else
+								SMODS.debuff_card(v, false, "crv_ssp")
+							end
+						end
+
+						G.GAME.blind:wiggle()
+					end
+					return true
+				end,
+			}))
+		end
+	end,
+	press_play = function(self)
+		self.prepped = true
+	end,	
+	defeat = function(self, silent)
+		for k, v in pairs(G.playing_cards) do
+			SMODS.debuff_card(v, false, "crv_ssp")
+		end
+	end,
+	disable = function(self, silent)
+		for k, v in pairs(G.playing_cards) do
+			SMODS.debuff_card(v, false, "crv_ssp")
+		end
 	end,
 })

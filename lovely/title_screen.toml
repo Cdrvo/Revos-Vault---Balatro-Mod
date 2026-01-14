@@ -14,7 +14,6 @@ if next(SMODS.find_mod("Cryptid")) then
     replace_card = Card(self.title_top.T.x, self.title_top.T.y, 1.2*G.CARD_W*SC_scale, 1.2*G.CARD_H*SC_scale, G.P_CARDS.S_A, G.P_CENTERS.c_base)
 else
 	replace_card = SMODS.create_card({
-		set = "Joker",
 		area = G.title_top,
 		key = "j_crv_printertitle",
 		no_edition = true

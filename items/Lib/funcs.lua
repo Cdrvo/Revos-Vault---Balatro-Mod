@@ -1720,3 +1720,9 @@ function RevosVault.boost_hand(m, c)
 
         delay(0.6)
 end
+
+function RevosVault.attention_text(_text, _hold, _major, _scale, _offset, _align)
+	attention_text({
+		scale = (_scale or 1.4), text = _text, hold = (_hold or 2), align = (_align or 'cm'), offset = (_offset or {x = 0,y = -2.7}),major = (_major or G.play)
+	})
+end
