@@ -1736,3 +1736,71 @@ function RevosVault.random_playing_card(id, suit, area)
 		area = area or G.deck
 	})
 end
+
+function Card:is_enhanced()
+	local a = 0
+	for k, v in pairs(SMODS.get_enhancements(self)) do
+		if v then
+			a = a + 1
+		end
+	end
+
+	if a > 0 then
+		return true
+	end
+	return false
+end
+
+function RevosVault.is_an_enhancement(center)
+	if (G.P_CENTERS[center] and G.P_CENTERS[center].set == "Enhanced") or (center and center.set and center.set == "Enhanced") then
+		return true
+	end
+	return false
+end
+
+function RevosVault.rarity_in(rarity, area)
+	local a = 0
+	area = area or G.jokers.cards
+	for k, v in pairs(area) do
+		if v.config.center.rarity == rarity then
+			a = a + 1
+		end
+	end
+	return a
+end
+
+
+function RevosVault.change_shop_size(mod, shop_area)
+	if not G.GAME.shop[shop_area] then G.GAME.shop[shop_area] = G[shop_area].config.card_limit end
+    if not G.GAME.shop then return end
+    G.GAME.shop[shop_area] = G.GAME.shop[shop_area] + mod
+    if G[shop_area] and G[shop_area].cards then
+        if mod < 0 then
+            --Remove jokers in shop
+            for i = #G[shop_area].cards, G.GAME.shop[shop_area]+1, -1 do
+                if G[shop_area].cards[i] then
+                    G[shop_area].cards[i]:remove()
+                end
+            end
+        end
+        G[shop_area].config.card_limit = G.GAME.shop[shop_area]
+        G[shop_area].T.w = math.min(G.GAME.shop[shop_area]*1.02*G.CARD_W,4.08*G.CARD_W)
+        G.shop:recalculate()
+    end
+end
+
+function RevosVault.remove_all_stickers(card, ignore)
+    if card then
+        for k, v in pairs(SMODS.Stickers) do
+            if (card.ability[k] or card[k]) and k ~= ignore then
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'immediate',
+                    func = function()
+						card:remove_sticker(k, true)
+                        return true
+                    end
+                }))
+            end
+        end
+    end
+end

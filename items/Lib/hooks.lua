@@ -159,7 +159,7 @@ end
 
 local arer_ref = add_round_eval_row --thank's to haya for this bit :D
 function add_round_eval_row(config)
-	config.dollars = (config.dollars or 0) * G.GAME.crv_cashout
+	config.dollars = (((config.dollars or 0) * G.GAME.crv_cashout) / G.GAME.curse_cashout)
 	return arer_ref(config)
 end
 
@@ -228,6 +228,8 @@ Game.init_game_object = function(self)
 	ret.crv_cashout = 1
 	ret.used_gems = {}
 	ret.reroll_before = false
+	ret.xinflation = 1
+	ret.curse_cashout = 1
 	if next(SMODS.find_mod("JoJoMod")) then
 		ret.jojo = true
 	else
@@ -415,3 +417,62 @@ function G.FUNCS.redskill(e)
 end
 
 --
+
+local set_ability_old = Card.set_ability
+function Card:set_ability(center, initial, delay_sprites)
+	set_ability_old(self, center, initial, delay_sprites)
+
+	G.E_MANAGER:add_event(Event({
+		trigger = "immediate",
+		delay = 0,
+		func = function()
+			if RevosVault.is_an_enhancement(center) and center ~= "c_base" then
+				SMODS.calculate_context({card_enhanced = true, card = self, enhancement = center, area = self.area})
+			end
+			return true
+		end
+	}))
+
+end
+
+
+local emplace_old = CardArea.emplace
+function CardArea:emplace(card, location, stay_flipped)
+	emplace_old(self, card, location, stay_flipped)
+    if card and card.config and card.config.center and card.config.center.key and card.config.center.rarity == "crv_curse" and (self == G.shop_jokers or self == G.pack_cards) then
+		if card.area then
+			RevosVault.move_card(card, G.jokers)
+		end
+
+		card:add_sticker("eternal", true)
+
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.1,
+			func = function()
+				RevosVault.remove_all_stickers(card, "eternal")
+				card.sell_cost = 0
+				card.children.price = nil
+				card.children.buy_button = nil
+				return true
+			end
+		}))
+	end
+end
+
+
+local use_consumeable_old = Card.use_consumeable
+function Card:use_consumeable(area, copier)
+	use_consumeable_old(self, area, copier)
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0.1,
+		func = function()
+			SMODS.calculate_context({after_consumable = true})
+			if self.config.center.after_use then
+				self.config.center:after_use()
+			end
+			return true
+		end
+	}))
+end

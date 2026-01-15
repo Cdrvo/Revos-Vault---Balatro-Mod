@@ -266,8 +266,13 @@ function Card:highlight(is_highlighted)
 				parent = self,
 			},
 		})
+	elseif self.highlighted and self.config.center.rarity == "crv_curse" and self.area == G.jokers then
+		if self.children.use_button then
+			self.children.use_button:remove()
+			self.children.use_button = nil
+		end
 	else
-		cardhighold(self, is_highlighted)
+		cardhighold(self, is_highlighted)	
 	end
 end
 

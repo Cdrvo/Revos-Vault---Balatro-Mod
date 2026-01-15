@@ -27,3 +27,17 @@ SMODS.Rarity({
 
 	pools = {},
 })
+
+SMODS.Rarity({
+	key = "curse",
+	badge_colour = G.C.BLACK,
+	default_weight = 0.001,
+	pools = { ["Joker"] = true },
+	get_weight = function(self, weight, object_type)
+		if G.GAME.modifiers.crv_curse_increase then
+			return 0.03
+		else
+			return SMODS.Rarities["crv_curse"].default_weight
+		end
+	end,
+})

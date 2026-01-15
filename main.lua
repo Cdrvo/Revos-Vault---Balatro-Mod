@@ -65,6 +65,11 @@ RevosVault.config_tab = function()
 								ref_value = "superior_enabled",
 								callback = should_restart,
 							}),
+						},
+					},
+					{
+						n = G.UIT.C,
+						nodes = {
 							create_toggle({
 								label = localize("crv_enable_wip") .. "*",
 								ref_table = RevosVault.config,
@@ -74,13 +79,19 @@ RevosVault.config_tab = function()
 							create_toggle({
 								label = localize("crv_enable_secret"),
 								ref_table = RevosVault.config,
-								ref_value = "8_secretjokers_enabled",
+								ref_value = "9_secretjokers_enabled",
 								callback = should_restart,
 							}),
 							create_toggle({
 								label = localize("crv_enable_gems"),
 								ref_table = RevosVault.config,
 								ref_value = "gems_enabled",
+								callback = should_restart,
+							}),
+							create_toggle({
+								label = localize("crv_enable_curses"),
+								ref_table = RevosVault.config,
+								ref_value = "8_curses_enabled",
 								callback = should_restart,
 							}),
 						},
@@ -98,7 +109,7 @@ RevosVault.config_tab = function()
 				n = G.UIT.R,
 				config = { align = "cm", minh = 0.6 },
 				nodes = {
-					{ n = G.UIT.T, config = { text = "*" .. "Not Recommended!", colour = G.C.WHITE, scale = 0.4 } },
+					{ n = G.UIT.T, config = { text = "*" .. "Not Recommended!", colour = G.C.WHITE, scale = 0.4 } }
 				},
 			},
 		},

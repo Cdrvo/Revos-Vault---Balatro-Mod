@@ -143,3 +143,4 @@ function loc_colour(_c, _default)
 
 	return loc_old(_c, _default)
 end
+

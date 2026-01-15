@@ -2196,6 +2196,104 @@ return {
 					"voucher"
 				},
 			},
+			j_crv_black_clover = {
+				name = "Black Clover",
+				text = {
+					"Playing Cards {C:red}cannot",
+					"have {C:attention}Enhancements"
+				}
+			},
+			j_crv_limited_stock = {
+				name = "Limited Stock",
+				text = {
+					"{C:red}-1{} Cards and{}",
+					"Boosters in shop"
+				}
+			},
+			j_crv_inflation = {
+				name = "Inflation",
+				text = {
+					"Everything in shop",
+					"costs {C:attention}double{}"
+				}
+			},
+			j_crv_greed = {
+				name = "Greed",
+				text = {
+					"{C:attention}Cashout{} is",
+					"{C:red}halved"
+				}
+			},
+			j_crv_demotion = {
+				name = "Demotion",
+				text = {
+					"{C:red}Rare{} Jokers can",
+					"no longer appear",
+					"naturally"
+				}
+			},
+			j_crv_cursed_printer = {
+				name = "Cursed Printer",
+				text = {
+					"{C:red}1/4{} Chance to",
+					"print a {C:dark_edition}Random{}",
+					"Curse Joker"
+				}
+			},
+			j_crv_soulless = {
+				name = "Soulless",
+				text = {
+					"{C:attention}Scored{} cards",
+					"has a {C:red}1/2{} Chance to",
+					"turn into {C:blue}Soul{}"
+				}
+			},
+			j_crv_clumsy = {
+				name = "Clumsy",
+				text = {
+					"{C:red}1/4{} Chance to",
+					"destroy a {C:attention}bought",
+					"card"
+				}
+			},
+			j_crv_hardcore = {
+				name = "Hardcore",
+				text = {
+					"{C:attention}Ante Scaling{} is",
+					"tripled"
+				}
+			},
+			j_crv_sneak_attack = {
+				name = "Sneak Attack",
+				text = {
+					"When a {C:attention}Blind{} is selected",
+					"{C:red}1/10{} Chance to",
+					"{C:attention}Decuple{} the",
+					"required chips"
+				}
+			},
+			j_crv_hardstuck = {
+				name = "Hardstuck",
+				text = {
+					"{C:red}-1{} Voucher",
+					"slot in shop"
+				}
+			},
+			j_crv_small_hands = {
+				name = "Small Hands",
+				text = {
+					"{C:red}-1{C:blue} Play{} and",
+					"{C:red}Discard{} limit"
+				}
+			},
+			j_crv_royal_assasin = {
+				name = "Royal Assasin",
+				text = {
+					"Scored {C:attention}Face Cards{}",
+					"are {:red}destroyed"
+				}
+			},
+			-- QUICK JOKER
 			--GARBSHIT below
 			j_crv_stamprinter = {
 				name = "Stamp Printer",
@@ -3384,11 +3482,22 @@ return {
 				name = "Chaotic Soul",
 				text = { "Creates a random", "{C:dark_edition}Chaos Joker" },
 			},
+			c_crv_pruification = {
+				name = "Purify",
+				text = {
+					"Destroy up to {C:attention}#1#",
+					"{C:black}Curse{} Card"
+				}
+			}
 		},
 		Other = {
 			crv_revosstake_sticker = {
 				name = "Revo's Sticker",
 				text = {"Used this Joker", "to win on {C:attention}Revo's", "{C:attention}Stake{} difficulty"}
+			},
+			crv_cursed_stake_sticker = {
+				name = "Cursed Sticker",
+				text = {"Used this Joker", "to win on {C:attention}Cursed", "{C:attention}Stake{} difficulty"}
 			},
 			crv_ps_seal = {
 				name = "Printer's Seal",
@@ -3573,6 +3682,14 @@ return {
 				},
 			},
 
+			crv_curse_desc = {
+				name = "Curse",
+				text = {
+					"Card {C:red}cannot{}",
+					"be destroyed"
+				}
+			},
+
 			-- Starspace Cross-Mod
 
 			crv_blessed_patch = {
@@ -3656,7 +3773,15 @@ return {
 					"Enables almost all stickers",
 					"added by {C:attention}Revo's Vault{}",
 				},
-			}
+			},
+			stake_crv_cursed_stake = {
+				name = "Cursed Stake",
+				text = {
+					"Significantly {C:attention}increase",
+					"the chances of",
+					"Cursed Jokers appearing"
+				},
+			},
 		},
 		Voucher = {
 			v_crv_printerup = {
@@ -3770,6 +3895,7 @@ return {
 		labels = {
 			crv_ps_seal = "Printer's Seal",
 			crv_p = "Printer",
+			crv_curse = "Curse",
 			scrap = "Scraps",
 			enchanceddocuments = "Contracts",
 			crv_vamp = "Vampiric",
@@ -3817,6 +3943,7 @@ return {
 			k_crv_error = "ERROR!",
 			k_crv_yum = "Yummy!",
 			k_crv_p = "Printer",
+			k_crv_curse = "Curse",
 			k_crv_holy = "Holy Banana",
 			k_crv_pedro = "Pedro",
 			k_crv_titan = "Evolution",
@@ -3860,6 +3987,7 @@ return {
 			crv_enable_superior = "Enable Superior Cards",
 			crv_enable_secret = "Enable Secret Jokers",
 			crv_enable_blinds = "Enable Blinds",
+			crv_enable_curses = "Enable Curses",
 			ph_active_gems = "Active Gems",
 			no_gems = "No active gems",
 			b_gems = "Gems",
