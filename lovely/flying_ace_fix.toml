@@ -1,0 +1,16 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+# should also mention to Evgast
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS flace "main.lua"]'
+pattern = 'if self.highlighted and self.config.center.subset == "Tuning" then'
+position = "at"
+payload = '''
+if self.highlighted and self.config.center.subset == "Tuning" and not self.config.center.no_buttons then
+'''
+match_indent = true

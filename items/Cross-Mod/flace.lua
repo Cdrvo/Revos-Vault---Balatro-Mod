@@ -4,6 +4,7 @@ if FLACE and FLACE.Flace then
         key = "aop",
         atlas = "flace",
         subset = "Tuning",
+        no_buttons = true,
         pos = { x = 0, y = 0 },
         config = { extra = { } },
         loc_vars = function(self, info_queue, card)

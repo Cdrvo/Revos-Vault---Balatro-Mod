@@ -354,7 +354,7 @@ end
 local skip_partner_old = G.FUNCS.skip_partner
 G.FUNCS.skip_partner = function()
 	skip_partner_old()
-	if RevosVault.partner_fix then
+	if RevosVault.partner_fix and not RevosVault.flace_fix then
 		G.FUNCS.get_printer_box()
 		RevosVault.partner_fix = false
 	end
@@ -363,7 +363,7 @@ end
 local select_partner_old = G.FUNCS.select_partner
 G.FUNCS.select_partner = function()
 	select_partner_old()
-	if RevosVault.partner_fix then
+	if RevosVault.partner_fix and not RevosVault.flace_fix then
 		G.FUNCS.get_printer_box()
 		RevosVault.partner_fix = false
 	end
@@ -378,6 +378,9 @@ G.FUNCS.cancel_flace_choice = function()
 	if RevosVault.flace_fix then
 		G.FUNCS.get_printer_box()
 		RevosVault.flace_fix = false
+		if RevosVault.partner_fix then
+			RevosVault.partner_fix = false
+		end
 	end
 end
 
@@ -387,5 +390,28 @@ G.FUNCS.select_flace = function()
 	if RevosVault.flace_fix then
 		G.FUNCS.get_printer_box()
 		RevosVault.flace_fix = false
+		if RevosVault.partner_fix then
+			RevosVault.partner_fix = false
+		end
 	end
 end
+
+-- Should mention this to Evgast probably
+
+local blueskill_old = G.FUNCS.blueskill
+function G.FUNCS.blueskill(e)
+	local card = e.config.ref_table
+	if card.config.center.can_use_blue then
+    	blueskill_old(e)
+	end
+end
+
+local redskill_old = G.FUNCS.redskill
+function G.FUNCS.redskill(e) 
+	local card = e.config.ref_table
+   	if card.config.center.can_use_red then
+    	redskill_old(e)
+	end
+end
+
+--
