@@ -368,3 +368,24 @@ G.FUNCS.select_partner = function()
 		RevosVault.partner_fix = false
 	end
 end
+
+
+-- Flying Aces Mod and Printer Deck compat
+
+local cancel_flace_choice_old = G.FUNCS.cancel_flace_choice
+G.FUNCS.cancel_flace_choice = function()
+	cancel_flace_choice_old()
+	if RevosVault.flace_fix then
+		G.FUNCS.get_printer_box()
+		RevosVault.flace_fix = false
+	end
+end
+
+local select_flace_old = G.FUNCS.select_flace
+G.FUNCS.select_flace = function()
+	select_flace_old()
+	if RevosVault.flace_fix then
+		G.FUNCS.get_printer_box()
+		RevosVault.flace_fix = false
+	end
+end

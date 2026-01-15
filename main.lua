@@ -375,7 +375,8 @@ RevosVault.CrossMod = {
 	"JoyousSpring",
 	"Incognito",
 	"starspace",
-	"Multiverse"
+	"Multiverse",
+	"flace"
 }
 
 

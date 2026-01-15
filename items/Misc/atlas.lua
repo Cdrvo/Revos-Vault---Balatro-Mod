@@ -446,3 +446,10 @@ SMODS.Atlas({
 	px = 71,
 	py = 95,
 })
+
+SMODS.Atlas({
+	key = "flace",
+	path = "Cross-Mod/flace.png",
+	px = 71,
+	py = 95,
+})

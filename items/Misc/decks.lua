@@ -9,7 +9,11 @@ SMODS.Back {
     apply = function()
         if next(SMODS.find_mod("partner")) and Partner_API.config and Partner_API.config.enable_partner then
             RevosVault.partner_fix = true
-        else
+        end
+        if next(SMODS.find_mod("flace")) then
+            RevosVault.flace_fix = true
+        end
+        if not RevosVault.partner_fix and not RevosVault.flace_fix then
             G.FUNCS.get_printer_box()
         end
     end

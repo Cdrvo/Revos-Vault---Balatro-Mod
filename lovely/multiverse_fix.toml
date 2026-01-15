@@ -1,0 +1,17 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# had some issues with printer deck and multiverse for some reason, trying to fix it with this patch
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Multiverse "misc/transmute_utils.lua"]'
+pattern = 'and type(card.ability.extra) == "table"'
+position = "after"
+payload = '''
+and card.config
+and card.config.center
+'''
+match_indent = true 

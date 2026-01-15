@@ -1726,3 +1726,13 @@ function RevosVault.attention_text(_text, _hold, _major, _scale, _offset, _align
 		scale = (_scale or 1.4), text = _text, hold = (_hold or 2), align = (_align or 'cm'), offset = (_offset or {x = 0,y = -2.7}),major = (_major or G.play)
 	})
 end
+
+function RevosVault.random_playing_card(id, suit, area)
+	local acard = SMODS.add_card({
+		set = "Playing Card",
+		rank = id,
+		suit = suit,
+		enhancement =  SMODS.poll_enhancement({}),
+		area = area or G.deck
+	})
+end

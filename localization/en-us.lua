@@ -1,6 +1,17 @@
 return {
 	descriptions = {
 
+		 Flace={
+           ace_crv_aop = {
+			name = "Ace of Printers",
+			text = {
+				"When {C:attention}First{} hand",
+				"is drawn, print a {C:dark_edition}Random{}",
+				"{C:attention}Ace{}"
+			}
+		   }
+		 },
+
 		Back = {
 
 			b_crv_pdeck = {
