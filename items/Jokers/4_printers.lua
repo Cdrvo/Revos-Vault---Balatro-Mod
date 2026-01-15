@@ -1725,51 +1725,53 @@ SMODS.Joker({
 	end,
 })
 
-SMODS.Joker({
-	key = "supprinter",
-	atlas = "Jokers2",
-	rarity = "crv_p",
-	cost = 10,
-	unlocked = true,
-	discovered = false,
-	blueprint_compat = true,
-	pos = {
-		x = 5,
-		y = 12,
-	},
-	config = {
-		extra = {},
-	},
-	loc_vars = function(self, info_queue, card)
-		return {
-			vars = {},
-		}
-	end,
+if RevoConfig["superior_enabled"] then
+	SMODS.Joker({
+		key = "supprinter",
+		atlas = "Jokers2",
+		rarity = "crv_p",
+		cost = 10,
+		unlocked = true,
+		discovered = false,
+		blueprint_compat = true,
+		pos = {
+			x = 5,
+			y = 12,
+		},
+		config = {
+			extra = {},
+		},
+		loc_vars = function(self, info_queue, card)
+			return {
+				vars = {},
+			}
+		end,
 
-	calculate = function(self, card, context)
-		if context.setting_blind then
-			if
-				G.GAME.used_vouchers["v_crv_printerup"] == true
-					and pseudorandom("ALLPRINTER") < G.GAME.probabilities.normal / 4
-				or G.GAME.used_vouchers["v_crv_printeruptier"] == true
-			then
-				SMODS.add_card({
-					area = G.consumeables,
-					key = pseudorandom_element(G.P_CENTER_POOLS.Superior).key,
-					edition = "e_negative",
-				})
-			elseif #G.consumeables.cards < G.consumeables.config.card_limit then
-				SMODS.add_card({
-					area = G.consumeables,
-					key = pseudorandom_element(G.P_CENTER_POOLS.Superior).key,
-				})
+		calculate = function(self, card, context)
+			if context.setting_blind then
+				if
+					G.GAME.used_vouchers["v_crv_printerup"] == true
+						and pseudorandom("ALLPRINTER") < G.GAME.probabilities.normal / 4
+					or G.GAME.used_vouchers["v_crv_printeruptier"] == true
+				then
+					SMODS.add_card({
+						area = G.consumeables,
+						key = pseudorandom_element(G.P_CENTER_POOLS.Superior).key,
+						edition = "e_negative",
+					})
+				elseif #G.consumeables.cards < G.consumeables.config.card_limit then
+					SMODS.add_card({
+						area = G.consumeables,
+						key = pseudorandom_element(G.P_CENTER_POOLS.Superior).key,
+					})
+				end
 			end
-		end
-	end,
-	in_pool = function(self, wawa, wawa2)
-		return false
-	end,
-})
+		end,
+		in_pool = function(self, wawa, wawa2)
+			return false
+		end,
+	})
+end
 
 SMODS.Joker({
 	key = "voucher_printer",

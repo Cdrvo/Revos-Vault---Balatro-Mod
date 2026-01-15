@@ -1,12 +1,21 @@
 -------------MOD CODE-------------
 RevosVault = SMODS.current_mod
 RevoConfig = SMODS.current_mod.config
+RevosPath = SMODS.current_mod.path
 
 --BEHOLD! THE WORST CODE IN HISTORY UNFOLDS UPON YOUR EYES!
 --No but seriously goodluck understanding anything
 
 
-RevosVault.optional_features = { retrigger_joker = true }
+SMODS.current_mod.optional_features = function()
+	return {
+		post_trigger = true,
+		retrigger_joker = true,
+		cardareas = {
+			unscored = true,
+		},
+	}
+end
 
 --Kindly took this from Prism :D
 
@@ -41,13 +50,13 @@ RevosVault.config_tab = function()
 							create_toggle({
 								label = localize("crv_enable_chaoscards"),
 								ref_table = RevosVault.config,
-								ref_value = "chaos_enabled",
+								ref_value = "7_chaos_enabled",
 								callback = should_restart,
 							}),
 							create_toggle({
 								label = localize("crv_enable_vaulteds"),
 								ref_table = RevosVault.config,
-								ref_value = "vault_enabled",
+								ref_value = "6_vault_enabled",
 								callback = should_restart,
 							}),
 							create_toggle({
@@ -65,7 +74,7 @@ RevosVault.config_tab = function()
 							create_toggle({
 								label = localize("crv_enable_secret"),
 								ref_table = RevosVault.config,
-								ref_value = "secretjokers_enabled",
+								ref_value = "8_secretjokers_enabled",
 								callback = should_restart,
 							}),
 							create_toggle({
@@ -301,123 +310,56 @@ RevosVault.config_tab = function()
 	}
 end]]
 
-
-RevosVault.Lib = {
-	"funcs",
-	"hooks",
-	"ui",
-}
-RevosVault.Consumables = {
-	"tarots",
-	"scrap",
-	"superior",
-	"contracts"
-}
-RevosVault.Jokers = {
-	"self_inserts",
-	"commons",
-	"uncommons",
-	"rares",
-	"printers",
-	"legendaries",
-	"vault",
-	"chaos",
-	"secretjokers",
-}
-RevosVault.Misc = {
-	"atlas",
-	"rarities",
-	"blinds",
-	"booster",
-	"challenge",
-	"decks",
-	"editions",
-	"enh",
-	"gems",
-	"misc",
-	"seals",
-	"stakes",
-	"stickers",
-	"tags",
-	"vouchers",
-	"experimental",
-	"achievements",
-	"boons"
-}
-
-RevosVault.CrossMod = {
-	"RiftRaft",
-	"reverse_tarot",
-	"TOGAPack",
-	"CardSleeves",
-	"JokerDisplay",
-	"Bakery",
-	"Maximus",
-	"MoreFluff",
-	"Prism",
-	"sdm0sstuff",
-	"aikoyorisshenanigans",
-	"GARBPACK",
-	"partner",
-	"tangent",
-	"NotVanilla",
-	"GrabBag",
-	"LuckyRabbit",
-	"paradox_ideas",
-	"pokerjokers",
-	"entr",
-	"kino",
-	"ortalab",
-	"pta_saka",
-	"finity",
-	"stacked",
-	"high_roller",
-	"JoyousSpring",
-	"Incognito",
-	"starspace",
-	"Multiverse",
-	"flace"
-}
-
+RevosVault.Lib = NFS.getDirectoryItems(RevosPath .. "items/Lib")
+RevosVault.Misc = NFS.getDirectoryItems(RevosPath .. "items/Misc")
+RevosVault.Consumables = NFS.getDirectoryItems(RevosPath .. "items/Consumables")
+RevosVault.Jokers = NFS.getDirectoryItems(RevosPath .. "items/Jokers")
+RevosVault.CrossMod = NFS.getDirectoryItems(RevosPath .. "items/Cross-Mod")
 
 --
-for k, file in pairs(RevosVault.Lib) do
-	SMODS.load_file("items/Lib/" .. file .. ".lua")()
+for k, file in ipairs(RevosVault.Lib) do
+	SMODS.load_file("items/Lib/" .. file)()
 end
 
-for k, file in pairs(RevosVault.Misc) do
-	if RevoConfig[file .. "_enabled"] ~= nil then
-		if RevoConfig[file .. "_enabled"] ~= false then 
-			SMODS.load_file("items/Misc/" .. file .. ".lua")()
+for k, file in ipairs(RevosVault.Misc) do
+	local file_no_lua = string.gsub(file,".lua","")
+	if RevoConfig[file_no_lua .. "_enabled"] ~= nil then
+		if RevoConfig[file_no_lua .. "_enabled"] ~= false then 
+			SMODS.load_file("items/Misc/" .. file)()
 		end
 	else
-		SMODS.load_file("items/Misc/" .. file .. ".lua")()
+		SMODS.load_file("items/Misc/" .. file)()
 	end
 end
 
-for k, file in pairs(RevosVault.Consumables) do
-	if RevoConfig[file .. "_enabled"] ~= nil then
-		if RevoConfig[file .. "_enabled"] ~= false then
-			SMODS.load_file("items/Consumables/" .. file .. ".lua")()
+for k, file in ipairs(RevosVault.Consumables) do
+	local file_no_lua = string.gsub(file,".lua","")
+	if RevoConfig[file_no_lua .. "_enabled"] ~= nil then
+		if RevoConfig[file_no_lua .. "_enabled"] ~= false then 
+			SMODS.load_file("items/Consumables/" .. file)()
 		end
 	else
-		SMODS.load_file("items/Consumables/" .. file .. ".lua")()
+		SMODS.load_file("items/Consumables/" .. file)()
 	end
 end
 
-for k, file in pairs(RevosVault.Jokers) do
-	if RevoConfig[file .. "_enabled"] ~= nil then
-		if RevoConfig[file .. "_enabled"] ~= false then
-			SMODS.load_file("items/Jokers/" .. file .. ".lua")()
+for k, file in ipairs(RevosVault.Jokers) do
+	local file_no_lua = string.gsub(file,".lua","")
+	if RevoConfig[file_no_lua .. "_enabled"] ~= nil then
+		if RevoConfig[file_no_lua .. "_enabled"] ~= false then 
+			SMODS.load_file("items/Jokers/" .. file)()
 		end
 	else
-		SMODS.load_file("items/Jokers/" .. file .. ".lua")()
+		SMODS.load_file("items/Jokers/" .. file)()
 	end
 end
 
-for k, file in pairs(RevosVault.CrossMod) do
-	if next(SMODS.find_mod(file)) then
-		SMODS.load_file("items/Cross-Mod/" .. file .. ".lua")()
+for k, file in ipairs(RevosVault.CrossMod) do
+	local file_no_lua = string.gsub(file,".lua","")
+	if next(SMODS.find_mod(file_no_lua)) then
+		SMODS.load_file("items/Cross-Mod/" .. file)()
+		if not RevosVault.crossed_mods then RevosVault.crossed_mods = 0 end
+		RevosVault.crossed_mods = RevosVault.crossed_mods + 1
 	end
 end
 

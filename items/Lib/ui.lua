@@ -1104,217 +1104,219 @@ end
 
 -- All gems stuff until "--"
 
-RevosVault.custom_button_set_3 = function(card, args)
-	local args = args or {}
-	local use = nil
+if RevoConfig["gems_enabled"] then
+	RevosVault.custom_button_set_3 = function(card, args)
+		local args = args or {}
+		local use = nil
 
-	if args.use then
-		use = {
-			n = G.UIT.C,
+		if args.use then
+			use = {
+				n = G.UIT.C,
+				config = {
+					align = "cr",
+				},
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = {
+							ref_table = card,
+							minw = 1.1,
+							maxw = 1.3,
+							padding = 0.1,
+							align = "cm",
+							colour = G.C.GREEN,
+							shadow = true,
+							r = 0.08,
+							minh = 0.94,
+							func = "can_redeem_gem",
+							one_press = true,
+							button = "use_card",
+							hover = true,
+						},
+						nodes = {
+							{ n = G.UIT.T, config = { text = "Activate", colour = G.C.WHITE, scale = 0.4 } },
+						},
+					},
+				},
+			}
+		end
+
+		return {
+			n = G.UIT.ROOT,
 			config = {
 				align = "cr",
+				padding = 0,
+				colour = G.C.CLEAR,
 			},
 			nodes = {
 				{
 					n = G.UIT.C,
 					config = {
-						ref_table = card,
-						minw = 1.1,
-						maxw = 1.3,
-						padding = 0.1,
-						align = "cm",
-						colour = G.C.GREEN,
-						shadow = true,
-						r = 0.08,
-						minh = 0.94,
-						func = "can_redeem_gem",
-						one_press = true,
-						button = "use_card",
-						hover = true,
+						padding = 0.15,
+						align = "cl",
 					},
 					nodes = {
-						{ n = G.UIT.T, config = { text = "Activate", colour = G.C.WHITE, scale = 0.4 } },
+						sell and {
+							n = G.UIT.R,
+							config = {
+								align = "cl",
+							},
+							nodes = { sell },
+						} or nil,
+						use and {
+							n = G.UIT.R,
+							config = {
+								align = "cl",
+							},
+							nodes = { use },
+						} or nil,
 					},
 				},
 			},
 		}
 	end
 
-	return {
-		n = G.UIT.ROOT,
-		config = {
-			align = "cr",
-			padding = 0,
-			colour = G.C.CLEAR,
-		},
-		nodes = {
-			{
-				n = G.UIT.C,
-				config = {
-					padding = 0.15,
-					align = "cl",
-				},
-				nodes = {
-					sell and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { sell },
-					} or nil,
-					use and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { use },
-					} or nil,
-				},
-			},
-		},
-	}
-end
-
---Gem tab function to show the gems in a new tab in run info.
-function G.UIDEF.used_gems()
-	local silent = false
-	local keys_used = {}
-	local area_count = 0
-	local voucher_areas = {}
-	local voucher_tables = {}
-	local voucher_table_rows = {}
-	for k, v in ipairs(G.GAME.used_gems or {}) do
-		keys_used[#keys_used + 1] = G.P_CENTERS[v]
-	end
-	for k, v in ipairs(keys_used) do
-		if next(v) then
-			area_count = area_count + 1
+	--Gem tab function to show the gems in a new tab in run info.
+	function G.UIDEF.used_gems()
+		local silent = false
+		local keys_used = {}
+		local area_count = 0
+		local voucher_areas = {}
+		local voucher_tables = {}
+		local voucher_table_rows = {}
+		for k, v in ipairs(G.GAME.used_gems or {}) do
+			keys_used[#keys_used + 1] = G.P_CENTERS[v]
 		end
-	end
-	for k, v in ipairs(keys_used) do
-		if next(v) then
-			if #voucher_areas == 5 or #voucher_areas == 10 then
-				table.insert(
-					voucher_table_rows,
-					{ n = G.UIT.R, config = { align = "cm", padding = 0, no_fill = true }, nodes = voucher_tables }
-				)
-				voucher_tables = {}
+		for k, v in ipairs(keys_used) do
+			if next(v) then
+				area_count = area_count + 1
 			end
-			voucher_areas[#voucher_areas + 1] = CardArea(
-				G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
-				G.ROOM.T.h,
-				(#v == 1 and 1 or 1.33) * G.CARD_W,
-				(area_count >= 10 and 0.75 or 1.07) * G.CARD_H,
-				{ card_limit = 2, type = "voucher", highlight_limit = 0 }
-			)
-
-			local center = v
-			local card = Card(
-				voucher_areas[#voucher_areas].T.x + voucher_areas[#voucher_areas].T.w / 2,
-				voucher_areas[#voucher_areas].T.y,
-				G.CARD_W,
-				G.CARD_H,
-				nil,
-				center,
-				{ bypass_discovery_center = true, bypass_discovery_ui = true, bypass_lock = true }
-			)
-			-- RevosVault.create_gem_timer(card)
-			card:start_materialize(nil, silent)
-			silent = true
-			voucher_areas[#voucher_areas]:emplace(card)
-
-			card.ability.order = v.order
-
-			table.insert(voucher_tables, {
-				n = G.UIT.C,
-				config = { align = "cm", padding = 0, no_fill = true },
-				nodes = {
-					{ n = G.UIT.O, config = { object = voucher_areas[#voucher_areas] } },
-				},
-			})
 		end
-	end
-	table.insert(
-		voucher_table_rows,
-		{ n = G.UIT.R, config = { align = "cm", padding = 0, no_fill = true }, nodes = voucher_tables }
-	)
+		for k, v in ipairs(keys_used) do
+			if next(v) then
+				if #voucher_areas == 5 or #voucher_areas == 10 then
+					table.insert(
+						voucher_table_rows,
+						{ n = G.UIT.R, config = { align = "cm", padding = 0, no_fill = true }, nodes = voucher_tables }
+					)
+					voucher_tables = {}
+				end
+				voucher_areas[#voucher_areas + 1] = CardArea(
+					G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
+					G.ROOM.T.h,
+					(#v == 1 and 1 or 1.33) * G.CARD_W,
+					(area_count >= 10 and 0.75 or 1.07) * G.CARD_H,
+					{ card_limit = 2, type = "voucher", highlight_limit = 0 }
+				)
 
-	local t = silent
-			and {
+				local center = v
+				local card = Card(
+					voucher_areas[#voucher_areas].T.x + voucher_areas[#voucher_areas].T.w / 2,
+					voucher_areas[#voucher_areas].T.y,
+					G.CARD_W,
+					G.CARD_H,
+					nil,
+					center,
+					{ bypass_discovery_center = true, bypass_discovery_ui = true, bypass_lock = true }
+				)
+				-- RevosVault.create_gem_timer(card)
+				card:start_materialize(nil, silent)
+				silent = true
+				voucher_areas[#voucher_areas]:emplace(card)
+
+				card.ability.order = v.order
+
+				table.insert(voucher_tables, {
+					n = G.UIT.C,
+					config = { align = "cm", padding = 0, no_fill = true },
+					nodes = {
+						{ n = G.UIT.O, config = { object = voucher_areas[#voucher_areas] } },
+					},
+				})
+			end
+		end
+		table.insert(
+			voucher_table_rows,
+			{ n = G.UIT.R, config = { align = "cm", padding = 0, no_fill = true }, nodes = voucher_tables }
+		)
+
+		local t = silent
+				and {
+					n = G.UIT.ROOT,
+					config = { align = "cm", colour = G.C.CLEAR },
+					nodes = {
+						{
+							n = G.UIT.R,
+							config = { align = "cm" },
+							nodes = {
+								{
+									n = G.UIT.O,
+									config = {
+										object = DynaText({
+											string = { localize("ph_active_gems") },
+											colours = { G.C.UI.TEXT_LIGHT },
+											bump = true,
+											scale = 0.6,
+										}),
+									},
+								},
+							},
+						},
+						{ n = G.UIT.R, config = { align = "cm", minh = 0.5 }, nodes = {} },
+						{
+							n = G.UIT.R,
+							config = { align = "cm", colour = G.C.BLACK, r = 1, padding = 0.15, emboss = 0.05 },
+							nodes = {
+								{ n = G.UIT.R, config = { align = "cm" }, nodes = voucher_table_rows },
+							},
+						},
+					},
+				}
+			or {
 				n = G.UIT.ROOT,
 				config = { align = "cm", colour = G.C.CLEAR },
 				nodes = {
 					{
-						n = G.UIT.R,
-						config = { align = "cm" },
-						nodes = {
-							{
-								n = G.UIT.O,
-								config = {
-									object = DynaText({
-										string = { localize("ph_active_gems") },
-										colours = { G.C.UI.TEXT_LIGHT },
-										bump = true,
-										scale = 0.6,
-									}),
-								},
-							},
-						},
-					},
-					{ n = G.UIT.R, config = { align = "cm", minh = 0.5 }, nodes = {} },
-					{
-						n = G.UIT.R,
-						config = { align = "cm", colour = G.C.BLACK, r = 1, padding = 0.15, emboss = 0.05 },
-						nodes = {
-							{ n = G.UIT.R, config = { align = "cm" }, nodes = voucher_table_rows },
+						n = G.UIT.O,
+						config = {
+							object = DynaText({
+								string = { localize("no_gems") },
+								colours = { G.C.UI.TEXT_LIGHT },
+								bump = true,
+								scale = 0.6,
+							}),
 						},
 					},
 				},
 			}
-		or {
-			n = G.UIT.ROOT,
-			config = { align = "cm", colour = G.C.CLEAR },
-			nodes = {
-				{
-					n = G.UIT.O,
-					config = {
-						object = DynaText({
-							string = { localize("no_gems") },
-							colours = { G.C.UI.TEXT_LIGHT },
-							bump = true,
-							scale = 0.6,
-						}),
-					},
-				},
-			},
-		}
-	return t
-end
-
-if RevosVault.config.gem_enabled then
-	RevosVault.custom_collection_tabs = function()
-		local t = UIBox_button({
-			button = "your_collection_crv_gems",
-			id = "your_collection_crv_gems",
-			label = { localize("b_gems") },
-			minw = 5,
-			minh = 1,
-		})
-		--[[local t2 = 
-			UIBox_button({
-			button = "your_collection_crv_boons",
-			id = "your_collection_crv_boons",
-			label = { "Boons" },	
-			minw = 5,
-			minh = 1,
-		})]]
-		return { t } -- t2}
+		return t
 	end
+
+	if RevosVault.config.gem_enabled then
+		RevosVault.custom_collection_tabs = function()
+			local t = UIBox_button({
+				button = "your_collection_crv_gems",
+				id = "your_collection_crv_gems",
+				label = { localize("b_gems") },
+				minw = 5,
+				minh = 1,
+			})
+			--[[local t2 = 
+				UIBox_button({
+				button = "your_collection_crv_boons",
+				id = "your_collection_crv_boons",
+				label = { "Boons" },	
+				minw = 5,
+				minh = 1,
+			})]]
+			return { t } -- t2}
+		end
+	end
+
+
 end
 
-
-
-
+--
 
 
 -- OLD UI CODE (but still used!)
