@@ -50,9 +50,10 @@ SMODS.Joker({
 		info_queue[#info_queue+1] = {set = "Other", key = "crv_curse_desc"}
 	end,
 	add_to_deck = function(self,card,from_debuff)
-		if not card.crv_curse_triggered then
+		if not card.crv_curse_triggered and not card.crv_curse_temp_trigger then
 			card.crv_curse_triggered = true
 			change_shop_size(-1)
+			RevosVault.change_shop_size(-1, "shop_booster")
 		end
 	end,
 	remove_from_deck = function(self, card, from_debuff) 
@@ -65,13 +66,18 @@ SMODS.Joker({
 			G.jokers:emplace(ccard)
 		else
 			change_shop_size(1)
+			if card.crv_curse_temp_trigger then
+				RevosVault.change_shop_size(1, "shop_booster")
+			end
 		end
   	end,
 	calculate = function(self,card,context)
 		if context.starting_shop and not context.blueprint then
+			card.crv_curse_temp_trigger = true
 			RevosVault.change_shop_size(-1, "shop_booster")
 		end
 		if context.ending_shop and not context.blueprint then
+			card.crv_curse_temp_trigger = nil
 			RevosVault.change_shop_size(1, "shop_booster")
 		end
 	end
@@ -404,7 +410,10 @@ SMODS.Joker({
 		info_queue[#info_queue+1] = {set = "Other", key = "crv_curse_desc"}
 	end,
 	add_to_deck = function(self,card,from_debuff)
-		--
+		if not card.crv_curse_triggered and not card.crv_curse_temp_trigger then
+			card.crv_curse_triggered = true
+			RevosVault.change_shop_size(-1, "shop_vouchers")
+		end
 	end,
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
@@ -415,14 +424,18 @@ SMODS.Joker({
 			ccard:add_to_deck()
 			G.jokers:emplace(ccard)
 		else
-			--
+			if card.crv_curse_temp_trigger then
+				RevosVault.change_shop_size(1, "shop_vouchers")
+			end
 		end
   	end,
 	calculate = function(self,card,context)
 		if context.starting_shop and not context.blueprint then
+			card.crv_curse_temp_trigger = true
 			RevosVault.change_shop_size(-1, "shop_vouchers")
 		end
 		if context.ending_shop and not context.blueprint then
+			card.crv_curse_temp_trigger = nil
 			RevosVault.change_shop_size(1, "shop_vouchers")
 		end
 	end
