@@ -21,6 +21,9 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
+			if card.crv_curse_triggered then
+				ccard.crv_curse_triggered = true
+			end
 			ccard:add_to_deck()
 			G.jokers:emplace(ccard)
 		end
@@ -33,13 +36,12 @@ SMODS.Joker({
   end
 })
 
-if RevoConfig["experimental_enabled"] then
 SMODS.Joker({
 	key = "limited_stock",
 	atlas = "Jokers2",
 	pos = {
-		x = 8,
-		y = 13,
+		x = 7,
+		y = 14,
 	},
 	rarity = "crv_curse",
 	blueprint_compat = false,
@@ -48,11 +50,17 @@ SMODS.Joker({
 		info_queue[#info_queue+1] = {set = "Other", key = "crv_curse_desc"}
 	end,
 	add_to_deck = function(self,card,from_debuff)
-		change_shop_size(-1)
+		if not card.crv_curse_triggered then
+			card.crv_curse_triggered = true
+			change_shop_size(-1)
+		end
 	end,
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
+			if card.crv_curse_triggered then
+				ccard.crv_curse_triggered = true
+			end
 			ccard:add_to_deck()
 			G.jokers:emplace(ccard)
 		else
@@ -74,7 +82,7 @@ SMODS.Joker({
 	atlas = "Jokers2",
 	pos = {
 		x = 8,
-		y = 13,
+		y = 14,
 	},
 	rarity = "crv_curse",
 	blueprint_compat = false,
@@ -83,15 +91,18 @@ SMODS.Joker({
 		info_queue[#info_queue+1] = {set = "Other", key = "crv_curse_desc"}
 	end,
 	add_to_deck = function(self,card,from_debuff)
-		G.GAME.xinflation = G.GAME.xinflation + 1
+		--
 	end,
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
+			if card.crv_curse_triggered then
+				ccard.crv_curse_triggered = true
+			end
 			ccard:add_to_deck()
 			G.jokers:emplace(ccard)
 		else
-			G.GAME.xinflation = G.GAME.xinflation - 1
+			--
 		end
   end,
 })
@@ -100,8 +111,8 @@ SMODS.Joker({
 	key = "greed",
 	atlas = "Jokers2",
 	pos = {
-		x = 8,
-		y = 13,
+		x = 9,
+		y = 14,
 	},
 	rarity = "crv_curse",
 	blueprint_compat = false,
@@ -110,11 +121,17 @@ SMODS.Joker({
 		info_queue[#info_queue+1] = {set = "Other", key = "crv_curse_desc"}
 	end,
 	add_to_deck = function(self,card,from_debuff)
-		G.GAME.curse_cashout = G.GAME.curse_cashout + 1
+		if not card.crv_curse_triggered then
+			card.crv_curse_triggered = true
+			G.GAME.curse_cashout = G.GAME.curse_cashout + 1
+		end
 	end,
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
+			if card.crv_curse_triggered then
+				ccard.crv_curse_triggered = true
+			end
 			ccard:add_to_deck()
 			G.jokers:emplace(ccard)
 		else
@@ -127,8 +144,8 @@ SMODS.Joker({
 	key = "demotion",
 	atlas = "Jokers2",
 	pos = {
-		x = 8,
-		y = 13,
+		x = 10,
+		y = 14,
 	},
 	config = {
 		extra = {
@@ -142,12 +159,18 @@ SMODS.Joker({
 		info_queue[#info_queue+1] = {set = "Other", key = "crv_curse_desc"}
 	end,
 	add_to_deck = function(self,card,from_debuff)
-		card.ability.extra.def = G.GAME.rare_mod
-		G.GAME.rare_mod = 0
+		if not card.crv_curse_triggered then
+			card.crv_curse_triggered = true
+			card.ability.extra.def = G.GAME.rare_mod
+			G.GAME.rare_mod = 0
+		end
 	end,
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
+			if card.crv_curse_triggered then
+				ccard.crv_curse_triggered = true
+			end
 			ccard:add_to_deck()
 			G.jokers:emplace(ccard)
 		else
@@ -160,8 +183,8 @@ SMODS.Joker({
 	key = "cursed_printer",
 	atlas = "Jokers2",
 	pos = {
-		x = 8,
-		y = 13,
+		x = 6,
+		y = 15,
 	},
 	config = {
 		extra = {
@@ -178,6 +201,9 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
+			if card.crv_curse_triggered then
+				ccard.crv_curse_triggered = true
+			end
 			ccard:add_to_deck()
 			G.jokers:emplace(ccard)
 		else
@@ -201,8 +227,8 @@ SMODS.Joker({
 	key = "soulless",
 	atlas = "Jokers2",
 	pos = {
-		x = 8,
-		y = 13,
+		x = 7,
+		y = 15,
 	},
 	config = {
 		extra = {
@@ -219,6 +245,9 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
+			if card.crv_curse_triggered then
+				ccard.crv_curse_triggered = true
+			end
 			ccard:add_to_deck()
 			G.jokers:emplace(ccard)
 		else
@@ -237,7 +266,7 @@ SMODS.Joker({
 	atlas = "Jokers2",
 	pos = {
 		x = 8,
-		y = 13,
+		y = 15,
 	},
 	config = {
 		extra = {
@@ -254,6 +283,9 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
+			if card.crv_curse_triggered then
+				ccard.crv_curse_triggered = true
+			end
 			ccard:add_to_deck()
 			G.jokers:emplace(ccard)
 		else
@@ -271,8 +303,8 @@ SMODS.Joker({
 	key = "hardcore",
 	atlas = "Jokers2",
 	pos = {
-		x = 8,
-		y = 13,
+		x = 9,
+		y = 15,
 	},
 	config = {
 		extra = {
@@ -286,13 +318,19 @@ SMODS.Joker({
 		info_queue[#info_queue+1] = {set = "Other", key = "crv_curse_desc"}
 	end,
 	add_to_deck = function(self,card,from_debuff)
-		card.ability.extra.def = G.GAME.starting_params.ante_scaling
-		G.GAME.starting_params.ante_scaling = G.GAME.starting_params.ante_scaling * 3
-		card.ability.extra.def = G.GAME.starting_params.ante_scaling - card.ability.extra.def
+		if not card.crv_curse_triggered then
+			card.crv_curse_triggered = true
+			card.ability.extra.def = G.GAME.starting_params.ante_scaling
+			G.GAME.starting_params.ante_scaling = G.GAME.starting_params.ante_scaling * 3
+			card.ability.extra.def = G.GAME.starting_params.ante_scaling - card.ability.extra.def
+		end
 	end,
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
+			if card.crv_curse_triggered then
+				ccard.crv_curse_triggered = true
+			end
 			ccard:add_to_deck()
 			G.jokers:emplace(ccard)
 		else
@@ -307,8 +345,8 @@ SMODS.Joker({
 	key = "sneak_attack",
 	atlas = "Jokers2",
 	pos = {
-		x = 8,
-		y = 13,
+		x = 10,
+		y = 15,
 	},
 	config = {
 		extra = {
@@ -326,6 +364,9 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
+			if card.crv_curse_triggered then
+				ccard.crv_curse_triggered = true
+			end
 			ccard:add_to_deck()
 			G.jokers:emplace(ccard)
 		else
@@ -348,8 +389,8 @@ SMODS.Joker({
 	key = "hardstuck",
 	atlas = "Jokers2",
 	pos = {
-		x = 8,
-		y = 13,
+		x = 6,
+		y = 14,
 	},
 	config = {
 		extra = {
@@ -368,6 +409,9 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
+			if card.crv_curse_triggered then
+				ccard.crv_curse_triggered = true
+			end
 			ccard:add_to_deck()
 			G.jokers:emplace(ccard)
 		else
@@ -388,7 +432,7 @@ SMODS.Joker({
 	key = "small_hands",
 	atlas = "Jokers2",
 	pos = {
-		x = 8,
+		x = 9,
 		y = 13,
 	},
 	config = {
@@ -403,11 +447,17 @@ SMODS.Joker({
 		info_queue[#info_queue+1] = {set = "Other", key = "crv_curse_desc"}
 	end,
 	add_to_deck = function(self,card,from_debuff)
-		RevosVault.total_limit(-1)
+		if not card.crv_curse_triggered then
+			card.crv_curse_triggered = true
+			RevosVault.total_limit(-1)
+		end
 	end,
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
+			if card.crv_curse_triggered then
+				ccard.crv_curse_triggered = true
+			end
 			ccard:add_to_deck()
 			G.jokers:emplace(ccard)
 		else
@@ -419,10 +469,10 @@ SMODS.Joker({
 })
 
 SMODS.Joker({
-	key = "royal_assasin",
+	key = "unknown_assasin",
 	atlas = "Jokers2",
 	pos = {
-		x = 8,
+		x = 10,
 		y = 13,
 	},
 	config = {
@@ -441,6 +491,9 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
+			if card.crv_curse_triggered then
+				ccard.crv_curse_triggered = true
+			end
 			ccard:add_to_deck()
 			G.jokers:emplace(ccard)
 		else
@@ -455,5 +508,3 @@ SMODS.Joker({
 		end
  	end
 })
-
-end

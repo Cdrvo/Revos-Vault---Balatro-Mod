@@ -8,12 +8,9 @@ priority = 1
 [[patches]]
 [patches.pattern]
 target = "card.lua"
-pattern = '''
-"self.extra_cost = 0 + G.GAME.inflation"
-'''
+pattern = "self.extra_cost = 0 + G.GAME.inflation"
 position = "at"
 payload = '''
 self.extra_cost = (0 + G.GAME.inflation) * G.GAME.xinflation
 '''
 match_indent = true
-overwrite = true

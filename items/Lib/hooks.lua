@@ -439,24 +439,35 @@ end
 local emplace_old = CardArea.emplace
 function CardArea:emplace(card, location, stay_flipped)
 	emplace_old(self, card, location, stay_flipped)
-    if card and card.config and card.config.center and card.config.center.key and card.config.center.rarity == "crv_curse" and (self == G.shop_jokers or self == G.pack_cards) then
-		if card.area then
-			RevosVault.move_card(card, G.jokers)
+    if card and card.config and card.config.center and card.config.center.key and (self == G.shop_jokers or self == G.pack_cards or self == G.shop_booster or self == G.shop_vouchers) then
+
+		if self ~= G.pack_cards then
+			if (#SMODS.find_card("j_crv_inflation")>0) then
+				if card and card.cost then
+					card.cost = card.cost * 2
+				end
+			end
 		end
 
-		card:add_sticker("eternal", true)
-
-		G.E_MANAGER:add_event(Event({
-			trigger = "after",
-			delay = 0.1,
-			func = function()
-				RevosVault.remove_all_stickers(card, "eternal")
-				card.sell_cost = 0
-				card.children.price = nil
-				card.children.buy_button = nil
-				return true
+		if card.config.center.rarity == "crv_curse" then
+			if card.area then
+				RevosVault.move_card(card, G.jokers)
 			end
-		}))
+
+			card:add_sticker("eternal", true)
+
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.1,
+				func = function()
+					RevosVault.remove_all_stickers(card, "eternal")
+					card.sell_cost = 0
+					card.children.price = nil
+					card.children.buy_button = nil
+					return true
+				end
+			}))
+		end
 	end
 end
 

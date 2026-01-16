@@ -420,7 +420,7 @@ return {
 			},
 			m_crv_target = {
 				name = "Target",
-				text = { "Needs to go down!", "{C:inactive} art by gmoonfucker" },
+				text = { "Needs to go down!"},
 			},
 			m_crv_dirt = {
 				name = "Dirt",
@@ -2286,8 +2286,8 @@ return {
 					"{C:red}Discard{} limit"
 				}
 			},
-			j_crv_royal_assasin = {
-				name = "Royal Assasin",
+			j_crv_unknown_assasin = {
+				name = "Wanted Assasin",
 				text = {
 					"Scored {C:attention}Face Cards{}",
 					"are {:red}destroyed"

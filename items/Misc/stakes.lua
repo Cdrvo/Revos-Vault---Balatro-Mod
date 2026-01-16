@@ -68,12 +68,11 @@ SMODS.Stake {
 }
 
 
-if RevoConfig["experimental_enabled"] then
 SMODS.Stake {
     key = "cursed_stake",
     atlas = "stakes",
     pos = {
-        x = 0,
+        x = 1,
         y = 0
     },
     colour = HEX("55c6d9"),
@@ -94,7 +93,6 @@ SMODS.Stake {
         G.GAME.modifiers.crv_curse_increase = true
     end,
 }
-end
 
 --[[SMODS.Stake {
     key = "weighted",
