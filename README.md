@@ -1,10 +1,11 @@
 
 # Revo's Vault
 
-Currently there are 4 New Rarities (Printer, Chaos, Vaulted and Secret), **175+** jokers and a lot more!
+Currently there are 5 New Rarities (Printer, Chaos, Vaulted, Secret and Curse), **190+** jokers and a lot more!
 
 
-<img width="142" height="190" alt="image" src="https://github.com/user-attachments/assets/5d784f62-9b5d-4d35-b554-2c4605f9728f" />  <img width="142" height="190" alt="image" src="https://github.com/user-attachments/assets/d2e92661-909a-4b29-b652-b77bab3c7106" />  <img width="140" height="187" alt="image" src="https://github.com/user-attachments/assets/ad3074ff-43b9-4b15-8e20-8153312fc83a" />  <img width="141" height="187" alt="image" src="https://github.com/user-attachments/assets/eeda0325-8b1b-4254-beec-7f12aaab1207" />
+<img width="142" height="190" alt="image" src="https://github.com/user-attachments/assets/5d784f62-9b5d-4d35-b554-2c4605f9728f" />  <img width="142" height="190" alt="image" src="https://github.com/user-attachments/assets/d2e92661-909a-4b29-b652-b77bab3c7106" />  <img width="140" height="187" alt="image" src="https://github.com/user-attachments/assets/ad3074ff-43b9-4b15-8e20-8153312fc83a" />  <img width="141" height="187" alt="image" src="https://github.com/user-attachments/assets/eeda0325-8b1b-4254-beec-7f12aaab1207" /> <img width="138" height="186" alt="image" src="https://github.com/user-attachments/assets/f99e9838-3314-46d4-b058-dbb6b2d4f906" />
+
 
 
 
