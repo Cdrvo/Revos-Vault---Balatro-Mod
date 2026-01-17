@@ -72,6 +72,9 @@ SMODS.Consumable({
 	set = "Tarot",
 	config = { extra = {} },
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_CENTERS["j_crv_head"]
+		info_queue[#info_queue+1] = G.P_CENTERS["j_crv_body"]
+		info_queue[#info_queue+1] = G.P_CENTERS["j_crv_back"]
 		return { vars = {} }
 	end,
 	pos = { x = 1, y = 0 },
