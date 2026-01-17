@@ -90,10 +90,18 @@ if RevoConfig["experimental_enabled"] then
     function Card:crv_is_upgradeable()
         local tab = RevosVault.modify_rarity()
 
+        for i = 1, #tab do
+            if tab[i] == self.config.center.rarity then
+                break
+            else
+                return false
+            end
+        end
+
         if self.config.center.rarity == tab[#tab] then
             return false
         end
-        return true
+            return true
     end
 
     function RevosVault.vaultify(card, no_juice)
