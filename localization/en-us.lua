@@ -3892,6 +3892,56 @@ return {
 					"{C:attention}Mega Contract Pack",
 				},
 			},
+
+			tag_crv_sunwashed={
+                name="Sun Bleached Tag",
+                text={
+                    "Next base edition shop",
+                    "Joker is free and",
+                    "becomes {C:dark_edition}Sun Bleached",
+                },
+            },
+			tag_crv_pastel={
+                name="Pastel Tag",
+                text={
+                    "Next base edition shop",
+                    "Joker is free and",
+                    "becomes {C:dark_edition}Pastel",
+                },
+            },
+			tag_crv_bloom={
+                name="Bloom Tag",
+                text={
+                    "Next base edition shop",
+                    "Joker is free and",
+                    "becomes {C:dark_edition}Bloom",
+                },
+            },
+			tag_crv_magnetised={
+                name="Magnetised Tag",
+                text={
+                    "Next base edition shop",
+                    "Joker is free and",
+                    "becomes {C:dark_edition}Magnetised",
+                },
+            },
+			tag_crv_antichrome={
+                name="Antichrome Tag",
+                text={
+                    "Next base edition shop",
+                    "Joker is free and",
+                    "becomes {C:dark_edition}Antichrome",
+                },
+            },
+			tag_crv_radiated={
+                name="Radiated Tag",
+                text={
+                    "Next base edition shop",
+                    "Joker is free and",
+                    "becomes {C:dark_edition}Radiated",
+                },
+            },
+
 		},
 		Edition = {
 			e_crv_sunbleached = {

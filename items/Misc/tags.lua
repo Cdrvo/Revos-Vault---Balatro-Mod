@@ -94,3 +94,173 @@ SMODS.Tag({
 		return true
 	end,
 })
+
+
+SMODS.Tag {
+    key = "sunwashed",
+	atlas = "tags",
+    pos = { x = 5, y = 0 },
+    loc_vars = function(self, info_queue, tag)
+        info_queue[#info_queue + 1] = G.P_CENTERS.e_crv_sunbleached
+    end,
+    apply = function(self, tag, context)
+        if context.type == 'store_joker_modify' then
+            if not context.card.edition and not context.card.temp_edition and context.card.ability.set == 'Joker' then
+                local lock = tag.ID
+                G.CONTROLLER.locks[lock] = true
+                context.card.temp_edition = true
+                tag:yep('+', G.C.DARK_EDITION, function()
+                    context.card.temp_edition = nil
+                    context.card:set_edition("e_crv_sunbleached", true)
+                    context.card.ability.couponed = true
+                    context.card:set_cost()
+                    G.CONTROLLER.locks[lock] = nil
+                    return true
+                end)
+                tag.triggered = true
+                return true
+            end
+        end
+    end,
+}
+
+SMODS.Tag {
+    key = "pastel",
+	atlas = "tags",
+    pos = { x = 3, y = 0 },
+    loc_vars = function(self, info_queue, tag)
+        info_queue[#info_queue + 1] = G.P_CENTERS.e_crv_pastel
+    end,
+    apply = function(self, tag, context)
+        if context.type == 'store_joker_modify' then
+            if not context.card.edition and not context.card.temp_edition and context.card.ability.set == 'Joker' then
+                local lock = tag.ID
+                G.CONTROLLER.locks[lock] = true
+                context.card.temp_edition = true
+                tag:yep('+', G.C.DARK_EDITION, function()
+                    context.card.temp_edition = nil
+                    context.card:set_edition("e_crv_pastel", true)
+                    context.card.ability.couponed = true
+                    context.card:set_cost()
+                    G.CONTROLLER.locks[lock] = nil
+                    return true
+                end)
+                tag.triggered = true
+                return true
+            end
+        end
+    end,
+}
+
+SMODS.Tag {
+    key = "bloom",
+	atlas = "tags",
+    pos = { x = 4, y = 0 },
+    loc_vars = function(self, info_queue, tag)
+        info_queue[#info_queue + 1] = G.P_CENTERS.e_crv_bloom_edition
+    end,
+    apply = function(self, tag, context)
+        if context.type == 'store_joker_modify' then
+            if not context.card.edition and not context.card.temp_edition and context.card.ability.set == 'Joker' then
+                local lock = tag.ID
+                G.CONTROLLER.locks[lock] = true
+                context.card.temp_edition = true
+                tag:yep('+', G.C.DARK_EDITION, function()
+                    context.card.temp_edition = nil
+                    context.card:set_edition("e_crv_bloom_edition", true)
+                    context.card.ability.couponed = true
+                    context.card:set_cost()
+                    G.CONTROLLER.locks[lock] = nil
+                    return true
+                end)
+                tag.triggered = true
+                return true
+            end
+        end
+    end,
+}
+
+SMODS.Tag {
+    key = "magnetised",
+	atlas = "tags",
+    pos = { x = 1, y = 1 },
+    loc_vars = function(self, info_queue, tag)
+        info_queue[#info_queue + 1] = G.P_CENTERS.e_crv_magnetised_edition
+    end,
+    apply = function(self, tag, context)
+        if context.type == 'store_joker_modify' then
+            if not context.card.edition and not context.card.temp_edition and context.card.ability.set == 'Joker' then
+                local lock = tag.ID
+                G.CONTROLLER.locks[lock] = true
+                context.card.temp_edition = true
+                tag:yep('+', G.C.DARK_EDITION, function()
+                    context.card.temp_edition = nil
+                    context.card:set_edition("e_crv_magnetised_edition", true)
+                    context.card.ability.couponed = true
+                    context.card:set_cost()
+                    G.CONTROLLER.locks[lock] = nil
+                    return true
+                end)
+                tag.triggered = true
+                return true
+            end
+        end
+    end,
+}
+
+SMODS.Tag {
+    key = "antichrome",
+	atlas = "tags",
+    pos = { x = 2, y = 1 },
+    loc_vars = function(self, info_queue, tag)
+        info_queue[#info_queue + 1] = G.P_CENTERS.e_crv_antichrome_edition
+    end,
+    apply = function(self, tag, context)
+        if context.type == 'store_joker_modify' then
+            if not context.card.edition and not context.card.temp_edition and context.card.ability.set == 'Joker' then
+                local lock = tag.ID
+                G.CONTROLLER.locks[lock] = true
+                context.card.temp_edition = true
+                tag:yep('+', G.C.DARK_EDITION, function()
+                    context.card.temp_edition = nil
+                    context.card:set_edition("e_crv_antichrome_edition", true)
+                    context.card.ability.couponed = true
+                    context.card:set_cost()
+                    G.CONTROLLER.locks[lock] = nil
+                    return true
+                end)
+                tag.triggered = true
+                return true
+            end
+        end
+    end,
+}
+
+SMODS.Tag {
+    key = "radiated",
+	atlas = "tags",
+    pos = { x = 0, y = 1 },
+    loc_vars = function(self, info_queue, tag)
+        info_queue[#info_queue + 1] = G.P_CENTERS.e_crv_radiatede
+    end,
+    apply = function(self, tag, context)
+        if context.type == 'store_joker_modify' then
+            if not context.card.edition and not context.card.temp_edition and context.card.ability.set == 'Joker' then
+                local lock = tag.ID
+                G.CONTROLLER.locks[lock] = true
+                context.card.temp_edition = true
+                tag:yep('+', G.C.DARK_EDITION, function()
+                    context.card.temp_edition = nil
+                    context.card:set_edition("e_crv_radiatede", true)
+                    context.card.ability.couponed = true
+                    context.card:set_cost()
+                    G.CONTROLLER.locks[lock] = nil
+                    return true
+                end)
+                tag.triggered = true
+                return true
+            end
+        end
+    end,
+}
+
