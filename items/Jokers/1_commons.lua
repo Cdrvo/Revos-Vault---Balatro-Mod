@@ -478,7 +478,7 @@ SMODS.Joker({
 	cost = 5,
 	config = {
 		extra = {
-			mone = 5,
+			mone = 3,
 			suit = "Spades",
 		},
 	},

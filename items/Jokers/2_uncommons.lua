@@ -2443,7 +2443,10 @@ SMODS.Joker({
 			local eval = function()
 				return card.ability.extra.timer >= 3
 			end
-			juice_card_until(card, eval, true)
+			if not card.extra.crv_shook then
+				card.crv_shook = true
+				juice_card_until(card, eval, true)
+			end
 		end
 	end,
 	in_pool = function(self, wawa, wawa2)
@@ -2505,7 +2508,10 @@ SMODS.Joker({
 			local eval = function()
 				return crv.requirement >= 3
 			end
-			juice_card_until(card, eval, true)
+			if not card.crv_shook then
+				card.crv_shook = true
+				juice_card_until(card, eval, true)
+			end
 		end
 	end,
 	in_pool = function(self, wawa, wawa2)
@@ -2575,6 +2581,8 @@ SMODS.Joker({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+				info_queue[#info_queue + 1] =
+			{ key = "crv_vamp", set = "Other"}
 		return {
 			vars = { card.ability.extra.xmultg, card.ability.extra.xmult },
 		}
@@ -2750,6 +2758,8 @@ SMODS.Joker({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+						info_queue[#info_queue + 1] =
+			{ key = "crv_radioactive", set = "Other"}
 		return {
 			vars = { card.ability.extra.gain, card.ability.extra.stored },
 		}
@@ -3452,7 +3462,7 @@ local quests = {
 	},
 	level_three = {
 		"Play a Four of a Kind",
-		"Get 20 Rerolls in one shop",
+		"Get 15 Rerolls in one shop",
 		"Have over $60 while entering shop",
 	},
 	level_four = {
@@ -3553,7 +3563,7 @@ SMODS.Joker({
 				crv.two = "Active"
 				crv.quest = crv.quest + 1
 				SMODS.calculate_context({ change_quest = true, card = card, quest_set = "2" })
-			elseif crv.rerolls >= 20 and crv.questb == quests.level_three[2] then
+			elseif crv.rerolls >= 15 and crv.questb == quests.level_three[2] then
 				crv.three = "Active"
 				crv.quest = crv.quest + 1
 				SMODS.calculate_context({ change_quest = true, card = card, quest_set = "3" })

@@ -1435,8 +1435,8 @@ SMODS.Joker({
 		},
 	},
 	rarity = "crv_p",
+	blueprint_compat = false,
 	atlas = "Jokers2",
-	blueprint_compat = true,
 	discovered = false,
 	pos = {
 		x = 3,
@@ -1449,7 +1449,7 @@ SMODS.Joker({
 		}
 	end,
 	calculate = function(self, card, context)
-		if context.setting_blind and #G.jokers.cards > 1 and (card.ability.extra.one == 0) then
+		if context.setting_blind and #G.jokers.cards > 1 and (card.ability.extra.one == 0) and not context.blueprint then
 			local rr = nil
 			for i = 1, #G.jokers.cards do
 				if G.jokers.cards[i] == card then
@@ -1459,13 +1459,13 @@ SMODS.Joker({
 			end
 			if G.jokers.cards[rr + 1] ~= nil then
 				if
-					G.GAME.used_vouchers["v_crv_printerup"] == true
-						and pseudorandom("ALLPRINTER") < G.GAME.probabilities.normal / 4
+					(G.GAME.used_vouchers["v_crv_printerup"] == true
+						and pseudorandom("ALLPRINTER") < G.GAME.probabilities.normal / 4)
 					or G.GAME.used_vouchers["v_crv_printeruptier"] == true
 				then
 					G.E_MANAGER:add_event(Event({
 						func = function()
-							local card2 = copy_card(G.jokers.cards[rr + 1], nil, nil, G.jokers.cards[i] == card)
+							local card2 = copy_card(G.jokers.cards[rr + 1])
 							card2:add_to_deck()
 							card2:set_edition({ negative = true }, true)
 							G.jokers:emplace(card2)
@@ -1476,14 +1476,15 @@ SMODS.Joker({
 					if G.jokers.cards[rr + 1].edition and G.jokers.cards[rr + 1].edition.negative then
 						G.E_MANAGER:add_event(Event({
 							func = function()
-								local card2 = copy_card(G.jokers.cards[rr + 1], nil, nil, G.jokers.cards[i] == card)
+								local card2 = copy_card(G.jokers.cards[rr + 1])
 								card2:add_to_deck()
+								card2:set_edition({ negative = true }, true)
 								G.jokers:emplace(card2)
 								return true
 							end,
 						}))
 					else
-						if #G.jokers.cards < G.jokers.config.card_limit or self.area == G.jokers then
+						if #G.jokers.cards < G.jokers.config.card_limit then
 							G.E_MANAGER:add_event(Event({
 								func = function()
 									local card2 = copy_card(G.jokers.cards[rr + 1])

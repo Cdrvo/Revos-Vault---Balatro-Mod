@@ -607,7 +607,7 @@ SMODS.Joker({
 		end
 		if
 			context.setting_blind
-			and card.ability.extra.stages >= 3
+			and card.ability.extra.stages >= 2
 			and not context.blueprint
 			and not context.repetition
 		then
@@ -616,15 +616,10 @@ SMODS.Joker({
 				delay = 0.3,
 				blockable = false,
 				func = function()
-					G.jokers:remove_card(card)
-					card:start_dissolve({ HEX("57ecab") }, nil, 1.6)
-					card = nil
+					card:set_ability("j_crv_jhv")
 					return true
 				end,
 			}))
-			local new_card = create_card("Jhorah,Hatchling", G.jokers, nil, nil, nil, nil, "j_crv_jhv")
-			new_card:add_to_deck()
-			G.jokers:emplace(new_card)
 		end
 
 		if context.joker_main and not context.blueprint then
@@ -635,7 +630,7 @@ SMODS.Joker({
 	end,
 
 	in_pool = function(self, wawa, wawa2)
-		return true
+		return not ((#SMODS.find_card("j_crv_jcbt") >= 1) or (#SMODS.find_card("j_crv_jad") >= 1) or (#SMODS.find_card("j_crv_jma") >= 1) or (#SMODS.find_card("j_crv_jbe") >= 1) or (#SMODS.find_card("j_crv_jhv") >= 1))
 	end,
 })
 
@@ -668,7 +663,7 @@ SMODS.Joker({
 		end
 		if
 			context.setting_blind
-			and card.ability.extra.stages >= 3
+			and card.ability.extra.stages >= 2
 			and not context.repetition
 			and not context.blueprint
 			and not context.individual
@@ -679,15 +674,10 @@ SMODS.Joker({
 				delay = 0.3,
 				blockable = false,
 				func = function()
-					G.jokers:remove_card(card)
-					card:start_dissolve({ HEX("57ecab") }, nil, 1.6)
-					card = nil
+					card:set_ability("j_crv_jbe")
 					return true
 				end,
 			}))
-			local new_card = create_card("Jhorah,Beasty", G.jokers, nil, nil, nil, nil, "j_crv_jbe")
-			new_card:add_to_deck()
-			G.jokers:emplace(new_card)
 		end
 
 		if context.joker_main then
@@ -733,7 +723,7 @@ SMODS.Joker({
 		end
 		if
 			context.setting_blind
-			and card.ability.extra.stages >= 3
+			and card.ability.extra.stages >= 2
 			and not context.repetition
 			and not context.blueprint
 			and not context.individual
@@ -744,15 +734,10 @@ SMODS.Joker({
 				delay = 0.3,
 				blockable = false,
 				func = function()
-					G.jokers:remove_card(card)
-					card:start_dissolve({ HEX("57ecab") }, nil, 1.6)
-					card = nil
+					card:set_ability("j_crv_jma")
 					return true
 				end,
 			}))
-			local new_card = create_card("Jhorah,Matured", G.jokers, nil, nil, nil, nil, "j_crv_jma")
-			new_card:add_to_deck()
-			G.jokers:emplace(new_card)
 		end
 
 		if context.joker_main then
@@ -809,15 +794,10 @@ SMODS.Joker({
 				delay = 0.3,
 				blockable = false,
 				func = function()
-					G.jokers:remove_card(card)
-					card:start_dissolve({ HEX("57ecab") }, nil, 1.6)
-					card = nil
+					card:set_ability("j_crv_jad")
 					return true
 				end,
 			}))
-			local new_card = create_card("Jhorah,Adult", G.jokers, nil, nil, nil, nil, "j_crv_jad")
-			new_card:add_to_deck()
-			G.jokers:emplace(new_card)
 		end
 
 		if context.joker_main then
@@ -875,15 +855,10 @@ SMODS.Joker({
 				delay = 0.3,
 				blockable = false,
 				func = function()
-					G.jokers:remove_card(card)
-					card:start_dissolve({ HEX("57ecab") }, nil, 1.6)
-					card = nil
+					card:set_ability("j_crv_jcbt")
 					return true
 				end,
 			}))
-			local new_card = create_card("Jhorah,Chained Beast", G.jokers, nil, nil, nil, nil, "j_crv_jcbt")
-			new_card:add_to_deck()
-			G.jokers:emplace(new_card)
 		end
 
 		if context.joker_main then
@@ -1778,6 +1753,8 @@ SMODS.Joker({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+			info_queue[#info_queue + 1] =
+				{ key = "perishable", set = "Other"}
 		local area = self.area
 		if G.jokers and G.jokers.cards then area = G.jokers.cards end
 
