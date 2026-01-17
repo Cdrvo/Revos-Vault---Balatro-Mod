@@ -471,6 +471,7 @@ SMODS.Joker({
 		end
 	end,
 })
+
 SMODS.Joker({
 	key = "pedro",
 	config = {
@@ -492,17 +493,52 @@ SMODS.Joker({
 		y = 0,
 	},
 	cost = 6,
+	add_to_deck = function(self,card,from_debuff)
+
+		check_for_unlock({type = "pedro_go_brr"})
+
+
+		G.GAME.modifiers.banana_mayhem = true
+		ease_background_colour{new_colour = darken(G.C.RED, 0.5), special_colour = G.C.ORANGE, contrast = 5}
+		G.GAME.disable_background_colouring = true
+	end,
+	remove_from_deck = function(self,card,from_debuff)
+		if not G.GAME.modifiers.banana_mayhem_infinite then
+			G.GAME.modifiers.banana_mayhem = nil
+		end
+		G.GAME.disable_background_colouring = nil
+		if RevosVault.colour_args then
+			ease_background_colour{new_colour = RevosVault.colour_args.new_colour, special_colour = RevosVault.colour_args.special_colour, contrast =  RevosVault.colour_args.contrast }
+		end
+
+		for k, v in pairs(G.playing_cards) do
+			if v.ability.calculate_cavendish or v.ability.calculate_gros_michel then
+				v:set_ability("c_base")
+			end
+		end
+	end,
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = { key = "crv_banana_mayhem_desc", set = "Other"}
+		info_queue[#info_queue + 1] = { key = "crv_banana_mayhem_desc_pedro", set = "Other"}
 		return {
 			vars = { card.ability.extra.xmult, card.ability.extra.chips },
 		}
 	end,
 	calculate = function(self, card, context)
-		if context.joker_main then
-			return {
-				x_mult = card.ability.extra.xmult,
-				chips = card.ability.extra.chips,
-			}
+		if context.final_scoring_step and not context.blueprint then
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0,
+				func = function()
+					for k, v in pairs(context.scoring_hand) do
+						if not v.ability.calculate_cavendish and not v.ability.calculate_gros_michel then
+							v:juice_up()
+							v:set_ability(pseudorandom_element({"j_cavendish", "j_gros_michel"}, pseudoseed("j_crv_pedro")))
+						end
+					end
+					return true
+				end
+			}))
 		end
 	end,
 })
