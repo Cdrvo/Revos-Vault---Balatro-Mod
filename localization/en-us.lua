@@ -810,7 +810,7 @@ return {
 			j_crv_glassprinter = {
 				name = "Glass Printer",
 				text = {
-					"When first hand is drawn is selected,",
+					"When first hand is drawn,",
 					"Enhances a random card in hand to {C:attention}Glass{}.",
 					"{C:green}#1# in 4{} Chance for it to be a {C:attention}Bulletproof Glass{}",
 					"has a {C:green}#1# in #2#{} chance to",
@@ -820,7 +820,7 @@ return {
 			j_crv_steelprinter = {
 				name = "Steel Printer",
 				text = {
-					"When first hand is drawn is selected,",
+					"When first hand is drawn,",
 					"Enhances a random card in hand to {C:attention}Steel{}",
 					"{C:green}#2# in 4{} Chance for it to be a {C:attention}Diamond Card{}",
 					"{X:mult,C:white}X#1#{} Mult",
@@ -849,7 +849,7 @@ return {
 			j_crv_devilishprinter = {
 				name = "Devilish Printer",
 				text = {
-					"When first hand is drawn is selected,",
+					"When first hand is drawn,",
 					"Enhances a random card in hand to {C:attention}Aflame{}",
 					"or {C:attention}Stained.",
 					"{C:green}#1# in 4{} Chance for it to be a {C:attention}Soul Card{}",
@@ -885,7 +885,7 @@ return {
 			j_crv_full = {
 				name = "Mega Printer",
 				text = {
-					"When first hand is drawn is selected,",
+					"When first hand is drawn,",
 					"Enhances a random card in hand to {C:attention}Mega{}",
 					"Gives {X:mult,C:white}X#1#{} Mult.",
 				},
@@ -893,7 +893,7 @@ return {
 			j_crv_tierp = {
 				name = "Advanced Printer",
 				text = {
-					"When first hand is drawn is selected,",
+					"When first hand is drawn,",
 					"Enhances a random card to{C:green}Tier 1{}",
 					"after {C:attention}5 Rounds{} it turns cards into {C:attention}Tier 2",
 					"after {C:attention}15 Rounds{} it turns cards into {C:attention}Tier 3",
@@ -906,7 +906,7 @@ return {
 			j_crv_luckyprinter = {
 				name = "Lucky Printer",
 				text = {
-					"When first hand is drawn is selected,",
+					"When first hand is drawn,",
 					"Enhances a random card in hand to {C:attention}Lucky{}",
 					"{C:green}#1# in 4{} Chance for it to be a {C:attention}Blessed Card{}",
 				},
