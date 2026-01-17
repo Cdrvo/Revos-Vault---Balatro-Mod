@@ -63,6 +63,7 @@ SMODS.Consumable({
 		for i, card in pairs(G.jokers.highlighted) do
 			if card.config.center.rarity == "crv_curse" then
                 SMODS.destroy_cards(card, true)
+				check_for_unlock({type = "purifying_it"})
             end
 		end
 	end,
