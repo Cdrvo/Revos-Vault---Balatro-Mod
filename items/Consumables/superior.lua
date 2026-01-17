@@ -1975,7 +1975,7 @@ SMODS.Consumable({
 		end
 	end,
 	can_use = function(self, card)
-		if card.ability.extra.can_activate then
+		if card.ability.extra.can_activate and RevosVault.has_room(G.consumeables) then
 			return true
 		end
 	end,
@@ -2039,7 +2039,7 @@ SMODS.Consumable({
 		end
 	end,
 	can_use = function(self, card)
-		if card.ability.extra.can_activate then
+		if card.ability.extra.can_activate and RevosVault.has_room(G.consumeables) then
 			return true
 		end
 	end,
@@ -2096,7 +2096,7 @@ SMODS.Consumable({
 		end
 	end,
 	can_use = function(self, card)
-		if card.ability.extra.can_activate then
+		if card.ability.extra.can_activate and RevosVault.has_room(G.consumeables) then
 			return true
 		end
 	end,
@@ -2164,7 +2164,7 @@ SMODS.Consumable({
 		end
 	end,
 	can_use = function(self, card)
-		if card.ability.extra.can_activate then
+		if card.ability.extra.can_activate and RevosVault.has_room(G.consumeables) then
 			return true
 		end
 	end,
@@ -2228,7 +2228,7 @@ SMODS.Consumable({
 		end
 	end,
 	can_use = function(self, card)
-		if card.ability.extra.can_activate then
+		if card.ability.extra.can_activate and RevosVault.has_room(G.consumeables) then
 			return true
 		end
 	end,
@@ -2296,7 +2296,7 @@ SMODS.Consumable({
 		end
 	end,
 	can_use = function(self, card)
-		if card.ability.extra.can_activate then
+		if card.ability.extra.can_activate and RevosVault.has_room(G.consumeables) then
 			return true
 		end
 	end,
@@ -2355,7 +2355,7 @@ SMODS.Consumable({
 		end
 	end,
 	can_use = function(self, card)
-		if card.ability.extra.can_activate then
+		if card.ability.extra.can_activate and RevosVault.has_room(G.consumeables) then
 			return true
 		end
 	end,
@@ -2419,7 +2419,7 @@ SMODS.Consumable({
 		end
 	end,
 	can_use = function(self, card)
-		if card.ability.extra.can_activate then
+		if card.ability.extra.can_activate and RevosVault.has_room(G.consumeables) then
 			return true
 		end
 	end,
@@ -2483,7 +2483,7 @@ SMODS.Consumable({
 		end
 	end,
 	can_use = function(self, card)
-		if card.ability.extra.can_activate then
+		if card.ability.extra.can_activate and RevosVault.has_room(G.consumeables) then
 			return true
 		end
 	end,
@@ -2548,7 +2548,7 @@ SMODS.Consumable({
 		end
 	end,
 	can_use = function(self, card)
-		if card.ability.extra.can_activate then
+		if card.ability.extra.can_activate and RevosVault.has_room(G.consumeables) then
 			return true
 		end
 	end,
@@ -2609,7 +2609,7 @@ SMODS.Consumable({
 		end
 	end,
 	can_use = function(self, card)
-		if card.ability.extra.can_activate then
+		if card.ability.extra.can_activate and RevosVault.has_room(G.consumeables) then
 			return true
 		end
 	end,
@@ -2674,7 +2674,7 @@ SMODS.Consumable({
 		end
 	end,
 	can_use = function(self, card)
-		if card.ability.extra.can_activate then
+		if card.ability.extra.can_activate and RevosVault.has_room(G.consumeables) then
 			return true
 		end
 	end,
