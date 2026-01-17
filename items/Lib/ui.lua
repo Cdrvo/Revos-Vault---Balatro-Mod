@@ -271,9 +271,295 @@ function Card:highlight(is_highlighted)
 			self.children.use_button:remove()
 			self.children.use_button = nil
 		end
+	elseif self.highlighted and TheVault and TheVault.in_vault and self.area == G.jokers and self.ability.set == "Joker" and RevoConfig["experimental_enabled"] then
+
+		if self.children.crv_use then
+			self.children.crv_use:remove()
+			self.children.crv_use = nil
+		end
+
+		if self.children.use_button then
+			self.children.use_button:remove()
+			self.children.use_button = nil
+		end
+
+		self.children.crv_use = UIBox({
+			definition = RevosVault.emplace_to_vault(self, {
+				use = true,
+			}),
+			config = {
+				align = "cm",
+				offset = {
+					x = 0,
+					y = 1.4,
+				},
+				parent = self,
+			},
+		})
+
+		self.children.use_button = UIBox({
+			definition = RevosVault.buttons_edit(self, {
+				sell = true,
+			}),
+			config = {
+				align = "cr",
+				offset = {
+					x = -0.4,
+					y = 0,
+				},
+				parent = self,
+			},
+		})
+	elseif self.highlighted and TheVault and TheVault.in_vault and self.area == G.vault_card and self.ability.set == "Joker" and RevoConfig["experimental_enabled"] then
+
+		if self.children.crv_use then
+			self.children.crv_use:remove()
+			self.children.crv_use = nil
+		end
+
+		if self.children.use_button then
+			self.children.use_button:remove()
+			self.children.use_button = nil
+		end
+
+		self.children.crv_use = UIBox({
+			definition = RevosVault.remove_from_vault(self, {
+				use = true,
+			}),
+			config = {
+				align = "cm",
+				offset = {
+					x = 0,
+					y = 1.5,
+				},
+				parent = self,
+			},
+		})
+
 	else
 		cardhighold(self, is_highlighted)	
 	end
+end
+
+RevosVault.emplace_to_vault = function(card, args)
+	local args = args or {}
+	local use = nil
+
+	local args = args or {}
+	if args.use then
+		use = nil
+		use = {
+			n = G.UIT.R,
+			config = {
+				align = "cr",
+			},
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = {
+						ref_table = card,
+						align = "bm",
+						maxw = 1.25,
+						padding = 0.1,
+						r = 0.08,
+						minw = 1.25,
+						minh = 0,
+						hover = true,
+						shadow = true,
+						colour = G.C.RED,
+						button = "crv_emplace_to_vault",
+						func = "crv_can_emplace_to_vault",
+					},
+					nodes = {
+						{
+							n = G.UIT.B,
+							config = {
+								w = 0.1,
+								h = 0.6,
+							},
+						},
+						{
+							n = G.UIT.C,
+							config = {
+								align = "bm",
+							},
+							nodes = {
+								{
+									n = G.UIT.R,
+									config = {
+										align = "cl",
+										maxw = 1.25,
+									},
+									nodes = {
+										{
+											n = G.UIT.T,
+											config = {
+												text = "PLACE ",
+												colour = G.C.UI.TEXT_LIGHT,
+												scale = 0.4,
+												shadow = true,
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		}
+	end
+
+	return {
+		n = G.UIT.ROOT,
+		config = {
+			align = "cm",
+			padding = 0,
+			colour = G.C.CLEAR,
+		},
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = {
+					padding = 0.15,
+					align = "cm",
+				},
+				nodes = {
+					use and {
+						n = G.UIT.R,
+						config = {
+							align = "cm",
+						},
+						nodes = { use },
+					} or nil,
+				},
+			},
+		},
+	}
+end
+
+RevosVault.remove_from_vault = function(card, args)
+	local args = args or {}
+	local use = nil
+
+	local args = args or {}
+	if args.use then
+		use = nil
+		use = {
+			n = G.UIT.R,
+			config = {
+				align = "cr",
+			},
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = {
+						ref_table = card,
+						align = "bm",
+						maxw = 1.25,
+						padding = 0.1,
+						r = 0.08,
+						minw = 1.25,
+						minh = 0,
+						hover = true,
+						shadow = true,
+						colour = G.C.RED,
+						button = "crv_remove_from_vault",
+					},
+					nodes = {
+						{
+							n = G.UIT.B,
+							config = {
+								w = 0.1,
+								h = 0.6,
+							},
+						},
+						{
+							n = G.UIT.C,
+							config = {
+								align = "bm",
+							},
+							nodes = {
+								{
+									n = G.UIT.R,
+									config = {
+										align = "cl",
+										maxw = 1.25,
+									},
+									nodes = {
+										{
+											n = G.UIT.T,
+											config = {
+												text = "REMOVE  ",
+												colour = G.C.UI.TEXT_LIGHT,
+												scale = 0.4,
+												shadow = true,
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		}
+	end
+
+	return {
+		n = G.UIT.ROOT,
+		config = {
+			align = "cm",
+			padding = 0,
+			colour = G.C.CLEAR,
+		},
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = {
+					padding = 0.15,
+					align = "cm",
+				},
+				nodes = {
+					use and {
+						n = G.UIT.R,
+						config = {
+							align = "cm",
+						},
+						nodes = { use },
+					} or nil,
+				},
+			},
+		},
+	}
+end
+
+
+G.FUNCS.crv_can_emplace_to_vault = function(e)
+	local card = e.config.ref_table
+	if G.vault_card and G.vault_card.cards and (#G.vault_card.cards==0) then
+		e.config.colour = G.C.RED
+		e.config.button = "crv_emplace_to_vault"
+	else
+		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+		e.config.button = nil
+	end
+end
+
+G.FUNCS.crv_emplace_to_vault = function(e)
+	local card = e.config.ref_table
+	RevosVault.move_card(card, G.vault_card)
+	G.E_MANAGER:add_event(Event({ func = function() save_run(); return true end}))
+end
+
+G.FUNCS.crv_remove_from_vault = function(e)
+	local card = e.config.ref_table
+	if (G.jokers and G.jokers.cards and #G.jokers.cards < G.jokers.config.card_limit and card) or (card and card.edition and card.edition.negative) then
+        RevosVault.move_card(card, G.jokers)
+		G.E_MANAGER:add_event(Event({ func = function() save_run(); return true end}))
+    elseif card and G.jokers then
+        alert_no_space(card, G.jokers)
+    end
 end
 
 RevosVault.buttons_edit = function(card, args)
@@ -785,7 +1071,8 @@ RevosVault.custom_button_set_2 = function(card, args)
 	}
 end
 
---[[G.FUNCS.button_templace = function(e)
+--[[
+G.FUNCS.button_templace = function(e)
 	local card = e.config.ref_table
 	if a then
 		e.config.colour = G.C.RED
@@ -798,10 +1085,11 @@ end
 
 G.FUNCS.button_template2 = function(e)
 	local card = e.config.ref_table
+end
+]]
 
-end]]
-
---[[G.FUNCS.can_can_test = function(e)
+--[[
+G.FUNCS.can_can_test = function(e)
 	local card = e.config.ref_table
 	if card.config.center:can_testing() then
 		e.config.colour = G.C.RED
@@ -815,7 +1103,8 @@ end
 G.FUNCS.crv_test = function(e)
 	local card = e.config.ref_table
 	card.config.center:testing()
-end]]
+end
+]]
 
 G.FUNCS.crv_can_change = function(e)
 	local card = e.config.ref_table

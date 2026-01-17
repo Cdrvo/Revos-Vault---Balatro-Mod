@@ -439,6 +439,24 @@ end
 SMODS.current_mod.reset_game_globals = function(run_start)
 	if run_start then
 		calculate_modded_printer()
+
+		if RevoConfig["experimental_enabled"] then
+			TheVault = {
+				vault_cost = 75,
+				vault_cost_default = 75,
+
+				enhance_cost = 15,
+				enhance_cost_default = 15,
+
+				upgrade_cost = 40,
+				upgrade_cost_default = 40,
+
+				harvest_cost = 0,
+				harvest_cost_default = 0,
+
+				in_vault = false
+			}
+		end
 	end
 
 	calculate_modded_printer()

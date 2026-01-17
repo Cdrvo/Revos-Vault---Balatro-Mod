@@ -7,6 +7,7 @@ SMODS.Rarity({
 
 SMODS.Joker({
 	key = "vjim",
+	from = "j_joker",
 	atlas = "Jokers2",
 	rarity = "crv_va",
 	cost = 5,
@@ -60,6 +61,7 @@ for i = 1, 100 do
 end
 SMODS.Joker({
 	key = "vsix",
+	from = "j_oops",
 	atlas = "Jokers2",
 	rarity = "crv_va",
 	cost = 5,
@@ -101,6 +103,7 @@ SMODS.Joker({
 SMODS.Joker({
 	key = "vdna",
 	atlas = "Jokers2",
+	from = "j_dna",
 	pos = {
 		x = 4,
 		y = 4,
@@ -155,6 +158,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "vface",
+	from = "j_smiley",
 	atlas = "Jokers2",
 	rarity = "crv_va",
 	cost = 10,
@@ -218,6 +222,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "vprint",
+	from = "j_blueprint",
 	atlas = "Jokers2",
 	rarity = "crv_va",
 	cost = 10,
@@ -274,6 +279,7 @@ SMODS.Joker({
 })
 SMODS.Joker({
 	key = "vmichel",
+	from = {"j_gros_michel", "j_cavendish"},
 	atlas = "Jokers2",
 	rarity = "crv_va",
 	cost = 10,
@@ -328,6 +334,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "vriffraff",
+	from = "j_riff_raf",
 	atlas = "Jokers2",
 	rarity = "crv_va",
 	cost = 10,
@@ -385,6 +392,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "vmrbones",
+	from = "j_mr_bones",
 	atlas = "Jokers2",
 	rarity = "crv_va",
 	cost = 10,
@@ -442,6 +450,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "vsplash",
+	from = "j_splash",
 	atlas = "Jokers2",
 	rarity = "crv_va",
 	cost = 10,
@@ -493,6 +502,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "vacrobat",
+	from = "j_acrobat",
 	atlas = "Jokers2",
 	rarity = "crv_va",
 	cost = 10,
@@ -536,6 +546,7 @@ local yesno = {1,2,3,4}
 
 SMODS.Joker({
 	key = "vstencil",
+	from = "j_stencil",
 	atlas = "Jokers2",
 	rarity = "crv_va",
 	cost = 6,
@@ -595,6 +606,7 @@ end,
 
 SMODS.Joker({
 	key = "vredcard",
+	from = "j_red_card",
 	atlas = "Jokers2",
 	pos = {
 		x = 0,
@@ -646,6 +658,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "vhalfjoker",
+	from = "j_half",
 	atlas = "Jokers2",
 	pos = {
 		x = 6,
@@ -687,6 +700,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "vball",
+	from = "j_8_ball",
 	atlas = "Jokers2",
 	pos = {
 		x = 5,

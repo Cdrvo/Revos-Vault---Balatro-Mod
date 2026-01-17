@@ -230,6 +230,9 @@ Game.init_game_object = function(self)
 	ret.reroll_before = false
 	ret.xinflation = 1
 	ret.curse_cashout = 1
+
+	ret.souls = 0 -- metaprog soon
+
 	if next(SMODS.find_mod("JoJoMod")) then
 		ret.jojo = true
 	else

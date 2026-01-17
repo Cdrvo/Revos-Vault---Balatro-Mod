@@ -850,21 +850,24 @@ function RevosVault.modify_rarity(card, by)
 		1,
 		2,
 		3,
-		4,
 		"crv_p",
+		4,
 	}
 
-	if RevosVault.config.vault_enabled then
+	--[[if RevosVault.config["6_vault_enabled"] then
 		table.insert(rarity_order, 6, "crv_va")
-	end
-	if Cryptid then
+	end]]
+
+	if next(SMODS.find_mod("Cryptid")) then
 		table.insert(rarity_order, 1, "cry_candy")
 		table.insert(rarity_order, 5, "cry_epic")
 		table.insert(rarity_order, "cry_exotic")
 	end
-	if RevosVault.config.chaos_enabled then
+
+	--[[if RevosVault.config["7_chaos_enabled"] then
 		table.insert(rarity_order, "crv_chaos")
-	end
+	end]]
+
 	if card and by then
 		local current_rarity = card.config.center.rarity or card.rarity
 		local future_rarity = nil
@@ -1305,11 +1308,9 @@ function RevosVault.vanilla_cards(args) -- incomplete
 	args.rarity = args.rarity or nil
 	args.set = args.set or nil
 
-	if args.type == "Voucher" then
-		for k, v in pairs(get_current_pool("Voucher")) do
-			if G.P_CENTERS[v] and not G.P_CENTERS[v].mod and v ~= "UNAVAILABLE" then
-				tab[#tab + 1] = v
-			end
+	for k, v in pairs(get_current_pool(args.type)) do
+		if G.P_CENTERS[v] and not G.P_CENTERS[v].mod and v ~= "UNAVAILABLE" then
+			tab[#tab + 1] = v
 		end
 	end
 	return tab
@@ -1769,24 +1770,65 @@ function RevosVault.rarity_in(rarity, area)
 	return a
 end
 
-
 function RevosVault.change_shop_size(mod, shop_area)
-	if not G.GAME.shop[shop_area] then G.GAME.shop[shop_area] = G[shop_area].config.card_limit end
-    if not G.GAME.shop then return end
-    G.GAME.shop[shop_area] = G.GAME.shop[shop_area] + mod
-    if G[shop_area] and G[shop_area].cards then
-        if mod < 0 then
-            --Remove jokers in shop
-            for i = #G[shop_area].cards, G.GAME.shop[shop_area]+1, -1 do
-                if G[shop_area].cards[i] then
-                    G[shop_area].cards[i]:remove()
-                end
-            end
-        end
-        G[shop_area].config.card_limit = G.GAME.shop[shop_area]
-        G[shop_area].T.w = math.min(G.GAME.shop[shop_area]*1.02*G.CARD_W,4.08*G.CARD_W)
-        G.shop:recalculate()
-    end
+	if G.shop then
+		if not G.GAME.shop[shop_area] then
+			G.GAME.shop[shop_area] = G[shop_area].config.card_limit
+		end
+		if not G.GAME.shop then
+			return
+		end
+		G.GAME.shop[shop_area] = G.GAME.shop[shop_area] + mod
+		if G[shop_area] and G[shop_area].cards then
+			if mod < 0 then
+
+				for i = #G[shop_area].cards, G.GAME.shop[shop_area] + 1, -1 do
+					if G[shop_area].cards[i] then
+						G[shop_area].cards[i]:remove()
+					end
+				end
+			end
+			G[shop_area].config.card_limit = G.GAME.shop[shop_area]
+			G[shop_area].T.w = math.min(G.GAME.shop[shop_area] * 1.02 * G.CARD_W, 4.08 * G.CARD_W)
+
+		--[[if G[shop_area].config.card_limit > #G[shop_area].cards then
+				local rep = (G[shop_area].config.card_limit - #G[shop_area].cards)
+				if shop_area == "shop_vouchers" then
+					for i = 1, rep do
+						local voucher_key
+						if not G.GAME.current_round.voucher then
+							voucher_key = pseudorandom_element(RevosVault.vanilla_cards({ type = "Voucher" }))
+						else
+							voucher_key = G.GAME.current_round.voucher[1]
+						end
+						local card = SMODS.add_card({
+							key = voucher_key,
+							area = G.shop_vouchers,
+						})
+						create_shop_card_ui(card, "Voucher", G.shop_vouchers)
+					end
+				elseif shop_area == "shop_booster" then
+					for i = 1, rep do
+						local booster_key = pseudorandom_element(RevosVault.vanilla_cards({ type = "Booster" }))
+						local card = Card(
+							G.shop_booster.T.x + G.shop_booster.T.w / 2,
+							G.shop_booster.T.y,
+							G.CARD_W * 1.27,
+							G.CARD_H * 1.27,
+							G.P_CARDS.empty,
+							G.P_CENTERS[booster_key],
+							{ bypass_discovery_center = true, bypass_discovery_ui = true }
+						)
+						create_shop_card_ui(card, "Booster", G.shop_booster)
+						card:start_materialize()
+						G.shop_booster:emplace(card)
+					end
+				end
+			end]]
+
+			G.shop:recalculate()
+		end
+	end
 end
 
 function RevosVault.remove_all_stickers(card, ignore)
