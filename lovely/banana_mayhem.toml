@@ -1,0 +1,24 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+match_indent = true
+position = 'after'
+pattern = " card:set_edition(edition)"
+payload = '''
+if G.GAME.modifiers and G.GAME.modifiers.banana_mayhem then
+    local available_bananas = {}
+    for k, v in pairs(get_current_pool("BananaPool")) do
+        if G.P_CENTERS[v] then
+            available_bananas[#available_bananas+1] = v
+        end
+    end
+
+    local banana_key = pseudorandom_element(available_bananas, pseudoseed("BANANA_MAYHEM"))
+    card:set_ability(banana_key)
+end
+'''

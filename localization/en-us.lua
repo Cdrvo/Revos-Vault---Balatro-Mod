@@ -22,6 +22,11 @@ return {
 				name = "The Deal",
 				text = { "Start with an", "Eternal{C:attention,T:j_crv_brj} Dealer{}." },
 			},
+			b_crv_banana_mayhem = {
+				name = "Banana Deck",
+				text = { "Enable {C:attention}Banana {C:dark_edition,T:crv_banana_mayhem_desc}Mayhem",
+			"{C:inactive,s:0.8}(Only banana jokers can be created)" },
+			},
 
 
 			-- Unused
@@ -430,6 +435,158 @@ return {
 				name = "Honey",
 				text = { "Gives {C:money}+$#1#{}", "when scored" },
 			},
+
+			-- BANANA ENHANCEMENT
+
+			m_crv_banana = {
+				name = "Banana",
+				text = {"this is a bug!"}
+			},
+
+			m_crv_banana_michel = {
+				name = "Banana",	
+				text = {
+					"{C:mult}+#1#{} Mult"
+				}
+			},
+			m_crv_banana_cavendish = {
+				name = "Banana",
+				text = {
+					"{X:mult,C:white}X#1#{} Mult"
+				}
+			},
+
+			m_crv_banana_ghost_banana = {
+				name = "Banana",
+				text = {
+					"{C:chips}+100{} Chips"
+				}
+			},
+
+			m_crv_banana_jimbo = {
+				name = "Banana",
+				text = {
+					"{C:mult}+#1#{} Mult",
+				}
+			},
+
+			m_crv_banana_blue_java = {
+				name = "Banana",
+				text = {
+					"{C:mult}+#1#{} Mult",
+					"{C:mult}-#2#{} Mult after",
+					"each play"
+				}
+			},
+
+			m_crv_banana_banana_vine = {
+				name = "Banana",
+				text = {
+				text = {
+					"Creates a {C:attention}Gros Michel{} every time",
+					"this card is scored.",
+					"After {C:attention}#1# Gros Michel{} spawns, the card",
+					"{C:mult}Self Destructs",
+				},
+				}
+			},
+			
+			m_crv_banana_ticking_banana = {
+				name = "Banana",
+				text = {
+					"{X:mult,C:white}X#1#{} Mult",
+					"after 3 {C:inactive}(#2#){} rounds.",
+					"{C:red}Self-Destructs"
+				}
+			},
+
+			m_crv_banana_template = {
+				name = "Banana",
+				text = {
+					"Spawns a random",
+					"banana after 3 {C:inactive}(#1#)",
+					"rounds.",
+					"{C:red}Self-Destructs"
+				}
+			},
+
+			m_crv_banana_double = {
+				name = "Banana",
+				text = {
+					"Retrigger every scored",
+					"card twice.",
+					"{C:green}1/#1#{} Chance to",
+					"turn into {C:attention}2 Cavendish",
+					"Bananas"
+				}
+			},
+
+			m_crv_banana_red_banana = {
+				name = "Banana",
+				text = {
+					"{C:mult}+#1#{} Mult",
+				}
+			},
+
+			m_crv_banana_plantain = {
+				name = "Banana",
+				text = {
+					"After 3 {C:inactive}(#3#){} Rounds",
+					"starts giving", 
+					"{X:mult,C:white}X#1#{} Mult",
+				}
+			},
+
+			m_crv_banana_latunadan = {
+				name = "Banana",
+				text = {
+					"Gains {C:chips}+#2#{} Chips",
+					"when scored if there isn't",
+					"a {C:attention}Gros Michel{}",
+					"{C:inactive}(Currently {C:chips}+#1#{C:inactive} Chips)"
+				}
+			},
+
+			m_crv_banana_plain = {
+				name = "Banana",
+				text = {
+					"A random joker",
+					"gains {C:money}+$#1#{}",
+					"sell value"
+				}
+			},
+
+			m_crv_banana_divine = {
+				name = "Banana",
+				text = {
+					"{C:money}+$#1#{}",
+				}
+			},
+
+			m_crv_banana_uneasy_banana = {
+				name = "Banana",
+				text = {
+					"{X:mult,C:white}X#2#{} Mult.",
+					"{C:green}1/#1#	Chance to",
+					"{C:red}instantly lose{}"
+				}
+			},
+
+			m_crv_banana_cavicheal = {
+				name = "Banana",
+				text = {
+					"{X:chips,C:white}X#1#{} Chips"
+				}
+			},
+
+			m_crv_banana_grosdish = {
+				name = "Banana",
+				text = {
+					"{C:chips}+#1#{} Chips"
+				}
+			},
+
+			--
 			--reverse tarot
 			m_crv_quartz = {
 				name = "Quartz",
@@ -556,7 +713,7 @@ return {
 			},
 			j_crv_pedro = {
 				name = "Pedro",
-				text = { "{C:dark_edition}Rise and shine, sleepyhead" },
+				text = { "{C:attention}Banana {C:dark_edition}Mayhem!" },
 			},
 			j_crv_printer = {
 				name = "Blueprinter",
@@ -1064,7 +1221,7 @@ return {
 				name = "[[BIG SHOT]]",
 				text = {
 					"Has a {C:green}1 in 8{} chance to ",
-					"cause played cards to {C:purple}overscore",
+					"{C:purple}overscore",
 					"{C:inactive}(Chances are not affected by",
 					'{C:inactive}"Oops! All 6s" or anything similar)',
 				},
@@ -2402,7 +2559,7 @@ return {
 			j_crv_quartzprinter = {
 				name = "Crystal Printer",
 				text = {
-					"When first hand is drawn is selected,",
+					"When first hand is drawn,",
 					"Enhances a random card in hand to {C:attention}Crystal{}",
 					"{C:green}#1# in 4{} Chance for it to be a {C:attention}Quartz Card{}",
 				},
@@ -2410,7 +2567,7 @@ return {
 			j_crv_copperprinter = {
 				name = "Copper Printer",
 				text = {
-					"When first hand is drawn is selected,",
+					"When first hand is drawn,",
 					"Enhances a random card in hand to {C:attention}Copper{}",
 					"{C:green}#1# in 4{} Chance for it to be a {C:attention}Coated Copper Card{}",
 				},
@@ -2418,7 +2575,7 @@ return {
 			j_crv_omniprinter = {
 				name = "Omni Printer",
 				text = {
-					"When first hand is drawn is selected,",
+					"When first hand is drawn,",
 					"Enhances a random card in hand to {C:attention}Omni{}",
 				},
 			},
@@ -2474,7 +2631,7 @@ return {
 			j_crv_crystalprinter = {
 				name = "Crystal Printer",
 				text = {
-					"When first hand is drawn is selected,",
+					"When first hand is drawn,",
 					"Enhances a random card in hand to {C:attention}Crystal{}",
 					"{C:green}#1# in 4{} Chance for it to be a {C:attention}Saphire Card{}",
 				},
@@ -2497,7 +2654,7 @@ return {
 			j_crv_honeyprinter = {
 				name = "Honey Printer",
 				text = {
-					"When first hand is drawn is selected,",
+					"When first hand is drawn,",
 					"Enhances a random card in hand to {C:attention}Honey{}",
 					"{C:green}#1# in 4{} Chance for it to be a {C:attention}Syrup Card{}",
 				},
@@ -2511,7 +2668,7 @@ return {
 			j_crv_ahsenprinter = {
 				name = "Ashen Printer",
 				text = {
-					"When first hand is drawn is selected,",
+					"When first hand is drawn,",
 					"Enhances a random card in hand to {C:attention}Ashen{}",
 					"{C:green}#1# in 4{} Chance for it to be a {C:attention}Re-Ignited Card{}",
 				},
@@ -2525,7 +2682,7 @@ return {
 			j_crv_prismaticprinter = {
 				name = "Prismatic Printer",
 				text = {
-					"When first hand is drawn is selected,",
+					"When first hand is drawn,",
 					"Enhances a random card in hand to {C:attention}Prismatic{}",
 					"{C:green}#1# in 4{} Chance for it to be a {C:attention}Brightest Card{}",
 				},
@@ -2533,7 +2690,7 @@ return {
 			j_crv_darkprinter = {
 				name = "Dark Printer",
 				text = {
-					"When first hand is drawn is selected,",
+					"When first hand is drawn,",
 					"Enhances a random card in hand to {C:attention}Dark{}",
 					"{C:green}#1# in 4{} Chance for it to be a {C:attention}Darkest Card{}",
 				},
@@ -2785,7 +2942,7 @@ return {
 			},
 			c_crv_dreamsdesires = {
 				name = "Dreams & Desires",
-				text = { "Creates one of the three {C:attention}Machine Parts,", "{C:inactive}(Must have room)" },
+				text = { "Creates one of the three ","{C:attention}Mega Printer Parts,", "{C:inactive}(Must have room)" },
 			},
 			c_crv_heart = {
 				name = "The Heart",
@@ -3690,6 +3847,24 @@ return {
 				}
 			},
 
+			crv_banana_mayhem_desc = {
+				name = "Banana Mayhem",
+				text = {
+					"Every {C:attention}created{}",
+					"joker is a random banana",
+				}
+			},
+
+			crv_banana_mayhem_desc_pedro = {
+				name = "Pedro's Special",
+				text = {
+					"Scored cards will",
+					"turn into either",
+					"{C:attention}Gros Michel{} or",
+					"{C:attention}Cavendish{}"
+				}
+			},
+
 			-- Starspace Cross-Mod
 
 			crv_blessed_patch = {
@@ -3880,7 +4055,10 @@ return {
 			ach_crv_buckshotifying = "Buckshot Roulette!",
 			ach_crv_vaultingify = "Vault Bound",
 			ach_crv_lame_card = "Broke as hell!",
-			ach_crv_welcome_mine = "Welcome to my mine!"
+			ach_crv_welcome_mine = "Welcome to my mine!",
+			ach_crv_pedro_mayhem = "Rise and shine, sleepyhead!",
+			ach_crv_cursed = "You've been cursed!",
+			ach_crv_purification = "Curses begone!"
 		},
 		achievement_descriptions ={
 			ach_crv_get_all_stickers = "Apply all Revo's Vault stickers on one card",
@@ -3890,7 +4068,10 @@ return {
 			ach_crv_buckshotifying = "Beat The Dealer joker",
 			ach_crv_vaultingify = "Obtain a Vaulted Joker",
 			ach_crv_lame_card = "Buy Revo's Card",
-			ach_crv_welcome_mine = "Redeem a gem"
+			ach_crv_welcome_mine = "Redeem a gem",
+			ach_crv_pedro_mayhem = "Obtain Pedro",
+			ach_crv_cursed = "Obtain a Curse",
+			ach_crv_purification = "Purify a Curse"
 		},
 		labels = {
 			crv_ps_seal = "Printer's Seal",

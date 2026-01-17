@@ -453,3 +453,10 @@ SMODS.Atlas({
 	px = 71,
 	py = 95,
 })
+
+SMODS.Atlas({
+	key = "new_and_cool_special_atlas_for_banana_enhancement_only",
+	path = "enh_banana.png",
+	px = 71,
+	py = 95
+})

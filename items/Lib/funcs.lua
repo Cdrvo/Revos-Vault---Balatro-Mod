@@ -1626,7 +1626,9 @@ end
 
 function RevosVault.c_message(card, message, type)
 	if not type then type = "extra" end
-	card_eval_status_text(card, type, nil, nil, nil, { message = message })
+	if type ~= "SMODS" then
+		card_eval_status_text(card, type, nil, nil, nil, { message = message })
+	end
 end
 
 function RevosVault.revive(card, area, from_sticker)
@@ -1845,4 +1847,68 @@ function RevosVault.remove_all_stickers(card, ignore)
             end
         end
     end
+end
+
+function RevosVault.has_room(area)
+	if area then
+		if area.cards and #area.cards < area.config.card_limit then
+			return true
+		end
+	end
+	return false
+end
+
+function Card:calculate_cavendish()
+	if pseudorandom("calculate_cavendish") < G.GAME.probabilities.normal / (self.ability.odds or 1000) then
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				play_sound("tarot1")
+				self.T.r = -0.2
+				self:juice_up(0.3, 0.4)
+				self.states.drag.is = true
+				self.children.center.pinch.x = true
+				G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 1.5,
+					blockable = false,
+					func = function()
+						SMODS.destroy_cards(self)
+						return true
+					end,
+				}))
+				return true
+			end,
+		}))
+		RevosVault.c_message(self, localize("k_extinct_ex"))
+	else
+		RevosVault.c_message(self, localize("k_safe_ex"))
+	end
+end
+
+
+function Card:calculate_gros_michel()
+	if pseudorandom("calculate_gros_michel") < G.GAME.probabilities.normal / (self.ability.odds or 6) then
+G.E_MANAGER:add_event(Event({
+			func = function()
+				play_sound("tarot1")
+				self.T.r = -0.2
+				self:juice_up(0.3, 0.4)
+				self.states.drag.is = true
+				self.children.center.pinch.x = true
+				G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 1.5,
+					blockable = false,
+					func = function()
+						SMODS.destroy_cards(self)
+						return true
+					end,
+				}))
+				return true
+			end,
+		}))
+		RevosVault.c_message(self, localize("k_extinct_ex"))
+	else
+		RevosVault.c_message(self, localize("k_safe_ex"))
+	end
 end

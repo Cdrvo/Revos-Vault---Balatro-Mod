@@ -57,7 +57,8 @@ SMODS.Edition({
 	calculate = function(self, card, context)
 		if (context.main_scoring and context.cardarea == G.play) or context.post_joker then
 			return {
-				p_mult = 50,
+				mult = RevosVault.perc(mult, 50),
+				mult_message = {message = "+%50"}
 			}
 		end
 	end,
@@ -86,9 +87,11 @@ SMODS.Edition({
 		}
 	end,
 	calculate = function(self, card, context)
-		if (context.main_scoring and context.cardarea == G.play) or context.post_joker then
+		if (context.main_scoring and context.cardarea == G.play) or (context.post_joker and context.cardarea == G.jokers) then
 			return {
-				p_chips = 60,
+				chips = RevosVault.perc(hand_chips, 60),
+				chip_message = {message = '+%60'}
+
 			}
 		end
 	end,
@@ -135,7 +138,7 @@ SMODS.Edition({
 		end
 	end,
 	calculate = function(self, card, context)
-		if (context.main_scoring and context.cardarea == G.play) or context.post_joker then
+		if (context.main_scoring and context.cardarea == G.play) or (context.post_joker and context.cardarea == G.jokers) then
 			local areas = {}
 			for k, v in pairs(G.jokers.cards) do
 				areas[#areas + 1] = v
@@ -185,7 +188,7 @@ SMODS.Edition({
 		end
 	end,
 	calculate = function(self, card, context)
-		if (context.main_scoring and context.cardarea == G.play) or context.post_joker then
+		if (context.main_scoring and context.cardarea == G.play) or (context.post_joker and context.cardarea == G.jokers) then
 			return {
 				xmult = RevosVault.stencil(G.jokers.cards, "j_stencil", "e_crv_antichrome_edition") * self.config.odds,
 			}

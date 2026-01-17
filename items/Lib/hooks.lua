@@ -436,6 +436,25 @@ function Card:set_ability(center, initial, delay_sprites)
 		end
 	}))
 
+	self.ability.calculate_cavendish = nil
+	self.ability.calculate_gros_michel = nil
+
+	if self and self.ability then
+		self.ability.odds = nil
+	end
+
+	if center == "j_cavendish" then
+		self.ability.calculate_cavendish = true
+		self.ability.x_mult = G.P_CENTERS.j_cavendish.config.extra.Xmult
+		self.ability.odds = 1000
+	end
+
+	if center == "j_gros_michel" then
+		self.ability.calculate_gros_michel = true
+		self.ability.mult = G.P_CENTERS.j_gros_michel.config.extra.mult
+		self.ability.odds = 6
+	end
+
 end
 
 
@@ -455,6 +474,7 @@ function CardArea:emplace(card, location, stay_flipped)
 		if card.config.center.rarity == "crv_curse" then
 			if card.area then
 				RevosVault.move_card(card, G.jokers)
+				check_for_unlock({type = "clovering_it"})
 			end
 
 			card:add_sticker("eternal", true)
@@ -489,4 +509,66 @@ function Card:use_consumeable(area, copier)
 			return true
 		end
 	}))
+end
+
+local ease_background_colour_old = ease_background_colour
+function ease_background_colour(args)
+	if not G.GAME.disable_background_colouring then
+		return ease_background_colour_old(args)
+	else
+		RevosVault.colour_args = copy_table(args)
+	end
+end
+
+local start_run_old = Game.start_run 
+function Game:start_run(args)
+	if (#SMODS.find_card("j_crv_pedro")) then
+		G.GAME.disable_background_colouring = nil
+		ease_background_colour{new_colour = darken(G.C.RED, 0.5), special_colour = G.C.ORANGE, contrast = 5}
+		G.GAME.disable_background_colouring = true
+	end
+
+	return start_run_old(self, args)
+end
+
+local end_round_old = end_round
+function end_round()
+	G.E_MANAGER:add_event(Event({
+      trigger = 'after',
+      delay = 0.2,
+      func = function()
+            for i = 1, #G.hand.cards do
+				if G.hand.cards[i].ability.calculate_cavendish then
+                	G.hand.cards[i]:calculate_cavendish()
+				end
+				if G.hand.cards[i].ability.calculate_gros_michel then
+                	G.hand.cards[i]:calculate_gros_michel()
+				end
+            end
+		return true
+	end
+	}))
+	return end_round_old()
+end
+
+
+local get_chip_x_mult_old = Card.get_chip_x_mult
+function Card:get_chip_x_mult(context)
+	if self.debuff then return 0 end
+	if self.ability.calculate_cavendish then
+		return G.P_CENTERS.j_cavendish.config.extra.Xmult
+	else
+		return get_chip_x_mult_old(self, context)
+	end
+end
+
+
+local get_chip_mult_old = Card.get_chip_mult
+function Card:get_chip_mult()
+    if self.debuff then return 0 end
+    if self.ability.calculate_gros_michel then
+		return G.P_CENTERS.j_gros_michel.config.extra.mult
+	else
+		return get_chip_mult_old(self)
+	end
 end

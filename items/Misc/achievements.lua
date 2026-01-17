@@ -62,6 +62,35 @@ SMODS.Achievement({
 })
 
 
+SMODS.Achievement({
+    key = "pedro_mayhem",
+    unlock_condition = function(self, args)
+        if args.type == "pedro_go_brr" then
+            return true
+        end
+    end
+})
+
+SMODS.Achievement({
+    key = "cursed",
+    unlock_condition = function(self, args)
+        if args.type == "clovering_it" then
+            return true
+        end
+    end
+})
+
+SMODS.Achievement({
+    key = "purification",
+    unlock_condition = function(self, args)
+        if args.type == "purifying_it" then
+            return true
+        end
+    end
+})
+
+
+
 -- last
 SMODS.Achievement({
     key = "secret_joker",

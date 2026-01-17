@@ -344,7 +344,7 @@ SMODS.Enhancement({
 	end,
 	calculate = function(self, card, context, effect)
 		local effect = {
-			repetition = 0
+			repetition = 0,
 		}
 		if
 			pseudorandom("blessedcard") < G.GAME.probabilities.normal / card.ability.extra.odds2
@@ -516,3 +516,113 @@ SMODS.Enhancement({
 		return false
 	end,
 })
+
+-- there are WAY better ways of doing this but im bored and this takes time to do
+	
+--[[SMODS.Enhancement({
+	key = "banana",
+	atlas = "new_and_cool_special_atlas_for_banana_enhancement_only",
+	pos = { x = 0, y = 0 },
+	discovered = true,
+	unlocked = true,
+	replace_base_card = true,
+	no_rank = true,
+	no_suit = true,
+	always_scores = true,
+	weight = 0,
+	config = {
+		extra = {
+			cavendish = { x_mult = 3 },
+			michel = { mult = 15 },
+			ghost_banana = {ghost_chips = 100 },
+			jimbo = { jimbanana_mult = 8, jimbanana_odds = 6 },
+			blue_java = { java_mult = 25, java_multd = 1 },
+			banana_vine = { vine_timer = 3 },
+			ticking_banana = { ticking_xmult = 15, ticking_rounds = 0 },
+			template = { template_rounds = 0 },
+			double = {double_odds = 8},
+			red_banana = { red_mult = 30, red_odds = 8 },
+			plantain = { plantain_rounds = 0, plantain_odds = 12, plantain_xmult = 2 },
+			latundan = { latundan_chipg = 15, latundan_chips = 0, latundan_odds = 8 },
+			plain = {plain_odds = 15, plain_dollars=15},
+			divine = {divine_odds = 3, divine_dollars = 2},
+			uneasy_banana = { unease_odds = 10, unease_xmult = 15 },
+			cavicheal = { caveicheal_xchips = 6, caveicheal_odds = 1000 },
+			grosdish = { grosdish_chpis = 30, grosdish_odds = 6 },
+		},
+	},
+	loc_vars = function(self, info_queue, card)
+		local key, vars
+		key = (self.key .. "_" .. card.crv_bananas)
+		vars = {}
+		for k, v in pairs(card.ability.extra[card.crv_bananas]) do
+			table.insert(vars, card.ability.extra[card.crv_bananas][k])
+		end
+		return { vars = vars, key = key }
+	end,
+	set_ability = function(self, card, initial, delay_sprites)
+	if not card.crv_banana then
+		local banana_backgroundx = pseudorandom_element({ 1, 2, 3 }, pseudoseed("BANANA_MAYHEM"))
+		local banana_backgroundy = pseudorandom_element({ 1, 2, 3, 4, 5, 6 }, pseudoseed("BANANA_MAYHEM"))
+
+		if banana_backgroundy == 6 then
+			banana_backgroundx = pseudorandom_element({ 1, 2 }, pseudoseed("BANANA_MAYHEM"))
+		end
+		card.children.center:set_sprite_pos({ x = banana_backgroundx - 1, y = banana_backgroundy - 1 })
+
+		-- y = 1
+		if banana_backgroundx == 1 and banana_backgroundy == 1 then
+			card.crv_bananas = "michel"
+		elseif banana_backgroundx == 2 and banana_backgroundy == 1 then
+			card.crv_bananas = "cavendish"
+		elseif banana_backgroundx == 3 and banana_backgroundy == 1 then
+			card.crv_bananas = "ghost_banana"
+
+		-- y = 2
+		elseif banana_backgroundx == 1 and banana_backgroundy == 2 then
+			card.crv_bananas = "jimbo"
+		elseif banana_backgroundx == 2 and banana_backgroundy == 2 then
+			card.crv_bananas = "blue_java"
+		elseif banana_backgroundx == 3 and banana_backgroundy == 2 then
+			card.crv_bananas = "banana_vine"
+
+		-- y = 3
+		elseif banana_backgroundx == 1 and banana_backgroundy == 3 then
+			card.crv_bananas = "ticking_banana"
+		elseif banana_backgroundx == 2 and banana_backgroundy == 3 then
+			card.crv_bananas = "template"
+		elseif banana_backgroundx == 3 and banana_backgroundy == 3 then
+			card.crv_bananas = "double"
+
+		-- y = 4
+		elseif banana_backgroundx == 1 and banana_backgroundy == 4 then
+			card.crv_bananas = "red_banana"
+		elseif banana_backgroundx == 2 and banana_backgroundy == 4 then
+			card.crv_bananas = "plantain"
+		elseif banana_backgroundx == 3 and banana_backgroundy == 4 then
+			card.crv_bananas = "latundan"
+
+		-- y = 5
+		elseif banana_backgroundx == 1 and banana_backgroundy == 5 then
+			card.crv_bananas = "plain"
+		elseif banana_backgroundx == 2 and banana_backgroundy == 5 then
+			card.crv_bananas = "divine"
+		elseif banana_backgroundx == 3 and banana_backgroundy == 5 then
+			card.crv_bananas = "uneasy_banana"
+
+		-- y = 6
+		elseif banana_backgroundx == 1 and banana_backgroundy == 6 then
+			card.crv_bananas = "cavicheal"
+		elseif banana_backgroundx == 2 and banana_backgroundy == 6 then
+			card.crv_bananas = "grosdish"
+		end
+	end
+end,
+	calculate = function(self, card, context, effect)
+		
+	end,
+	in_pool = function(self)
+		return false
+	end,
+})
+]]
