@@ -20,6 +20,21 @@ SMODS.Back {
 }
 
 SMODS.Back {
+    key = 'banana_mayhem',
+    atlas = 'Decks',
+    pos = {
+        x = 0,
+        y = 1
+    },
+    apply = function()
+
+        G.GAME.modifiers.banana_mayhem_infinite = true
+        G.GAME.modifiers.banana_mayhem = true
+
+    end
+}
+
+SMODS.Back {
     key = 'thedeal',
     atlas = 'Decks',
     pos = {
