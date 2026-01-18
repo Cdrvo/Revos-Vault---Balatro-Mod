@@ -88,17 +88,17 @@ end
 if RevosVault.config.vault_enabled then
 	local destroyjoker = Card.remove
 	function Card:remove()
-		--[[if self.added_to_deck and self.ability.set == "Joker" and 30 > G.GAME.vaultspawn then
-			G.GAME.vaultspawn = G.GAME.vaultspawn + 1
-		elseif self.added_to_deck and self.ability.set == "Joker" and G.GAME.vaultspawn >= 30 then
-			G.GAME.vaultspawn = 0
-			play_sound("holo1")
-			SMODS.add_card({
-				set = "Joker",
-				area = G.jokers,
-				rarity = "crv_va",
-			})
-		end]]
+			--[[if self.added_to_deck and self.ability.set == "Joker" and 30 > G.GAME.vaultspawn then
+				G.GAME.vaultspawn = G.GAME.vaultspawn + 1
+			elseif self.added_to_deck and self.ability.set == "Joker" and G.GAME.vaultspawn >= 30 then
+				G.GAME.vaultspawn = 0
+				play_sound("holo1")
+				SMODS.add_card({
+					set = "Joker",
+					area = G.jokers,
+					rarity = "crv_va",
+				})
+			end]]
 		return destroyjoker(self)
 	end
 end
