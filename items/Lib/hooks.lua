@@ -88,7 +88,7 @@ end
 if RevosVault.config.vault_enabled then
 	local destroyjoker = Card.remove
 	function Card:remove()
-		if self.added_to_deck and self.ability.set == "Joker" and 30 > G.GAME.vaultspawn then
+		--[[if self.added_to_deck and self.ability.set == "Joker" and 30 > G.GAME.vaultspawn then
 			G.GAME.vaultspawn = G.GAME.vaultspawn + 1
 		elseif self.added_to_deck and self.ability.set == "Joker" and G.GAME.vaultspawn >= 30 then
 			G.GAME.vaultspawn = 0
@@ -98,7 +98,7 @@ if RevosVault.config.vault_enabled then
 				area = G.jokers,
 				rarity = "crv_va",
 			})
-		end
+		end]]
 		return destroyjoker(self)
 	end
 end
@@ -121,31 +121,11 @@ if RevosVault.config.superior_enabled then
 
 	local shopcreateold = create_card_for_shop
 	function create_card_for_shop(area)
-		if RevosVault.config.superior_enabled then
-			if pseudorandom("supcreate") < 1 / 100 then
-				local acard =
-					RevosVault.shop_card(pseudorandom_element(G.P_CENTER_POOLS.SuperiorTarot), true, "Tarot", true)
-			end
-			if pseudorandom("supcreate") < 1 / 100 then
-				local acard = RevosVault.shop_card(
-					pseudorandom_element(G.P_CENTER_POOLS.SuperiorSpectral),
-					true,
-					"Spectral",
-					true
-				)
-			end
-			if pseudorandom("supcreate") < 1 / 100 then
-				local acard =
-					RevosVault.shop_card(pseudorandom_element(G.P_CENTER_POOLS.SuperiorPlanet), true, "Planet", true)
-			end
-			if pseudorandom("supcreate") > 0.9 then
-				local acard = RevosVault.shop_card("j_crv_supprinter", true, nil, true, "crv_p", true)
-			end
-		end
-		if RevosVault.config.gem_enabled and not G.CONTROLLER.locks.shop_reroll then --Doesn't work with Handy's Reroll button (its kinda wierd)
-			if pseudorandom("supcreate") > 0.79 then
+		if RevosVault.config.gem_enabled then
+			if ((pseudorandom("supcreate") > 0.79) and not RevosVault.gem_skip) or RevosVault.guarantee_gem then
 				RevosVault.add_gem()
 			end
+			RevosVault.gem_skip = true
 		end
 
 		--[[if pseudorandom("get_boon") < 1 / 4 then
@@ -232,6 +212,8 @@ Game.init_game_object = function(self)
 	ret.curse_cashout = 1
 
 	ret.souls = 0 -- metaprog soon
+
+	ret.superior_mod = 1
 
 	if next(SMODS.find_mod("JoJoMod")) then
 		ret.jojo = true
@@ -461,35 +443,43 @@ end
 local emplace_old = CardArea.emplace
 function CardArea:emplace(card, location, stay_flipped)
 	emplace_old(self, card, location, stay_flipped)
-    if card and card.config and card.config.center and card.config.center.key and (self == G.shop_jokers or self == G.pack_cards or self == G.shop_booster or self == G.shop_vouchers) then
+    if card and card.config and card.config.center and card.config.center.key and (self == G.shop_jokers or self == G.pack_cards or self == G.shop_booster or self == G.shop_vouchers or self == G.consumeables) then
 
-		if self ~= G.pack_cards then
-			if (#SMODS.find_card("j_crv_inflation")>0) then
-				if card and card.cost then
-					card.cost = card.cost * 2
-				end
+		if RevosVault.config.superior_enabled and card.ability.set ~= "Joker" then
+			if pseudorandom("supcreate") < 1 / (150/G.GAME.superior_mod) and card:has_potential() then
+				RevosVault.unleash_potential(card)
 			end
 		end
-
-		if card.config.center.rarity == "crv_curse" then
-			if card.area then
-				RevosVault.move_card(card, G.jokers)
-				check_for_unlock({type = "clovering_it"})
+	
+		if self ~= G.consumeables then
+			if self ~= G.pack_cards then
+				if (#SMODS.find_card("j_crv_inflation")>0) then
+					if card and card.cost then
+						card.cost = card.cost * 2
+					end
+				end
 			end
 
-			card:add_sticker("eternal", true)
-
-			G.E_MANAGER:add_event(Event({
-				trigger = "after",
-				delay = 0.1,
-				func = function()
-					RevosVault.remove_all_stickers(card, "eternal")
-					card.sell_cost = 0
-					card.children.price = nil
-					card.children.buy_button = nil
-					return true
+			if card.config.center.rarity == "crv_curse" then
+				if card.area then
+					RevosVault.move_card(card, G.jokers)
+					check_for_unlock({type = "clovering_it"})
 				end
-			}))
+
+				card:add_sticker("eternal", true)
+
+				G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					delay = 0.1,
+					func = function()
+						RevosVault.remove_all_stickers(card, "eternal")
+						card.sell_cost = 0
+						card.children.price = nil
+						card.children.buy_button = nil
+						return true
+					end
+				}))
+			end
 		end
 	end
 end
@@ -571,4 +561,13 @@ function Card:get_chip_mult()
 	else
 		return get_chip_mult_old(self)
 	end
+end
+
+
+local toggle_shop_old = G.FUNCS.toggle_shop
+function G.FUNCS.toggle_shop(e)
+	if G.shop and RevosVault.gem_skip then
+		RevosVault.gem_skip = false
+	end
+    toggle_shop_old(e)
 end

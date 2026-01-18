@@ -1068,6 +1068,12 @@ function RevosVault.remove_gem(key)
 end
 
 function RevosVault.add_gem(key, set)
+	if G.shop_vouchers then
+		G.shop_vouchers.config.card_limit = G.shop_vouchers.config.card_limit + 1
+	end
+	if RevosVault.guarantee_gem then
+		RevosVault.guarantee_gem = false
+	end
 	local acard
 	if key then
 		acard = SMODS.add_card({ key = key, set = "Gem", area = G.shop_vouchers })
@@ -1078,6 +1084,7 @@ function RevosVault.add_gem(key, set)
 		create_shop_card_ui(acard)
 		G.shop_vouchers:align_cards()
 	end
+	return acard
 end
 
 --I tried some stuff don't question this part. Is this efficent? probably not.
@@ -1910,5 +1917,49 @@ G.E_MANAGER:add_event(Event({
 		RevosVault.c_message(self, localize("k_extinct_ex"))
 	else
 		RevosVault.c_message(self, localize("k_safe_ex"))
+	end
+end
+
+
+function Card:has_potential()
+	local tab = {}
+	for k, v in pairs(G.P_CENTER_POOLS.Superior) do
+		if G.P_CENTERS[v.key] then
+			tab[#tab+1] = v.key
+		end
+	end
+
+	for k, v in pairs(tab) do
+
+		local mod_prefix = G.P_CENTERS[v].mod.prefix
+		local _string = string.gsub(v, "sup", "")
+		_string = string.gsub(_string, mod_prefix .. "_", "")
+		_string = string.gsub(_string, "c_", "")
+
+		if string.find(self.config.center.key, _string) then
+			return true
+		end
+	end
+	return false
+end
+
+function RevosVault.unleash_potential(card)
+	local tab = {}
+	for k, v in pairs(G.P_CENTER_POOLS.Superior) do
+		if G.P_CENTERS[v.key] then
+			tab[#tab+1] = v.key
+		end
+	end
+
+	for k, v in pairs(tab) do
+		local mod_prefix = G.P_CENTERS[v].mod.prefix
+		local _string = string.gsub(v, "sup", "")
+		_string = string.gsub(_string, mod_prefix .. "_", "")
+		_string = string.gsub(_string, "c_", "")
+
+		if string.find(card.config.center.key, _string) then
+			card:juice_up()
+			card:set_ability(v)
+		end
 	end
 end

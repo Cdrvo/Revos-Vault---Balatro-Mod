@@ -271,7 +271,7 @@ function Card:highlight(is_highlighted)
 			self.children.use_button:remove()
 			self.children.use_button = nil
 		end
-	elseif self.highlighted and TheVault and TheVault.in_vault and self.area == G.jokers and self.ability.set == "Joker" and RevoConfig["experimental_enabled"] then
+	elseif self.highlighted and TheVault and TheVault.in_vault and self.area == G.jokers and self.ability.set == "Joker" then
 
 		if self.children.crv_use then
 			self.children.crv_use:remove()
@@ -310,7 +310,7 @@ function Card:highlight(is_highlighted)
 				parent = self,
 			},
 		})
-	elseif self.highlighted and TheVault and TheVault.in_vault and self.area == G.vault_card and self.ability.set == "Joker" and RevoConfig["experimental_enabled"] then
+	elseif self.highlighted and TheVault and TheVault.in_vault and self.area == G.vault_card and self.ability.set == "Joker" then
 
 		if self.children.crv_use then
 			self.children.crv_use:remove()

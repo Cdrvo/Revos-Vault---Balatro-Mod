@@ -20,3 +20,18 @@ SMODS.DrawStep {
         end
 	end,
 }
+
+SMODS.DrawStep({
+	key = "joker_shine",
+	order = 11,
+	func = function(self)
+		if
+			self.config.center.soul_set == "Spectral"
+			and self.ability.set == "Superior"
+			and self:should_draw_base_shader()
+		then
+			self.children.center:draw_shader("booster", nil, self.ARGS.send_to_shader)
+		end
+	end,
+	conditions = { vortex = false, facing = "front" },
+})
