@@ -211,7 +211,7 @@ return {
 				text = {
 					"Has a {C:green}#2# in #1#{} chance to",
 					"copy the first {C:attention}Joker{}",
-					"in your deck when a hand is played",
+					"you own when a hand is played",
 				},
 				unlock = {
 					"Used {C:attention}Joker",

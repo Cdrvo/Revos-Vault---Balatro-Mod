@@ -571,3 +571,11 @@ function G.FUNCS.toggle_shop(e)
 	end
     toggle_shop_old(e)
 end
+
+
+local remove_from_deck_old = Card.remove_from_deck
+function Card:remove_from_deck(from_debuff)
+	local ret = remove_from_deck_old(self, from_debuff)
+	SMODS.calculate_context({crv_card_removed = true, card = self})
+	return ret
+end

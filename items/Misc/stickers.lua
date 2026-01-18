@@ -381,7 +381,7 @@ SMODS.Sticker({
 end
 })
 
-SMODS.Sticker({
+--[[SMODS.Sticker({        -- i didnt like this guy anyway
 	key = "heavy",
 	pos = {
 		x = 0,
@@ -400,6 +400,21 @@ SMODS.Sticker({
 		vars = {},
 	}
 	end,
+	calculate = function(self,card,context)
+		if context.card_added and context.card == card then
+			print("whae")
+			if card and card.area and card.area.config and card.area.config.card_limit and card.area ~= G.deck then
+				card.area.config.card_limit = card.area.config.card_limit - 1
+			end
+		end
+
+		if context.card_removed and context.card == card then
+			print("whae")
+			if card and card.area and card.area.config and card.area.config.card_limit and card.area ~= G.deck then
+				card.area.config.card_limit = card.area.config.card_limit + 1
+			end
+		end
+	end
 	applied = function(self, card, val)
 		if card and card.area and card.area.config and card.area.config.card_limit and card.area ~= G.deck then
 			card.area.config.card_limit = card.area.config.card_limit - 1
@@ -411,6 +426,7 @@ SMODS.Sticker({
 		end
 	end,
 })
+]]
 
 SMODS.Sticker({
 	key = "wet",
