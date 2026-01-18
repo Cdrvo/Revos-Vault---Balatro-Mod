@@ -2761,6 +2761,14 @@ return {
 				name = "Myth Printer",
 				text = { "When {C:attention}Blind{} is selected", "print a random {C:mul_transmuted}Myth{} Card"
 			}
+			},
+			j_crv_aberration_printer = {
+				name = "Aberration Printer",
+				text = {
+					"When {C:attention}Blind{} is selected",
+					"print a random",
+					"{C:attention}Aberration{}"
+				}
 			}
 			--ends here
 		},

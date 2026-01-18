@@ -311,6 +311,7 @@ G.FUNCS.crv_vault_harvest_can = function(e)
 			and G.vault_card.cards[1]
 			and G.GAME.souls
 			and G.vault_card.cards[1].cost
+			and not SMODS.is_eternal(G.vault_card.cards[1])
 		)
 	then
 		TheVault.harvest_cost = TheVault.harvest_cost_default
