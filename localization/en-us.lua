@@ -3941,6 +3941,13 @@ return {
                     "becomes {C:dark_edition}Radiated",
                 },
             },
+			tag_crv_gem ={
+                name="Gem Tag",
+                text={
+                    "Adds one {C:crv_gem}Gem",
+                    "to the next shop",
+                },
+            },
 
 		},
 		Edition = {
@@ -4004,7 +4011,7 @@ return {
 				text = {
 					"Significantly {C:attention}increase",
 					"the chances of",
-					"Cursed Jokers appearing"
+					"Curses appearing"
 				},
 			},
 		},

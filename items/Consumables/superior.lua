@@ -256,7 +256,7 @@ SMODS.Consumable({
 })
 
 SMODS.Consumable({
-	key = "suphierophant",
+	key = "supheirophant",
 	set = "Superior",
 	atlas = "Superior",
 	hidden = true,
@@ -529,7 +529,7 @@ SMODS.Consumable({
 })
 
 SMODS.Consumable({
-	key = "supwof",
+	key = "supwheel_of_fortune",
 	set = "Superior",
 	atlas = "Superior",
 	hidden = true,
@@ -613,7 +613,7 @@ SMODS.Consumable({
 })
 
 SMODS.Consumable({
-	key = "suphangedman",
+	key = "suphanged_man",
 	set = "Superior",
 	atlas = "Superior",
 	hidden = true,
@@ -1133,21 +1133,6 @@ SMODS.Consumable({
 })
 
 --Superior Spectrals below
-
-SMODS.DrawStep({
-	key = "joker_shine",
-	order = 11,
-	func = function(self)
-		if
-			self.config.center.soul_set == "Spectral"
-			and self.ability.set == "Superior"
-			and self:should_draw_base_shader()
-		then
-			self.children.center:draw_shader("booster", nil, self.ARGS.send_to_shader)
-		end
-	end,
-	conditions = { vortex = false, facing = "front" },
-})
 
 SMODS.Consumable({
 	key = "supfamiliar",
@@ -1712,7 +1697,7 @@ SMODS.Consumable({
 })
 
 SMODS.Consumable({
-	key = "supdejavu",
+	key = "supdeja_vu",
 	set = "Superior",
 	atlas = "Superior",
 	hidden = true,
@@ -2653,7 +2638,7 @@ SMODS.Consumable({
 })
 
 SMODS.Consumable({
-	key = "supplanetx",
+	key = "supplanet_x",
 	set = "Superior",
 	atlas = "Superior",
 	hidden = true,

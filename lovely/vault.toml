@@ -116,7 +116,7 @@ payload = '''
               
               }, false)
         }}
-    if RevoConfig["experimental_enabled"] then
+    if RevosVault then
         return t2
     else
         return t

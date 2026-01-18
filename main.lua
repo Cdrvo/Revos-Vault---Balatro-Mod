@@ -440,22 +440,30 @@ SMODS.current_mod.reset_game_globals = function(run_start)
 	if run_start then
 		calculate_modded_printer()
 
-		if RevoConfig["experimental_enabled"] then
-			TheVault = {
-				vault_cost = 75,
-				vault_cost_default = 75,
+		TheVault = {
+			vault_cost = 75,
+			vault_cost_default = 75,
 
-				enhance_cost = 15,
-				enhance_cost_default = 15,
+			enhance_cost = 15,
+			enhance_cost_default = 15,
 
-				upgrade_cost = 40,
-				upgrade_cost_default = 40,
+			upgrade_cost = 40,
+			upgrade_cost_default = 40,
 
-				harvest_cost = 0,
-				harvest_cost_default = 0,
+			harvest_cost = 0,
+			harvest_cost_default = 0,
 
-				in_vault = false
-			}
+			in_vault = false,
+
+			current_vault_text = "Vault",
+			changed = false -- idk
+		}
+
+		if not RevoConfig["6_vault_enabled"] then
+			TheVault.current_vault_text = "Reroll"
+			TheVault.changed = true
+			TheVault.vault_cost = 30
+			TheVualt.vault_cost_default = 30
 		end
 	end
 
