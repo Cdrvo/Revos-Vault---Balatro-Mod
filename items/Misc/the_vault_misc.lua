@@ -338,6 +338,7 @@ G.FUNCS.crv_vault_harvest = function(e)
 end
 
 function RevosVault.v_to_s()
+    ease_background_colour_blind(G.STATES.SHOP)
 	TheVault.in_vault = false
 
 	if G.shop and G.shop.alignment.offset.py then
@@ -350,6 +351,7 @@ function RevosVault.v_to_s()
 end
 
 function RevosVault.s_to_v()
+    ease_background_colour({new_colour = darken(G.C.PURPLE, 0.3), special_colour = G.C.BLACK})
 	TheVault.in_vault = true
 
 	if G.shop and not G.shop.alignment.offset.py then
