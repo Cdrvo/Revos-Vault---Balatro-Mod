@@ -264,3 +264,18 @@ SMODS.Tag {
     end,
 }
 
+SMODS.Tag {
+    key = "gem",
+	atlas = "tags",
+    pos = { x = 3, y = 1 },
+    apply = function(self, tag, context)
+        if context.type == 'voucher_add' then
+            tag:yep('+', SMODS.Gradients["crv_gem"], function()
+                local gem = RevosVault.add_gem()
+                gem.from_tag = true
+                return true
+            end)
+            tag.triggered = true
+        end
+    end
+}
