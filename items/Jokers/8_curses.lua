@@ -225,6 +225,7 @@ SMODS.Joker({
 				set = "Joker",
 			}
 			acard:add_sticker("eternal", true)
+			RevosVault.remove_all_stickers(acard, "eternal")
 		end
  	end
 })
@@ -262,7 +263,23 @@ SMODS.Joker({
   	end,
 	calculate = function(self,card,context)
 		if context.individual and context.cardarea == G.play and pseudorandom("soulless") < 1/2 and not context.blueprint then
-			context.other_card:set_ability("m_crv_soulcard")		
+			context.other_card.crv_soulifying = true
+		end
+		if context.final_scoring_step and not context.blueprint then
+			G.E_MANAGER:add_event(Event({
+				trigger = "before",
+				delay = 0,
+				func = function()
+					for k, v in pairs(context.scoring_hand) do
+						if v.crv_soulifying then
+							v:juice_up()
+							v:set_ability("m_crv_soulcard")
+							v.crv_soulifying = nil
+						end
+					end		
+					return true
+				end
+			}))
 		end
  	end
 })
@@ -299,7 +316,7 @@ SMODS.Joker({
 		end
   	end,
 	calculate = function(self,card,context)
-		if context.buying_card and not context.blueprint and pseudorandom("clumsy") < 1/4 then
+		if context.buying_card and not context.blueprint and pseudorandom("clumsy") < 1/4 and context.card.ability.set ~= "Voucher" and context.card.ability.set ~= "Gem" and context.card.ability.set ~= "Booster" then
 			SMODS.destroy_cards(context.card, true)
 		end
  	end
@@ -514,9 +531,11 @@ SMODS.Joker({
 		end
   	end,
 	calculate = function(self,card,context)
-		if context.individual and not context.blueprint and context.cardarea == G.play then
-			if context.other_card:is_face() then
-				SMODS.destroy_cards(context.other_card, true)
+		if context.destroy_card and context.cardarea == G.play and not context.blueprint then
+			if context.destroy_card:is_face() then
+				return {
+					remove = true,
+				}
 			end
 		end
  	end
