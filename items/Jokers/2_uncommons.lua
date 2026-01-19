@@ -3444,8 +3444,8 @@ SMODS.Joker({
 		card.children.center:draw_shader("hologram", nil, card.ARGS.send_to_shader)
 	end,
 	calculate = function(self, card, context) 
-		if context.before then
-			for k, v in pairs(G.play.cards) do
+		if context.crv_press_play then
+			for k, v in pairs(G.playing_cards) do
 				if v.crv_holofaced then
 					if v and v.children and v.children.crv_use then
 						v.children.crv_use:remove()

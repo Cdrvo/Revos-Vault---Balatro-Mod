@@ -943,8 +943,9 @@ function RevosVault.stickercheck(area, stickers)
 	local st = 0
 	if area then
 		for _, v in pairs(area) do
-			for i = 1, #stickers do
-				if v.stickers then
+			for k, vv in pairs(stickers) do
+				if v.ability[vv] then
+					st = st + 1
 				end
 			end
 		end

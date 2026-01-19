@@ -1753,17 +1753,16 @@ SMODS.Joker({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
-			info_queue[#info_queue + 1] =
-				{ key = "perishable", set = "Other"}
-		local area = self.area
+				local area = self.area
 		if G.jokers and G.jokers.cards then area = G.jokers.cards end
 
-		return {
-			vars = {
-				card.ability.extra.xmult * RevosVault.stickercheck(area, "perishable") + 1,
-				card.ability.extra.xmult,
-			},
-		}
+			return {
+				vars = {
+					card.ability.extra.xmult * RevosVault.stickercheck(area, {"perishable"}) + 1,
+					card.ability.extra.xmult,
+				},
+			}
+
 	end,
 
 	calculate = function(self, card, context)
@@ -1781,7 +1780,7 @@ SMODS.Joker({
 		end
 		if context.joker_main then
 			return {
-				xmult = card.ability.extra.xmult * RevosVault.stickercheck(G.jokers.cards, "perishable") + 1,
+				xmult = card.ability.extra.xmult * RevosVault.stickercheck(G.jokers.cards, {"perishable"}) + 1,
 			}
 		end
 		if RevosVault.config.secret_enabled then

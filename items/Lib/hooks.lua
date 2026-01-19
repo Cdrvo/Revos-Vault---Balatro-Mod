@@ -597,3 +597,9 @@ function Card:remove_from_deck(from_debuff)
 	SMODS.calculate_context({crv_card_removed = true, card = self})
 	return ret
 end
+
+local play_from_highlight_old = G.FUNCS.play_cards_from_highlighted
+G.FUNCS.play_cards_from_highlighted = function(e)
+	SMODS.calculate_context({crv_press_play = true})
+	play_from_highlight_old(e)
+end

@@ -179,106 +179,234 @@ end
 
 --boom
 
+-- NEW UI(WIP)
+RevosVault.button_func = function(card, args) -- idk what im doing
+
+	if args.under then
+		if not args.bw then args.bw = -0.1 end
+		if not args.bh then args.bh = 0.8 end
+		if not args.align_text then args.align_text = "bm" end
+	end
+
+	if not args.bw then args.bw = 0.1 end
+	if not args.bh then args.bh = 0.6 end
+	if not args.align_other then args.align_other = "cm" end
+	if not args.align then args.align = "cr" end
+	if not args.align_text then args.align_text = "tm" end
+	if not args.colour then args.colour = G.C.RED end
+	if not args.one_press then args.one_press = false end
+	if not args.text_colour then args.text_colour = G.C.UI.TEXT_LIGHT end
+	if not args.text_scale then args.text_scale = 0.5 end
+	if not args.r then args.r = 0.08 end
+	if not args.minw then args.minw = 1.25 end
+	if not args.minh then args.minh = 0 end
+	if not args.padding_1 then args.padding_1 = 0.1 end
+	if not args.align_after_text then args.align_after_text = "cm" end
+	if not args.ref_table then args.ref_table = card end
+	if not args.hover then args.hover = true end
+	if not args.shadow then args.shadow = true end
+	if not args.shadow_text then args.shadow_text = true end
+	if not args.maxw then args.maxw = 1.25 end
+	if not args.maxw_after_text then args.maxw_after_text = 1.25 end
+
+	local args = args or {}
+	local sell = nil
+	local use = nil
+
+	if args.sell then
+		sell = {
+			n = G.UIT.C,
+			config = {
+				align = "cr",
+			},
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = {
+						ref_table = card,
+						align = "cr",
+						padding = 0.1,
+						r = 0.08,
+						minw = 1.25,
+						hover = true,
+						shadow = true,
+						colour = G.C.UI.BACKGROUND_INACTIVE,
+						one_press = true,
+						button = "sell_card",
+						func = "can_sell_card",
+					},
+					nodes = {
+						{
+							n = G.UIT.B,
+							config = {
+								w = 0.1,
+								h = 0.6,
+							},
+						},
+						{
+							n = G.UIT.C,
+							config = {
+								align = "tm",
+							},
+							nodes = {
+								{
+									n = G.UIT.R,
+									config = {
+										align = "cm",
+										maxw = 1.25,
+									},
+									nodes = {
+										{
+											n = G.UIT.T,
+											config = {
+												text = localize("b_sell"),
+												colour = G.C.UI.TEXT_LIGHT,
+												scale = 0.4,
+												shadow = true,
+											},
+										},
+									},
+								},
+								{
+									n = G.UIT.R,
+									config = {
+										align = "cm",
+									},
+									nodes = {
+										{
+											n = G.UIT.T,
+											config = {
+												text = localize("$"),
+												colour = G.C.WHITE,
+												scale = 0.4,
+												shadow = true,
+											},
+										},
+										{
+											n = G.UIT.T,
+											config = {
+												ref_table = card,
+												ref_value = "sell_cost_label",
+												colour = G.C.WHITE,
+												scale = 0.55,
+												shadow = true,
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		}
+	end
+
+	if args.use then
+		use = {
+			n = G.UIT.C,
+			config = {
+				align = args.align,
+			},
+			nodes = {
+				{
+					n = G.UIT.C,
+					config = {
+						ref_table = args.ref_table,
+						align = args.align_other,
+						maxw = args.maxw,
+						padding = args.padding_1,
+						r = args.r,
+						minw = args.minw,
+						minh = args.minh,
+						hover = args.hover,
+						shadow = args.shadow,
+						colour = args.colour,
+						button = args.button,
+						func = args.func,
+					},
+					nodes = {
+						{
+							n = G.UIT.B,
+							config = {
+								w = args.bw,
+								h = args.bh,
+							},
+						},
+						{
+							n = G.UIT.C,
+							config = {
+								align = args.align_text,
+							},
+							nodes = {
+								{
+									n = G.UIT.R,
+									config = {
+										align = args.align_after_text,
+										maxw = args.maxw_after_text,
+									},
+									nodes = {
+										{
+											n = G.UIT.T,
+											config = {
+												text = args.text,
+												colour = args.text_colour,
+												scale = args.text_scale,
+												shadow = args.shadow_text,
+											},
+										},
+									},
+								},
+								args.second_text
+							},
+						},
+					},
+				},
+			},
+		}
+	end
+
+	return {
+		n = G.UIT.ROOT,
+		config = {
+			align = "cr",
+			padding = 0,
+			colour = G.C.CLEAR,
+		},
+		nodes = {
+			{
+				n = G.UIT.C,
+				config = {
+					padding = 0.15,
+					align = "cl",
+				},
+				nodes = {
+					sell and {
+						n = G.UIT.R,
+						config = {
+							align = "cl",
+						},
+						nodes = { sell },
+					} or nil,
+					use and {
+						n = G.UIT.R,
+						config = {
+							align = "cl",
+						},
+						nodes = { use },
+					} or nil,
+				},
+			},
+		},
+	}
+end
+
 -- This specific hook exits a lot in my current code. Im not planning to remove them nor move them just yet but the future ones will be implemented here under the same hook
 
 local cardhighold = Card.highlight
 function Card:highlight(is_highlighted)
 	self.highlighted = is_highlighted
-	if self.highlighted and string.find(self.ability.set, "crv_Gems") and self.area == G.consumeables then --this doenst fucking existafjkasyhfasmdlşaslj
-		if self.children.use_button then
-			self.children.use_button:remove()
-			self.children.use_button = nil
-		end
-
-		self.children.use_button = UIBox({
-			definition = RevosVault.buttons_edit(self, {
-				sell = true,
-			}),
-			config = {
-				align = "cr",
-				offset = {
-					x = -0.4,
-					y = 0,
-				},
-				parent = self,
-			},
-		})
-	elseif self.highlighted and string.find(self.ability.set, "crv_testing1") and self.area == G.consumeables then
-		if self.children.use_button then
-			self.children.use_button:remove()
-			self.children.use_button = nil
-		end
-
-		self.children.use_button = UIBox({
-			definition = RevosVault.custom_button_set_1(self, {
-				sell = true,
-				use = true,
-			}),
-			config = {
-				align = "cr",
-				offset = {
-					x = -0.4,
-					y = 0,
-				},
-				parent = self,
-			},
-		})
-	elseif
-		self.highlighted
-		and (string.find(self.ability.set, "Default") or string.find(self.ability.set, "Enhanced"))
-		and self.area == G.hand
-		and self.area ~= G.play
-		and (#SMODS.find_card("j_crv_holoface") > 0)
-		and self:is_face()
-		and not RevosVault.scoring
-	then
-		if self.children.crv_use then
-			self.children.crv_use:remove()
-			self.children.crv_use = nil
-		end
-
-		self.children.crv_use = UIBox({
-			definition = RevosVault.custom_button_set_2(self, {
-				use = true,
-			}),
-			config = {
-				align = "cr",
-				offset = {
-					x = -1.4,
-					y = 1.7,
-				},
-				parent = self,
-			},
-		})
-
-		self.crv_holofaced = true
-		
-	elseif self.highlighted and string.find(self.ability.set, "Gem") and self.area == G.shop_vouchers then
-		if self.children.use_button then
-			self.children.use_button:remove()
-			self.children.use_button = nil
-		end
-
-		self.children.use_button = UIBox({
-			definition = RevosVault.custom_button_set_3(self, {
-				sell = true,
-				use = true,
-			}),
-			config = {
-				align = "cr",
-				offset = {
-					x = -1.6,
-					y = 1.1,
-				},
-				parent = self,
-			},
-		})
-	elseif self.highlighted and self.config.center.rarity == "crv_curse" and self.area == G.jokers then
-		if self.children.use_button then
-			self.children.use_button:remove()
-			self.children.use_button = nil
-		end
-	elseif self.highlighted and TheVault and TheVault.in_vault and self.area == G.jokers and self.ability.set == "Joker" then
+	if self.highlighted and TheVault and TheVault.in_vault and self.area == G.jokers and self.ability.set == "Joker" then
 
 		if self.children.crv_use then
 			self.children.crv_use:remove()
@@ -291,8 +419,12 @@ function Card:highlight(is_highlighted)
 		end
 
 		self.children.crv_use = UIBox({
-			definition = RevosVault.custom_button_set_PLACE(self, {
+			definition = RevosVault.button_func(self, {
 				use = true,
+				button = "crv_emplace_to_vault",
+				func = "crv_can_emplace_to_vault",
+				under = true,
+				text = "PLACE"
 			}),
 			config = {
 				align = "cm",
@@ -305,7 +437,7 @@ function Card:highlight(is_highlighted)
 		})
 
 		self.children.use_button = UIBox({
-			definition = RevosVault.buttons_edit(self, {
+			definition = RevosVault.button_func(self, {
 				sell = true,
 			}),
 			config = {
@@ -330,8 +462,66 @@ function Card:highlight(is_highlighted)
 		end
 
 		self.children.crv_use = UIBox({
-			definition = RevosVault.custom_button_set_REMOVE(self, {
+			definition = RevosVault.button_func(self, {
 				use = true,
+				button = "crv_remove_from_vault",
+				under = true,
+				text = "REMOVE"
+			}),
+			config = {
+				align = "cm",
+				offset = {
+					x = 0,
+					y = 1.5,
+				},
+				parent = self,
+			},
+		})
+	end
+	
+	if self.highlighted and string.find(self.ability.set, "crv_Gems") and self.area == G.consumeables then --this doenst fucking existafjkasyhfasmdlşaslj
+		if self.children.use_button then
+			self.children.use_button:remove()
+			self.children.use_button = nil
+		end
+
+		self.children.use_button = UIBox({
+			definition = RevosVault.button_func(self, {
+				sell = true,
+			}),
+			config = {
+				align = "cr",
+				offset = {
+					x = -0.4,
+					y = 0,
+				},
+				parent = self,
+			},
+		})		
+	elseif
+		self.highlighted
+		and (string.find(self.ability.set, "Default") or string.find(self.ability.set, "Enhanced"))
+		and self.area == G.hand
+		and self.area ~= G.play
+		and (#SMODS.find_card("j_crv_holoface") > 0)
+		and self:is_face()
+		and not RevosVault.scoring
+	then
+		if self.children.crv_use then
+			self.children.crv_use:remove()
+			self.children.crv_use = nil
+			self.crv_holofaced = nil
+		end
+
+		self.children.crv_use = UIBox({
+			definition = RevosVault.button_func(self, {
+				use = true,
+				button = "crv_change",
+				func = "crv_can_change",
+				bw = -0.1,
+				bh = 0.8,
+				text = "SWAP",
+				align_text = "bm"
 			}),
 			config = {
 				align = "cm",
@@ -343,1003 +533,55 @@ function Card:highlight(is_highlighted)
 			},
 		})
 
-	else
-		cardhighold(self, is_highlighted)	
-	end
-end
-
-RevosVault.custom_button_set_PLACE = function(card, args)
-	local args = args or {}
-	local use = nil
-	local sell = nil
-
-	if args.use then
-		use = nil
-		use = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "bm",
-						maxw = 1.3,
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.1,
-						minh = 0.03,
-						hover = true,
-						shadow = true,
-						colour = G.C.RED,
-						button = "crv_emplace_to_vault",
-						func = "crv_can_emplace_to_vault",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = -0.1,
-								h = 0.8,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "bm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = "PLACE",
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.5,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	return {
-		n = G.UIT.ROOT,
-		config = {
-			align = "cr",
-			padding = 0,
-			colour = G.C.CLEAR,
-		},
-		nodes = {
-			{
-				n = G.UIT.C,
-				config = {
-					padding = -0.30,
-					align = "cl",
-				},
-				nodes = {
-					sell and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { sell },
-					} or nil,
-					use and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { use },
-					} or nil,
-				},
-			},
-		},
-	}
-end
-
-RevosVault.custom_button_set_REMOVE = function(card, args)
-	local args = args or {}
-	local use = nil
-	local sell = nil
-
-	if args.use then
-		use = nil
-		use = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "bm",
-						maxw = 1.3,
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.1,
-						minh = 0.03,
-						hover = true,
-						shadow = true,
-						colour = G.C.RED,
-						button = "crv_remove_from_vault",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = -0.1,
-								h = 0.8,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "bm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = "REMOVE",
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.5,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	return {
-		n = G.UIT.ROOT,
-		config = {
-			align = "cr",
-			padding = 0,
-			colour = G.C.CLEAR,
-		},
-		nodes = {
-			{
-				n = G.UIT.C,
-				config = {
-					padding = -0.30,
-					align = "cl",
-				},
-				nodes = {
-					sell and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { sell },
-					} or nil,
-					use and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { use },
-					} or nil,
-				},
-			},
-		},
-	}
-end
-
-
-G.FUNCS.crv_can_emplace_to_vault = function(e)
-	local card = e.config.ref_table
-	if G.vault_card and G.vault_card.cards and (#G.vault_card.cards==0) then
-		e.config.colour = G.C.RED
-		e.config.button = "crv_emplace_to_vault"
-	else
-		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
-		e.config.button = nil
-	end
-end
-
-G.FUNCS.crv_emplace_to_vault = function(e)
-	local card = e.config.ref_table
-	RevosVault.move_card(card, G.vault_card)
-	G.E_MANAGER:add_event(Event({ func = function() save_run(); return true end}))
-end
-
-G.FUNCS.crv_remove_from_vault = function(e)
-	local card = e.config.ref_table
-	if (G.jokers and G.jokers.cards and #G.jokers.cards < G.jokers.config.card_limit and card) or (card and card.edition and card.edition.negative) then
-        RevosVault.move_card(card, G.jokers)
-		G.E_MANAGER:add_event(Event({ func = function() save_run(); return true end}))
-    elseif card and G.jokers then
-        alert_no_space(card, G.jokers)
-    end
-end
-
-RevosVault.buttons_edit = function(card, args)
-	local args = args or {}
-	local use = nil
-	local sell = nil
-
-	local args = args or {}
-	if args.sell then
-		sell = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						hover = true,
-						shadow = true,
-						colour = G.C.UI.BACKGROUND_INACTIVE,
-						one_press = true,
-						button = "sell_card",
-						func = "can_sell_card",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("b_sell"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-									},
-								},
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("$"),
-												colour = G.C.WHITE,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-										{
-											n = G.UIT.T,
-											config = {
-												ref_table = card,
-												ref_value = "sell_cost_label",
-												colour = G.C.WHITE,
-												scale = 0.55,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	if args.use then
-		use = nil
-		use = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						maxw = 1.25,
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						minh = 0,
-						hover = true,
-						shadow = true,
-						colour = G.C.RED,
-						button = "crv_modee",
-						func = "can_change_mode",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("crv_mode"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-									},
-								},
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("crv_mode2"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = -0.5,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	return {
-		n = G.UIT.ROOT,
-		config = {
-			align = "cr",
-			padding = 0,
-			colour = G.C.CLEAR,
-		},
-		nodes = {
-			{
-				n = G.UIT.C,
-				config = {
-					padding = 0.15,
-					align = "cl",
-				},
-				nodes = {
-					sell and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { sell },
-					} or nil,
-					use and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { use },
-					} or nil,
-				},
-			},
-		},
-	}
-end
-
-RevosVault.custom_button_set_1 = function(card, args)
-	local args = args or {}
-	local use = nil
-	local sell = nil
-
-	local args = args or {}
-	if args.sell then
-		sell = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						hover = true,
-						shadow = true,
-						colour = G.C.UI.BACKGROUND_INACTIVE,
-						one_press = true,
-						button = "sell_card",
-						func = "can_sell_card",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("b_sell"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-									},
-								},
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("$"),
-												colour = G.C.WHITE,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-										{
-											n = G.UIT.T,
-											config = {
-												ref_table = card,
-												ref_value = "sell_cost_label",
-												colour = G.C.WHITE,
-												scale = 0.55,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	if args.use then
-		use = nil
-		use = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						maxw = 1.25,
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						minh = 0,
-						hover = true,
-						shadow = true,
-						colour = G.C.RED,
-						button = "crv_test",
-						func = "can_can_test",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = "f",
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	return {
-		n = G.UIT.ROOT,
-		config = {
-			align = "cr",
-			padding = 0,
-			colour = G.C.CLEAR,
-		},
-		nodes = {
-			{
-				n = G.UIT.C,
-				config = {
-					padding = 0.15,
-					align = "cl",
-				},
-				nodes = {
-					sell and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { sell },
-					} or nil,
-					use and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { use },
-					} or nil,
-				},
-			},
-		},
-	}
-end
-
-RevosVault.custom_button_set_2 = function(card, args)
-	local args = args or {}
-	local use = nil
-	local sell = nil
-
-	if args.use then
-		use = nil
-		use = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "bm",
-						maxw = 1.3,
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.1,
-						minh = 0.03,
-						hover = true,
-						shadow = true,
-						colour = G.C.RED,
-						button = "crv_change",
-						func = "crv_can_change",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = -0.1,
-								h = 0.8,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "bm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = "Swap",
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.5,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	return {
-		n = G.UIT.ROOT,
-		config = {
-			align = "cr",
-			padding = 0,
-			colour = G.C.CLEAR,
-		},
-		nodes = {
-			{
-				n = G.UIT.C,
-				config = {
-					padding = -0.30,
-					align = "cl",
-				},
-				nodes = {
-					sell and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { sell },
-					} or nil,
-					use and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { use },
-					} or nil,
-				},
-			},
-		},
-	}
-end
-
---[[
-G.FUNCS.button_templace = function(e)
-	local card = e.config.ref_table
-	if a then
-		e.config.colour = G.C.RED
-		e.config.button = "crv_modee"
-	else
-		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
-		e.config.button = nil
-	end
-end
-
-G.FUNCS.button_template2 = function(e)
-	local card = e.config.ref_table
-end
-]]
-
---[[
-G.FUNCS.can_can_test = function(e)
-	local card = e.config.ref_table
-	if card.config.center:can_testing() then
-		e.config.colour = G.C.RED
-		e.config.button = "crv_test"
-	else
-		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
-		e.config.button = nil
-	end
-end
-
-G.FUNCS.crv_test = function(e)
-	local card = e.config.ref_table
-	card.config.center:testing()
-end
-]]
-
-G.FUNCS.crv_can_change = function(e)
-	local card = e.config.ref_table
-	if not RevosVault.scoring then
-		e.config.colour = G.C.RED
-		e.config.button = "crv_change"
-	else
-		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
-		e.config.button = nil
-	end
-end
-
-G.FUNCS.crv_change = function(e)
-	local card = e.config.ref_table
-	if card:is_face() then
-		local face = pseudorandom_element(RevosVault.facepool(card.base.value)).key
-		card:flip()
-		G.E_MANAGER:add_event(Event({
-			trigger = "before",
-			delay = 0.5,
-			func = function()
-				return true
-			end,
-		}))
-		G.E_MANAGER:add_event(Event({
-			trigger = "after",
-			delay = 0.5,
-			func = function()
-				SMODS.change_base(card, nil, face)
-				card:flip()
-				return true
-			end,
-		}))
-	end
-end
-
-local card_highlighted_ref12 = Card.highlight
-function Card:highlight(is_highlighted)
-	self.highlighted = is_highlighted
-	if self.highlighted and string.find(self.ability.name, "j_crv_thed6") and self.area == G.jokers then
+		self.crv_holofaced = true
+		
+	elseif self.highlighted and string.find(self.ability.set, "Gem") and self.area == G.shop_vouchers then
 		if self.children.use_button then
 			self.children.use_button:remove()
 			self.children.use_button = nil
 		end
 
 		self.children.use_button = UIBox({
-			definition = RevosVault.create_sell_and_switch_buttons11(self, {
-				sell = true,
+			definition = RevosVault.button_func(self, {
 				use = true,
+				button = "use_card",
+				func = "can_redeem_gem",
+				one_press = true,
+				text = "Activate",
+				colour = G.C.GREEN,
+				bw = -0.1,
+				bh = 0.8,
+				align_text = "cm"
 			}),
 			config = {
 				align = "cr",
 				offset = {
-					x = -0.4,
-					y = 0,
+					x = -1.6,
+					y = 1.1,
 				},
 				parent = self,
 			},
 		})
-	else
-		card_highlighted_ref12(self, is_highlighted)
-	end
-end
+	elseif self.highlighted and self.config.center.rarity == "crv_curse" and self.area == G.jokers then
+		if self.children.use_button then
+			self.children.use_button:remove()
+			self.children.use_button = nil
+		end
+	elseif self.highlighted and string.find(self.ability.name, "j_crv_thed6") and self.area == G.jokers then
+		if self.children.use_button then
+			self.children.use_button:remove()
+			self.children.use_button = nil
+		end
 
-RevosVault.create_sell_and_switch_buttons11 = function(card, args)
-	local args = args or {}
-	local sell = nil
-	local use = nil
-
-	if args.sell then
-		sell = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						hover = true,
-						shadow = true,
-						colour = G.C.UI.BACKGROUND_INACTIVE,
-						one_press = true,
-						button = "sell_card",
-						func = "can_sell_card",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("b_sell"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-									},
-								},
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("$"),
-												colour = G.C.WHITE,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-										{
-											n = G.UIT.T,
-											config = {
-												ref_table = card,
-												ref_value = "sell_cost_label",
-												colour = G.C.WHITE,
-												scale = 0.55,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	if args.use then
-		use = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						maxw = 1.25,
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						minh = 0,
-						hover = true,
-						shadow = true,
-						colour = G.C.RED,
-						button = "use_card",
-						func = "can_reroll_cards",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = "Reroll",
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-									},
-								},
-								{
+		self.children.use_button = UIBox({
+			definition = RevosVault.button_func(self, {
+				sell = true,
+				use = true,
+				button = "use_card",
+				func = "can_reroll_cards",
+				text = "Reroll",
+				text_scale = 0.4,
+				second_text = {
 									n = G.UIT.R,
 									config = {
 										align = "cm",
@@ -1356,143 +598,194 @@ RevosVault.create_sell_and_switch_buttons11 = function(card, args)
 											},
 										},
 									},
+								}
+				
+			}),
+			config = {
+				align = "cr",
+				offset = {
+					x = -0.4,
+					y = 0,
+				},
+				parent = self,
+			},
+		})
+	elseif self.highlighted and string.find(self.ability.name, "j_crv_brj") and self.area == G.jokers then
+		if self.children.use_button then
+			self.children.use_button:remove()
+			self.children.use_button = nil
+		end
+
+		self.children.use_button = UIBox({
+			definition = RevosVault.button_func(self, {
+				sell = true,
+				use = true,
+				button = "crv_modee",
+				func = "can_change_mode",
+				text_scale = 0.4,
+				text = localize("crv_mode"),
+				second_text = {
+									n = G.UIT.R,
+									config = {
+										align = "cm",
+									},
+									nodes = {
+										{
+											n = G.UIT.T,
+											config = {
+												text = localize("crv_mode2"),
+												colour = G.C.UI.TEXT_LIGHT,
+												scale = 0.5,
+												shadow = true,
+											},
+										},
+									},
 								},
-							},
-						},
-					},
+					
+				
+			}),
+			config = {
+				align = "cr",
+				offset = {
+					x = -0.4,
+					y = 0,
 				},
+				parent = self,
 			},
-		}
-	end
+		})
+	elseif self.highlighted and string.find(self.ability.name, "j_crv_adamap") and self.area == G.jokers then
+		if self.children.use_button then
+			self.children.use_button:remove()
+			self.children.use_button = nil
+		end
 
-	return {
-		n = G.UIT.ROOT,
-		config = {
-			align = "cr",
-			padding = 0,
-			colour = G.C.CLEAR,
-		},
-		nodes = {
-			{
-				n = G.UIT.C,
-				config = {
-					padding = 0.15,
-					align = "cl",
+		self.children.use_button = UIBox({
+			definition = RevosVault.button_func(self, {
+				sell = true,
+				use = true,
+				text = localize("crv_eat"),
+				button = "crv_eaten",
+			}),
+			config = {
+				align = "cr",
+				offset = {
+					x = -0.4,
+					y = 0,
 				},
-				nodes = {
-					sell and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { sell },
-					} or nil,
-					use and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { use },
-					} or nil,
-				},
+				parent = self,
 			},
-		},
-	}
-end
+		})
+	elseif self.highlighted and string.find(self.ability.name, "j_crv_invest") and self.area == G.jokers then
+		if self.children.use_button then
+			self.children.use_button:remove()
+			self.children.use_button = nil
+		end
 
-G.FUNCS.can_reroll_cards = function(e)
-	local card = e.config.ref_table
-	if card.ability.extra.can_roll == true then
-		e.config.colour = G.C.RED
-		e.config.button = "reroll_cards"
+		self.children.use_button = UIBox({
+			definition = RevosVault.button_func(self, {
+				sell = true,
+				use = true,
+				text = "INVEST",
+				button = "crv_invest",
+				func = "crv_can_invest",
+				text_align = "cm",
+			}),
+			config = {
+				align = "cr",
+				offset = {
+					x = -0.4,
+					y = 0,
+				},
+				parent = self,
+			},
+		})
+	elseif self.highlighted and string.find(self.ability.name, "j_crv_roulj") and self.area == G.jokers then
+		if self.children.use_button then
+			self.children.use_button:remove()
+			self.children.use_button = nil
+		end
+
+		self.children.use_button = UIBox({
+			definition = RevosVault.button_func(self, {
+				sell = true,
+				use = true,
+				button = "crv_changebet",
+				text = localize("crv_change"),
+				second_text = {
+									n = G.UIT.R,
+									config = {
+										align = "cm",
+									},
+									nodes = {
+										{
+											n = G.UIT.T,
+											config = {
+												text = localize("crv_bet"),
+												colour = G.C.UI.TEXT_LIGHT,
+												scale = 0.5,
+												shadow = true,
+											},
+										},
+									},
+								},
+			}),
+			config = {
+				align = "cr",
+				offset = {
+					x = -0.4,
+					y = 0,
+				},
+				parent = self,
+			},
+		})
+	elseif self.highlighted and string.find(self.ability.name, "j_crv_dealb") and self.area == G.jokers then
+		if self.children.use_button then
+			self.children.use_button:remove()
+			self.children.use_button = nil
+		end
+
+		self.children.use_button = UIBox({
+			definition = RevosVault.button_func(self, {
+				sell = true,
+				use = true,
+				button = "crv_half",
+				text = localize("k_half_crv"),
+				second_text = {
+									n = G.UIT.R,
+									config = {
+										align = "cm",
+									},
+									nodes = {
+										{
+											n = G.UIT.T,
+											config = {
+												text = localize("k_hblind_crv"),
+												colour = G.C.UI.TEXT_LIGHT,
+												scale = 0.5,
+												shadow = true,
+											},
+										},
+									},
+								},
+			}),
+			config = {
+				align = "cr",
+				offset = {
+					x = -0.4,
+					y = 0,
+				},
+				parent = self,
+			},
+		})
 	else
-		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
-		e.config.button = nil
+		cardhighold(self, is_highlighted)	
 	end
 end
 
-G.FUNCS.reroll_cards = function(e)
-	local card = e.config.ref_table
-	Card:reroll_cards()
-end
-
-function Card:reroll_cards()
-	SMODS.calculate_context({ reroll_cards = true })
-end
 
 -- All gems stuff until "--"
 
 if RevoConfig["gems_enabled"] then
-	RevosVault.custom_button_set_3 = function(card, args)
-		local args = args or {}
-		local use = nil
-
-		if args.use then
-			use = {
-				n = G.UIT.C,
-				config = {
-					align = "cr",
-				},
-				nodes = {
-					{
-						n = G.UIT.C,
-						config = {
-							ref_table = card,
-							minw = 1.1,
-							maxw = 1.3,
-							padding = 0.1,
-							align = "cm",
-							colour = G.C.GREEN,
-							shadow = true,
-							r = 0.08,
-							minh = 0.94,
-							func = "can_redeem_gem",
-							one_press = true,
-							button = "use_card",
-							hover = true,
-						},
-						nodes = {
-							{ n = G.UIT.T, config = { text = "Activate", colour = G.C.WHITE, scale = 0.4 } },
-						},
-					},
-				},
-			}
-		end
-
-		return {
-			n = G.UIT.ROOT,
-			config = {
-				align = "cr",
-				padding = 0,
-				colour = G.C.CLEAR,
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						padding = 0.15,
-						align = "cl",
-					},
-					nodes = {
-						sell and {
-							n = G.UIT.R,
-							config = {
-								align = "cl",
-							},
-							nodes = { sell },
-						} or nil,
-						use and {
-							n = G.UIT.R,
-							config = {
-								align = "cl",
-							},
-							nodes = { use },
-						} or nil,
-					},
-				},
-			},
-		}
-	end
 
 	--Gem tab function to show the gems in a new tab in run info.
 	function G.UIDEF.used_gems()
@@ -1635,1463 +928,3 @@ if RevoConfig["gems_enabled"] then
 end
 
 --
-
-
--- OLD UI CODE (but still used!)
-
--- thanks to bepisfever on discord for helping with this part :D
-
-local card_highlighted_ref = Card.highlight
-function Card:highlight(is_highlighted)
-	self.highlighted = is_highlighted
-	if self.highlighted and string.find(self.ability.name, "j_crv_brj") and self.area == G.jokers then
-		if self.children.use_button then
-			self.children.use_button:remove()
-			self.children.use_button = nil
-		end
-
-		self.children.use_button = UIBox({
-			definition = RevosVault.create_sell_and_switch_buttons(self, {
-				sell = true,
-				use = true,
-			}),
-			config = {
-				align = "cr",
-				offset = {
-					x = -0.4,
-					y = 0,
-				},
-				parent = self,
-			},
-		})
-	else
-		card_highlighted_ref(self, is_highlighted)
-	end
-end
-
-RevosVault.create_sell_and_switch_buttons = function(card, args)
-	local args = args or {}
-	local sell = nil
-	local use = nil
-
-	if args.sell then
-		sell = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						hover = true,
-						shadow = true,
-						colour = G.C.UI.BACKGROUND_INACTIVE,
-						one_press = true,
-						button = "sell_card",
-						func = "can_sell_card",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("b_sell"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-									},
-								},
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("$"),
-												colour = G.C.WHITE,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-										{
-											n = G.UIT.T,
-											config = {
-												ref_table = card,
-												ref_value = "sell_cost_label",
-												colour = G.C.WHITE,
-												scale = 0.55,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	if args.use then
-		use = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						maxw = 1.25,
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						minh = 0,
-						hover = true,
-						shadow = true,
-						colour = G.C.RED,
-						button = "crv_modee",
-						func = "can_change_mode",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("crv_mode"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-									},
-								},
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("crv_mode2"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.5,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	return {
-		n = G.UIT.ROOT,
-		config = {
-			align = "cr",
-			padding = 0,
-			colour = G.C.CLEAR,
-		},
-		nodes = {
-			{
-				n = G.UIT.C,
-				config = {
-					padding = 0.15,
-					align = "cl",
-				},
-				nodes = {
-					sell and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { sell },
-					} or nil,
-					use and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { use },
-					} or nil,
-				},
-			},
-		},
-	}
-end
-
-G.FUNCS.can_change_mode = function(e)
-	local card = e.config.ref_table
-	if card.ability.extra["turn"] == "Player" then
-		e.config.colour = G.C.RED
-		e.config.button = "crv_modee"
-	else
-		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
-		e.config.button = nil
-	end
-end
-
-G.FUNCS.crv_modee = function(e)
-	local card = e.config.ref_table
-	if card.ability.extra["turn"] == "Player" then
-		if card.ability.extra["mode"] == "Joker" then
-			card.ability.extra["mode"] = "Self"
-		elseif card.ability.extra["mode"] == "Self" then
-			card.ability.extra["mode"] = "Joker"
-		end
-	end
-end
-
---[[local card_highlighted_ref = Card.highlight  // old clicker function
-function Card:highlight(is_highlighted)
-	self.highlighted = is_highlighted
-	if self.highlighted and string.find(self.ability.name, "j_crv_clicker") and self.area == G.jokers then
-		if self.children.use_button then
-			self.children.use_button:remove()
-			self.children.use_button = nil
-		end
-
-		self.children.use_button = UIBox({
-			definition = RevosVault.clicker(self, {
-				sell = true,
-				use = true,
-			}),
-			config = {
-				align = "cr",
-				offset = {
-					x = -0.4,
-					y = 0,
-				},
-				parent = self,
-			},
-		})
-	else
-		card_highlighted_ref(self, is_highlighted)
-	end
-end
-
-RevosVault.clicker = function(card, args)
-	local args = args or {}
-	local sell = nil
-	local use = nil
-
-	if args.sell then
-		sell = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						hover = true,
-						shadow = true,
-						colour = G.C.UI.BACKGROUND_INACTIVE,
-						one_press = true,
-						button = "sell_card",
-						func = "can_sell_card",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("b_sell"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-									},
-								},
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("$"),
-												colour = G.C.WHITE,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-										{
-											n = G.UIT.T,
-											config = {
-												ref_table = card,
-												ref_value = "sell_cost_label",
-												colour = G.C.WHITE,
-												scale = 0.55,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	if args.use then
-		use = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						maxw = 1.25,
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						minh = 0,
-						hover = true,
-						shadow = true,
-						colour = G.C.RED,
-						button = "crv_clicked",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("crv_click"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.8,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	return {
-		n = G.UIT.ROOT,
-		config = {
-			align = "cr",
-			padding = 0,
-			colour = G.C.CLEAR,
-		},
-		nodes = {
-			{
-				n = G.UIT.C,
-				config = {
-					padding = 0.15,
-					align = "cl",
-				},
-				nodes = {
-					sell and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { sell },
-					} or nil,
-					use and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { use },
-					} or nil,
-				},
-			},
-		},
-	}
-end
-
-G.FUNCS.crv_clicked = function(e)
-	local card = e.config.ref_table
-	card.ability.extra["clicks"] = card.ability.extra["clicks"] + 1
-	card.ability.extra["chips"] = card.ability.extra["chips"] + card.ability.extra["chipgain"]
-end]]
-
-local card_highlighted_ref = Card.highlight
-function Card:highlight(is_highlighted)
-	self.highlighted = is_highlighted
-	if self.highlighted and string.find(self.ability.name, "j_crv_adamap") and self.area == G.jokers then
-		if self.children.use_button then
-			self.children.use_button:remove()
-			self.children.use_button = nil
-		end
-
-		self.children.use_button = UIBox({
-			definition = RevosVault.eat(self, {
-				sell = true,
-				use = true,
-			}),
-			config = {
-				align = "cr",
-				offset = {
-					x = -0.4,
-					y = 0,
-				},
-				parent = self,
-			},
-		})
-	else
-		card_highlighted_ref(self, is_highlighted)
-	end
-end
-
-RevosVault.eat = function(card, args)
-	local args = args or {}
-	local sell = nil
-	local use = nil
-
-	if args.sell then
-		sell = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						hover = true,
-						shadow = true,
-						colour = G.C.UI.BACKGROUND_INACTIVE,
-						one_press = true,
-						button = "sell_card",
-						func = "can_sell_card",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("b_sell"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-									},
-								},
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("$"),
-												colour = G.C.WHITE,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-										{
-											n = G.UIT.T,
-											config = {
-												ref_table = card,
-												ref_value = "sell_cost_label",
-												colour = G.C.WHITE,
-												scale = 0.55,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	if args.use then
-		use = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						maxw = 1.25,
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						minh = 0,
-						hover = true,
-						shadow = true,
-						colour = G.C.RED,
-						button = "crv_eaten",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("crv_eat"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.8,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	return {
-		n = G.UIT.ROOT,
-		config = {
-			align = "cr",
-			padding = 0,
-			colour = G.C.CLEAR,
-		},
-		nodes = {
-			{
-				n = G.UIT.C,
-				config = {
-					padding = 0.15,
-					align = "cl",
-				},
-				nodes = {
-					sell and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { sell },
-					} or nil,
-					use and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { use },
-					} or nil,
-				},
-			},
-		},
-	}
-end
-
-G.FUNCS.crv_eaten = function(e)
-	local card = e.config.ref_table
-	card:start_dissolve({ HEX("57ecab") }, nil, 1.6)
-	if #SMODS.find_card("j_crv_oldjimbo") > 0 then
-		for i = 1, #SMODS.find_card("j_crv_oldjimbo") do
-			SMODS.find_card("j_crv_oldjimbo")[1]:start_dissolve()
-		end
-	end
-	if G.STATE ~= G.STATES.SELECTING_HAND then
-		return
-	end
-	G.GAME.chips = G.GAME.blind.chips
-	G.STATE = G.STATES.HAND_PLAYED
-	G.STATE_COMPLETE = true
-	end_round()
-end
-
-local card_highlighted_ref = Card.highlight
-function Card:highlight(is_highlighted)
-	self.highlighted = is_highlighted
-	if self.highlighted and string.find(self.ability.name, "j_crv_invest") and self.area == G.jokers then
-		if self.children.use_button then
-			self.children.use_button:remove()
-			self.children.use_button = nil
-		end
-
-		self.children.use_button = UIBox({
-			definition = RevosVault.investment(self, {
-				sell = true,
-				use = true,
-			}),
-			config = {
-				align = "cr",
-				offset = {
-					x = -0.4,
-					y = 0,
-				},
-				parent = self,
-			},
-		})
-	else
-		card_highlighted_ref(self, is_highlighted)
-	end
-end
-
-RevosVault.investment = function(card, args)
-	local args = args or {}
-	local sell = nil
-	local use = nil
-
-	if args.sell then
-		sell = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						hover = true,
-						shadow = true,
-						colour = G.C.UI.BACKGROUND_INACTIVE,
-						one_press = true,
-						button = "sell_card",
-						func = "can_sell_card",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("b_sell"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-									},
-								},
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("$"),
-												colour = G.C.WHITE,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-										{
-											n = G.UIT.T,
-											config = {
-												ref_table = card,
-												ref_value = "sell_cost_label",
-												colour = G.C.WHITE,
-												scale = 0.55,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	if args.use then
-		use = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						maxw = 1.25,
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						minh = 0,
-						hover = true,
-						shadow = true,
-						colour = G.C.RED,
-						button = "crv_invest",
-						func = "crv_can_invest",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("crv_invest"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.6,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	return {
-		n = G.UIT.ROOT,
-		config = {
-			align = "cr",
-			padding = 0,
-			colour = G.C.CLEAR,
-		},
-		nodes = {
-			{
-				n = G.UIT.C,
-				config = {
-					padding = 0.15,
-					align = "cl",
-				},
-				nodes = {
-					sell and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { sell },
-					} or nil,
-					use and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { use },
-					} or nil,
-				},
-			},
-		},
-	}
-end
-
-G.FUNCS.crv_invest = function(e) -- i am way to lazy to fix this right now. I will fix it later.................................................................
-	local card = e.config.ref_table
-	if card.ability.extra["check"] == false then
-		card.ability.extra["check"] = true
-		if G.GAME.talisman == 1 then
-			card.ability.extra["invested"] = to_number(G.GAME.dollars / 4)
-			ease_dollars(-(to_number(G.GAME.dollars / 4)))
-		else
-			card.ability.extra["invested"] = G.GAME.dollars / 4
-			ease_dollars(-(G.GAME.dollars / 4))
-		end
-	end
-end
-
-G.FUNCS.crv_can_invest = function(e)
-	local card = e.config.ref_table
-	if card.ability.extra["check"] == false then
-		e.config.colour = G.C.RED
-		e.config.button = "crv_invest"
-	else
-		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
-		e.config.button = nil
-	end
-end
-
-local card_highlighted_ref = Card.highlight
-function Card:highlight(is_highlighted)
-	self.highlighted = is_highlighted
-	if self.highlighted and string.find(self.ability.name, "j_crv_roulj") and self.area == G.jokers then
-		if self.children.use_button then
-			self.children.use_button:remove()
-			self.children.use_button = nil
-		end
-
-		self.children.use_button = UIBox({
-			definition = RevosVault.betchange(self, {
-				sell = true,
-				use = true,
-			}),
-			config = {
-				align = "cr",
-				offset = {
-					x = -0.4,
-					y = 0,
-				},
-				parent = self,
-			},
-		})
-	else
-		card_highlighted_ref(self, is_highlighted)
-	end
-end
-
-RevosVault.betchange = function(card, args)
-	local args = args or {}
-	local sell = nil
-	local use = nil
-
-	if args.sell then
-		sell = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						hover = true,
-						shadow = true,
-						colour = G.C.UI.BACKGROUND_INACTIVE,
-						one_press = true,
-						button = "sell_card",
-						func = "can_sell_card",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("b_sell"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-									},
-								},
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("$"),
-												colour = G.C.WHITE,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-										{
-											n = G.UIT.T,
-											config = {
-												ref_table = card,
-												ref_value = "sell_cost_label",
-												colour = G.C.WHITE,
-												scale = 0.55,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	if args.use then
-		use = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						maxw = 1.25,
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						minh = 0,
-						hover = true,
-						shadow = true,
-						colour = G.C.RED,
-						button = "crv_changebet",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("crv_change"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-									},
-								},
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("crv_bet"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.5,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	return {
-		n = G.UIT.ROOT,
-		config = {
-			align = "cr",
-			padding = 0,
-			colour = G.C.CLEAR,
-		},
-		nodes = {
-			{
-				n = G.UIT.C,
-				config = {
-					padding = 0.15,
-					align = "cl",
-				},
-				nodes = {
-					sell and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { sell },
-					} or nil,
-					use and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { use },
-					} or nil,
-				},
-			},
-		},
-	}
-end
-
-G.FUNCS.crv_changebet = function(e)
-	local card = e.config.ref_table
-	if card.ability.extra["bet"] == "Black" then
-		card.ability.extra["bet"] = "Red"
-	elseif card.ability.extra["bet"] == "Red" then
-		card.ability.extra["bet"] = "Green"
-	elseif card.ability.extra["bet"] == "Green" then
-		card.ability.extra["bet"] = "Black"
-	end
-end
-
-local card_highlighted_ref = Card.highlight
-function Card:highlight(is_highlighted)
-	self.highlighted = is_highlighted
-	if self.highlighted and string.find(self.ability.name, "j_crv_dealb") and self.area == G.jokers then
-		if self.children.use_button then
-			self.children.use_button:remove()
-			self.children.use_button = nil
-		end
-
-		self.children.use_button = UIBox({
-			definition = RevosVault.create_sell_and_switch_buttonsss(self, {
-				sell = true,
-				use = true,
-			}),
-			config = {
-				align = "cr",
-				offset = {
-					x = -0.4,
-					y = 0,
-				},
-				parent = self,
-			},
-		})
-	else
-		card_highlighted_ref(self, is_highlighted)
-	end
-end
-
-RevosVault.create_sell_and_switch_buttonsss = function(card, args)
-	local args = args or {}
-	local sell = nil
-	local use = nil
-
-	if args.sell then
-		sell = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						hover = true,
-						shadow = true,
-						colour = G.C.UI.BACKGROUND_INACTIVE,
-						one_press = true,
-						button = "sell_card",
-						func = "can_sell_card",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("b_sell"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-									},
-								},
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("$"),
-												colour = G.C.WHITE,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-										{
-											n = G.UIT.T,
-											config = {
-												ref_table = card,
-												ref_value = "sell_cost_label",
-												colour = G.C.WHITE,
-												scale = 0.55,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	if args.use then
-		use = {
-			n = G.UIT.C,
-			config = {
-				align = "cr",
-			},
-			nodes = {
-				{
-					n = G.UIT.C,
-					config = {
-						ref_table = card,
-						align = "cr",
-						maxw = 1.25,
-						padding = 0.1,
-						r = 0.08,
-						minw = 1.25,
-						minh = 0,
-						hover = true,
-						shadow = true,
-						colour = G.C.RED,
-						button = "crv_half",
-					},
-					nodes = {
-						{
-							n = G.UIT.B,
-							config = {
-								w = 0.1,
-								h = 0.6,
-							},
-						},
-						{
-							n = G.UIT.C,
-							config = {
-								align = "tm",
-							},
-							nodes = {
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-										maxw = 1.25,
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("k_half_crv"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.4,
-												shadow = true,
-											},
-										},
-									},
-								},
-								{
-									n = G.UIT.R,
-									config = {
-										align = "cm",
-									},
-									nodes = {
-										{
-											n = G.UIT.T,
-											config = {
-												text = localize("k_hblind_crv"),
-												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.5,
-												shadow = true,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		}
-	end
-
-	return {
-		n = G.UIT.ROOT,
-		config = {
-			align = "cr",
-			padding = 0,
-			colour = G.C.CLEAR,
-		},
-		nodes = {
-			{
-				n = G.UIT.C,
-				config = {
-					padding = 0.15,
-					align = "cl",
-				},
-				nodes = {
-					sell and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { sell },
-					} or nil,
-					use and {
-						n = G.UIT.R,
-						config = {
-							align = "cl",
-						},
-						nodes = { use },
-					} or nil,
-				},
-			},
-		},
-	}
-end
-
-G.FUNCS.crv_half = function(e)
-	local card = e.config.ref_table
-	card.ability.extra["uses"] = card.ability.extra["uses"] - 1
-	G.GAME.blind.chips = G.GAME.blind.chips / 2
-	G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
-end
