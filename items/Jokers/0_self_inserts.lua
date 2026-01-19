@@ -7,7 +7,7 @@ SMODS.Joker({
 	},
 	rarity = 4,
 	atlas = "rev",
-	blueprint_compat = false,
+	blueprint_compat = true,
 	discovered = false,
 	pos = {
 		x = 1,
@@ -377,7 +377,7 @@ SMODS.Joker({
 				}
 			end
 		end
-		if context.destroy_card and context.cardarea == G.play then
+		if context.destroy_card and context.cardarea == G.play and not context.blueprint then
 			if context.destroy_card:get_id() ~= 13 then
 				if context.destroy_card:is_face() then
 					card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmultg
