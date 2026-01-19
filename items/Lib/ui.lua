@@ -122,13 +122,18 @@ end
 
   INIT_COLLECTION_CARD_ALERTS()
   
-  local t =  create_UIBox_generic_options({ back_func = 'your_collection', contents = {
+  local t =  create_UIBox_generic_options({ back_func = 'leave_deck_menu', contents = {
         {n=G.UIT.R, config={align = "cm", r = 0.1, colour = G.C.BLACK, emboss = 0.05}, nodes=deck_tables}, 
         {n=G.UIT.R, config={align = "cm"}, nodes={
           create_option_cycle({options = joker_options, w = 4.5, cycle_shoulders = true, opt_callback = 'your_collecion_printer_list', current_option = 1, colour = G.C.RED, no_pips = true, focus_args = {snap_to = true, nav = 'wide'}})
         }}
     }})
   return t
+end
+
+G.FUNCS.leave_deck_menu = function(e)
+	RevosVault.printer_deck_selection = false
+	G.FUNCS:exit_overlay_menu()
 end
 
 G.FUNCS.get_printer_box = function(e)
