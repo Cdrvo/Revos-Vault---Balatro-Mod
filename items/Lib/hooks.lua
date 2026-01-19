@@ -122,7 +122,7 @@ if RevosVault.config.superior_enabled then
 	local shopcreateold = create_card_for_shop
 	function create_card_for_shop(area)
 		if RevosVault.config.gem_enabled then
-			if ((pseudorandom("supcreate") > 0.79) and not RevosVault.gem_skip) or RevosVault.guarantee_gem then
+			if ((pseudorandom("gem_rate") > G.GAME.gem_rate) and not RevosVault.gem_skip) or RevosVault.guarantee_gem then
 				RevosVault.add_gem()
 			end
 			RevosVault.gem_skip = true
@@ -210,6 +210,7 @@ Game.init_game_object = function(self)
 	ret.reroll_before = false
 	ret.xinflation = 1
 	ret.curse_cashout = 1
+	ret.game_rate = 0.70
 
 	ret.souls = 0 -- metaprog soon
 
