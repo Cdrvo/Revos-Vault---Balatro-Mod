@@ -285,17 +285,18 @@ SMODS.Joker({
 		if card.ability.extra.timer > 5 then
 			card.ability.extra.timer = 5
 		end
-		if context.joker_main and G.GAME.current_round.hands_left == 1 and card.ability.extra.timer == 5 then
-			card.ability.extra.timer = 0
-			card:juice_up(0.3, 0.4)
-			card:set_ability("j_crv_snayn32")
-			card_eval_status_text(card, "extra", nil, nil, nil, { message = localize("k_evolve_crv") })
-		end
-		if context.joker_main and not G.GAME.current_round.hands_left == 1 then
+		if context.joker_main then
+			if G.GAME.current_round.hands_left == 1 and card.ability.extra.timer == 5 then
+				card.ability.extra.timer = 0
+				card:juice_up(0.3, 0.4)
+				card:set_ability("j_crv_snayn32")
+				card_eval_status_text(card, "extra", nil, nil, nil, { message = localize("k_evolve_crv") })
+			else
 			return {
 				x_mult = card.ability.extra.xmult,
-			}
+			}	
 		end
+	end
 	end,
 })
 
