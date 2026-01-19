@@ -225,32 +225,34 @@ function Card:highlight(is_highlighted)
 		})
 	elseif
 		self.highlighted
-		and (string.find(self.ability.set, "Default") or string.find(self.ability.set, "Enhanced") or string.find(
-			self.ability.set,
-			"Playing Card"
-		))
+		and (string.find(self.ability.set, "Default") or string.find(self.ability.set, "Enhanced"))
 		and self.area == G.hand
+		and self.area ~= G.play
 		and (#SMODS.find_card("j_crv_holoface") > 0)
 		and self:is_face()
+		and not RevosVault.scoring
 	then
-		if self.children.use_button then
-			self.children.use_button:remove()
-			self.children.use_button = nil
+		if self.children.crv_use then
+			self.children.crv_use:remove()
+			self.children.crv_use = nil
 		end
 
-		self.children.use_button = UIBox({
+		self.children.crv_use = UIBox({
 			definition = RevosVault.custom_button_set_2(self, {
 				use = true,
 			}),
 			config = {
 				align = "cr",
 				offset = {
-					x = -2.8,
-					y = 0,
+					x = -1.4,
+					y = 1.7,
 				},
 				parent = self,
 			},
 		})
+
+		self.crv_holofaced = true
+		
 	elseif self.highlighted and string.find(self.ability.set, "Gem") and self.area == G.shop_vouchers then
 		if self.children.use_button then
 			self.children.use_button:remove()
@@ -289,7 +291,7 @@ function Card:highlight(is_highlighted)
 		end
 
 		self.children.crv_use = UIBox({
-			definition = RevosVault.emplace_to_vault(self, {
+			definition = RevosVault.custom_button_set_PLACE(self, {
 				use = true,
 			}),
 			config = {
@@ -328,7 +330,7 @@ function Card:highlight(is_highlighted)
 		end
 
 		self.children.crv_use = UIBox({
-			definition = RevosVault.remove_from_vault(self, {
+			definition = RevosVault.custom_button_set_REMOVE(self, {
 				use = true,
 			}),
 			config = {
@@ -346,15 +348,15 @@ function Card:highlight(is_highlighted)
 	end
 end
 
-RevosVault.emplace_to_vault = function(card, args)
+RevosVault.custom_button_set_PLACE = function(card, args)
 	local args = args or {}
 	local use = nil
+	local sell = nil
 
-	local args = args or {}
 	if args.use then
 		use = nil
 		use = {
-			n = G.UIT.R,
+			n = G.UIT.C,
 			config = {
 				align = "cr",
 			},
@@ -364,11 +366,11 @@ RevosVault.emplace_to_vault = function(card, args)
 					config = {
 						ref_table = card,
 						align = "bm",
-						maxw = 1.25,
+						maxw = 1.3,
 						padding = 0.1,
 						r = 0.08,
-						minw = 1.25,
-						minh = 0,
+						minw = 1.1,
+						minh = 0.03,
 						hover = true,
 						shadow = true,
 						colour = G.C.RED,
@@ -379,8 +381,8 @@ RevosVault.emplace_to_vault = function(card, args)
 						{
 							n = G.UIT.B,
 							config = {
-								w = 0.1,
-								h = 0.6,
+								w = -0.1,
+								h = 0.8,
 							},
 						},
 						{
@@ -392,16 +394,16 @@ RevosVault.emplace_to_vault = function(card, args)
 								{
 									n = G.UIT.R,
 									config = {
-										align = "cl",
+										align = "cm",
 										maxw = 1.25,
 									},
 									nodes = {
 										{
 											n = G.UIT.T,
 											config = {
-												text = "PLACE ",
+												text = "PLACE",
 												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.4,
+												scale = 0.5,
 												shadow = true,
 											},
 										},
@@ -418,7 +420,7 @@ RevosVault.emplace_to_vault = function(card, args)
 	return {
 		n = G.UIT.ROOT,
 		config = {
-			align = "cm",
+			align = "cr",
 			padding = 0,
 			colour = G.C.CLEAR,
 		},
@@ -426,14 +428,21 @@ RevosVault.emplace_to_vault = function(card, args)
 			{
 				n = G.UIT.C,
 				config = {
-					padding = 0.15,
-					align = "cm",
+					padding = -0.30,
+					align = "cl",
 				},
 				nodes = {
+					sell and {
+						n = G.UIT.R,
+						config = {
+							align = "cl",
+						},
+						nodes = { sell },
+					} or nil,
 					use and {
 						n = G.UIT.R,
 						config = {
-							align = "cm",
+							align = "cl",
 						},
 						nodes = { use },
 					} or nil,
@@ -443,15 +452,15 @@ RevosVault.emplace_to_vault = function(card, args)
 	}
 end
 
-RevosVault.remove_from_vault = function(card, args)
+RevosVault.custom_button_set_REMOVE = function(card, args)
 	local args = args or {}
 	local use = nil
+	local sell = nil
 
-	local args = args or {}
 	if args.use then
 		use = nil
 		use = {
-			n = G.UIT.R,
+			n = G.UIT.C,
 			config = {
 				align = "cr",
 			},
@@ -461,11 +470,11 @@ RevosVault.remove_from_vault = function(card, args)
 					config = {
 						ref_table = card,
 						align = "bm",
-						maxw = 1.25,
+						maxw = 1.3,
 						padding = 0.1,
 						r = 0.08,
-						minw = 1.25,
-						minh = 0,
+						minw = 1.1,
+						minh = 0.03,
 						hover = true,
 						shadow = true,
 						colour = G.C.RED,
@@ -475,8 +484,8 @@ RevosVault.remove_from_vault = function(card, args)
 						{
 							n = G.UIT.B,
 							config = {
-								w = 0.1,
-								h = 0.6,
+								w = -0.1,
+								h = 0.8,
 							},
 						},
 						{
@@ -488,16 +497,16 @@ RevosVault.remove_from_vault = function(card, args)
 								{
 									n = G.UIT.R,
 									config = {
-										align = "cl",
+										align = "cm",
 										maxw = 1.25,
 									},
 									nodes = {
 										{
 											n = G.UIT.T,
 											config = {
-												text = "REMOVE  ",
+												text = "REMOVE",
 												colour = G.C.UI.TEXT_LIGHT,
-												scale = 0.4,
+												scale = 0.5,
 												shadow = true,
 											},
 										},
@@ -514,7 +523,7 @@ RevosVault.remove_from_vault = function(card, args)
 	return {
 		n = G.UIT.ROOT,
 		config = {
-			align = "cm",
+			align = "cr",
 			padding = 0,
 			colour = G.C.CLEAR,
 		},
@@ -522,14 +531,21 @@ RevosVault.remove_from_vault = function(card, args)
 			{
 				n = G.UIT.C,
 				config = {
-					padding = 0.15,
-					align = "cm",
+					padding = -0.30,
+					align = "cl",
 				},
 				nodes = {
+					sell and {
+						n = G.UIT.R,
+						config = {
+							align = "cl",
+						},
+						nodes = { sell },
+					} or nil,
 					use and {
 						n = G.UIT.R,
 						config = {
-							align = "cm",
+							align = "cl",
 						},
 						nodes = { use },
 					} or nil,
@@ -1006,13 +1022,13 @@ RevosVault.custom_button_set_2 = function(card, args)
 							n = G.UIT.B,
 							config = {
 								w = -0.1,
-								h = 0.6,
+								h = 0.8,
 							},
 						},
 						{
 							n = G.UIT.C,
 							config = {
-								align = "tm",
+								align = "bm",
 							},
 							nodes = {
 								{
@@ -1113,9 +1129,12 @@ end
 
 G.FUNCS.crv_can_change = function(e)
 	local card = e.config.ref_table
-	if true then
+	if not RevosVault.scoring then
 		e.config.colour = G.C.RED
 		e.config.button = "crv_change"
+	else
+		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+		e.config.button = nil
 	end
 end
 

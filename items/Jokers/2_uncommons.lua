@@ -3443,7 +3443,18 @@ SMODS.Joker({
 	draw = function(self, card, layer)
 		card.children.center:draw_shader("hologram", nil, card.ARGS.send_to_shader)
 	end,
-	calculate = function(self, card, context) end,
+	calculate = function(self, card, context) 
+		if context.before then
+			for k, v in pairs(G.play.cards) do
+				if v.crv_holofaced then
+					if v and v.children and v.children.crv_use then
+						v.children.crv_use:remove()
+						v.children.crv_use = nil
+					end
+				end
+			end
+		end
+	end,
 })
 
 --This part is fucked up

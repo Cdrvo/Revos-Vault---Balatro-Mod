@@ -32,6 +32,14 @@ end
 local unlock1, unlock2, unlock3 = nil, nil, nil
 local gfep = G.FUNCS.evaluate_play --Taken from cryptid as well
 function G.FUNCS.evaluate_play(e)
+	G.E_MANAGER:add_event(Event({
+		trigger = "before",
+		delay = 0,
+		func = function()
+			RevosVault.scoring = true
+			return true
+		end
+	}))
 	local R = RevosFunctions
 	gfep(e)
 	if SMODS.is_poker_hand_visible("Five of a Kind") and not unlock1 then
@@ -49,6 +57,15 @@ function G.FUNCS.evaluate_play(e)
 	G.GAME.blind:crv_after_play()
 	if R.c then R.c = nil hand_chips = 0 end
 	if R.m then R.m = nil mult = 0 end
+
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0,
+		func = function()
+			RevosVault.scoring = false
+			return true
+		end
+	}))
 end
 
 local rerollold = G.FUNCS.reroll_shop
