@@ -11,7 +11,7 @@ SMODS.current_mod.custom_ui = function(modNodes)
 	if RevoConfig["superior_enabled"] then
 		random_random[#random_random+1] = "Superior"
 	end
-	if RevoConfig["vault_enabled"] then
+	if RevoConfig["6_vault_enabled"] then
 		random_random[#random_random+1] = "crv_va"
 	end
 	local random_rarity = pseudorandom_element(random_random)

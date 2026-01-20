@@ -244,7 +244,7 @@ SMODS.Joker({
 		extra = {
 			odds = 100,
 			odds2 = 1011,
-			odds3 = 50,
+			odds3 = 101,
 		},
 	},
 	pools = {
@@ -262,7 +262,7 @@ SMODS.Joker({
 
 	calculate = function(self, card, context)
 		local crv = card.ability.extra
-		if RevosVault.config.secret_enabled then
+		if RevoConfig["9_secretjokers_enabled"] then
 			if context.end_of_round and context.main_eval and not context.blueprint then
 				if pseudorandom("grossprinter") < 1 / crv.odds3 then
 					card:juice_up(0.3, 0.4)

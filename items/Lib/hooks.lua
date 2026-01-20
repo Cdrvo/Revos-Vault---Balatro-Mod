@@ -102,7 +102,7 @@ function G.FUNCS.sort_hand_suit(e)
 	G.GAME.blind:crv_hand_sort()
 end
 
-if RevosVault.config.vault_enabled then
+if RevosVault.config.vault_enabled then -- i wont fix this
 	local destroyjoker = Card.remove
 	function Card:remove()
 			--[[if self.added_to_deck and self.ability.set == "Joker" and 30 > G.GAME.vaultspawn then

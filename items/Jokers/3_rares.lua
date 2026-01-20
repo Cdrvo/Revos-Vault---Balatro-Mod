@@ -1749,7 +1749,7 @@ SMODS.Joker({
 	config = {
 		extra = {
 			xmult = 1.5,
-			odds = 100,
+			odds = 101,
 		},
 	},
 	loc_vars = function(self, info_queue, card)
@@ -1783,7 +1783,7 @@ SMODS.Joker({
 				xmult = card.ability.extra.xmult * RevosVault.stickercheck(G.jokers.cards, {"perishable"}) + 1,
 			}
 		end
-		if RevosVault.config.secret_enabled then
+		if RevoConfig["9_secretjokers_enabled"] then
 			if context.end_of_round and context.main_eval and not context.blueprint then
 				if pseudorandom("kq") < G.GAME.probabilities.normal / card.ability.extra.odds then
 					card:juice_up(0.3, 0.4)
