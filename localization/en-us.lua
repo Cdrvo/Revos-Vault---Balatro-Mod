@@ -1306,8 +1306,8 @@ return {
 				name = "Pinpoint System",
 				text = {
 					"{X:mult,C:white}X#1#{} Mult",
-					"if you have exactly {C:blue}2 hands{} and {C:red}discards{} remaining",
-					"and played hand {C:attention}only{} contains {C:attention}two cards",
+					"if you have exactly {C:blue}2 hands{}","and {C:red}discards{} remaining",
+					"and played hand", "{C:attention}only{} contains {C:attention}two cards",
 				},
 			},
 			j_crv_mj4 = {
@@ -1510,7 +1510,7 @@ return {
 				name = "Jarden",
 				text = {
 					"This card gains {X:mult,C:white}X#2#{} Mult",
-					"for every {C:attention}consecutive{} round without {C:attention}selling a card.",
+					"for every {C:attention}consecutive{} round","without {C:attention}selling a card.",
 					"{C:red}Resets{} if a card is sold.",
 					"{C:inactive}(Currently {X:mult,C:white}X#1#{} {C:inactive}Mult)",
 				},
@@ -1645,8 +1645,10 @@ return {
 			j_crv_giftbox = {
 				name = "Gift Box",
 				text = {
-					"If sold {C:attention}3 {C:inactive}(#1#){} rounds after buying",
-					"creates a {C:attention}Random {C:dark_edition}Eternal {C:common}Common{} and {C:legendary}Legendary{} joker",
+					"If sold {C:attention}3 {C:inactive}(#1#){} rounds", 
+					"after buying creates a",
+					"{C:attention}Random {C:dark_edition}Eternal {C:common}Common{}",
+					"and {C:legendary}Legendary{} joker",
 				},
 			},
 			j_crv_henchman = {
