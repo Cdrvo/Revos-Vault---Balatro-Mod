@@ -414,11 +414,13 @@ G.FUNCS.crv_vault_harvest = function(e)
 	}))
 end
 
-function RevosVault.v_to_s()
+function RevosVault.v_to_s(no_shop)
     ease_background_colour_blind(G.STATES.SHOP)
-	TheVault.in_vault = false
+	if not no_shop then
+		TheVault.in_vault = false
+	end
 
-	if G.shop and G.shop.alignment.offset.py then
+	if G.shop and G.shop.alignment.offset.py and not no_shop then
 		G.shop.alignment.offset.y = G.shop.alignment.offset.py
 		G.shop.alignment.offset.py = nil
 	end
@@ -427,13 +429,17 @@ function RevosVault.v_to_s()
 	end
 end
 
-function RevosVault.s_to_v()
+function RevosVault.s_to_v(no_shop)
     ease_background_colour({new_colour = darken(G.C.PURPLE, 0.3), special_colour = G.C.BLACK})
-	TheVault.in_vault = true
+	if not no_shop then
+		TheVault.in_vault = true
+	end
 
 	if G.shop and not G.shop.alignment.offset.py then
 		G.shop.alignment.offset.py = G.shop.alignment.offset.y
-		G.shop.alignment.offset.y = G.ROOM.T.y + 29
+		if not no_shop then
+			G.shop.alignment.offset.y = G.ROOM.T.y + 29
+		end
 	end
 	if G.vault and G.shop.alignment.offset.py then
 		G.vault.alignment.offset.y = G.shop.alignment.offset.py
