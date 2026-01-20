@@ -120,7 +120,6 @@ if RevosVault.config.vault_enabled then
 	end
 end
 
-if RevosVault.config.superior_enabled then
 	SMODS.ObjectType({
 		key = "SuperiorTarot",
 		cards = {},
@@ -138,7 +137,7 @@ if RevosVault.config.superior_enabled then
 
 	local shopcreateold = create_card_for_shop
 	function create_card_for_shop(area)
-		if RevosVault.config.gem_enabled then
+		if RevosVault.config.gems_enabled then
 			if ((pseudorandom("gem_rate") > G.GAME.gem_rate) and not RevosVault.gem_skip) or RevosVault.guarantee_gem then
 				RevosVault.add_gem()
 			end
@@ -149,10 +148,8 @@ if RevosVault.config.superior_enabled then
 			ease_colour(RevosVault.C.BOONS.CURRENT, RevosVault.C.BOONS.HAVE_BOONS)
 			RevosVault.should_spawn_boon = true
 		end]]
-		
 		return shopcreateold(area)
 	end
-end
 
 local arer_ref = add_round_eval_row --thank's to haya for this bit :D
 function add_round_eval_row(config)
@@ -423,6 +420,32 @@ end
 
 local set_ability_old = Card.set_ability
 function Card:set_ability(center, initial, delay_sprites)
+
+	if G.GAME.modifiers.banana_mayhem then
+		if self and self.ability and self.ability.set == "Joker" then
+			self.bananaified = true
+			local available_bananas = {}
+    		for k, v in pairs(get_current_pool("BananaPool")) do
+        		if G.P_CENTERS[v] then
+            		available_bananas[#available_bananas+1] = v
+        		end
+    		end
+
+    		local banana_key = pseudorandom_element(available_bananas, pseudoseed("BANANA_MAYHEM"))
+    		center = banana_key
+		end
+
+		if self and self.ability and self.ability.set == "Booster" then
+			local banana_packs = {
+				"p_crv_bbst"
+			}
+			if pseudorandom("banana_pack") < 1/10 then banana_packs[#banana_packs+1] = "p_crv_bbst2" end
+			if pseudorandom("banana_pack") < 1/25 then banana_packs[#banana_packs+1] = "p_crv_bbst3" end
+			local banana_pack = pseudorandom_element(banana_packs, pseudoseed("banana_pack"))
+			center = banana_pack
+		end
+	end
+
 	set_ability_old(self, center, initial, delay_sprites)
 
 	G.E_MANAGER:add_event(Event({
@@ -454,7 +477,6 @@ function Card:set_ability(center, initial, delay_sprites)
 		self.ability.mult = G.P_CENTERS.j_gros_michel.config.extra.mult
 		self.ability.odds = 6
 	end
-
 end
 
 

@@ -126,7 +126,7 @@ end
         {n=G.UIT.R, config={align = "cm", r = 0.1, colour = G.C.BLACK, emboss = 0.05}, nodes=deck_tables}, 
         {n=G.UIT.R, config={align = "cm"}, nodes={
           create_option_cycle({options = joker_options, w = 4.5, cycle_shoulders = true, opt_callback = 'your_collecion_printer_list', current_option = 1, colour = G.C.RED, no_pips = true, focus_args = {snap_to = true, nav = 'wide'}})
-        }}
+        }},
     }})
   return t
 end
@@ -903,7 +903,7 @@ if RevoConfig["gems_enabled"] then
 		return t
 	end
 
-	if RevosVault.config.gem_enabled then
+	if RevosVault.config.gems_enabled then
 		RevosVault.custom_collection_tabs = function()
 			local t = UIBox_button({
 				button = "your_collection_crv_gems",
