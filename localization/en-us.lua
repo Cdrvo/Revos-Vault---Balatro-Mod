@@ -1621,7 +1621,7 @@ return {
 				name = "Reincarnated Jimbo",
 				text = {
 					"Gives {X:mult,C:white} X#1# {} Mult.",
-					"If {C:red}destroyed{} by another joker,",
+					"If {C:red}destroyed{},",
 					"becomes {C:attention}stronger.",
 					"When destroyed, has a {C:green}#4# in #3#",
 					"chance to create a {C:attention}Reincarnation Tag.",
