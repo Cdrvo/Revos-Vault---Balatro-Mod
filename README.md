@@ -22,7 +22,7 @@ Currently there are 5 New Rarities (Printer, Chaos, Vaulted, Secret and Curse), 
 
 **[CardSleeves](https://github.com/larswijn/CardSleeves)**
 
-- 17 Sleeves
+- 1 Sleeve
 
 **[Rift-Raft](https://github.com/vitellaryjr/RiftRaft)**
 
