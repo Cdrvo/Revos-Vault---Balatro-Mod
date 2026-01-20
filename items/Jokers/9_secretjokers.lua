@@ -5,6 +5,8 @@ SMODS.Rarity({
 })
 
 
+-- so much for secret jokers :sob:
+
 SMODS.Joker({
 	key = "sgrossprinter",
 	atlas = "Jokers2",

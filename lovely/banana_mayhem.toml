@@ -22,3 +22,26 @@ if G.GAME.modifiers and G.GAME.modifiers.banana_mayhem then
     card:set_ability(banana_key)
 end
 '''
+
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+match_indent = true
+position = 'after'
+pattern = "card.ability.booster_pos = i"
+payload = '''
+if G.GAME.modifiers and G.GAME.modifiers.banana_mayhem then
+    if card then
+			local banana_packs = {
+				"p_crv_bbst"
+			}
+			if pseudorandom("banana_pack") < 1/10 then banana_packs[#banana_packs+1] = "p_crv_bbst2" end
+			if pseudorandom("banana_pack") < 1/25 then banana_packs[#banana_packs+1] = "p_crv_bbst3" end
+			local banana_pack = pseudorandom_element(banana_packs, pseudoseed("banana_pack"))
+			if not card.bananaified then
+				card.bananaified = true
+				card:set_ability(banana_pack)
+		    end
+	end
+end
+'''

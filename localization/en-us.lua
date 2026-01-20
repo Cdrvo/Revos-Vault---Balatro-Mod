@@ -1,4 +1,80 @@
 return {
+		Menus = {
+		crv_thevault = {
+            name = "The Vault",
+            text = {
+                {
+                    name = "Overview",
+                    text = {
+					{
+					  "{C:dark_edition}The Vault{} is a new place to",
+					  "spend {C:blue}Souls{} to improve your jokers"
+					},
+					{
+					  "Click on a joker to {C:attention}Place{} or {C:attention}Take{} it",
+					},
+					{
+					  "The {C:purple}Vault{} button is used to",
+					  "turn the placed joker to it's {C:purple}Vaulted{}",
+					  "variant if it's {C:attention}eligible"
+					},
+					{
+					  "The {C:dark_edition}Enhance{} button is used to",
+					  "apply a {C:attention}Random{C:crv_polychrome} Edition{}",
+					  "to the placed joker"
+					},
+					{
+					  "The {C:red}Upgrade{} button is used to",
+					  "upgrade the placed joker to a {C:attention}Better Rarity{}",
+					  "if it's {C:attention}eligible"
+					},
+					{
+					  "The {C:blue}Harvest{} button is used to {C:red}Destroy{} ",
+					  "the placed joker and give it's {C:attention}Sell Value{}",
+					  "as {C:blue}Souls"
+					}
+                    }
+                },
+            },
+        },
+		crv_thevault_alt = {
+            name = "The Vault",
+            text = {
+                {
+                    name = "Overview",
+                    text = {
+					{
+					  "{C:dark_edition}The Vault{} is a new place to",
+					  "spend {C:blue}Souls{} to improve your jokers"
+					},
+					{
+					  "Click on a joker to {C:attention}Place{} or {C:attention}Take{} it",
+					},
+					{
+					  "The {C:purple}Reroll{} button is used to",
+					  "turn the placed joker to a random joker",
+					  "from the {C:attention}same{} rarity"
+					},
+					{
+					  "The {C:dark_edition}Enhance{} button is used to",
+					  "apply a {C:attention}Random{C:crv_polychrome} Edition{}",
+					  "to the placed joker"
+					},
+					{
+					  "The {C:red}Upgrade{} button is used to",
+					  "upgrade the placed joker to a {C:attention}Better Rarity{}",
+					  "if it's {C:attention}eligible"
+					},
+					{
+					  "The {C:blue}Harvest{} button is used to {C:red}Destroy{} ",
+					  "the placed joker and give it's {C:attention}Sell Value{}",
+					  "as {C:blue}Souls"
+					}
+                    }
+                },
+            },
+        },
+	},
 	descriptions = {
 
 		 Flace={
@@ -3859,7 +3935,8 @@ return {
 				name = "Banana Mayhem",
 				text = {
 					"Every {C:attention}created{}",
-					"joker is a random banana",
+					"Jokers and Boosters are", 
+					"bananas",
 				}
 			},
 

@@ -100,19 +100,21 @@ end
 
 function Card:crv_is_upgradeable()
 	local tab = RevosVault.modify_rarity()
+	local match = nil
 
-	for i = 1, #tab do
-		if tab[i] == self.config.center.rarity then
-			break
-		else
-			return false
+	for k, v in pairs(tab) do
+		if v == self.config.center.rarity then
+			match = true
 		end
 	end
 
 	if self.config.center.rarity == tab[#tab] then
 		return false
 	end
-	return true
+	
+	if match then
+		return true
+	end
 end
 
 function RevosVault.vaultify(card, no_juice)
@@ -172,6 +174,24 @@ G.FUNCS.take_me_back = function(e)
 	end
 end
 
+G.FUNCS.crv_vault_help = function(e)
+	if TheVault.changed then
+		G.FUNCS.RevosVault_info{menu_type = "crv_thevault_alt"}
+	else
+		G.FUNCS.RevosVault_info{menu_type = "crv_thevault"}
+	end
+end
+
+G.FUNCS.crv_vault_help_can = function(e)
+	if not (not TheVault.vault_lock) then
+		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+		e.config.button = nil
+	else
+		e.config.colour = G.C.L_BLACK
+		e.config.button = "crv_vault_help"
+	end
+end
+
 G.FUNCS.crv_vault_vault_can = function(e)
     if not TheVault.changed then
         if
@@ -182,6 +202,8 @@ G.FUNCS.crv_vault_vault_can = function(e)
                 and G.vault_card.cards[1]:is_vaultable()
                 and G.GAME.souls
                 and (G.GAME.souls >= TheVault.vault_cost)
+    			and not TheVault.vault_lock
+				and not G.vault_card.cards[1].crv_harvested
             )
         then
             e.config.colour = G.C.UI.BACKGROUND_INACTIVE
@@ -211,31 +233,45 @@ end
 
 G.FUNCS.crv_vault_vault = function(e)
 
+	G.E_MANAGER:add_event(Event({
+		trigger = "before",
+		delay = 0,
+		func = function()
+			TheVault.vault_lock = true
+			return true
+		end
+	}))
+
     if not TheVault.changed then
+		
         G.GAME.souls = G.GAME.souls - TheVault.vault_cost
 
         RevosVault.vaultify(G.vault_card.cards[1])
         play_sound("coin1")
-
-        G.E_MANAGER:add_event(Event({
-            func = function()
-                save_run()
-                return true
-            end,
-        }))
     else
+		G.E_MANAGER:add_event(Event({
+			trigger = "before",
+			delay = 0,
+			func = function()
+				TheVault.vault_lock = true
+				return true
+			end
+		}))
         G.GAME.souls = G.GAME.souls - TheVault.vault_cost
         play_sound("coin1")
 
         RevosVault.replacecards(G.vault_card.cards, nil, true, true)
+    end
 
-        G.E_MANAGER:add_event(Event({
+	    G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0,
             func = function()
+				TheVault.vault_lock = false
                 save_run()
                 return true
             end,
         }))
-    end
 end
 
 G.FUNCS.crv_vault_enhance_can = function(e)
@@ -246,6 +282,8 @@ G.FUNCS.crv_vault_enhance_can = function(e)
 			and G.vault_card.cards[1]
 			and G.GAME.souls
 			and (G.GAME.souls >= TheVault.enhance_cost)
+			and not TheVault.vault_lock
+			and not G.vault_card.cards[1].crv_harvested
 		)
 	then
 		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
@@ -257,13 +295,24 @@ G.FUNCS.crv_vault_enhance_can = function(e)
 end
 
 G.FUNCS.crv_vault_enhance = function(e)
+	G.E_MANAGER:add_event(Event({
+		trigger = "before",
+		delay = 0,
+		func = function()
+			TheVault.vault_lock = true
+			return true
+		end
+	}))
 	G.GAME.souls = G.GAME.souls - TheVault.enhance_cost
 
 	local edition = poll_edition(nil, nil, true, true)
 	G.vault_card.cards[1]:set_edition(edition)
 	play_sound("coin1")
 	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0,
 		func = function()
+			TheVault.vault_lock = false
 			save_run()
 			return true
 		end,
@@ -279,6 +328,8 @@ G.FUNCS.crv_vault_upgrade_can = function(e)
 			and G.vault_card.cards[1]:crv_is_upgradeable()
 			and G.GAME.souls
 			and (G.GAME.souls >= TheVault.upgrade_cost)
+			and not TheVault.vault_lock
+			and not G.vault_card.cards[1].crv_harvested
 		)
 	then
 		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
@@ -290,13 +341,24 @@ G.FUNCS.crv_vault_upgrade_can = function(e)
 end
 
 G.FUNCS.crv_vault_upgrade = function(e)
+	G.E_MANAGER:add_event(Event({
+		trigger = "before",
+		delay = 0,
+		func = function()
+			TheVault.vault_lock = true
+			return true
+		end
+	}))
 	G.GAME.souls = G.GAME.souls - TheVault.upgrade_cost
 
 	RevosVault.modify_rarity(G.vault_card.cards[1], 1)
 	play_sound("coin1")
 
 	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0,
 		func = function()
+			TheVault.vault_lock = false
 			save_run()
 			return true
 		end,
@@ -310,28 +372,42 @@ G.FUNCS.crv_vault_harvest_can = function(e)
 			and G.vault_card.cards
 			and G.vault_card.cards[1]
 			and G.GAME.souls
-			and G.vault_card.cards[1].cost
+			and G.vault_card.cards[1].sell_cost
 			and not SMODS.is_eternal(G.vault_card.cards[1])
+			and not TheVault.vault_lock
+			and not G.vault_card.cards[1].crv_harvested
 		)
 	then
 		TheVault.harvest_cost = TheVault.harvest_cost_default
 		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
 		e.config.button = nil
 	else
-		TheVault.harvest_cost = G.vault_card.cards[1].cost / 2
+		TheVault.harvest_cost = G.vault_card.cards[1].sell_cost 
 		e.config.colour = G.C.BLUE
 		e.config.button = "crv_vault_harvest"
 	end
 end
 
 G.FUNCS.crv_vault_harvest = function(e)
-	G.GAME.souls = G.GAME.souls + G.vault_card.cards[1].cost / 2
+	G.E_MANAGER:add_event(Event({
+		trigger = "before",
+		delay = 0,
+		func = function()
+			TheVault.vault_lock = true
+			return true
+		end
+	}))
+	G.GAME.souls = G.GAME.souls + G.vault_card.cards[1].sell_cost 
 	play_sound("coin1")
 
+	G.vault_card.cards[1].crv_harvested = true
 	SMODS.destroy_cards(G.vault_card.cards[1])
 
 	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0,
 		func = function()
+			TheVault.vault_lock = false
 			save_run()
 			return true
 		end,
