@@ -73,7 +73,7 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
 	vec2 uv = (((texture_coords)*(image_details)) - texture_details.xy*texture_details.ba)/texture_details.ba;
     number low = min(tex.r, min(tex.g, tex.b));
     number high = max(tex.r, max(tex.g, tex.b));
-    number delta = high-low;
+    number delta = min(low, max(0.5, 1. - high));
 
     number fac = 1 + 0.9*sin(11.*uv.x+1*uv.y + sunwashed.r*0. + cos(sunwashed.r*0 + uv.y*4.2 - uv.x*4.));
     number fac2 = 1 + 0.5*sin(8.*uv.x+2.32*uv.y + sunwashed.r*0. - cos(sunwashed.r*2.3 + uv.x*8.2));
