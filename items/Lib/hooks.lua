@@ -483,7 +483,7 @@ end
 local emplace_old = CardArea.emplace
 function CardArea:emplace(card, location, stay_flipped)
 	emplace_old(self, card, location, stay_flipped)
-    if card and card.config and card.config.center and card.config.center.key and (self == G.shop_jokers or self == G.pack_cards or self == G.shop_booster or self == G.shop_vouchers or self == G.consumeables) then
+    if card and card.config and card.config.center and card.config.center.key and (self == G.shop_jokers or self == G.pack_cards or self == G.shop_booster or self == G.shop_vouchers or self == G.consumeables or self == G.jokers) then
 
 		if RevosVault.config.superior_enabled and card.ability.set ~= "Joker" then
 			if pseudorandom("supcreate") < 1 / (150/G.GAME.superior_mod) and card:has_potential() then
@@ -491,7 +491,7 @@ function CardArea:emplace(card, location, stay_flipped)
 			end
 		end
 	
-		if self ~= G.consumeables then
+		if self ~= G.consumeables and self ~= G.jokers then
 			if self ~= G.pack_cards then
 				if (#SMODS.find_card("j_crv_inflation")>0) then
 					if card and card.cost then
@@ -499,9 +499,11 @@ function CardArea:emplace(card, location, stay_flipped)
 					end
 				end
 			end
+		elseif self ~= G.consumeables then
 
 			if card.config.center.rarity == "crv_curse" then
-				if card.area then
+				if card.area and not card.crv_moved_curse and card.area ~= G.jokers then
+					card.crv_moved_curse = true
 					RevosVault.move_card(card, G.jokers)
 					check_for_unlock({type = "clovering_it"})
 				end
@@ -516,6 +518,7 @@ function CardArea:emplace(card, location, stay_flipped)
 						card.sell_cost = 0
 						card.children.price = nil
 						card.children.buy_button = nil
+						card.crv_moved_curse = nil
 						return true
 					end
 				}))
