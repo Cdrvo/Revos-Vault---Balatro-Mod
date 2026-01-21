@@ -2962,12 +2962,19 @@ SMODS.Joker({
 					break
 				end
 			end
-			if G.jokers.cards[rr - 1] ~= nil and G.jokers.cards[rr + 1] ~= nil or self.area == G.jokers then
-				G.jokers.cards[rr - 1]:start_dissolve({ HEX("57ecab") }, nil, 1.6)
-				local copied = copy_card(G.jokers.cards[rr + 1], nil)
-				copied:add_to_deck()
-				G.jokers:emplace(copied)
-				card_eval_status_text(card, "extra", nil, nil, nil, { message = "Copied!" })
+			if G.jokers.cards[rr - 1] ~= nil and G.jokers.cards[rr + 1] ~= nil or self.area == G.jokers and not G.jokers.cards[rr - 1].crv_eyed then
+				G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					func = function()
+						G.jokers.cards[rr - 1].crv_eyed = true
+						G.jokers.cards[rr - 1]:start_dissolve({ HEX("57ecab") }, nil, 1.6)
+						local copied = copy_card(G.jokers.cards[rr + 1], nil)
+						copied:add_to_deck()
+						G.jokers:emplace(copied)
+						card_eval_status_text(card, "extra", nil, nil, nil, { message = "Copied!" })
+						return true
+					end
+				}))
 			end
 		end
 	end,
