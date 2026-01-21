@@ -15,24 +15,27 @@ SMODS.current_mod.custom_ui = function(modNodes)
 	if RevoConfig["6_vault_enabled"] then
 		random_random[#random_random+1] = "crv_va"
 	end
+	if RevoConfig["8_curses_enabled"] then
+		random_random[#random_random+1] = "crv_curse"
+	end
+	if RevoConfig["7_chaos_enabled"] then
+		random_random[#random_random+1] = "crv_chaos"
+	end
 	local random_rarity = pseudorandom_element(random_random)
 
 	local random_cards2 = {}
 	local random_cards = {}
 
-	if random_rarity ~= "crv_p" and random_rarity ~= "crv_va" then
+	if G.P_CENTER_POOLS[random_rarity] then
 		for k, card in pairs(G.P_CENTER_POOLS[random_rarity]) do
 			random_cards2[#random_cards2 + 1] = card.key
 		end
-	elseif random_rarity == "crv_va" and G.P_JOKER_RARITY_POOLS["crv_va"] then
+	elseif G.P_JOKER_RARITY_POOLS[random_rarity] then
 		for k, card in pairs(G.P_JOKER_RARITY_POOLS[random_rarity]) do
 			random_cards2[#random_cards2 + 1] = card.key
 		end
-	elseif random_rarity == "crv_p" and G.P_JOKER_RARITY_POOLS["crv_p"] then
-		for k, card in pairs(G.P_JOKER_RARITY_POOLS["crv_p"]) do
-			random_cards2[#random_cards2 + 1] = card.key
-		end
 	end
+
 
 	pseudoshuffle(random_cards2, pseudoseed("revo_sucks_at_ui"))
 	for i = 1, 5 do
@@ -52,20 +55,45 @@ SMODS.current_mod.custom_ui = function(modNodes)
 			G.P_CARDS.empty,
 			G.P_CENTERS[key]
 		)
-
+		card.dissolve = 1
 		G.printer_info:emplace(card)
 		card:flip()
-		card.states.visible = true
+
 		G.E_MANAGER:add_event(Event({
 			blocking = false,
 			trigger = "after",
-			delay = 0.4 * i,
+			delay = 0.2 * i,
 			func = function()
-				if card then
-					play_sound("card1")
-					card:flip()
+				if card and G.printer_info and G.printer_info.cards and #G.printer_info.cards then
+					card:start_materialize()
 					a = a + 1
-					card:juice_up()
+					if a >= 3 then
+					G.E_MANAGER:add_event(Event({
+								trigger = "after",
+								delay = 0,
+								func = function()
+									if G.printer_info and G.printer_info.cards and #G.printer_info.cards then
+										for i = 1, #G.printer_info.cards do
+											local card = G.printer_info.cards[i]
+											G.E_MANAGER:add_event(Event({
+												blocking = false,
+												trigger = "after",
+												delay = 0.1 * i,
+												func = function()
+													if card and card.facing == "back" then
+														play_sound("card1")
+														card:flip()
+														card:juice_up()
+													end
+													return true
+												end,
+											}))
+										end
+									end
+									return true
+								end
+							}))
+					end
 				end
 				return true
 			end,
