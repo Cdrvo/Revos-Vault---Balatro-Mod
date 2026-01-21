@@ -2485,7 +2485,7 @@ SMODS.Joker({
 	end,
 
 	calculate = function(self, card, context)
-		if context.setting_blind and pseudorandom("those") < card.ability.extra.odds / G.GAME.probabilities.normal then
+		if context.setting_blind and pseudorandom("those") < G.GAME.probabilities.normal / card.ability.extra.odds  then
 			SMODS.add_card({
 				key = "j_mr_bones",
 				area = G.jokers,
