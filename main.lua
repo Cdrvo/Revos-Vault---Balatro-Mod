@@ -375,40 +375,6 @@ for k, file in ipairs(RevosVault.CrossMod) do
 end
 
 
-SMODS.Joker({ --used for the title screen
-	key = "printertitle",
-	atlas = "Jokers",
-	rarity = "crv_p",
-	cost = 10,
-	unlocked = true,
-	discovered = true,
-	no_collection = true,
-	pos = {
-		x = 0,
-		y = 0,
-	},
-	in_pool = function(self)
-		return false
-	end,
-})
-
-SMODS.Joker({ --used for the title screen
-	key = "grossprintertitle",
-	atlas = "Jokers",
-	rarity = "crv_p",
-	cost = 10,
-	unlocked = true,
-	discovered = true,
-	no_collection = true,
-	pos = {
-		x = 0,
-		y = 1,
-	},
-	in_pool = function(self)
-		return false
-	end,
-})
-
 --Adds Gross Printer to the main menu. Code from Cryptid
 
 local oldfunc = Game.main_menu --ily cryptid x2
@@ -421,7 +387,7 @@ Game.main_menu = function(change_context)
 		G.CARD_W,
 		G.CARD_H,
 		G.P_CARDS.empty,
-		G.P_CENTERS.j_crv_grossprintertitle,
+		G.P_CENTERS.j_crv_grossprinter,
 		{ bypass_discovery_center = true }
 	)
 

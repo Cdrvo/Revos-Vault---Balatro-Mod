@@ -1719,21 +1719,20 @@ SMODS.Joker({
 
 	calculate = function(self, card, context)
 		local crv = card.ability.extra
-		if context.end_of_round and context.main_eval and not context.blueprint then
+		if context.end_of_round and context.main_eval and not context.blueprint and crv.timer < 3 then
 			crv.timer = crv.timer + 1
 		end
-		if context.selling_self then
-			SMODS.add_card({
+		if context.selling_self and crv.timer >= 3 then
+			local a = SMODS.add_card({
 				set = "Joker",
 				area = G.jokers,
 				rarity = 0,
-				stickers = { "eternal" },
 			})
+			a:add_sticker("eternal", true)
 			SMODS.add_card({
 				set = "Joker",
 				area = G.jokers,
 				legendary = true,
-				stickers = { "eternal" },
 			})
 		end
 	end,

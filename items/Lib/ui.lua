@@ -49,8 +49,11 @@ SMODS.current_mod.custom_ui = function(modNodes)
 			G.CARD_H,
 			G.P_CARDS.empty,
 			G.P_CENTERS[key]
+			{ bypass_discovery_center = true}
 		)
+
 		G.printer_info:emplace(card)
+		card.states.visible = true
 		card:flip()
 		G.E_MANAGER:add_event(Event({
 			blocking = false,

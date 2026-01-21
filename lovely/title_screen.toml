@@ -15,9 +15,11 @@ if next(SMODS.find_mod("Cryptid")) then
 else
 	replace_card = SMODS.create_card({
 		area = G.title_top,
-		key = "j_crv_printertitle",
-		no_edition = true
+		key = "j_crv_printer",
+		no_edition = true,
+		bypass_discovery_center = true,
 	})
+	replace_card.no_ui = true
     replace_card.T.scale = 1.32
 end
 '''
