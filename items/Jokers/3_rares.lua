@@ -2489,6 +2489,7 @@ SMODS.Joker({
 			SMODS.add_card({
 				key = "j_mr_bones",
 				area = G.jokers,
+				edition = "e_negative"
 			})
 		end
 	end,
