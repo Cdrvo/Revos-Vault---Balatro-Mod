@@ -3313,7 +3313,7 @@ return {
 					"Creates 2 {C:crv_sup}Superior{} Cards",
 				},
 			},
-			c_crv_suphierophant = {
+			c_crv_supheirophant = {
 				name = "Superior Hierophant",
 				text = {
 					"Enhances {C:attention}#1#{}",
@@ -3358,7 +3358,7 @@ return {
 					"{C:inactive}(Max of {C:money}$#1#{C:inactive})",
 				},
 			},
-			c_crv_supwof = {
+			c_crv_supwheel_of_fortune = {
 				name = "Superior Wheel of Fortune",
 				text = {
 					"Gives {C:attention}1{} Random joker",
@@ -3371,7 +3371,7 @@ return {
 					"Turns #1#{} Cards into a {C:attention}King",
 				},
 			},
-			c_crv_suphangedman = {
+			c_crv_suphanged_man = {
 				name = "Superior Hanged Man",
 				text = {
 					"Destroys up to {C:attention}#1#{}",
@@ -3542,7 +3542,7 @@ return {
 					"all jokers",
 				},
 			},
-			c_crv_supdejavu = {
+			c_crv_supdeja_vu = {
 				name = "Superior De Javu",
 				text = {
 					"Enhances #1# Cards to {C:attention}Lucky or Glass",
@@ -3699,7 +3699,7 @@ return {
 					"until the end of the round",
 				},
 			},
-			c_crv_supplanetx = {
+			c_crv_supplanet_x = {
 				name = "Superior Planet X",
 				text = {
 					"{s:0.8}(lvl.#1#){} Level up",

@@ -1639,7 +1639,7 @@ SMODS.Joker({
 		local crv = card.ability.extra
 		if context.crv_joker_destroyed and context.crv_destroyedj == card then
 			if not card.crv_harvested then
-				print("reincarnation")
+				
 				G.GAME.reincarnation = G.GAME.reincarnation + 1
 				if pseudorandom("rein") < 1 / crv.odds then
 					add_tag(Tag("tag_crv_reintag"))
@@ -2236,16 +2236,16 @@ SMODS.Joker({
 	end,
 	calculate = function(self, card, context)
 		if context.final_scoring_step and not context.blueprint then
-			if context.cardarea then
+			if context.scoring_hand then
 				for k, v in ipairs(context.scoring_hand) do
 					if not v.edition and not v.ability.polychrome then
 						G.E_MANAGER:add_event(Event({
 							func = function()
-								if not v.edition and not v.ability.polychrome then
+								if not v.edition then
 									v:juice_up(0.3, 0.4)
 									v:set_edition({ polychrome = true }, true)
-									return true
 								end
+								return true
 							end,
 						}))
 					end
@@ -2638,6 +2638,28 @@ SMODS.Joker({
 	},
 	discovered = true,
 	blueprint_compat = false,
+	can_reroll = function(self,card,area)
+		local c = false
+		if card.ability.extra.rerolls > 0 and G.shop then
+			if G and G.jokers and G.jokers.highlighted then
+				if #G.jokers.highlighted > 1 and #G.jokers.highlighted < card.ability.extra.limit then
+					for k, v in pairs(G.jokers.highlighted) do
+						if v.config.center.rarity == "crv_curse" then
+							c = false
+							break
+						else
+							c = true
+						end
+					end
+				else
+				end
+			end
+		end
+		if c then
+			return true
+		end
+		return false
+	end,
 	calculate = function(self, card, context)
 		if context.reroll_cards and not context.blueprint then
 			RevosVault.replacecards(G.jokers.highlighted, nil, nil, true, card)
@@ -2650,22 +2672,6 @@ SMODS.Joker({
 			return {
 				message = localize("k_reset"),
 			}
-		end
-	end,
-	update = function(self, card, context)
-		if card.ability.extra.limit < 3 then
-			card.ability.extra.limit = 3
-		end
-		if card.ability.extra.rerolls > 0 then
-			if G and G.jokers and G.jokers.highlighted then
-				if #G.jokers.highlighted > 1 and #G.jokers.highlighted < card.ability.extra.limit then
-					card.ability.extra.can_roll = true
-				else
-					card.ability.extra.can_roll = false
-				end
-			end
-		else
-			card.ability.extra.can_roll = false
 		end
 	end,
 })

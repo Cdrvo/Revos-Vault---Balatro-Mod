@@ -3,13 +3,21 @@
 
 G.FUNCS.can_reroll_cards = function(e)
 	local card = e.config.ref_table
-	if card.ability.extra.can_roll == true then
+	if card.config.center.can_reroll and card:reroll_check() == true then
 		e.config.colour = G.C.RED
 		e.config.button = "reroll_cards"
 	else
 		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
 		e.config.button = nil
 	end
+end
+
+function Card:reroll_check()
+    local obj = self.config.center
+    if  obj.can_reroll and type(obj.can_reroll) == 'function' then
+        local o, t = obj:can_reroll(self)
+        if o or t then return o, t end
+    end
 end
 
 G.FUNCS.reroll_cards = function(e)

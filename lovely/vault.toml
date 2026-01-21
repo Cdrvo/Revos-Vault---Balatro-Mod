@@ -138,7 +138,6 @@ if not TheVault.in_vault then
   G.shop.alignment.offset.y = G.shop.alignment.offset.py
   G.shop.alignment.offset.py = nil
   else
-    print("second")
     RevosVault.s_to_v(true)
 end
 '''
@@ -161,7 +160,6 @@ if not TheVault.in_vault then
       G.shop.alignment.offset.y = G.ROOM.T.y + 29
     end
 else
-  print("first")
   RevosVault.v_to_s(true)
 end
 '''

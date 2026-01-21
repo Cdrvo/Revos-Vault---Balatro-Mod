@@ -1586,16 +1586,30 @@ function RevosVault.hide_shop()
 end
 
 function RevosVault.move_card(card, _area) 
+	G.E_MANAGER:add_event(Event({
+		trigger = "before",
+		func = function()
+			RevosVault.remove_lock = true
+			return true
+		end
+	}))
     local area = card.area
     if area == G.jokers and _area ~= G.jokers then
-        card:remove_from_deck()
+       -- card:remove_from_deck()
     elseif _area == G.jokers and area ~= G.jokers then
-        card:add_to_deck()
+       -- card:add_to_deck()
     end
 	if not card.getting_sliced then	
 		area:remove_card(card)
 		_area:emplace(card)
     end
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		func = function()
+			RevosVault.remove_lock = false
+			return true
+		end
+	}))
 end
 
   function RevosVault.create_gem_timer(card)
