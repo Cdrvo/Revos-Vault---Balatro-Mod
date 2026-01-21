@@ -1,5 +1,6 @@
 -- Thank you JoyousSpring
 SMODS.current_mod.custom_ui = function(modNodes)
+	modNodes[1].nodes[1].config.colour = G.C.PURPLE
 	G.printer_info = CardArea(
 		G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
 		G.ROOM.T.h,
@@ -40,6 +41,7 @@ SMODS.current_mod.custom_ui = function(modNodes)
 	end
 
 	if not random_cards then random_cards = {"j_crv_printer","j_crv_grossprinter","j_crv_rustyprinter","j_crv_jimboprinter","j_crv_obeliskprinter"} end
+	local a = 0
 
 	for i, key in pairs(random_cards) do
 		local card = Card(
@@ -52,16 +54,19 @@ SMODS.current_mod.custom_ui = function(modNodes)
 		)
 
 		G.printer_info:emplace(card)
-		card.states.visible = true
 		card:flip()
+		card.states.visible = true
 		G.E_MANAGER:add_event(Event({
 			blocking = false,
 			trigger = "after",
 			delay = 0.4 * i,
 			func = function()
-				play_sound("card1")
-				card:flip()
-				card:juice_up()
+				if card then
+					play_sound("card1")
+					card:flip()
+					a = a + 1
+					card:juice_up()
+				end
 				return true
 			end,
 		}))
@@ -75,6 +80,14 @@ SMODS.current_mod.custom_ui = function(modNodes)
 		},
 	}
 end
+
+SMODS.current_mod.ui_config = {
+    colour = darken(G.C.PURPLE, 0.6),
+    bg_colour = { G.C.PURPLE[1], G.C.BLACK[2], G.C.PURPLE[2], 0.3 },
+    back_colour = darken(G.C.PURPLE, 0.3),
+    tab_button_colour = darken(HEX("7E7AFF"), 0.2),
+    collection_option_cycle_colour = darken(HEX("7E7AFF"), 0.2),
+}
 
 
 -- Printer Deck

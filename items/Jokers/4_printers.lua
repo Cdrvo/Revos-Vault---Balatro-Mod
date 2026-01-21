@@ -949,7 +949,7 @@ SMODS.Joker({
 		end
 	end,
 	update = function(self, card, context)
-		if card.area == G.jokers then
+		if card.area == G.jokers and G.jokers then
 			local megap = {}
 			local rr
 			for i = 1, #G.jokers.cards do
