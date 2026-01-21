@@ -1,4 +1,47 @@
 SMODS.Joker({
+	key = "bocchi",
+	atlas = "Jokers2",
+	rarity = 3,
+	cost = 6,
+	unlocked = true,
+	discovered = false,
+	blueprint_compat = true,
+	pos = {
+		x = 9,
+		y = 4,
+	},
+	config = {
+		extra = {
+			xmult = 1,
+			allcards = 0,
+		},
+	},
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = { card.ability.extra.allcards, card.ability.extra.xmult },
+		}
+	end,
+
+	calculate = function(self, card, context)
+		if context.joker_main then
+			local all_cards = 0
+			for k, v in ipairs(G.hand.cards) do
+				all_cards = all_cards + 1
+				card.ability.extra.allcards = all_cards
+			end
+			if all_cards > 1 then
+				return {
+					xmult = card.ability.extra.xmult * card.ability.extra.allcards,
+				}
+			end
+		end
+	end,
+	in_pool = function(self, wawa, wawa2)
+		return true
+	end,
+})
+
+SMODS.Joker({
 	key = "ghostbanana",
 	atlas = "gb",
 	rarity = 3,
