@@ -555,7 +555,7 @@ end
 
 local start_run_old = Game.start_run 
 function Game:start_run(args)
-	if (#SMODS.find_card("j_crv_pedro")) then
+	if (#SMODS.find_card("j_crv_pedro")>0) then
 		G.GAME.disable_background_colouring = nil
 		ease_background_colour{new_colour = darken(G.C.RED, 0.5), special_colour = G.C.ORANGE, contrast = 5}
 		G.GAME.disable_background_colouring = true

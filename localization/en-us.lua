@@ -101,7 +101,7 @@ return {
 			b_crv_banana_mayhem = {
 				name = "Banana Deck",
 				text = { "Enable {C:attention}Banana {C:dark_edition,T:crv_banana_mayhem_desc}Mayhem",
-			"{C:inactive,s:0.8}(Only banana jokers can be created)" },
+			"{C:inactive,s:0.8}(Only banana jokers and packs can be created)" },
 			},
 
 
