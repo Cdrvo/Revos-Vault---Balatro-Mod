@@ -625,3 +625,10 @@ G.FUNCS.play_cards_from_highlighted = function(e)
 	SMODS.calculate_context({crv_press_play = true})
 	play_from_highlight_old(e)
 end
+
+local insert_pool_old = SMODS.insert_pool
+function SMODS.insert_pool(pool, center, replace)
+	if center then
+		return insert_pool_old(pool, center, replace)
+	end
+end
