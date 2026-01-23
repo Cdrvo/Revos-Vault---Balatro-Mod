@@ -305,7 +305,7 @@ function Card:click()
 
 			if RevosVault.sleeve_applied  and G.GAME and G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_crv_psleeve" then
 				RevosVault.sleeve_applied = false
-				G.FUNCS:get_printer_box()
+				G.FUNCS:exit_overlay_menu() -- yes
 			else
 				G.FUNCS:exit_overlay_menu()
 			end
@@ -315,6 +315,9 @@ function Card:click()
 				area = G.jokers,
 			})
 			e:add_sticker("eternal", true)
+			if RevosVault.negative_pdeck then
+				e:set_edition("e_negative", true, true)
+			end
 
 			G.E_MANAGER:add_event(Event({
 				trigger = "after",
@@ -499,7 +502,8 @@ function CardArea:emplace(card, location, stay_flipped)
 					end
 				end
 			end
-		elseif self ~= G.consumeables then
+		end
+		if self ~= G.consumeables then
 
 			if card.config.center.rarity == "crv_curse" then
 				if card.area and not card.crv_moved_curse and card.area ~= G.jokers then
@@ -635,3 +639,19 @@ function SMODS.insert_pool(pool, center, replace)
 		return insert_pool_old(pool, center, replace)
 	end
 end
+
+--[[local win_game_old = win_game
+function win_game()
+	local rw = true
+	if not G.GAME.seeded and not G.GAME.challenge and G.jokers and G.jokers.cards and #G.jokers.cards > 0 then
+		for k, v in pairs(G.jokers.cards) do
+			if not v.config.center.mod or (v.config.center.mod and v.config.center.mod.id ~= "RevosVault") then
+				rw = false
+			end
+		end
+		if rw then
+			check_for_unlock({type = "crv_appreciation"})
+		end
+	end
+	return win_game_old()
+end]]
