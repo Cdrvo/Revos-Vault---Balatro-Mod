@@ -510,7 +510,7 @@ function CardArea:emplace(card, location, stay_flipped)
 				end
 			end
 		end
-		if self ~= G.consumeables then
+		if self ~= G.consumeables and RevoConfig["8_curses_enabled"] and G.crv_curses then
 
 			if card.config.center.rarity == "crv_curse" then
 				G.crv_curses.T.y = 0
