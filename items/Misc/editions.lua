@@ -44,22 +44,25 @@ SMODS.Edition({
 	key = "pastel",
 	shader = "pastel_shader",
 	config = {
-		odds = 3,
+		mult = 5,
+		chips = 30
 	},
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
-				(G.GAME.probabilities.normal or 1),
-				self.config.odds,
+				self.config.mult,
+				self.config.chips
 			},
 		}
 	end,
 	calculate = function(self, card, context)
-		if (context.main_scoring and context.cardarea == G.play) or context.post_joker then
-			return {
-				mult = RevosVault.perc(mult, 50),
-				mult_message = {message = "+%50"}
-			}
+		if context.individual and context.cardarea == G.play then
+			if context.other_card:is_enhanced() then
+				return{
+					mult = self.config.mult,
+					chips = self.config.chips
+				}
+			end
 		end
 	end,
 })
@@ -76,22 +79,19 @@ SMODS.Edition({
 	key = "bloom_edition",
 	shader = "bloom",
 	config = {
-		odds = 3,
+		xchips = 2.5,
 	},
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {
-				(G.GAME.probabilities.normal or 1),
-				self.config.odds,
+				self.config.xchips,
 			},
 		}
 	end,
 	calculate = function(self, card, context)
 		if (context.main_scoring and context.cardarea == G.play) or (context.post_joker and context.cardarea == G.jokers) then
-			return {
-				chips = RevosVault.perc(hand_chips, 60),
-				chip_message = {message = '+%60'}
-
+			return{
+				xchips = self.config.xchips
 			}
 		end
 	end,
