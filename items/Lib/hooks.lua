@@ -711,7 +711,7 @@ function SMODS.insert_pool(pool, center, replace)
 	end
 end
 
---[[local win_game_old = win_game
+local win_game_old = win_game
 function win_game()
 	local rw = true
 	if not G.GAME.seeded and not G.GAME.challenge and G.jokers and G.jokers.cards and #G.jokers.cards > 0 then
@@ -725,4 +725,5 @@ function win_game()
 		end
 	end
 	return win_game_old()
-end]]
+end
+

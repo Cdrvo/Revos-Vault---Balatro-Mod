@@ -9,8 +9,8 @@ target = 'functions/button_callbacks.lua'
 pattern = '''
 if (e.config.ref_table.cost > G.GAME.dollars - G.GAME.bankrupt_at) and (e.config.ref_table.cost > 0) then
 '''
-position = 'at'
+position = 'before'
 payload = '''
-if (((e.config.ref_table.cost > G.GAME.dollars - G.GAME.bankrupt_at) and (e.config.ref_table.cost > 0)) or (e.config.ref_table.always_buyable)) then
+-- nil
 '''
 match_indent = true

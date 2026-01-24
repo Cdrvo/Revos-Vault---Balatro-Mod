@@ -1998,3 +1998,11 @@ function RevosVault.stickerizeable(area)
 	return false
 end
 
+function Card:is_banana()
+	for k, v in pairs(G.P_CENTER_POOLS.BananaPool) do
+		if self.config.center.key == v.key then
+			return true
+		end
+	end
+	return false
+end
