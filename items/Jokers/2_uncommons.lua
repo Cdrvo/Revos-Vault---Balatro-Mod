@@ -2852,6 +2852,7 @@ SMODS.Joker({
 	unlocked = true,
 	discovered = false,
 	blueprint_compat = true,
+	always_buyable = true,
 	pos = {
 		x = 10,
 		y = 9,
