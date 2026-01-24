@@ -1871,13 +1871,25 @@ function RevosVault.remove_all_stickers(card, ignore)
     end
 end
 
-function RevosVault.has_room(area)
+function RevosVault.has_room(area, ret_num, ret_num_modify)
 	if area then
 		if area.cards and #area.cards < area.config.card_limit then
-			return true
+			if ret_num then
+				ret_num = area.config.card_limit-(#area.cards)
+				if ret_num_modify then
+					ret_num = ret_num + ret_num_modify
+				end
+				return ret_num
+			else
+				return true
+			end
 		end
 	end
-	return false
+	if ret_num then
+		return 0
+	else
+		return false
+	end
 end
 
 function Card:calculate_cavendish()

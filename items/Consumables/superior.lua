@@ -66,7 +66,7 @@ SMODS.Consumable({
 		}
 	end,
 	can_use = function(self, card)
-		if G and G.GAME and G.GAME.last_destroyed_joker then
+		if G and G.GAME and G.GAME.last_destroyed_joker and RevosVault.has_room(G.jokers) then
 			return true
 		end
 		return false
@@ -242,11 +242,23 @@ SMODS.Consumable({
 	loc_vars = function(self, info_queue, card)
 		return { vars = { self.config.max_highlighted, card.ability.extra.cards } }
 	end,
-	can_use = function(self, card)
-		return true
+	can_use = function(self,card)
+		local a = 0
+		if G.consumeables and G.consumeables.cards then
+			a =  G.consumeables.config.card_limit - #G.consumeables.cards
+			for k, v in pairs(G.consumeables.cards) do
+				if v == card then
+					a = a + 1
+				end
+			end
+		end
+		if a > 0 then
+			return true
+		end
+		return false
 	end,
 	use = function(self, card, area, copier)
-		for i = 1, 2 do
+		for i = 1, (math.max(0, math.min(2, RevosVault.has_room(G.consumeables, true)))) do
 			SMODS.add_card({
 				key = pseudorandom_element(G.P_CENTER_POOLS.Superior).key,
 				area = G.consumeables,
@@ -1427,7 +1439,7 @@ SMODS.Consumable({
 		return { vars = { card.ability.extra.cards, card.ability.extra.odds, (G.GAME.probabilities.normal or 1) } }
 	end,
 	can_use = function(self, card)
-		return true
+		return RevosVault.has_room(G.jokers)
 	end,
 	use = function(self, card, area, copier)
 		if
