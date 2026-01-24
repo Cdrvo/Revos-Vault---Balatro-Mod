@@ -193,3 +193,31 @@ G.FUNCS.crv_half = function(e)
 	G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
 	RevosVault.c_message(card, "Halved!")
 end
+
+-- Curse area
+
+G.FUNCS.crv_curse_area = function(e) -- fuck you
+	if G.crv_curses.T.y == 0 then
+		G.crv_curses.T.y = -5
+		G.jokers.T.y = 0
+	else
+		G.crv_curses.T.y = 0
+		G.jokers.T.y = -5
+	end
+end
+
+G.FUNCS.crv_can_curse_area = function(e)
+	if G.crv_curses then
+		e.config.button = "crv_curse_area"
+		if G.crv_curses.T.y == 0 then
+			RevosVault.curse_text = localize("crv_jokers_button")
+			e.config.colour = G.C.RED
+		else
+			RevosVault.curse_text = localize("crv_curses_button")
+			e.config.colour = G.C.L_BLACK
+		end
+	else
+		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+		e.config.button = nil
+	end
+end

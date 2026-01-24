@@ -25,7 +25,7 @@ SMODS.Joker({
 				ccard.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
-			G.jokers:emplace(ccard)
+			G.crv_curses:emplace(ccard)
 		end
   end,
 	calculate = function(self,card,context)
@@ -63,7 +63,7 @@ SMODS.Joker({
 				ccard.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
-			G.jokers:emplace(ccard)
+			G.crv_curses:emplace(ccard)
 		else
 			change_shop_size(1)
 			if card.crv_curse_temp_trigger then
@@ -106,7 +106,7 @@ SMODS.Joker({
 				ccard.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
-			G.jokers:emplace(ccard)
+			G.crv_curses:emplace(ccard)
 		else
 			--
 		end
@@ -139,7 +139,7 @@ SMODS.Joker({
 				ccard.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
-			G.jokers:emplace(ccard)
+			G.crv_curses:emplace(ccard)
 		else
 			G.GAME.curse_cashout = G.GAME.curse_cashout - 1
 		end
@@ -178,7 +178,7 @@ SMODS.Joker({
 				ccard.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
-			G.jokers:emplace(ccard)
+			G.crv_curses:emplace(ccard)
 		else
 			G.GAME.rare_mod = G.GAME.rare_mod + card.ability.extra.def
 		end
@@ -211,7 +211,7 @@ SMODS.Joker({
 				ccard.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
-			G.jokers:emplace(ccard)
+			G.crv_curses:emplace(ccard)
 		else
 			--
 		end
@@ -221,7 +221,7 @@ SMODS.Joker({
 			local acard = SMODS.add_card{
 				rarity = "crv_curse",
 				blueprint_compat = false,
-				area = G.jokers,
+				area = G.crv_curses,
 				set = "Joker",
 			}
 			acard:add_sticker("eternal", true)
@@ -256,7 +256,7 @@ SMODS.Joker({
 				ccard.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
-			G.jokers:emplace(ccard)
+			G.crv_curses:emplace(ccard)
 		else
 			--
 		end
@@ -310,7 +310,7 @@ SMODS.Joker({
 				ccard.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
-			G.jokers:emplace(ccard)
+			G.crv_curses:emplace(ccard)
 		else
 			--
 		end
@@ -355,7 +355,7 @@ SMODS.Joker({
 				ccard.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
-			G.jokers:emplace(ccard)
+			G.crv_curses:emplace(ccard)
 		else
 			G.GAME.starting_params.ante_scaling = G.GAME.starting_params.ante_scaling - card.ability.extra.def
 		end
@@ -391,7 +391,7 @@ SMODS.Joker({
 				ccard.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
-			G.jokers:emplace(ccard)
+			G.crv_curses:emplace(ccard)
 		else
 			--
 		end
@@ -439,7 +439,7 @@ SMODS.Joker({
 				ccard.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
-			G.jokers:emplace(ccard)
+			G.crv_curses:emplace(ccard)
 		else
 			if card.crv_curse_temp_trigger then
 				RevosVault.change_shop_size(1, "shop_vouchers")
@@ -489,7 +489,7 @@ SMODS.Joker({
 				ccard.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
-			G.jokers:emplace(ccard)
+			G.crv_curses:emplace(ccard)
 		else
 			RevosVault.total_limit(1)
 		end
@@ -525,7 +525,7 @@ SMODS.Joker({
 				ccard.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
-			G.jokers:emplace(ccard)
+			G.crv_curses:emplace(ccard)
 		else
 			--
 		end

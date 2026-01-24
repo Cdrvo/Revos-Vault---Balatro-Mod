@@ -8,27 +8,36 @@ CardSleeves.Sleeve {
     loc_vars = function(self)
         local dkey 
         if not dkey then dkey = self.key end
-        local key
+        local key, vars = dkey, {}
         if self.get_current_deck_key() == "b_crv_pdeck" then
+            vars[#vars+1] = localize{type = 'name_text', key = "v_crv_printerup", set = 'Voucher'}
+            self.config = { voucher = 'v_crv_printerup' }
+            RevosVault.negative_pdeck = true
             RevosVault.sleeve_applied = true
             key = self.key .. "_alt"
         else
+            self.config = {}
             RevosVault.sleeve_applied = false
+            RevosVault.negative_pdeck = false
             key = dkey
         end
-        return { key = key }
+        return { key = key, vars = vars }
     end,
     apply = function(self)
         CardSleeves.Sleeve.apply(self)
-        if not RevosVault.sleeve_applied then
-            if next(SMODS.find_mod("partner")) and Partner_API.config and Partner_API.config.enable_partner then
-                RevosVault.partner_fix = true
-            end
-            if next(SMODS.find_mod("flace")) then
-                RevosVault.flace_fix = true
-            end
-            if not RevosVault.partner_fix and not RevosVault.flace_fix then
-                G.FUNCS.get_printer_box()
+        if self.get_current_deck_key() == "b_crv_pdeck" then
+            -- yes
+        else
+            if not RevosVault.sleeve_applied then
+                if next(SMODS.find_mod("partner")) and Partner_API.config and Partner_API.config.enable_partner then
+                    RevosVault.partner_fix = true
+                end
+                if next(SMODS.find_mod("flace")) then
+                    RevosVault.flace_fix = true
+                end
+                if not RevosVault.partner_fix and not RevosVault.flace_fix then
+                    G.FUNCS.get_printer_box()
+                end
             end
         end
     end

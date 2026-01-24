@@ -486,7 +486,14 @@ end
 local emplace_old = CardArea.emplace
 function CardArea:emplace(card, location, stay_flipped)
 	emplace_old(self, card, location, stay_flipped)
-    if card and card.config and card.config.center and card.config.center.key and (self == G.shop_jokers or self == G.pack_cards or self == G.shop_booster or self == G.shop_vouchers or self == G.consumeables or self == G.jokers) then
+    if card and card.config and card.config.center and card.config.center.key and (self == G.shop_jokers or self == G.pack_cards or self == G.shop_booster or self == G.shop_vouchers or self == G.consumeables or self == G.jokers or self == G.crv_curses) then
+
+		if self == G.jokers and G.crv_curses then
+			if G.crv_curses.T.y > G.jokers.T.y then
+				G.jokers.T.y = 0
+				G.crv_curses.T.y = -5
+			end
+		end
 
 		if RevosVault.config.superior_enabled and card.ability.set ~= "Joker" then
 			if pseudorandom("supcreate") < 1 / (150/G.GAME.superior_mod) and card:has_potential() then
@@ -506,9 +513,12 @@ function CardArea:emplace(card, location, stay_flipped)
 		if self ~= G.consumeables then
 
 			if card.config.center.rarity == "crv_curse" then
-				if card.area and not card.crv_moved_curse and card.area ~= G.jokers then
+				G.crv_curses.T.y = 0
+				G.jokers.T.y = -5
+				if card.area and not card.crv_moved_curse and card.area ~= G.crv_curses then
 					card.crv_moved_curse = true
-					RevosVault.move_card(card, G.jokers)
+					card.added_to_deck = true
+					RevosVault.move_card(card, G.crv_curses)
 					check_for_unlock({type = "clovering_it"})
 				end
 
@@ -518,6 +528,7 @@ function CardArea:emplace(card, location, stay_flipped)
 					trigger = "after",
 					delay = 0.1,
 					func = function()
+						card:set_edition(nil, true, true)
 						RevosVault.remove_all_stickers(card, "eternal")
 						card.sell_cost = 0
 						card.children.price = nil
@@ -559,13 +570,73 @@ end
 
 local start_run_old = Game.start_run 
 function Game:start_run(args)
+	RevosVault.curse_text = localize("crv_curses_button")
 	if (#SMODS.find_card("j_crv_pedro")>0) then
 		G.GAME.disable_background_colouring = nil
 		ease_background_colour{new_colour = darken(G.C.RED, 0.5), special_colour = G.C.ORANGE, contrast = 5}
 		G.GAME.disable_background_colouring = true
 	end
 
-	return start_run_old(self, args)
+	start_run_old(self, args)
+
+	-- taken from JoyousSpring (N' my goat)
+
+	if RevoConfig["8_curses_enabled"] then
+	self.curse_button = UIBox {
+        definition = {
+            n = G.UIT.ROOT,
+            config = {
+                align = "cm",
+                minw = 1,
+                minh = 0.3,
+                padding = 0.15,
+                r = 0.1,
+                colour = G.C.CLEAR,
+            },
+            nodes = {
+                {
+                    n = G.UIT.C,
+                    config = {
+                        align = "tm",
+                        minw = 2,
+                        padding = 0.1,
+                        r = 0.1,
+                        hover = true,
+                        colour = G.C.L_BLACK,
+                        shadow = true,
+                        button = "crv_curse_area",
+						func = "crv_can_curse_area"
+                    },
+                    nodes = {
+                        {
+                            n = G.UIT.R,
+                            config = { align = "bcm", padding = 0 },
+                            nodes = {
+                                {
+                                    n = G.UIT.T,
+                                    config = {
+                                        ref_table = RevosVault,
+										ref_value = "curse_text",
+                                        scale = 0.35,
+                                        colour = G.C.UI.TEXT_LIGHT
+                                    }
+                                }
+                            }
+                        },
+                    }
+                },
+                
+            }
+        },
+        config = {
+            align = "tr",
+            offset = { x = -7.5, y = 0.1 },
+            major = G.ROOM_ATTACH,
+            bond = 'Weak'
+        }
+    }
+    self.HUD:recalculate()
+	end
 end
 
 local end_round_old = end_round

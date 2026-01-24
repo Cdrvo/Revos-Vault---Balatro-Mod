@@ -89,6 +89,15 @@ SMODS.Achievement({
     end
 })
 
+SMODS.Achievement({
+    key = "appreciation",
+    unlock_condition = function(self, args)
+        if args.type == "crv_appreciation" then
+            return true
+        end
+    end
+})
+
 
 
 -- last

@@ -49,9 +49,9 @@ if RevoConfig["8_curses_enabled"] then
 		unlocked = true,
 		discovered = true,
 		can_use = function(self, card)
-			if G and G.jokers then
-				if #G.jokers.highlighted ~= 0 and #G.jokers.highlighted <= card.ability.extra.cards then 
-					for k, v in pairs(G.jokers.highlighted) do
+			if G and G.crv_curses then
+				if #G.crv_curses.highlighted ~= 0 and #G.crv_curses.highlighted <= card.ability.extra.cards then 
+					for k, v in pairs(G.crv_curses.highlighted) do
 						if v.config.center.rarity == "crv_curse" then
 							return true
 						end
@@ -62,7 +62,7 @@ if RevoConfig["8_curses_enabled"] then
 		end,
 		use = function(self, card)
 			RevosVault.purified_curse = true
-			for i, card in pairs(G.jokers.highlighted) do
+			for i, card in pairs(G.crv_curses.highlighted) do
 				if card.config.center.rarity == "crv_curse" then
 					SMODS.destroy_cards(card, true)
 					check_for_unlock({type = "purifying_it"})

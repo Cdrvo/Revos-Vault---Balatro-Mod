@@ -118,6 +118,11 @@ SMODS.current_mod.ui_config = {
 }
 
 
+-- Curse Card Area 
+if RevoConfig["8_curses_enabled"] then
+	-- wow i did not add anything here thats crazy
+end
+
 -- Printer Deck
 function RevosVault.printer_box()
   local deck_tables = {}
@@ -157,6 +162,9 @@ end
     for j = 1, #G.your_collection do
       local center = printers[i+(j-1)*5]
       local card = Card(G.your_collection[j].T.x + G.your_collection[j].T.w/2, G.your_collection[j].T.y, G.CARD_W, G.CARD_H, nil, center)
+	  if RevosVault.negative_pdeck then
+		-- yes
+	  end
       card.sticker = get_joker_win_sticker(center)
       G.your_collection[j]:emplace(card)
 	  card:add_sticker("eternal", true)
@@ -605,7 +613,7 @@ function Card:highlight(is_highlighted)
 				parent = self,
 			},
 		})
-	elseif self.highlighted and self.config.center.rarity == "crv_curse" and self.area == G.jokers then
+	elseif self.highlighted and self.config.center.rarity == "crv_curse" and self.area == G.crv_curses then
 		if self.children.use_button then
 			self.children.use_button:remove()
 			self.children.use_button = nil

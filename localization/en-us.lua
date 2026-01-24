@@ -100,7 +100,7 @@ return {
 			},
 			b_crv_banana_mayhem = {
 				name = "Banana Deck",
-				text = { "Enable {C:attention}Banana {C:dark_edition,T:crv_banana_mayhem_desc}Mayhem",
+				text = { "Enable {C:crv_banana}Banana {C:dark_edition,T:crv_banana_mayhem_desc}Mayhem",
 			"{C:inactive,s:0.8}(Only banana jokers and packs can be created)" },
 			},
 
@@ -304,7 +304,10 @@ return {
 			sleeve_crv_psleeve_alt = {
 				name = "Printer Sleeve",
 				text = {
-					"Choose an extra printer"
+					"{C:attention}Selected{} printer", 
+					"becomes {C:dark_edition}Negative{}.",
+					"Start the run with",
+					"{C:red}Extra Ink{}"
 				}
 			},
 
@@ -789,7 +792,7 @@ return {
 			},
 			j_crv_pedro = {
 				name = "Pedro",
-				text = { "{C:attention}Banana {C:dark_edition}Mayhem!" },
+				text = { "{C:crv_banana}Banana {C:dark_edition}Mayhem!" },
 			},
 			j_crv_printer = {
 				name = "Blueprinter",
@@ -2528,6 +2531,16 @@ return {
 					"are {:red}destroyed"
 				}
 			},
+			j_crv_vgold = {
+				name = "Vaulted Gold Joker",
+				text = {
+					"At the and of a round",
+					"{C:attention}double{} your money.",
+					"{s:0.8}max of $20",
+					"If you have more than $100 self destruct.",
+
+				}
+			},
 			-- QUICK JOKER
 			--GARBSHIT below
 			j_crv_stamprinter = {
@@ -3374,9 +3387,10 @@ return {
 			c_crv_suphanged_man = {
 				name = "Superior Hanged Man",
 				text = {
-					"Destroys up to {C:attention}#1#{}",
+					"Destroys up to {C:attention}#1#{} cards.",
 					"If kept in hand, gives the {C:attention}Total",
-					"of the destroyed card's base ids",
+					"value of the destroyed",
+					"card's rank as chips",
 					"{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)",
 				},
 			},
@@ -4036,6 +4050,11 @@ return {
                 },
             },
 
+			tag_crv_banana_tag = {
+				name = "Banana Tag",
+				text = { "Next shop has a free", "{C:crv_banana}Banana" },
+			},
+
 		},
 		Edition = {
 			e_crv_sunbleached = {
@@ -4048,13 +4067,15 @@ return {
 			e_crv_pastel = {
 				name = "Pastel",
 				text = {
-					"{C:mult}+{C:attention}%{C:mult}50{} Mult",
+					"{C:attention}Enhanced{} cards give",
+					"{C:mult}+#1#{} Mult and",
+					"{C:chips}+#2#{} Chips"
 				},
 			},
 			e_crv_bloom_edition = {
 				name = "Bloom",
 				text = {
-					"{C:chips}+{C:attention}%{C:chips}60{} Chips",
+					"{X:chips,C:white}X#1#{} Chips"
 				},
 			},
 			e_crv_magnetised_edition = {
@@ -4202,7 +4223,8 @@ return {
 			ach_crv_welcome_mine = "Welcome to my mine!",
 			ach_crv_pedro_mayhem = "Rise and shine, sleepyhead!",
 			ach_crv_cursed = "You've been cursed!",
-			ach_crv_purification = "Curses begone!"
+			ach_crv_purification = "Curses begone!",
+			ach_crv_appreciation = "Revo's Appreciation"
 		},
 		achievement_descriptions ={
 			ach_crv_get_all_stickers = "Apply all Revo's Vault stickers on one card",
@@ -4215,7 +4237,8 @@ return {
 			ach_crv_welcome_mine = "Redeem a gem",
 			ach_crv_pedro_mayhem = "Obtain Pedro",
 			ach_crv_cursed = "Obtain a Curse",
-			ach_crv_purification = "Purify a Curse"
+			ach_crv_purification = "Purify a Curse",
+			ach_crv_appreciation = "Win a game with only Revo's Vault jokers"
 		},
 		labels = {
 			crv_ps_seal = "Printer's Seal",
@@ -4243,6 +4266,7 @@ return {
 			crv_radiatede = "Radiated"
 		},
 		dictionary = {
+			crv_revosvault = "Revo's Vault",
 			k_crv_pbstg = "Printer Pack",
 			k_crv_cbstg = "Contract Pack",
 			k_crv_bbstg = "Banana Pack",
@@ -4323,6 +4347,8 @@ return {
 			vars_not_set_yet = "Not Set Yet",
 			crv_revive = "Revived!",
 			crv_gold_rush_ex = "Gold Rush!",
+			crv_curses_button = "Curses",
+			crv_jokers_button = "Jokers",
 
 
 
