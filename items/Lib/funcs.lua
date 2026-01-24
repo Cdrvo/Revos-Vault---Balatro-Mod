@@ -1596,9 +1596,11 @@ function RevosVault.move_card(card, _area, args)
     local area = card.area
     if args then
 		if args.add_to_deck then
+			print("run add to deck")
        		card:add_to_deck()
 		end
 		if args.remove_from_deck then
+			print("run remove from deck")
 			card:remove_from_deck()
 		end
 	end
