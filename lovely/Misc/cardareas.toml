@@ -1,0 +1,55 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 1
+
+# Curse Area
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = '''G.SPLASH_BACK = Sprite(-30, -6, G.ROOM.T.w+60, G.ROOM.T.h+12, G.ASSET_ATLAS["ui_1"], {x = 2, y = 0})'''
+position = "before"
+payload = '''
+if RevoConfig["8_curses_enabled"] then
+    self.crv_curses_W = G.CARD_W*1.1
+    self.crv_curses_H = 0.95*G.CARD_H
+
+    self.crv_curses = CardArea(
+        G.jokers.T.x,
+        -5, 
+        G.jokers.T.w, 
+        G.jokers.T.h, 
+        {card_limit = 1e300, type = 'joker', highlight_limit = 1,no_card_count = true, colour = G.C.RED}
+    )
+end
+    '''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = '-- TARGET: add your own CardAreas for joker evaluation'
+position = "after"
+payload = '''
+if RevoConfig["8_curses_enabled"] then
+    table.insert(t, 1, G.crv_curses)
+end
+'''
+match_indent = true
+
+# Curse Area / Blind select compat
+
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = 'G.blind_select.alignment.offset.y = 0.8-(G.hand.T.y - G.jokers.T.y) + G.blind_select.T.h'
+position = "at"
+payload = '''
+if RevoConfig["8_curses_enabled"] and G.crv_curses and G.crv_curses.T.y > -5 then
+    G.blind_select.alignment.offset.y = 0.8-(G.hand.T.y - G.crv_curses.T.y) + G.blind_select.T.h
+else
+    G.blind_select.alignment.offset.y = 0.8-(G.hand.T.y - G.jokers.T.y) + G.blind_select.T.h
+end
+'''
+match_indent = true

@@ -1,0 +1,36 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -9
+
+# sticker should_apply fix
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/game_object.lua"]'
+pattern = '''
+should_apply = function(self, card, center, area, bypass_roll)
+            if
+                ( not self.sets or self.sets[center.set or {}]) and
+'''
+position = 'at'
+payload = '''
+should_apply = function(self, card, center, area, bypass_roll)
+            local revo_apply = nil
+            if string.find(self.key, "crv_") then revo_apply = true end
+            if
+               ((( not self.sets or self.sets[center.set or {}]) and not revo_apply) or (revo_apply and ( not self.sets or self.sets[center.set or {}]) and (card and card.crv_area and RevosVault.stickerizeable(card.crv_area)))) and
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''
+if card.ability.consumeable and not skip_materialize then card:start_materialize() end
+'''
+position = 'before'
+payload = '''
+card.crv_area = area
+'''
+match_indent = true
