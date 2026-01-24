@@ -282,3 +282,43 @@ if RevosVault.config.gems_enabled then
         end
     }
 end
+
+SMODS.Tag({
+	key = "banana_tag",
+	min_ante = 3,
+	atlas = "tags",
+	pos = { x = 4, y = 1 },
+	apply = function(self, tag, context)
+		if context.type == "store_joker_create" then
+			local prs_in_posession = { 0 }
+			for k, v in ipairs(G.jokers.cards) do
+				if v:is_banana() then
+					prs_in_posession[1] = prs_in_posession[1] + 1
+					prs_in_posession[v.config.center.key] = true
+				end
+			end
+			local card
+            local tab = {}
+            for k, v in pairs(get_current_pool("BananaPool")) do
+                if G.P_CENTERS[v] then
+                    tab[#tab+1] = v
+                end
+            end
+			if #tab > prs_in_posession[1] then
+				card = SMODS.create_card{key = pseudorandom_element(tab, pseudoseed("banana_tag")), area = context.area}
+				create_shop_card_ui(card, "Joker", context.area)
+				card.states.visible = false
+				tag:yep("+", G.C.RARITY[2], function()
+					card:start_materialize()
+					card.ability.couponed = true
+					card:set_cost()
+					return true
+				end)
+			else
+				tag:nope()
+			end
+			tag.triggered = true
+			return card
+		end
+	end,
+})

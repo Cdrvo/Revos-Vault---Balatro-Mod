@@ -73,6 +73,15 @@ RevosVault.C = {
 	},
 	BOONRARITY = {}]]
 }
+SMODS.Gradient({
+	key = "crv_banana",
+	colours = {
+		HEX("b5dc54"),
+		HEX("ffed81"),
+	},
+	cycle = 5,
+})
+
 
 SMODS.Gradient({
 	key = "crv_polychrome",
@@ -139,6 +148,7 @@ function loc_colour(_c, _default)
 	G.ARGS.LOC_COLOURS.crv_gem = SMODS.Gradients["crv_gem"]
 	G.ARGS.LOC_COLOURS.crv_wip = SMODS.Gradients["crv_wip"]
 	G.ARGS.LOC_COLOURS.crv_temp = SMODS.Gradients["crv_temp"]
+	G.ARGS.LOC_COLOURS.crv_banana = SMODS.Gradients["crv_banana"]
 	G.ARGS.LOC_COLOURS.crv_mystery = RevosVault.C.Mystery
 
 	return loc_old(_c, _default)
