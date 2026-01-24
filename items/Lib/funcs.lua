@@ -1585,7 +1585,7 @@ function RevosVault.hide_shop()
     end
 end
 
-function RevosVault.move_card(card, _area) 
+function RevosVault.move_card(card, _area, args) 
 	G.E_MANAGER:add_event(Event({
 		trigger = "before",
 		func = function()
@@ -1594,11 +1594,14 @@ function RevosVault.move_card(card, _area)
 		end
 	}))
     local area = card.area
-    if area == G.jokers and _area ~= G.jokers then
-       -- card:remove_from_deck()
-    elseif _area == G.jokers and area ~= G.jokers then
-       -- card:add_to_deck()
-    end
+    if args then
+		if args.add_to_deck then
+       		card:add_to_deck()
+		end
+		if args.remove_from_deck then
+			card:remove_from_deck()
+		end
+	end
 	if not card.getting_sliced then	
 		area:remove_card(card)
 		_area:emplace(card)

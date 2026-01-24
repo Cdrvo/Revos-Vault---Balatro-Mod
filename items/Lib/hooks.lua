@@ -518,7 +518,7 @@ function CardArea:emplace(card, location, stay_flipped)
 				if card.area and not card.crv_moved_curse and card.area ~= G.crv_curses then
 					card.crv_moved_curse = true
 					card.added_to_deck = true
-					RevosVault.move_card(card, G.crv_curses)
+					RevosVault.move_card(card, G.crv_curses, {add_to_deck = true})
 					check_for_unlock({type = "clovering_it"})
 				end
 
