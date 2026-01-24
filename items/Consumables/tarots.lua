@@ -19,38 +19,7 @@ SMODS.Consumable({
 		if pseudorandom("inkintuition") < G.GAME.probabilities.normal / card.ability.extra.odds then
 			SMODS.add_card({ set = "Joker", area = G.jokers, rarity = "crv_p" })
 		else
-			G.E_MANAGER:add_event(Event({
-				trigger = "after",
-				delay = 0.4,
-				func = function()
-					attention_text({
-						text = localize("k_nope_ex"),
-						scale = 1.3,
-						hold = 1.4,
-						major = card,
-						backdrop_colour = G.C.SECONDARY_SET.Tarot,
-						align = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and "tm" or "cm",
-						offset = {
-							x = 0,
-							y = (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and -0.2 or 0,
-						},
-						silent = true,
-					})
-					G.E_MANAGER:add_event(Event({
-						trigger = "after",
-						delay = 0.06 * G.SETTINGS.GAMESPEED,
-						blockable = false,
-						blocking = false,
-						func = function()
-							play_sound("tarot2", 0.76, 0.4)
-							return true
-						end,
-					}))
-					play_sound("tarot2", 1, 0.4)
-					card:juice_up(0.3, 0.5)
-					return true
-				end,
-			}))
+			RevosVault.nope({card = card})
 		end
 		delay(0.6)
 	end,
@@ -210,3 +179,61 @@ SMODS.Consumable({
 	end,
 })
 
+if RevoConfig["8_curses_enabled"] then
+	SMODS.Consumable({
+		key = "prayer",
+		set = "Tarot",
+		config = { extra = { cards = 1, odds = 4 } },
+		loc_vars = function(self, info_queue, card)
+			local cae = card.ability.extra
+			local numerator, denominator = SMODS.get_probability_vars(self, 1, cae.odds, "crv_prayer")
+			return { vars = { card.ability.extra.cards,numerator,denominator } }
+		end,
+		pos = { x = 2, y = 0 },
+		atlas = "tarots",
+		cost = 5,
+		unlocked = true,
+		discovered = true,
+		can_use = function(self, card)
+			if G and G.crv_curses then
+				if #G.crv_curses.highlighted ~= 0 and #G.crv_curses.highlighted <= card.ability.extra.cards then 
+					for k, v in pairs(G.crv_curses.highlighted) do
+						if v.config.center.rarity == "crv_curse" then
+							return true
+						end
+					end
+				end
+			end
+			return false
+		end,
+		use = function(self, card)
+			local cae = card.ability.extra
+			if SMODS.pseudorandom_probability(card, "crv_prayer", 1, cae.odds) then
+				RevosVault.purified_curse = true
+				for i, card in pairs(G.crv_curses.highlighted) do
+					if card.config.center.rarity == "crv_curse" then
+						SMODS.destroy_cards(card, true)
+						check_for_unlock({type = "purifying_it"})
+					end
+				end
+			else
+				RevosVault.nope({card = card})
+			end
+		end,
+		after_use = function()
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.5,
+				func = function()
+					if RevosVault.purified_curse then
+						RevosVault.purified_curse = false
+					end
+					return true
+				end
+			}))
+		end,
+		in_pool = function(self)
+			return (RevosVault.rarity_in("crv_curse", G.crv_curses.cards) and (RevosVault.rarity_in("crv_curse", G.crv_curses.cards)>0))
+		end
+	})
+end

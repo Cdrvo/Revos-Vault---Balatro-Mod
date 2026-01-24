@@ -3058,6 +3058,14 @@ return {
 					"if eligible"
 				},
 			},
+			c_crv_prayer = {
+				name = "The Prayer",
+				text = {
+					"{C:green}#2# in #3#{} Chance to{}",
+					"Destroy up to {C:attention}#1#",
+					"{C:black}Curse{} Card"
+				}
+			},
 		},
 		scrap = {
 			c_crv_horn = {

@@ -68,31 +68,33 @@ SMODS.Stake {
 }
 
 
-SMODS.Stake {
-    key = "cursed_stake",
-    atlas = "stakes",
-    pos = {
-        x = 1,
-        y = 0
-    },
-    colour = HEX("55c6d9"),
-    sticker_atlas = "stake_stickers",
-    sticker_pos = {
-        x = 0,
-        y = 0
-    },
-    applied_stakes = {"crv_revosstake"},
-    shiny = true,
-    unlocked = false,
-    prefix_config = {
-        applied_stakes = {
-            mod = false
-        }
-    },
-    modifiers = function()
-        G.GAME.modifiers.crv_curse_increase = true
-    end,
-}
+if RevoConfig["8_curses_enabled"] then
+    SMODS.Stake {
+        key = "cursed_stake",
+        atlas = "stakes",
+        pos = {
+            x = 1,
+            y = 0
+        },
+        colour = HEX("55c6d9"),
+        sticker_atlas = "stake_stickers",
+        sticker_pos = {
+            x = 0,
+            y = 0
+        },
+        applied_stakes = {"crv_revosstake"},
+        shiny = true,
+        unlocked = false,
+        prefix_config = {
+            applied_stakes = {
+                mod = false
+            }
+        },
+        modifiers = function()
+            G.GAME.modifiers.crv_curse_increase = true
+        end,
+    }
+end
 
 --[[SMODS.Stake {
     key = "weighted",
