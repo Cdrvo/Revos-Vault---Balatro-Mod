@@ -1,0 +1,16 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''
+    if card.ability.set ~= 'Joker' or #G.jokers.cards < G.jokers.config.card_limit + card_limit then'''
+position = 'at'
+payload = '''
+    if (card.ability.set ~= 'Joker') or (#G.jokers.cards < G.jokers.config.card_limit + card_limit) or card.config.center.always_buyable then
+'''
+match_indent = true

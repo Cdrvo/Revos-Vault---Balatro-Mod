@@ -727,3 +727,10 @@ function win_game()
 	return win_game_old()
 end
 
+local check_for_buy_space_old = G.FUNCS.check_for_buy_space
+G.FUNCS.check_for_buy_space = function(card)
+    if card.config.center.always_buyable then
+        return true
+    end
+    return check_for_buy_space_old(card)
+end
