@@ -266,7 +266,7 @@ SMODS.Atlas({
 })
 
 local artpack_suffix = ".png"
-if mf_config["Programmer Art"] then artpack_suffix = "_programmer.png" end
+if mf_config and mf_config["Programmer Art"] then artpack_suffix = "_programmer.png" end
 
 SMODS.Atlas({
 	key = "colours",
