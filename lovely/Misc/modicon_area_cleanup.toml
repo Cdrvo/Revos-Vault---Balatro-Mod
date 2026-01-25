@@ -1,0 +1,18 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+match_indent = true
+position = 'after'
+pattern = "-- TARGET: setting_blind effects"
+payload = '''
+if (#SMODS.find_card("j_crv_modicon")<1) and G.real_modicon_area and G.real_modicon_area.cards and (#G.real_modicon_area.cards>0) then
+    for k, v in pairs(G.real_modicon_area.cards) do
+        v:start_dissolve(nil, true)
+    end
+end
+'''

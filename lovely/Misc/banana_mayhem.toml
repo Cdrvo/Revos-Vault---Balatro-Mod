@@ -10,7 +10,7 @@ match_indent = true
 position = 'after'
 pattern = " card:set_edition(edition)"
 payload = '''
-if G.GAME.modifiers and G.GAME.modifiers.banana_mayhem then
+if G.GAME.modifiers and G.GAME.modifiers.banana_mayhem and (card.area ~= G.real_modicon_area and card.area ~= G.mod_icon_area) then
     local available_bananas = {}
     for k, v in pairs(get_current_pool("BananaPool")) do
         if G.P_CENTERS[v] then

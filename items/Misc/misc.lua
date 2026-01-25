@@ -136,6 +136,15 @@ SMODS.Gradient({
 	}
 })
 
+SMODS.Gradient({
+	key = "crv_crv", -- double prefix
+	colours = {
+		HEX("000000"),
+		HEX("ff0000"),
+		cycle =3,
+	}
+})
+
 
 local loc_old = loc_colour
 function loc_colour(_c, _default)

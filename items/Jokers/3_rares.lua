@@ -1017,6 +1017,9 @@ SMODS.Joker({
 					break
 				end
 			end
+			if card.area == G.real_modicon_area then
+				rr = RevosVault.get_key_pos("j_crv_modicon")
+			end
 			if G.jokers.cards[rr + 1] == nil or G.jokers.cards[rr - 1] == nil then
 				return {
 					x_mult = card.ability.extra.xmult,
@@ -1287,6 +1290,9 @@ SMODS.Joker({
 					rr = i
 					break
 				end
+			end
+			if card.area == G.real_modicon_area then
+				rr = RevosVault.get_key_pos("j_crv_modicon")
 			end
 			if G.jokers.cards[rr + 1] == nil or G.jokers.cards[rr - 1] == nil and context.main_eval then
 				G.E_MANAGER:add_event(Event({
@@ -1820,6 +1826,9 @@ SMODS.Joker({
 					rr = i
 					break
 				end
+			end
+			if card.area == G.real_modicon_area then
+				rr = RevosVault.get_key_pos("j_crv_modicon")
 			end
 			if G.jokers.cards[rr + 1] ~= nil then
 				G.jokers.cards[rr + 1]:add_sticker("perishable", true)

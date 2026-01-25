@@ -129,8 +129,9 @@ SMODS.Joker({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+		info_queue[1] = {set = "Other", key = "crv_incomplete_joker"}
 		return {
-			vars = { card.ability.extra.xmult * RevosVault.stickercheck(G.jokers.cards, "perishable") + 1, card.ability.extra.xmult },
+			vars = { card.ability.extra.xmult *  RevosVault.stickercheck(G.jokers.cards, {"perishable"}) + 1, card.ability.extra.xmult },
 		}
 	end,
 
@@ -143,13 +144,18 @@ SMODS.Joker({
 					break
 				end
 			end
+			if card.area == G.real_modicon_area then
+				rr = RevosVault.get_key_pos["j_crv_modicon"]
+			end
+		if rr then
 			if G.jokers.cards[rr + 1] ~= nil then
 				G.jokers.cards[rr + 1]:add_sticker("perishable", true)
 			end
 		end
+		end
 		if context.joker_main then
 			return {
-				xmult = card.ability.extra.xmult * RevosVault.stickercheck(G.jokers.cards, "perishable") + 1,
+				xmult = card.ability.extra.xmult *  RevosVault.stickercheck(G.jokers.cards, {"perishable"}) + 1,
 			}
 		end
 		if context.end_of_round and context.game_over and card.ability.extra.save == true then

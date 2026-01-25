@@ -2047,3 +2047,123 @@ function RevosVault.nope(args)
 		end,
 	}))
 end
+
+function RevosVault.get_key_pos(key, type)
+	if not type then type = "jokers" end
+	for _, area in pairs(SMODS.get_card_areas(type)) do
+		if area and area.cards then
+			for i = 1, #area.cards do
+				if area.cards[i].config.center.key == key then
+					return i
+				end
+			end
+		end
+	end
+	return nil
+end
+
+function Card:crv_silent_sell()
+    G.CONTROLLER.locks.selling_card = true
+    stop_use()
+    local area = self.area
+    G.CONTROLLER:save_cardarea_focus(area == G.jokers and 'jokers' or 'consumeables')
+
+    if self.children.use_button then self.children.use_button:remove(); self.children.use_button = nil end
+    if self.children.sell_button then self.children.sell_button:remove(); self.children.sell_button = nil end
+    
+    local eval, post = eval_card(self, {selling_self = true})
+    local effects = {eval}
+    for _,v in ipairs(post) do effects[#effects+1] = v end
+    if eval.retriggers then
+        for rt = 1, #eval.retriggers do
+            local rt_eval, rt_post = eval_card(self, { selling_self = true, retrigger_joker = true})
+            if next(rt_eval) then
+                table.insert(effects, {eval.retriggers[rt]})
+                table.insert(effects, rt_eval)
+                for _, v in ipairs(rt_post) do effects[#effects+1] = v end
+            end
+        end
+    end
+    SMODS.trigger_effects(effects, self)
+
+    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function()
+        --play_sound('coin2')
+        self:juice_up(0.3, 0.4)
+        return true
+    end}))
+    delay(0.2)
+    G.E_MANAGER:add_event(Event({trigger = 'immediate',func = function()
+       	RevosVault.silent_ease_dollars(self.sell_cost, true)
+        self:start_dissolve({G.C.GOLD}, true)
+        delay(0.3)
+
+       --inc_career_stat('c_cards_sold', 1)
+        if self.ability.set == 'Joker' then 
+            --inc_career_stat('c_jokers_sold', 1)
+        end
+        if self.ability.set == 'Joker' and G.GAME.blind and G.GAME.blind.name == 'Verdant Leaf' then 
+            G.E_MANAGER:add_event(Event({trigger = 'immediate',func = function()
+                G.GAME.blind:disable()
+                return true
+            end}))
+        end
+        G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.3, blocking = false,
+        func = function()
+            G.E_MANAGER:add_event(Event({trigger = 'immediate',
+            func = function()
+                G.E_MANAGER:add_event(Event({trigger = 'immediate',
+                func = function()
+                    G.CONTROLLER.locks.selling_card = nil
+                    G.CONTROLLER:recall_cardarea_focus(area == G.jokers and 'jokers' or 'consumeables')
+                return true
+                end}))
+            return true
+            end}))
+        return true
+        end}))
+        return true
+    end}))
+end
+
+function RevosVault.silent_ease_dollars(mod, instant)
+    local function _mod(mod)
+        local dollar_UI = G.HUD:get_UIE_by_ID('dollar_text_UI')
+        mod = mod or 0
+        --local text = '+'..localize('$')
+        --local col = G.C.MONEY
+        if mod < 0 then
+           -- text = '-'..localize('$')
+           -- col = G.C.RED              
+        else
+          inc_career_stat('c_dollars_earned', mod)
+        end
+        --Ease from current chips to the new number of chips
+        G.GAME.dollars = G.GAME.dollars + mod
+        check_and_set_high_score('most_money', G.GAME.dollars)
+        check_for_unlock({type = 'money'})
+        dollar_UI.config.object:update()
+        G.HUD:recalculate()
+        --Popup text next to the chips in UI showing number of chips gained/lost
+        --[[attention_text({
+          text = text..tostring(math.abs(mod)),
+          scale = 0.8, 
+          hold = 0.7,
+          cover = dollar_UI.parent,
+          cover_colour = col,
+          align = 'cm',
+          })
+        -- Play a chip sound
+        play_sound('coin1')]]
+    end
+    if instant then
+        _mod(mod)
+    else
+        G.E_MANAGER:add_event(Event({
+        trigger = 'immediate',
+        func = function()
+            _mod(mod)
+            return true
+        end
+        }))
+    end
+end

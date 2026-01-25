@@ -80,6 +80,127 @@ SMODS.Joker({
 })
 ]]
 
+SMODS.Joker({
+	key = "modicon",
+	atlas = "Jokers2",
+	crv_special = true,
+	rarity = 4,
+	cost = 15,
+	pos = { x = 1, y = 15 },
+	soul_pos = { x = 0, y = 15 },
+	config ={
+		extra = {
+			cj1 = nil,
+			cj2 = nil,
+			c1 = nil,
+			c2 = nil,
+		}
+	},
+	loc_vars = function(self,info_queue,card)
+
+		info_queue[1] = {set = "Other", key = "crv_crash_desc"}
+		info_queue[2] = {set = "Other", key = "crv_modicon_desc_1"}
+		info_queue[3] = {set = "Other", key = "crv_special_joker"}
+
+		 if G.mod_icon_area then
+			G.mod_icon_area:remove()
+			G.mod_icon_area = nil
+		 end
+
+		G.mod_icon_area = CardArea(
+			G.ROOM.T.x + 0.2 * G.ROOM.T.w / 2,
+			G.ROOM.T.h,
+			G.CARD_W * 2,
+			G.CARD_H * 1.1,
+			{ card_limit = 2, type = "joker", highlight_limit = 0,no_card_count = true}
+		)
+	
+		local cae = card.ability.extra
+		
+		if not cae.c1 then
+			cae.c1 = localize("crv_none")
+			cae.c2 = localize("crv_none")
+		end
+
+		if cae.cj1 and G.P_CENTERS[cae.cj1] then
+			cae.c1 =  localize({ type = "name_text", key = cae.cj1, set = "Joker" })
+			local card1 = SMODS.create_card({key = cae.cj1, area = G.mod_icon_area, no_edition = true}) 
+			card1.crv_fake = true
+			G.mod_icon_area:emplace(card1)
+			for k, v in pairs(G.real_modicon_area.cards) do
+				if v.config.center.key == cae.cj1 then
+					info_queue[#info_queue+1] = v.config.center
+				end
+			end
+		end
+		if cae.cj2 and G.P_CENTERS[cae.cj2] then
+			cae.c2 =  localize({ type = "name_text", key = cae.cj2, set = "Joker" })
+			local card2 = SMODS.create_card({key = cae.cj2, area = G.mod_icon_area, no_edition = true}) 
+			card2.crv_fake = true
+			G.mod_icon_area:emplace(card2)
+			for k, v in pairs(G.real_modicon_area.cards) do
+					if v.config.center.key == cae.cj2 then
+						info_queue[#info_queue+1] = v.config.center
+					end
+				end
+			end
+			
+		
+		return{
+			main_end = {
+				{
+					n = G.UIT.C,
+					config = { align = "bm", padding = 0.02 },
+					nodes = {
+						{ n = G.UIT.O, config = { object = G.mod_icon_area } },
+					},
+				},
+			},
+			vars={cae.cj1,cae.cj2, cae.c1, cae.c2}
+		}
+	end,
+	calculate = function(self, card, context)
+		local cae = card.ability.extra
+		
+		if context.setting_blind and not context.blueprint then
+			local tab = {}
+			for k, v in pairs(G.P_CENTER_POOLS.Joker) do
+				if v and v.mod and v.mod.id == "RevosVault" and v.rarity ~= "crv_curse" and v.key ~= "j_crv_modicon" then
+					tab[#tab+1] = v.key
+				end
+			end
+			card.ability.extra.cj1 = pseudorandom_element(tab, 'crv_modicon')
+			for i = 1, #tab do
+				if card.ability.extra and tab[i] and tab[i] == card.ability.extra.cj1 then
+					table.remove(tab, i)
+				end
+			end
+			card.ability.extra.cj2 = pseudorandom_element(tab, 'crv_modicon')
+			
+
+			if #G.real_modicon_area.cards > 0 then
+				for k, v in pairs(G.real_modicon_area.cards) do
+					RevosVault.clicker_fix = false
+					v:start_dissolve(nil, true)
+				end
+			end
+
+			if card.ability.extra.cj1 == "j_crv_clicker" then RevosVault.clicker_fix = true end
+
+			local card1 = SMODS.create_card({key = cae.cj1, area = G.real_modicon_area, no_edition = true}) 
+			local card2 = SMODS.create_card({key = cae.cj2, area = G.real_modicon_area, no_edition = true}) 
+			--card1.crv_fake = true
+			--card2.crv_fake = true
+			card1.dissolve = 1
+			card2.dissolve = 1
+			card1:add_to_deck()
+			card2:add_to_deck()
+			G.real_modicon_area:emplace(card1)
+			G.real_modicon_area:emplace(card2)
+		end
+	end,
+})	
+
 
 SMODS.Joker({
 	key = "rkn",

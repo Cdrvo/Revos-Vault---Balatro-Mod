@@ -477,6 +477,7 @@ SMODS.Joker({
 		},
 	},
 	rarity = "crv_pedro",
+	crv_special =true,
 	atlas = "pedro",
 	blueprint_compat = true,
 	discovered = false,
@@ -514,6 +515,7 @@ SMODS.Joker({
 		end
 	end,
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = { key = "crv_special_joker", set = "Other"}
 		info_queue[#info_queue + 1] = { key = "crv_banana_mayhem_desc", set = "Other"}
 		info_queue[#info_queue + 1] = { key = "crv_banana_mayhem_desc_pedro", set = "Other"}
 		return {

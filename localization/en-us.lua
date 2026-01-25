@@ -1930,9 +1930,7 @@ return {
 					"Gives {X:mult,C:white}X#2#{} Mult",
 					"for each {C:attention}Perishable{} Joker {C:inactive}",
 					"in your {C:attention}hand.{}",
-					"{C:red}!You Cannot Lose!",
 					"{C:inactive}(Currently {X:mult,C:white}X#1#{} {C:inactive}Mult)",
-					"{C:inactive,s:0.8}i wanna add a new sticker for this",
 				},
 			},
 			j_crv_maz = {
@@ -2370,6 +2368,16 @@ return {
 					"will also reroll",
 					"the {C:attention}Vouchers{} and",
 					"the {C:attention}Booster Packs",
+				},
+			},
+			j_crv_modicon = {
+				name = "Mod Icon",
+				text = {
+					"Acts as {C:attention}2{}",
+					"random jokers from {C:purple}Revo's Vault{}.",
+					"Jokers change when a", "Blind is selected.",
+					"{C:inactive,s:0.8}(Curses excluded)",
+					"{C:inactive}(Currently {C:attention}#3#{C:inactive} & {C:attention}#4#{C:inactive})"
 				},
 			},
 			j_crv_pay2win = {
@@ -3974,6 +3982,38 @@ return {
 				}
 			},
 
+			crv_crash_desc = {
+				name = "Attention!",
+				text = {
+					"This joker can",
+					"cause {C:red}crashes!"
+				}
+			},
+			crv_modicon_desc_1 = {
+				name = "Attention!",
+				text = {
+					"Some jokers",
+					"{C:red}may{} not work!"
+				}
+			},
+			crv_special_joker = {
+				name = "Special Joker",
+				text = {
+					"Only {C:attention}1{} of this",
+					"card can exist",
+					"at a time"
+				}
+			},
+			crv_incomplete_joker = {
+				name = "Incomplete Joker",
+				text = {
+					"This Joker",
+					"is incomplete!",
+					"The effects listed",
+					"are not final"
+				}
+			},
+
 			-- Starspace Cross-Mod
 
 			crv_blessed_patch = {
@@ -4357,6 +4397,7 @@ return {
 			crv_gold_rush_ex = "Gold Rush!",
 			crv_curses_button = "Curses",
 			crv_jokers_button = "Jokers",
+			crv_none = "None",
 
 
 

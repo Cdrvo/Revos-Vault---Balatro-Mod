@@ -17,6 +17,14 @@ function Card:remove()
 			crv_destroyedc = self,
 		})
 	end
+	if self.added_to_deck and self.config.center.key == "j_crv_modicon" and not RevosVault.modicon_sell_lock then
+		if #SMODS.find_card("j_crv_modicon")==1 and G.real_modicon_area and G.real_modicon_area.cards and #G.real_modicon_area.cards>0 then
+			for k, v in pairs(G.real_modicon_area.cards) do
+				RevosVault.clicker_fix = false 
+				v:start_dissolve(nil, true)
+			end
+		end
+	end
 	return removeold(self)
 end
 
@@ -288,16 +296,24 @@ local ret = add_to_deck_old(self, from_debuff)
 	if self.config.center.rarity == "crv_va" then
 		check_for_unlock({type = "vaulting_it"})
 	end
-return ret
+	if not self.crv_fake then
+		return ret
+	end
 end
 
 local click_old = Card.click
 function Card:click()
 	local ret = click_old(self)
-	if self.config.center.key == "j_crv_clicker" then
-		self.ability.extra["clicks"] = self.ability.extra["clicks"] + 1
-		self.ability.extra["chips"] = self.ability.extra["chips"] + self.ability.extra["chipgain"]
-	end
+
+		if self.config.center.key == "j_crv_clicker" then
+			self.ability.extra["clicks"] = self.ability.extra["clicks"] + 1
+			self.ability.extra["chips"] = self.ability.extra["chips"] + self.ability.extra["chipgain"]
+		end
+		if self.config.center.key == "j_crv_modicon" and (RevosVault.clicker_fix) then
+			local cae = G.real_modicon_area.cards[RevosVault.get_key_pos("j_crv_clicker")].ability.extra
+			cae.clicks = cae.clicks + 1
+			cae.chips = cae.chips + cae.chipgain
+		end
 
 	if RevosVault.printer_deck_selection then
 	if not self.debbuff then
@@ -486,6 +502,19 @@ end
 local emplace_old = CardArea.emplace
 function CardArea:emplace(card, location, stay_flipped)
 	emplace_old(self, card, location, stay_flipped)
+	if card and card.config and card.config.center and card.config.center.key and not card.crv_fake then
+		if card.config.center.crv_special then
+			for _, area in pairs(SMODS.get_card_areas("jokers")) do
+				if area and area.cards then
+					for __, cards in pairs(area.cards) do
+						if cards ~= card and cards.config.center.key == card.config.center.key and not cards.crv_fake then
+							SMODS.destroy_cards(cards)
+						end
+					end
+				end
+			end
+		end
+	end
     if card and card.config and card.config.center and card.config.center.key and (self == G.shop_jokers or self == G.pack_cards or self == G.shop_booster or self == G.shop_vouchers or self == G.consumeables or self == G.jokers or self == G.crv_curses) then
 
 		if self == G.jokers and G.crv_curses then
@@ -695,7 +724,9 @@ local remove_from_deck_old = Card.remove_from_deck
 function Card:remove_from_deck(from_debuff)
 	local ret = remove_from_deck_old(self, from_debuff)
 	SMODS.calculate_context({crv_card_removed = true, card = self})
-	return ret
+	if not self.crv_fake then
+		return ret
+	end
 end
 
 local play_from_highlight_old = G.FUNCS.play_cards_from_highlighted
@@ -733,4 +764,28 @@ G.FUNCS.check_for_buy_space = function(card)
         return true
     end
     return check_for_buy_space_old(card)
+end
+
+
+-- sell sync
+local sell_card_old = Card.sell_card
+function Card:sell_card()
+    if self.config.center.key == "j_crv_modicon" then
+		RevosVault.modicon_sell_lock = true
+		if G.real_modicon_area and G.real_modicon_area.cards and #G.real_modicon_area.cards>0 then
+			for k, v in pairs(G.real_modicon_area.cards) do
+				v.sell_cost = 0
+				v:crv_silent_sell()
+			end
+		end
+	end
+    sell_card_old(self)
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0.1,
+		func = function()
+			RevosVault.modicon_sell_lock = false
+			return true
+		end
+	}))
 end

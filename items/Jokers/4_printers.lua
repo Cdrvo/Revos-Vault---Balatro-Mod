@@ -957,20 +957,22 @@ SMODS.Joker({
 					rr = i
 				end
 			end
-			if
-				(G.jokers.cards[rr - 1] ~= nil and G.jokers.cards[rr - 1].config.center.key == "j_crv_head")
-				and (G.jokers.cards[rr + 1] ~= nil and G.jokers.cards[rr + 1].config.center.key == "j_crv_back")
-				and not card.fusion
-			then
-				table.insert(megap, G.jokers.cards[rr + 1])
-				table.insert(megap, G.jokers.cards[rr - 1])
-				table.insert(megap, G.jokers.cards[rr])
-				card.fusion = true
-                check_for_unlock({type = "megaify"})
-				SMODS.destroy_cards(megap)
-				SMODS.add_card({
-					key = "j_crv_full",
-				})
+			if rr then
+				if
+					(G.jokers.cards[rr - 1] ~= nil and G.jokers.cards[rr - 1].config.center.key == "j_crv_head")
+					and (G.jokers.cards[rr + 1] ~= nil and G.jokers.cards[rr + 1].config.center.key == "j_crv_back")
+					and not card.fusion
+				then
+					table.insert(megap, G.jokers.cards[rr + 1])
+					table.insert(megap, G.jokers.cards[rr - 1])
+					table.insert(megap, G.jokers.cards[rr])
+					card.fusion = true
+					check_for_unlock({type = "megaify"})
+					SMODS.destroy_cards(megap)
+					SMODS.add_card({
+						key = "j_crv_full",
+					})
+				end
 			end
 		end
 	end,
@@ -1457,6 +1459,9 @@ SMODS.Joker({
 					rr = i
 					break
 				end
+			end
+			if card.area == G.real_modicon_area then
+				rr = RevosVault.get_key_pos("j_crv_modicon")
 			end
 			if G.jokers.cards[rr + 1] ~= nil then
 				if

@@ -1745,30 +1745,14 @@ SMODS.Joker({
 			and not context.individual
 			and G.GAME.current_round.hands_left == 0
 		then
-			if
-				G.GAME.talisman == 1
-				and pseudorandom("dont") < 1 / 2
-			then
-				return {
-					chip_mod = to_number(G.GAME.blind.chips * 2),
-					message = localize("k_crv_double"),
+			if pseudorandom("dont") < 1/2 then
+				return{
+					chip_mod = to_big(G.GAME.blind.chips),
+					message = localize("k_crv_double")
 				}
-			elseif  G.GAME.talisman == 1 then
-				return {
-					x_mult = to_number(G.GAME.blind.chips * 0),
-					message = localize("k_crv_nothing"),
-				}
-			elseif
-				pseudorandom("dont") < 1 / 2
-			then
-				return {
-					chip_mod = G.GAME.blind.chips * 2,
-					message = localize("k_crv_double"),
-				}
-			elseif G.jokers.cards[rr + 1] == nil then
-				return {
-					x_mult = G.GAME.blind.chips * 0,
-					message = localize("k_crv_nothing"),
+			else
+				return{
+					message = localize("k_crv_nothing")
 				}
 			end
 		end
@@ -2596,6 +2580,9 @@ SMODS.Joker({
 					break
 				end
 			end
+			if card.area == G.real_modicon_area then
+				rr = RevosVault.get_key_pos("j_crv_modicon")
+			end
 			if G.jokers.cards[rr + 1] ~= nil and not G.jokers.cards[rr + 1].ability.crv_vamp then
 				G.jokers.cards[rr + 1]:add_sticker("crv_vamp", true)
 				card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmultg
@@ -2730,6 +2717,9 @@ SMODS.Joker({
 					rr = i
 					break
 				end
+			end
+			if card.area == G.real_modicon_area then
+				rr = RevosVault.get_key_pos("j_crv_modicon")
 			end
 			local lc = { "Left", "Right" }
 			local choosencard = pseudorandom_element(lc, pseudoseed("radtank"))
@@ -2919,6 +2909,9 @@ SMODS.Joker({
 					rr = i
 					break
 				end
+			end
+			if card.area == G.real_modicon_area then
+				rr = RevosVault.get_key_pos("j_crv_modicon")
 			end
 			if G.jokers.cards[rr - 1] ~= nil and G.jokers.cards[rr + 1] ~= nil or self.area == G.jokers and not G.jokers.cards[rr - 1].crv_eyed then
 				G.E_MANAGER:add_event(Event({
