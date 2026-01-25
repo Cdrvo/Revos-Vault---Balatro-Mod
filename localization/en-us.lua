@@ -3742,6 +3742,19 @@ return {
 			},
 		},
 
+		-- MF colour
+		Colour = {
+			c_crv_printer_ink = {
+				name = "Printer Ink",
+				text = {
+				"Create a random {C:dark_edition}Negative{}",
+				"{C:attention}Contract{} card for every",
+				"{C:attention}#4#{} rounds this has been held",
+				"{C:inactive}(Currently {C:attention}#1#{C:inactive}, {}[{C:attention}#2#{C:inactive}#3#{}]{C:inactive})",
+				},
+			},
+		},
+
 		Spectral = {
 			--[[c_crv_VaultKey = {
 				name = "Vault Key",
@@ -4025,6 +4038,7 @@ return {
 				}
 			},
 		},
+		
 		Tag = {
 			tag_crv_pst = {
 				name = "Cartridge Tag",

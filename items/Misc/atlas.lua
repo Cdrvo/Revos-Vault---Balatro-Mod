@@ -260,10 +260,21 @@ SMODS.Atlas({
 
 SMODS.Atlas({
 	key = "morefluff45",
-	path = "Cross-Mod/morefluff45.png",
+	path = "Cross-Mod/MoreFluff/morefluff45.png",
 	px = 114,
 	py = 114,
 })
+
+local artpack_suffix = ".png"
+if mf_config["Programmer Art"] then artpack_suffix = "_programmer.png" end
+
+SMODS.Atlas({
+	key = "colours",
+	path = "Cross-Mod/MoreFluff/colours" .. artpack_suffix,
+	px = 71,
+	py = 95,
+})
+
 
 SMODS.Atlas({
 	key = "prismc",

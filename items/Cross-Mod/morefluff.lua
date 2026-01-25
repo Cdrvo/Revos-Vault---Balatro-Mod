@@ -47,3 +47,17 @@ end,
 		return true
 	end,
 })
+
+-- Printer Ink colour
+
+FLUFF.Colour({
+	key = "printer_ink",
+	name = "col_Printer_Ink",
+	atlas = "colours",
+	dependencies = "MoreFluff",
+	pos = { x = 0, y = 0 },
+	config = {
+		upgrade_rounds = 4,
+		create_set = "EnchancedDocuments",
+	},
+})
