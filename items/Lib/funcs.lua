@@ -890,11 +890,11 @@ function RevosVault.modify_rarity(card, by, ext, no_set_cost)
 				return RevosVault.index(rarity_order, f)*10
 			end
 			local new_card = pseudorandom_element(G.P_JOKER_RARITY_POOLS[future_rarity]).key
+			card:juice_up()
+			card:set_ability(new_card)
 			if not no_set_cost then
 				card:set_cost()
 			end
-			card:juice_up()
-			card:set_ability(new_card)
 		end
 	else
 		return rarity_order -- if you leave it with nothing it returns the table itself >:D
