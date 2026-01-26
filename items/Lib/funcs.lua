@@ -844,7 +844,7 @@ function RevosVault.check(check, area)
 end
 
 --Sadly this requires manually adding/removing cards. :((
-function RevosVault.modify_rarity(card, by)
+function RevosVault.modify_rarity(card, by, ext)
 	local shouldgo = true
 	local rarity_order = {
 		1,
@@ -876,12 +876,19 @@ function RevosVault.modify_rarity(card, by)
 				if rarity_order[i + by] ~= nil then
 					future_rarity = rarity_order[i + by]
 				else
-					sendWarnMessage("No next or previous rarity found", "RevosVault")
-					shouldgo = nil
+					if not ext then
+						sendWarnMessage("No next or previous rarity found", "RevosVault")
+						shouldgo = nil
+					end
 				end
 			end
 		end
 		if shouldgo then
+			if ext then
+				local f = future_rarity
+				if not future_rarity then f = rarity_order[#rarity_order] end
+				return RevosVault.index(rarity_order, f)*10
+			end
 			local new_card = pseudorandom_element(G.P_JOKER_RARITY_POOLS[future_rarity]).key
 			card:juice_up()
 			card:set_ability(new_card)
