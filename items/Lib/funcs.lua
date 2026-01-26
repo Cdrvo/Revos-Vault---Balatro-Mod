@@ -458,8 +458,8 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 		if area == G.shop_booster.cards then
 			for i = 1, #area do
 				local tab = {}
-				for i = 1, #G.P_CENTER_POOLS.Booster do
-					tab[#tab + 1] = G.P_CENTER_POOLS.Booster[i].key
+				for i = 1, #RevosVault.get_eligible_cards(nil, "Booster", true) do
+					tab[#tab + 1] = RevosVault.get_eligible_cards(nil, "Booster", true)[i].key
 				end
 				if area[i] ~= keeporiginal and area[i].ability.set == "Booster" then
 					local tab2 = pseudorandom_element(tab)
@@ -493,15 +493,15 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 		if area == G.shop_vouchers.cards then
 			for i = 1, #area do
 				local tab = {}
-				for i = 1, #G.P_CENTER_POOLS.Voucher do
-					if not  G.P_CENTER_POOLS.Voucher[i].requires then
-						if not G.GAME.used_vouchers[G.P_CENTER_POOLS.Voucher[i].key] then
-							tab[#tab + 1] = G.P_CENTER_POOLS.Voucher[i].key
+				for i = 1, #RevosVault.get_eligible_cards(nil, "Voucher", true) do
+					if not  RevosVault.get_eligible_cards(nil, "Voucher", true)[i].requires then
+						if not G.GAME.used_vouchers[RevosVault.get_eligible_cards(nil, "Voucher", true)[i].key] then
+							tab[#tab + 1] = RevosVault.get_eligible_cards(nil, "Voucher", true)[i].key
 						end
 					else
-						for k, v in pairs(G.P_CENTER_POOLS.Voucher[i].requires) do
+						for k, v in pairs(RevosVault.get_eligible_cards(nil, "Voucher", true)[i].requires) do
 							if G.GAME.used_vouchers[v] then
-								tab[#tab + 1] = G.P_CENTER_POOLS.Voucher[i].key
+								tab[#tab + 1] = RevosVault.get_eligible_cards(nil, "Voucher", true)[i].key
 							end
 						end
 					end
@@ -559,9 +559,9 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 						end
 						local set = area[i].ability.set
 						local tab = {}
-						for i = 1, #G.P_CENTER_POOLS.Joker do
-							if G.P_CENTER_POOLS.Joker[i].rarity == b then
-								tab[#tab + 1] = G.P_CENTER_POOLS.Joker[i].key
+						for i = 1, #RevosVault.get_eligible_cards(nil, "Joker", true) do
+							if RevosVault.get_eligible_cards(nil, "Joker", true)[i].rarity == b then
+								tab[#tab + 1] = RevosVault.get_eligible_cards(nil, "Joker", true)[i].key
 							end
 						end
 						if area[i] ~= keeporiginal then
@@ -605,9 +605,9 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 							rarity = "Legendary"
 						end
 						local tab = {}
-						for i = 1, #G.P_CENTER_POOLS.Joker do
-							if G.P_CENTER_POOLS.Joker[i].rarity == b then
-								tab[#tab + 1] = G.P_CENTER_POOLS.Joker[i].key
+						for i = 1, #RevosVault.get_eligible_cards(nil, "Joker", true) do
+							if RevosVault.get_eligible_cards(nil, "Joker", true)[i].rarity == b then
+								tab[#tab + 1] = RevosVault.get_eligible_cards(nil, "Joker", true)[i].key
 							end
 						end
 						if area[i] ~= keeporiginal then
@@ -642,9 +642,9 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 					local set = area[i].ability.set
 					local tab = {}
 
-					for i = 1, #G.P_CENTER_POOLS.Consumeables do
-						if G.P_CENTER_POOLS.Consumeables[i].set == set then
-							tab[#tab + 1] = G.P_CENTER_POOLS.Consumeables[i].key
+					for i = 1, #RevosVault.get_consumable_pool() do
+						if RevosVault.get_consumable_pool()[i].set == set then
+							tab[#tab + 1] = RevosVault.get_consumable_pool()[i].key
 						end
 					end
 
@@ -723,9 +723,9 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 								area = G.pack_cards,
 							})
 						elseif area[i].ability.set and area[i] ~= keeporiginal then
-							for i = 1, #G.P_CENTER_POOLS.Consumeables do
-								if G.P_CENTER_POOLS.Consumeables[i].set == set then
-									tab[#tab + 1] = G.P_CENTER_POOLS.Consumeables[i].key --unused?
+							for i = 1, #RevosVault.get_consumable_pool() do
+								if RevosVault.get_consumable_pool()[i].set == set then
+									tab[#tab + 1] = RevosVault.get_consumable_pool()[i].key --unused?
 								end
 							end
 
@@ -1354,7 +1354,7 @@ function RevosVault.random_voucher(mod) --i love overcomplicating stuff
 
 	local vouchers = {}
 	if mode == "Mod" then
-		vouchers = RevosVault.get_eligible_vouchers(mod)
+		vouchers = RevosVault.get_eligible_cards(mod)
 	else
 		vouchers = RevosVault.vanilla_cards({type = "Voucher"})
 	end
@@ -1379,15 +1379,29 @@ function RevosVault.random_voucher(mod) --i love overcomplicating stuff
 	end
 end
 
-function RevosVault.get_eligible_vouchers(mod)
-	local vv = get_current_pool('Voucher')
+function RevosVault.get_eligible_cards(mod, type, ret_center)
+	if not type then type = "Voucher" end
+	local vv = get_current_pool(type)
         local tab = {}
+		local tab_centers = {}
         for k, v in pairs(vv) do
-            if v ~= 'UNAVAILABLE' and G.P_CENTERS[v] and G.P_CENTERS[v].mod and G.P_CENTERS[v].mod.id == mod then
-                tab[#tab+1] = v
+			if mod then
+				if v ~= 'UNAVAILABLE' and G.P_CENTERS[v] and G.P_CENTERS[v].mod and G.P_CENTERS[v].mod.id == mod then
+					tab[#tab+1] = v
+					tab_centers[#tab_centers+1] = G.P_CENTERS[v]
+				end
+			else
+				if G.P_CENTERS[v] then
+					tab[#tab+1] = v
+					tab_centers[#tab_centers+1] = G.P_CENTERS[v]
+				end
 			end
         end
-	return tab
+	if not ret_center then
+		return tab
+	else
+		return tab_centers
+	end
 end
 
 function RevosVault.redeem(card, cost, reset_to_shop)
@@ -1419,8 +1433,14 @@ function RevosVault.get_consumable_pool(mod)
 	local tab = {}
 	for k, v in pairs(SMODS.ConsumableTypes) do
 		for k, vv in pairs(get_current_pool(k)) do
-			if vv ~= "UNAVAILABLE" and G.P_CENTERS[vv] and G.P_CENTERS[vv].mod and G.P_CENTERS[vv].mod.id == mod then
-				tab[#tab+1] = G.P_CENTERS[vv]
+			if mod then
+				if vv ~= "UNAVAILABLE" and G.P_CENTERS[vv] and G.P_CENTERS[vv].mod and G.P_CENTERS[vv].mod.id == mod then
+					tab[#tab+1] = G.P_CENTERS[vv]
+				end
+			else
+				if G.P_CENTERS[vv] then
+					tab[#tab+1] = G.P_CENTERS[vv]
+				end
 			end
 		end
 	end
@@ -1526,7 +1546,7 @@ function get_eligible_cards(mod, type)
 	elseif type == "Consumable" then
 		return pseudorandom_element(G.GAME.unvaulted_cons, pseudoseed("crv_kys"))
 	else
-		return pseudorandom_element(RevosVault.get_eligible_vouchers(), pseudoseed("crv_kys")) -- unused
+		return pseudorandom_element(RevosVault.get_eligible_cards(), pseudoseed("crv_kys")) -- unused
 	end
 end
 
