@@ -1448,8 +1448,9 @@ return {
 					"If {C:attention}first hand{} of round",
 					"has only {C:attention}1{} card, add a",
 					"permanent {C:purple}enhanced{} copy to deck",
-					"and draw it to {C:attention}hand",
-					"{C:inactive}(Only vanilla enhancements)",
+					"and draw it to {C:attention}hand.",
+					"{C:green}#1# in #2#{} Chance to",
+					"{C:red}self-destruct"
 				},
 			},
 			j_crv_vface = {
@@ -1546,7 +1547,7 @@ return {
 			},
 			j_crv_vprint = {
 				name = "Blindprint",
-				text = { "Copies a {C:attention}Random{} joker's ability" },
+				text = { "Copies ability of","{C:attention}Joker{} to the left twice","{C:attention}Joker{} on the right","{C:red}Cannot{} trigger" },
 			},
 			j_crv_rab = {
 				name = "Rain Rabbit",

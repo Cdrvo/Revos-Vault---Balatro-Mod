@@ -114,9 +114,18 @@ SMODS.Joker({
 	discovered = false,
 	blueprint_compat = true,
 	config = {
-		extra = {},
+		extra = {
+			odds = 3
+		},
 	},
+	loc_vars = function(self,info_queue,card)
+		local cae = card.ability.extra
+		return{
+			vars ={(G.GAME.probabilities.normal or 1), cae.odds}
+		}
+	end,
 	calculate = function(self, card, context)
+		local cae = card.ability.extra
 		if context.first_hand_drawn and not context.blueprint then
 			local eval = function()
 				return G.GAME.current_round.hands_played == 0
@@ -125,6 +134,9 @@ SMODS.Joker({
 		end
 
 		if context.cardarea == G.jokers and context.before and G.GAME.current_round.hands_played == 0 then
+			if pseudorandom("vdna") < G.GAME.probabilities.normal / cae.odds then
+				SMODS.destroy_cards(card)
+			else
 			if #context.full_hand == 1 then
 				G.playing_card = (G.playing_card and G.playing_card + 1) or 1
 				local _card = copy_card(context.full_hand[1], nil, nil, G.playing_card)
@@ -149,6 +161,7 @@ SMODS.Joker({
 					playing_cards_created = { true },
 				}
 			end
+		end
 		end
 	end,
 	in_pool = function(self, wawa, wawa2)
@@ -236,46 +249,77 @@ SMODS.Joker({
 	config = {
 		extra = {},
 	},
-	loc_vars = function(self, info_queue, card)
-		return {
-			vars = {
-				card.ability.extra.pmult,
-				card.ability.extra.mmult,
-				card.ability.extra.mxmult,
-				card.ability.extra.timer,
-			},
-		}
-	end,
-
-	calculate = function(self, card, context)
-		if context.joker_main then
-			local jokers = {}
-			for i = 1, #G.jokers.cards do
-				if G.jokers.cards[i] ~= card then
-					jokers[#jokers + 1] = G.jokers.cards[i]
-				end
-			end
-			--select the joker
-			local other_joker = pseudorandom_element(jokers, pseudoseed("vprint"))
-			--copy it
-			if other_joker and other_joker ~= card then
-				context.blueprint = (context.blueprint and (context.blueprint + 1)) or 1
-				context.blueprint_card = context.blueprint_card or card
-				if context.blueprint > #G.jokers.cards + 1 then
-					return
-				end
-				local other_joker_ret = other_joker:calculate_joker(context)
-				if other_joker_ret then
-					other_joker_ret.card = other_joker_ret.card or card
-					other_joker_ret.colour = G.C.PURPLE
-					return other_joker_ret
-				end
-			end
+    loc_vars = function(self, info_queue, card)
+        if card.area and card.area == G.jokers then
+            local other_joker
+            for i = 1, #G.jokers.cards do
+                if G.jokers.cards[i] == card then other_joker = G.jokers.cards[i + 1] end
+            end
+            local compatible = other_joker and other_joker ~= card and other_joker.config.center.blueprint_compat
+            return {
+			main_end = {
+                {
+                    n = G.UIT.C,
+                    config = { align = "bm", minh = 0.4 },
+                    nodes = {
+                        {
+                            n = G.UIT.C,
+                            config = { ref_table = card, align = "m", colour = compatible and mix_colours(G.C.GREEN, G.C.JOKER_GREY, 0.8) or mix_colours(G.C.RED, G.C.JOKER_GREY, 0.8), r = 0.05, padding = 0.06 },
+                            nodes = {
+                                { n = G.UIT.T, config = { text = ' ' .. localize('k_' .. (compatible and 'compatible' or 'incompatible')) .. ' ', colour = G.C.UI.TEXT_LIGHT, scale = 0.32 * 0.8 } },
+                            }
+                        }
+                    }
+                }
+            } }
+        end
+    end,
+    calculate = function(self, card, context)
+		if
+			context.retrigger_joker_check
+			and not context.retrigger_joker
+			and context.other_card == card
+		then
+			return {
+				message = localize("k_again_ex"),
+				repetitions = 1,
+				card = card,
+				colour = G.C.PURPLE
+			}
 		end
-	end,
+        local other_joker = nil
+        for i = 1, #G.jokers.cards do
+            if G.jokers.cards[i] == card then other_joker = G.jokers.cards[i - 1] end
+        end
+        local ret = SMODS.blueprint_effect(card, other_joker, context)
+        if ret then
+            ret.colour = G.C.PURPLE
+        end
+        return ret
+    end,
 	in_pool = function(self, wawa, wawa2)
 		return true
 	end,
+	update = function(self,card,context)
+		if card.area and card.added_to_deck then
+			local rr = nil
+			for i = 1, #card.area.cards do
+				if card.area.cards[i] == card then
+					rr = i
+				end
+			end
+
+			for k, v in pairs(card.area.cards) do
+				if v.crv_no_trigger then
+					v.crv_no_trigger = nil
+				end
+			end
+
+			if card.area.cards[rr+1] then
+				card.area.cards[rr+1].crv_no_trigger = true
+			end
+		end
+	end
 })
 SMODS.Joker({
 	key = "vmichel",

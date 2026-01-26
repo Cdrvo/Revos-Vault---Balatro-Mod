@@ -11,6 +11,11 @@ function Card:remove()
 			})
 		end
 	end
+	if self.added_to_deck and self.config.center.key == "j_vprint" then
+		for k, v in pairs(G.jokers.cards) do
+			v.crv_no_trigger = nil
+		end
+	end
 	if self.ability.consumeable and self.added_to_deck then
 		SMODS.calculate_context({
 			crv_cons_destroyed = true,
@@ -44,7 +49,9 @@ function G.FUNCS.evaluate_play(e)
 		trigger = "before",
 		delay = 0,
 		func = function()
+
 			RevosVault.scoring = true
+			
 			return true
 		end
 	}))
@@ -788,4 +795,18 @@ function Card:sell_card()
 			return true
 		end
 	}))
+end
+
+local joker_calc_old = Card.calculate_joker -- preventing joker triggers
+function Card:calculate_joker(context)
+    if self and not self.crv_no_trigger then
+        return joker_calc_old(self, context)
+    end
+end
+
+local score_card_old = SMODS.score_card
+function SMODS.score_card(card, context)
+    if not card.crv_no_trigger then
+        return score_card_old(card, context)
+    end
 end
