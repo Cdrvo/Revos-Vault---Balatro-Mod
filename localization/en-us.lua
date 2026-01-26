@@ -973,7 +973,7 @@ return {
 				name = "Advanced Printer",
 				text = {
 					"When first hand is drawn,",
-					"Enhances a random card to{C:green}Tier 1{}",
+					"Enhances a random card to{C:green} Tier 1{}",
 					"after {C:attention}5 Rounds{} it turns cards into {C:attention}Tier 2",
 					"after {C:attention}15 Rounds{} it turns cards into {C:attention}Tier 3",
 					"When 15 Rounds have passed, enhances a {C:attention}Boosted",
@@ -4197,6 +4197,24 @@ return {
 			v_crv_printeruptier = {
 				name = "Hyper Ink",
 				text = { "{C:red}Printers{} will always", "print {C:dark_edition}Negative" },
+			},
+			v_crv_freedom = {
+				name = "Freedom",
+				text = { "Everything in {C:purple}The Vault{}","is {C:attention}%#1#{} Off" },
+			},
+			v_crv_vision = {
+				name = "Vision",
+				text = { "Harvesting gives","{C:blue}%50{} More Soul" },
+			},
+			v_crv_pink = {
+				name = "Pink",
+				text = { "{C:crv_sup}Pink?" },
+			},
+			v_crv_superior = {
+				name = "Superior",
+				text = { "Increase the chances",
+						  "of {C:crv_sup}Superior{} Cards",
+						"appearing" },
 			},
 		},
 		Gem = {

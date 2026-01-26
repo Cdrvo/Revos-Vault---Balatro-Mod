@@ -10,6 +10,8 @@ TheVault = {
 
 	harvest_cost = 0,
 	harvest_cost_default = 0,
+	harvest_cost_extra = 0,
+	harvest_cost_extra_default = 0,
 
 	in_vault = false,
 
@@ -382,7 +384,11 @@ G.FUNCS.crv_vault_harvest_can = function(e)
 		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
 		e.config.button = nil
 	else
-		TheVault.harvest_cost = G.vault_card.cards[1].sell_cost 
+		if G.GAME.modifiers.fifty_soul_increase then
+			TheVault.harvest_cost_extra = TheVault.harvest_cost_extra_default
+			TheVault.harvest_cost_extra = TheVault.harvest_cost_extra + RevosVault.perc(G.vault_card.cards[1].sell_cost, 50)
+		end
+		TheVault.harvest_cost = (G.vault_card.cards[1].sell_cost + TheVault.harvest_cost_extra )
 		e.config.colour = G.C.BLUE
 		e.config.button = "crv_vault_harvest"
 	end
@@ -397,7 +403,7 @@ G.FUNCS.crv_vault_harvest = function(e)
 			return true
 		end
 	}))
-	G.GAME.souls = G.GAME.souls + G.vault_card.cards[1].sell_cost 
+	G.GAME.souls = G.GAME.souls + (G.vault_card.cards[1].sell_cost + TheVault.harvest_cost_extra )
 	play_sound("coin1")
 
 	G.vault_card.cards[1].crv_harvested = true

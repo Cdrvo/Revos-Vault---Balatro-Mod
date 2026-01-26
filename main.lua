@@ -418,6 +418,8 @@ SMODS.current_mod.reset_game_globals = function(run_start)
 
 			harvest_cost = 0,
 			harvest_cost_default = 0,
+			harvest_cost_extra = 0,
+			harvest_cost_extra_default = 0,
 
 			in_vault = false,
 

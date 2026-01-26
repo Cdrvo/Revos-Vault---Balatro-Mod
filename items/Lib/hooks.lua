@@ -525,7 +525,7 @@ function CardArea:emplace(card, location, stay_flipped)
 		end
 
 		if RevosVault.config.superior_enabled and card.ability.set ~= "Joker" then
-			if pseudorandom("supcreate") < 1 / (150/G.GAME.superior_mod) and card:has_potential() then
+			if pseudorandom("supcreate") < 1 / (200/G.GAME.superior_mod) and card:has_potential() then
 				RevosVault.unleash_potential(card)
 			end
 		end
