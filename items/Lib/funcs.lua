@@ -844,7 +844,7 @@ function RevosVault.check(check, area)
 end
 
 --Sadly this requires manually adding/removing cards. :((
-function RevosVault.modify_rarity(card, by, ext)
+function RevosVault.modify_rarity(card, by, ext, no_set_cost)
 	local shouldgo = true
 	local rarity_order = {
 		1,
@@ -890,6 +890,9 @@ function RevosVault.modify_rarity(card, by, ext)
 				return RevosVault.index(rarity_order, f)*10
 			end
 			local new_card = pseudorandom_element(G.P_JOKER_RARITY_POOLS[future_rarity]).key
+			if not no_set_cost then
+				card:set_cost()
+			end
 			card:juice_up()
 			card:set_ability(new_card)
 		end
