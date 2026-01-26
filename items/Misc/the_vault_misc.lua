@@ -336,14 +336,22 @@ G.FUNCS.crv_vault_upgrade_can = function(e)
 	then
 		TheVault.upgrade_cost = TheVault.upgrade_cost_default
 		if G.vault_card.cards[1] then
-			TheVault.upgrade_cost = TheVault.upgrade_cost+((RevosVault.modify_rarity(G.vault_card.cards[1], 1, true)/4)-5)
+			if G.vault_card.cards[1].config.center.rarity == 4 then
+				TheVault.upgrade_cost = TheVault.upgrade_cost+((RevosVault.modify_rarity(G.vault_card.cards[1], 1, true)/4)+15) -- FUCK EXOTICS, LEGENDARIES 'TILL THE END!
+			else
+				TheVault.upgrade_cost = TheVault.upgrade_cost+((RevosVault.modify_rarity(G.vault_card.cards[1], 1, true)/4)-5)
+			end
 		end
 		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
 		e.config.button = nil
 	else
 
 		TheVault.upgrade_cost = TheVault.upgrade_cost_default
-		TheVault.upgrade_cost = TheVault.upgrade_cost+((RevosVault.modify_rarity(G.vault_card.cards[1], 1, true)/4)-5)
+		if G.vault_card.cards[1].config.center.rarity == 4 then
+			TheVault.upgrade_cost = TheVault.upgrade_cost+((RevosVault.modify_rarity(G.vault_card.cards[1], 1, true)/4)+15) -- lazy 
+		else
+			TheVault.upgrade_cost = TheVault.upgrade_cost+((RevosVault.modify_rarity(G.vault_card.cards[1], 1, true)/4)-5)	
+		end
 
 		e.config.colour = G.C.RED
 		e.config.button = "crv_vault_upgrade"
