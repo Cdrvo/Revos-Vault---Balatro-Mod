@@ -28,7 +28,7 @@ SMODS.Voucher({
 	},
 	config = {
 		extra = {
-			perc = 30
+			perc = 10
 		}
 	},
 	cost = 10,
