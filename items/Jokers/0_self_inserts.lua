@@ -92,6 +92,7 @@ SMODS.Joker({
 			xmult = 1,
 			xmultg = 0.5,
 			scrapc = 0,
+			odds = 3
 		},
 	},
 	rarity = 4,
@@ -108,54 +109,30 @@ SMODS.Joker({
 	},
 	cost = 20,
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = {set = "Other", key = "crv_fixed_chances"}
+		local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "crv_adam_", nil, true)
 		return {
-			vars = { card.ability.extra.xmult, card.ability.extra.xmultg, card.ability.extra.scrapc },
+			vars = { card.ability.extra.xmult, card.ability.extra.xmultg, card.ability.extra.scrapc, denominator, numerator },
 		}
 	end,
 	calculate = function(self, card, context)
+
 		if context.reroll_shop and not context.blueprint then
-			local adamcc = pseudorandom_element(adamc, pseudoseed("lpm"))
-			if adamcc == 1 then
-				if #G.consumeables.cards < G.consumeables.config.card_limit or self.area == G.consumeables then
-					local scrapselect = pseudorandom_element(scrapselecta, pseudoseed("lpm"))
-					if G.GAME.jojo then
-						if scrapselect == 1 then
-							SMODS.add_card({
-								area = G.consumeables,
-								set = "scrap",
-							})
-						else
-							SMODS.add_card({
-								area = G.consumeables,
-								set = "jojo_Scraps",
-							})
-						end
-					else
-						SMODS.add_card({
-							area = G.consumeables,
-							set = "scrap",
-						})
-					end
-				end
+			if #G.consumeables.cards < G.consumeables.config.card_limit or self.area == G.consumeables then
+				SMODS.add_card({
+					area = G.consumeables,
+					set = "crv_GeneralScrap",
+				})
 			end
 		end
-			
+		
+				
 		if context.using_consumeable and not context.blueprint then
-			if G.GAME.jojo then
-				if
-					context.consumeable.ability.set == "jojo_Scraps"
-					or context.consumeable.ability.set == "scrap" and not context.blueprint
-				then
-					card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmultg
-					card.ability.extra.scrapc = card.ability.extra.scrapc + 1
-				end
-			else
-				if context.consumeable.ability.set == "scrap" then
+				if context.consumeable.config.center.is_scrap then
 					card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmultg
 					card.ability.extra.scrapc = card.ability.extra.scrapc + 1
 				end
 			end
-		end
 		if context.joker_main then
 			return {
 				x_mult = card.ability.extra.xmult,

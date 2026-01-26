@@ -62,12 +62,14 @@ SMODS.Joker({
 		Food = true,
 	},
 	loc_vars = function(self, info_queue, card)
+		local cae = card.ability.extra
+		local num, den = SMODS.get_probability_vars(card, 1, cae.odds, "seed_here")
 		return {
 			vars = {
 				card.ability.extra.timer,
 				card.ability.extra.xmult,
-				(G.GAME.probabilities.normal or 1),
-				card.ability.extra.odds,
+				num,
+				den,
 			},
 		}
 	end,
@@ -88,7 +90,7 @@ SMODS.Joker({
 		if context.end_of_round and not context.repetition and not context.individual and not context.blueprint then
 			if card.ability.extra.timer == 3 then
 				if
-					pseudorandom("plantin") < G.GAME.probabilities.normal / card.ability.extra.odds
+					SMODS.pseudorandom_probability(card, "plantain_seed", 1, card.ability.extra.odds)
 					and not context.blueprint
 				then
 					G.E_MANAGER:add_event(Event({
@@ -155,8 +157,10 @@ SMODS.Joker({
 		Food = true,
 	},
 	loc_vars = function(self, info_queue, card)
+		local cae = card.ability.extra
+		local num, den = SMODS.get_probability_vars(card, 1, cae.odds, "reban_seed")
 		return {
-			vars = { card.ability.extra.mult, (G.GAME.probabilities.normal or 1), card.ability.extra.odds },
+			vars = { card.ability.extra.mult, num, den },
 		}
 	end,
 	calculate = function(self, card, context)
@@ -167,7 +171,7 @@ SMODS.Joker({
 		end
 		if context.end_of_round and not context.repetition and not context.individual and not context.blueprint then
 			if
-				pseudorandom("reban") < G.GAME.probabilities.normal / card.ability.extra.odds and not context.blueprint
+				SMODS.pseudorandom_probability(card, "reban_seed", 1, card.ability.extra.odds) and not context.blueprint
 			then
 				G.E_MANAGER:add_event(Event({
 					func = function()
@@ -230,11 +234,13 @@ SMODS.Joker({
 		Food = true,
 	},
 	loc_vars = function(self, info_queue, card)
+		local cae = card.ability.extra
+		local num, den = SMODS.get_probability_vars(card, 1, cae.odds, "tundan_seed")
 		return {
 			vars = {
 				card.ability.extra.chips,
-				(G.GAME.probabilities.normal or 1),
-				card.ability.extra.odds,
+				num,
+				den,
 				card.ability.extra.chip_gain,
 			},
 		}
@@ -261,7 +267,7 @@ SMODS.Joker({
 		end
 		if context.end_of_round and not context.repetition and not context.individual and not context.blueprint then
 			if
-				pseudorandom("tundan") < G.GAME.probabilities.normal / card.ability.extra.odds
+				SMODS.pseudorandom_probability(card, "tundan_seed", 1, card.ability.extra.odds)
 				and not context.blueprint
 			then
 				G.E_MANAGER:add_event(Event({
@@ -532,6 +538,7 @@ SMODS.Joker({
 	},
 	cost = 4,
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = {set = "Other", key = "crv_fixed_chances"}
 		return {
 			vars = { card.ability.extra.xmult },
 		}
@@ -632,8 +639,10 @@ SMODS.Joker({
 		BananaPool = true,
 	},
 	loc_vars = function(self, info_queue, card)
+		local cae = card.ability.extra
+		local num, den = SMODS.get_probability_vars(card, 1, cae.odds, "jim_seed")
 		return {
-			vars = { card.ability.extra.mult, card.ability.extra.odds, (G.GAME.probabilities.normal or 1) },
+			vars = { card.ability.extra.mult, den, num },
 		}
 	end,
 	calculate = function(self, card, context)
@@ -647,7 +656,7 @@ SMODS.Joker({
 			context.end_of_round
 			and not context.blueprint
 			and context.main_eval
-			and pseudorandom("jimban") < G.GAME.probabilities.normal / card.ability.extra.odds
+			and SMODS.pseudorandom_probability(card, "jim_seed", 1, card.ability.extra.odds)
 		then
 			G.E_MANAGER:add_event(Event({
 				func = function()
@@ -700,8 +709,10 @@ SMODS.Joker({
 		BananaPool = true,
 	},
 	loc_vars = function(self, info_queue, card)
+		local cae = card.ability.extra
+		local num, den = SMODS.get_probability_vars(card, 1, cae.odds, "grosdish_seed")
 		return {
-			vars = { card.ability.extra.chips, (G.GAME.probabilities.normal or 1), card.ability.extra.odds },
+			vars = { card.ability.extra.chips, num, den },
 		}
 	end,
 	calculate = function(self, card, context)
@@ -715,7 +726,7 @@ SMODS.Joker({
 			context.end_of_round
 			and not context.blueprint
 			and context.main_eval
-			and pseudorandom("grosdish") < G.GAME.probabilities.normal / card.ability.extra.odds
+			and SMODS.pseudorandom_probability(card,"gros_seed",1,crv.odds)
 		then
 			G.E_MANAGER:add_event(Event({
 				func = function()
@@ -773,8 +784,10 @@ SMODS.Joker({
 		BananaPool = true,
 	},
 	loc_vars = function(self, info_queue, card)
+		local cae = card.ability.extra
+		local num, den = SMODS.get_probability_vars(card, 1, cae.odds, "seed_31290371829")
 		return {
-			vars = { card.ability.extra.xchips, (G.GAME.probabilities.normal or 1), card.ability.extra.odds },
+			vars = { card.ability.extra.xchips, num, den },
 		}
 	end,
 	calculate = function(self, card, context)
@@ -788,7 +801,7 @@ SMODS.Joker({
 			context.end_of_round
 			and not context.blueprint
 			and context.main_eval
-			and pseudorandom("cavicheal") < G.GAME.probabilities.normal / card.ability.extra.odds
+			and SMODS.pseudorandom_probability(card, "seed_192381923789",1,crv.odds)
 		then
 			G.E_MANAGER:add_event(Event({
 				func = function()
@@ -1639,27 +1652,21 @@ SMODS.Joker({
 		y = 0,
 	},
 	config = {
-		extra = {},
+		extra = {
+			odds = 8
+		},
 	},
+	loc_vars = function(self,info_queue,card)
+		info_queue[#info_queue+1] = {set = "Other", key = "crv_fixed_chances"}
+		return{vars={card.ability.extra.odds}}
+	end,
 	calculate = function(self, card, context)
-		if context.joker_main and G.GAME.talisman == 1 and not context.blueprint and not context.repetition then
-			local cc = (pseudorandom_element(chances, pseudoseed("btls")))
-			if cc == 1 then
-				return {
-					chip_mod = to_number(G.GAME.blind.chips * 4),
-					message = localize("k_crv_overscore"),
-					colour = G.C.MULT,
-				}
-			end
-		elseif context.joker_main and not context.blueprint and not context.repetition then
-			local cc = (pseudorandom_element(chances, pseudoseed("btls")))
-			if cc == 1 then
-				return {
-					chip_mod = G.GAME.blind.chips * 4,
-					message = localize("k_crv_overscore"),
-					colour = G.C.MULT,
-				}
-			end
+		if context.joker_main and not context.blueprint and SMODS.pseudorandom_probability(card, "btls_seed",1,card.ability.extra.odds,nil,true) then
+			return {
+				chip_mod = to_big(G.GAME.blind.chips * 4),
+				message = localize("k_crv_overscore"),
+				colour = G.C.MULT,
+			}
 		end
 	end,
 	in_pool = function(self, wawa, wawa2)
@@ -1733,6 +1740,7 @@ SMODS.Joker({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = {set = "Other", key = "crv_fixed_chances"}
 		return {
 			vars = { 2, 1 },
 		}
@@ -1745,7 +1753,7 @@ SMODS.Joker({
 			and not context.individual
 			and G.GAME.current_round.hands_left == 0
 		then
-			if pseudorandom("dont") < 1/2 then
+			if SMODS.pseudorandom_probability(card, "dont_seed", 1, 2, nil, true) then
 				return{
 					chip_mod = to_big(G.GAME.blind.chips),
 					message = localize("k_crv_double")
@@ -1784,17 +1792,20 @@ SMODS.Joker({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+		local cae = card.ability.extra
+		local num, den = SMODS.get_probability_vars(card, 1,cae.odds, "tgm_seed")
 		return {
 			vars = {
 				card.ability.extra.xmult,
 				card.ability.extra.xmultlg,
-				card.ability.extra.odds,
-				(G.GAME.probabilities.normal or 1),
+				den,
+				num,
 			},
 		}
 	end,
 
 	calculate = function(self, card, context)
+		local crv = card.ability.extra
 		if context.joker_main then
 			return {
 				x_mult = card.ability.extra.xmult,
@@ -1806,7 +1817,7 @@ SMODS.Joker({
 			and not context.repetition
 			and card.ability.extra.xmult < 5
 		then
-			if pseudorandom("tgm") < G.GAME.probabilities.normal / card.ability.extra.odds then
+			if SMODS.pseudorandom_probability(card, "tgm_seed", 1, crv.odds) then
 				card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmultlg
 			else
 				card.ability.extra.xmult = card.ability.extra.xmult - card.ability.extra.xmultlg
@@ -1982,14 +1993,15 @@ SMODS.Joker({
 	},
 	loc_vars = function(self, info_queue, card)
 		local crv = card.ability.extra
+		local num, den = SMODS.get_probability_vars(card, 1, crv.odds, "stockmar_seed")
 		return {
-			vars = { crv.moneymult, crv.money, G.GAME.probabilities.normal, crv.odds },
+			vars = { crv.moneymult, crv.money, num, den },
 		}
 	end,
 	calculate = function(self, card, context)
 		local crv = card.ability.extra
 		if context.end_of_round and context.main_eval and not context.blueprint then
-			if pseudorandom("stockmarket") < G.GAME.probabilities.normal / crv.odds then
+			if SMODS.pseudorandom_probability(card, "seed_12893712893", 1, crv.odds) then
 				crv.money = 1
 			else
 				crv.money = crv.money * crv.moneymult
@@ -3001,12 +3013,14 @@ SMODS.Joker({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+		local cae = card.ability.extra
+		local num, den = SMODS.get_probability_vars(card, 1, cae.odds, "addi_seed")
 		return {
-			vars = { card.ability.extra.mult, card.ability.extra.odds, (G.GAME.probabilities.normal or 1) },
+			vars = { card.ability.extra.mult, den, num },
 		}
 	end,
 	calculate = function(self, card, context)
-		if context.joker_main and pseudorandom("addiction") < G.GAME.probabilities.normal / card.ability.extra.odds then
+		if context.joker_main and SMODS.pseudorandom_probability(card, "addi_seed",1,card.ability.extra.odds) then
 			card.ability.extra.odds = card.ability.extra.odds + 1
 			return {
 				xmult = card.ability.extra.mult,
@@ -3704,14 +3718,15 @@ SMODS.Joker({
 	},
 	loc_vars = function(self, info_queue, card)
 		local crv = card.ability.extra
+		local num,den = SMODS.get_probability_vars(card, 1, crv.odds, "7ball_seed")
 		return {
-			vars = { (G.GAME.probabilities.normal or 1), crv.odds },
+			vars = { num, den },
 		}
 	end,
 	calculate = function(self, card, context)
 		local crv = card.ability.extra
 		if context.individual and context.cardarea == G.play and context.other_card:get_id() == 7 then
-			if pseudorandom("crv_7ball") < G.GAME.probabilities.normal / crv.odds then
+			if SMODS.pseudorandom_probability(card, "7ball_seed", 1, crv.odds) then
 				if G.consumeables.config.card_limit > #G.consumeables.cards then
 					SMODS.add_card({
 						set = "Spectral",

@@ -1,0 +1,12 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+match_indent = true
+position = 'at'
+pattern = "if (not v.shattered) and (not v.destroyed) then "
+payload = '''if (not v.shattered) and (not v.destroyed) and (not v.crv_marked_by_fragile) then '''

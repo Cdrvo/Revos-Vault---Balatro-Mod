@@ -743,11 +743,10 @@ return {
 				name = "Pandik",
 				text = {
 					"When re-rolling, Has a",
-					"{C:green}1 in 3{} chance to spawn {C:attention}Scrap",
+					"{C:green}#5# in #4#{} chance to spawn {C:attention}Scrap",
 					"Gains {X:mult,C:white}x#2#{} Mult for each scrap used",
 					"after every {C:attention}5 Scraps{}, spawns a {C:dark_edition}Negative {C:attention}Spectral Card",
 					"{C:inactive}(Currently #3#/5 Scrap and {X:mult,C:white}X#1#{C:inactive} Mult)",
-					'{C:inactive}(Items like "Oops! All 6s" wont affect the chances)',
 				},
 			},
 			j_crv_chainsawm = {
@@ -901,7 +900,7 @@ return {
 				text = {
 					"When first hand is drawn,",
 					"Enhances a random card in hand to {C:attention}Steel{}",
-					"{C:green}#2# in 4{} Chance for it to be a {C:attention}Diamond Card{}",
+					"{C:green}#1# in #2#{} Chance for it to be a {C:attention}Diamond Card{}",
 					"{X:mult,C:white}X#1#{} Mult",
 				},
 			},
@@ -919,10 +918,9 @@ return {
 				name = "Lethal Press Machine",
 				text = {
 					"When re-rolling, Has a",
-					"{C:green}1 in 4{} chance to spawn {C:attention}Scrap",
+					"{C:green}#1# in #2#{} chance to spawn {C:attention}Scrap",
 					"Gains {C:mult}+#2# {}Mult for every {C:attention}Scrap used",
 					"{C:inactive}(Currently{C:mult} +#1#{C:inactive} Mult)",
-					'{C:inactive}(Items like "Oops! All 6s" wont affect the chances)',
 				},
 			},
 			j_crv_devilishprinter = {
@@ -1112,7 +1110,6 @@ return {
 					"{C:green}1 in 10{} Chance for this to",
 					"make you {C:mult}Lose the run",
 					"when blind is selected",
-					"{C:inactive}(Dice wont affect the chances)",
 				},
 			},
 			j_crv_bpj = {
@@ -1299,10 +1296,8 @@ return {
 			j_crv_btls = {
 				name = "[[BIG SHOT]]",
 				text = {
-					"Has a {C:green}1 in 8{} chance to ",
+					"Has a {C:green}1 in #1#{} chance to ",
 					"{C:purple}overscore",
-					"{C:inactive}(Chances are not affected by",
-					'{C:inactive}"Oops! All 6s" or anything similar)',
 				},
 			},
 			j_crv_psy = {
@@ -1346,7 +1341,6 @@ return {
 					"has a {C:green}#2# in #1#{} chance to",
 					"{C:legendary}overscore{}",
 					"otherwise set the mult to {C:red}0",
-					"{C:inactive,s:0.8}(Chances cannot be affected)",
 				},
 			},
 			j_crv_inga = {
@@ -2177,7 +2171,7 @@ return {
 				text = {
 					"{C:inactive,s:0.75}(art by Crazy Dave (aka Crazy Dave)™)",
 					"When {C:attention}Blind{} is selected,",
-					"{C:green}#2# in #1#{} Chance to create",
+					"{C:green}#1# in #2#{} Chance to create",
 					"a negative {C:attention}Mr. Bones",
 				},
 			},
@@ -4025,6 +4019,15 @@ return {
 					"is incomplete!",
 					"The effects listed",
 					"are not final"
+				}
+			},
+
+			crv_fixed_chances = {
+				name = "Immutable Chances",
+				text = {
+					"This Card's {C:attention}listed",
+					"{C:green,E:1,S:1.1}probability {C:red}cannot{}",
+					"be changed"
 				}
 			},
 

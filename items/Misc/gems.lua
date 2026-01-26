@@ -337,6 +337,9 @@ RevosVault.Gem({
             old_odds = 0
 		},
 	},
+	loc_vars = function(self,info_queue,card)
+		info_queue[#info_queue+1] = {set = "Other", key = "crv_fixed_chances"}
+	end,
     calculate = function(self, card, context)
 		local crv = card.ability.extra
 		if context.end_of_round and context.main_eval then

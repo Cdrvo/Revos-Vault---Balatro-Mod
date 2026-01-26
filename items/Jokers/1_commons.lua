@@ -61,8 +61,10 @@ SMODS.Joker({
 		BananaPool = true,
 	},
 	loc_vars = function(self, info_queue, card)
+		local cae = card.ability.extra
+		local num, den = SMODS.get_probability_vars(card, 1, cae.odds, "divineban_seed")
 		return {
-			vars = { card.ability.extra.dollars, (G.GAME.probabilities.normal or 1), card.ability.extra.odds },
+			vars = { card.ability.extra.dollars, (num), den },
 		}
 	end,
 	calculate = function(self, card, context)
@@ -70,7 +72,7 @@ SMODS.Joker({
 		if
 			context.individual
 			and context.cardarea == G.play
-			and pseudorandom("divineban") < G.GAME.probabilities.normal / crv.odds
+			and SMODS.pseudorandom_probability(card, "divineseed", 1, crv.odds)
 		then
 			return {
 				dollars = crv.dollars,
@@ -97,17 +99,20 @@ SMODS.Joker({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+		local cae = card.ability.extra
+		local num,den = SMODS.get_probability_vars(card, 1, cae.odds, "news_seed")
 		return {
-			vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds },
+			vars = { (num), den},
 		}
 	end,
 
 	calculate = function(self, card, context)
+		local cae = card.ability.extra
 		if
 			context.end_of_round
 			and not context.repetition
 			and not context.individual
-			and pseudorandom("couponist") < G.GAME.probabilities.normal / card.ability.extra.odds
+			and SMODS.pseudorandom_probability(card, "news_seed", 1 ,cae.odds)
 		then
 			G.E_MANAGER:add_event(Event({
 				func = function()

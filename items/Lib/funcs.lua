@@ -1787,12 +1787,17 @@ function RevosVault.attention_text(_text, _hold, _major, _scale, _offset, _align
 	})
 end
 
-function RevosVault.random_playing_card(id, suit, area)
+function RevosVault.random_playing_card(id, suit, area, other_args)
+	if not other_args then other_args = {} end
+	local _enhancement = "c_base"
+	if not other_args.no then 
+		_enhancement = SMODS.poll_enhancement({guaranteed = other_args.guaranteed})
+	end
 	local acard = SMODS.add_card({
 		set = "Playing Card",
 		rank = id,
 		suit = suit,
-		enhancement =  SMODS.poll_enhancement({}),
+		enhancement = _enhancement,
 		area = area or G.deck
 	})
 end
@@ -2196,4 +2201,62 @@ function RevosVault.silent_ease_dollars(mod, instant)
         end
         }))
     end
+end
+
+RevosVault.pseudorandom_printer = function(args) 
+
+	args.voucher_tier1 = args.voucher_tier1 or "v_crv_printerup"
+	args.voucher_tier2 = args.voucher_tier2 or "v_crv_printeruptier"
+	args.voucher_odds = args.voucher_odds or 4
+	args.seed = args.seed or "ALLPRINTER"
+
+	local _sets = nil
+	if type(args.sets) == "table" then
+		_sets = pseudorandom_element(args.sets, pseudoseed(args.seed))
+	else
+		_sets = args.sets
+	end
+
+	if _sets == "Consumable" then
+		args.area = args.area or G.consumeables
+		_sets = pseudorandom_element(RevosVault.get_consumable_pool(), pseudoseed(args.seed)).set
+	end
+
+	if args.key then
+		_sets = nil
+	end
+	if _sets == "Playing Card" or _sets == "Default" or _sets == "Enhanced" then
+		args.area = args.area or G.hand
+		if _sets == "Playing Card" then
+			RevosVault.random_playing_card(nil, nil, args.area)
+		elseif _sets == "Default" then
+			RevosVault.random_playing_card(nil, nil, args.area, {no = true})
+		else
+			RevosVault.random_playing_card(nil, nil, args.area, {guaranteed = true})
+		end
+	else
+		args.area = args.area or G.jokers 
+		if (G.GAME.used_vouchers[args.voucher_tier1] == true and SMODS.pseudorandom_probability(args.card, args.seed, 1, args.voucher_odds)) or (G.GAME.used_vouchers[args.voucher_tier2] == true) or (args.always_negative) then
+			if (args.odds and SMODS.pseudorandom_probability(args.card, args.seed, 1, args.odds, nil, args.no_odd_mod)) or not (args.odds) then	
+				SMODS.add_card{
+					area = args.area,
+					set = _sets,
+					edition = "e_negative",
+					key = args.key,
+					rarity = args.rarity
+				}
+			end
+		elseif args.area and args.area.cards and #args.area.cards < args.area.config.card_limit then
+			if (args.odds and SMODS.pseudorandom_probability(args.card, args.seed, 1, args.odds, args.no_odd_mod)) or not(args.odds) then
+				SMODS.add_card{
+					area= args.area,
+					set = _sets,
+					key = args.key,
+					rarity = args.rarity
+				}
+			end
+		else
+			RevosVault.c_message(args.card, (args.message or localize("k_no_room_ex")))
+		end
+	end
 end

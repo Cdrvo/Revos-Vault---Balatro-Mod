@@ -10,22 +10,42 @@ SMODS.Blind({
 })
 
 SMODS.Blind({
-	key = "fragile",
+	key = "fragile", -- i still love overcomplicating
 	boss = { min = 3, max = 10 },
 	atlas = "blinds",
 	pos = { x = 0, y = 0 },
 	boss_colour = HEX("ffffff"),
+	press_play = function(self)
+		self.triggered = false
+		self.triggered2 = false
+	end,
+	calculate = function(self, card, context)
+		if context.before and not self.triggered2 then
+			self.triggered2 = true
+			local card = pseudorandom_element(G.play.cards,pseudoseed("aeaefragilsomethign"))
+			for k, v in pairs(G.play.cards) do
+				if v == card then
+					v.crv_marked_by_fragile = true -- what the fuck is this i wonder
+				end
+			end
+		end
+	end,
 	crv_after_play = function(self, blind, context)
-		local cards = {}
-		for i = 1, #G.play.cards do
-			cards[#cards + 1] = G.play.cards[i]
+		if #G.play.cards>0 and not self.triggered then
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.01,
+				func = function()
+					for k, v in pairs(G.play.cards) do
+						if v.crv_marked_by_fragile then
+							SMODS.destroy_cards(v)
+							self.triggered = true
+						end
+					end
+					return true
+				end,
+			}))
 		end
-		local _card = pseudorandom_element(cards, pseudoseed("fragile"))
-		if _card then
-			SMODS.destroy_cards(_card)
-		end
-		self.triggered = true
-		return true
 	end,
 })
 
@@ -61,14 +81,8 @@ SMODS.Blind({
 	boss_colour = HEX("f0b900"),
 	press_play = function(self)
 		local cards = {}
-		if G.GAME.talisman == 1 then
-			if to_number(G.GAME.dollars) > 10 then
-				ease_dollars(-3)
-			end
-		else
-			if G.GAME.dollars > 10 then
-				ease_dollars(-3)
-			end
+		if to_big(G.GAME.dollars) > 10 then
+			ease_dollars(-3)
 		end
 	end,
 })

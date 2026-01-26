@@ -3,6 +3,8 @@ RevosVault = SMODS.current_mod
 RevoConfig = SMODS.current_mod.config
 RevosPath = SMODS.current_mod.path
 
+SMDOS = SMODS
+
 --BEHOLD! THE WORST CODE IN HISTORY UNFOLDS UPON YOUR EYES!
 --No but seriously goodluck understanding anything
 
@@ -439,6 +441,12 @@ SMODS.current_mod.reset_game_globals = function(run_start)
 
 end
 
+-- err
+if next(SMODS.find_mod("JoJoMod")) then
+	RevosVault.crv_jojo = true
+else
+	RevosVault.crv_jojo = false
+end
 
 --ily cryptid
 SMODS.ObjectType({
@@ -478,6 +486,33 @@ SMODS.ObjectType({
 	end,
 })
 
+SMODS.ObjectType({ -- not the best way but not the worst either i hope
+	key = "crv_GeneralScrap",
+	cards = {
+		["c_crv_horn"] = true,
+	},
+	inject_card = function(self, center)
+		local gpc = G.P_CENTER_POOLS
+		self.cards = {}
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.1,
+			func = function()
+				for i = 1, #gpc.scrap do
+					gpc.scrap[i].crv_is_scrap = true
+					SMODS.insert_pool(gpc[self.key], gpc.scrap[i])
+				end
+				if RevosVault.crv_jojo then
+					for i = 1, #gpc.jojo_Scraps do
+						gpc.jojo_Scraps[i].crv_is_scrap = true
+						SMODS.insert_pool(gpc[self.key], gpc.jojo_Scraps[i])
+					end
+				end
+				return true
+			end,
+		}))
+	end,
+})
 
 local vanilla = {
 	"j_joker",

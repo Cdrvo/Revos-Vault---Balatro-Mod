@@ -14,7 +14,9 @@ SMODS.Enhancement({
 	weight = 0,
 	config = { extra = { x_mult = 2, odds = 8 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.x_mult, (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+		local cae = card.ability.extra
+		local num, den = SMODS.get_probability_vars(card,1,cae.odds,"bpg_seed")
+		return { vars = { card.ability.extra.x_mult, num, den } }
 	end,
 	calculate = function(self, card, context, effect)
 		if context.main_scoring and context.cardarea == G.play then
@@ -24,7 +26,7 @@ SMODS.Enhancement({
 		end
 		if
 			context.destroying_card
-			and pseudorandom("bulletproofglass") < G.GAME.probabilities.normal / card.ability.extra.odds
+			and SMODS.pseudorandom_probability(card,"bpg_seed",1,card.ability.extra.odds)
 		then
 			G.E_MANAGER:add_event(Event({
 
@@ -312,7 +314,7 @@ SMODS.Enhancement({
 })
 
 SMODS.Enhancement({
-	key = "blessedcard",
+	key = "blessedcard", -- no
 	from = "m_lucky",
 	atlas = "enh",
 	pos = { x = 0, y = 1 },

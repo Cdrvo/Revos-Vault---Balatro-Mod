@@ -26,6 +26,7 @@ SMODS.Joker({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = {set = "Other", key = "crv_fixed_chances"}
 		return {
 			vars = { card.ability.extra.xmult, card.ability.extra.odds, card.ability.extra.discards },
 		}
@@ -120,8 +121,9 @@ SMODS.Joker({
 	},
 	loc_vars = function(self,info_queue,card)
 		local cae = card.ability.extra
+		local num, den = SMODS.get_probability_vars(card,1,cae.odds,"vdna_seed")
 		return{
-			vars ={(G.GAME.probabilities.normal or 1), cae.odds}
+			vars ={num, den}
 		}
 	end,
 	calculate = function(self, card, context)
@@ -134,7 +136,7 @@ SMODS.Joker({
 		end
 
 		if context.cardarea == G.jokers and context.before and G.GAME.current_round.hands_played == 0 then
-			if pseudorandom("vdna") < G.GAME.probabilities.normal / cae.odds then
+			if SMODS.pseudorandom_probability(card,"vdna_seed",1,cae.odds) then
 				SMODS.destroy_cards(card)
 			else
 			if #context.full_hand == 1 then
@@ -343,8 +345,9 @@ SMODS.Joker({
 	},
 	loc_vars = function(self, info_queue, card)
 		local crv = card.ability.extra
+		local num,den = SMODS.get_probability_vars(card,1,crv.odds,"vmichel_odds")
 		return {
-			vars = { crv.xmult, crv.odds, (G.GAME.probabilities.normal or 1) },
+			vars = { crv.xmult, den, num },
 		}
 	end,
 
@@ -352,7 +355,7 @@ SMODS.Joker({
 		local crv = card.ability.extra
 		if
 			context.setting_blind
-			and pseudorandom("vmichel") < G.GAME.probabilities.normal / crv.odds
+			and SMODS.pseudorandom_probability(card,"vmichel_seed",1,crv.ods)
 			and not context.repetition
 			and not context.individual
 			and not context.blueprint
@@ -762,15 +765,16 @@ SMODS.Joker({
 	},
 	loc_vars = function(self, info_queue, card)
 		local crv = card.ability.extra
+		local num, den = SMODS.get_probability_vars(card,1,crv.odds,"vball_seed")
 		return {
-			vars = {(G.GAME.probabilities.normal or 1),crv.odds},
+			vars = {num,den},
 		}
 	end,
 	calculate = function(self, card, context)
 		local crv = card.ability.extra
 		local c = context
 		if c.individual and c.cardarea == G.play and c.other_card:get_id() == 8 then
-			if pseudorandom("vball") < G.GAME.probabilities.normal / crv.odds then
+			if SMODS.pseudorandom_probability(card,"vball_seed",1,crv.odds) then
 				for i = 1, #G.consumeables.cards do
 					SMODS.destroy_cards(G.consumeables.cards[i])
 				end

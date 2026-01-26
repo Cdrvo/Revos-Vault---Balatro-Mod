@@ -1436,14 +1436,16 @@ SMODS.Consumable({
 		extra = { cards = 2, odds = 6 },
 	},
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.cards, card.ability.extra.odds, (G.GAME.probabilities.normal or 1) } }
+		local cae = card.ability.extra
+		local num, den = SMODS.get_probability_vars(card,1,cae.odds,"wraith_seed")
+		return { vars = { card.ability.extra.cards, den, num } }
 	end,
 	can_use = function(self, card)
 		return RevosVault.has_room(G.jokers)
 	end,
 	use = function(self, card, area, copier)
 		if
-			pseudorandom("supwraity") < G.GAME.probabilities.normal / card.ability.extra.odds
+			SMODS.pseudorandom_probability(card,"wraith_seed",1,card.ability.extra.odds)
 			and G.jokers.config.card_limit > #G.jokers.cards
 		then
 			SMODS.add_card({
@@ -1680,7 +1682,9 @@ SMODS.Consumable({
 		SuperiorSpectral = true,
 	},
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.cards, (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+		local cae = card.ability.extra
+		local num,den = SMODS.get_probability_vars(card,1,cae.odds,"supankh_seed")
+		return { vars = { card.ability.extra.cards, num, den } }
 	end,
 	can_use = function(self, card)
 		local _cards = {}
@@ -1695,7 +1699,7 @@ SMODS.Consumable({
 			acard:add_to_deck()
 			G.jokers:emplace(acard)
 		end
-		if pseudorandom("supanky") < G.GAME.probabilities.normal / 3 then
+		if SMODS.pseudorandom_probability(card,"supankh_seed",1,card.ability.extra.odds) then
 			for i = 1, #G.jokers.cards do
 				if G.jokers.cards[i] ~= acard or G.jokers.cards[i] ~= G.jokers.highlighted[1] then
 					SMODS.destroy_cards(G.jokers.cards[i])

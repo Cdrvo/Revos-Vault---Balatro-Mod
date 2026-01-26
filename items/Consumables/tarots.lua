@@ -3,7 +3,9 @@ SMODS.Consumable({
 	set = "Tarot",
 	config = { extra = { odds = 2 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+		local cae = card.ability.extra
+		local num, den = SMODS.get_probability_vars(card,1,cae.odds,"ink_seed")
+		return { vars = { num,  den } }
 	end,
 	pos = { x = 0, y = 0 },
 	atlas = "tarots",
@@ -11,12 +13,12 @@ SMODS.Consumable({
 	unlocked = true,
 	discovered = true,
 	can_use = function(self, card)
-		if #G.jokers.cards < G.jokers.config.card_limit or self.area == G.jokers then
+		if #G.jokers.cards < G.jokers.config.card_limit then
 			return true
 		end
 	end,
 	use = function(self, card)
-		if pseudorandom("inkintuition") < G.GAME.probabilities.normal / card.ability.extra.odds then
+		if SMODS.pseudorandom_probability(card,"ink_seed",1,card.ability.extra.odds) then
 			SMODS.add_card({ set = "Joker", area = G.jokers, rarity = "crv_p" })
 		else
 			RevosVault.nope({card = card})

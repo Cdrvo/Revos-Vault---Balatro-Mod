@@ -69,7 +69,14 @@ function G.FUNCS.evaluate_play(e)
 		SMODS.insert_pool(G.P_CENTER_POOLS.SuperiorPlanet, G.P_CENTERS.c_crv_superis)
 		unlock3 = true
 	end
-	G.GAME.blind:crv_after_play()
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0.3,
+		func = function()
+			G.GAME.blind:crv_after_play()
+			return true
+		end
+	}))
 	if R.c then R.c = nil hand_chips = 0 end
 	if R.m then R.m = nil mult = 0 end
 
@@ -245,11 +252,11 @@ Game.init_game_object = function(self)
 
 	ret.superior_mod = 1
 
-	if next(SMODS.find_mod("JoJoMod")) then
-		ret.jojo = true
+--[[if next(SMODS.find_mod("JoJoMod")) then
+		ret.crv_jojo = true
 	else
-		ret.jojo = false
-	end
+		ret.crv_jojo = false
+	end]]
 	if next(SMODS.find_mod("Talisman")) then
 		ret.talisman = 1
 	else
@@ -809,4 +816,13 @@ function SMODS.score_card(card, context)
     if not card.crv_no_trigger then
         return score_card_old(card, context)
     end
+end
+
+local draw_from_play_to_discard_old = G.FUNCS.draw_from_play_to_discard
+G.FUNCS.draw_from_play_to_discard = function(e)
+	for k, v in ipairs(G.play.cards) do
+		if (not v.crv_marked_by_fragile) then
+			draw_from_play_to_discard_old(e)
+		end
+	end
 end

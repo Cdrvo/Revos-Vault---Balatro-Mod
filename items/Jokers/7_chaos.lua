@@ -47,25 +47,23 @@ SMODS.Joker({
  },
 	},
 	loc_vars = function(self, info_queue, card)
-		return { vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+		info_queue[#info_queue+1] = {set = "Other", key = "crv_fixed_chances"}
+		local num, den = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, "general_printer_seed_cause_im_lazy", nil, true)
+		return {
+			vars = { num, den },
+		}
 	end,
 	calculate = function(self, card, context)
 		if
 			context.setting_blind
 			and not context.blueprint
-			and pseudorandom("chaoticprintermachine") < G.GAME.probabilities.normal / card.ability.extra.odds
+			and SMODS.pseudorandom_probability(card, "j_crv_chaoticprintersmhasjhd", 1, card.ability.extra.odds, nil, true)
 		then
-						if G.GAME.used_vouchers["v_crv_printerup"] == true and pseudorandom("ALLPRINTER") < G.GAME.probabilities.normal / 4  or G.GAME.used_vouchers["v_crv_printeruptier"] == true then
-			for i = 1, 27 do
-				SMODS.add_card({ set = "Joker", rarity = "crv_p",area = G.jokers,edition = "e_negative" })
-			end
-		else
-			for i = 1, 27 do
-				SMODS.add_card({ set = "Joker", rarity = "crv_p",area = G.jokers})
+			for i = 1, #G.P_JOKER_RARITY_POOLS.crv_p do
+				RevosVault.pseudorandom_printer({card = card,seed = "j_crv_chaoticprintersomething",area = G.jokers, rarity = "crv_p"})
 			end
 		end
-	end
-end,
+	end,
 	in_pool = function(self, wawa, wawa2)
 		return true
 	end,
@@ -88,16 +86,7 @@ SMODS.Joker({
 	end,
 	calculate = function(self, card, context)
 		if context.setting_blind then
-			if G.GAME.used_vouchers["v_crv_printerup"] == true and pseudorandom("ALLPRINTER") < G.GAME.probabilities.normal / 4  or G.GAME.used_vouchers["v_crv_printeruptier"] == true then
-			local new_card = create_card("Promotion", G.jokers, nil, nil, nil, nil, "j_crv_promotion")
-			new_card:add_to_deck()
-			new_card:set_edition({negative = true},true)
-			G.jokers:emplace(new_card)
-			else
-			local new_card = create_card("Promotion", G.jokers, nil, nil, nil, nil, "j_crv_promotion")
-			new_card:add_to_deck()
-			G.jokers:emplace(new_card)
-			end
+			RevosVault.pseudorandom_printer({card = card,seed = "j_crv_thefax",area = G.jokers, key = "j_crv_promotion"})
 		end
 	end,
 	in_pool = function(self, wawa, wawa2)
@@ -251,16 +240,7 @@ SMODS.Joker({
 	end,
 	calculate = function(self, card, context)
 		if context.setting_blind then
-			if G.GAME.used_vouchers["v_crv_printerup"] == true and pseudorandom("ALLPRINTER") < G.GAME.probabilities.normal / 4  or G.GAME.used_vouchers["v_crv_printeruptier"] == true then
-			local new_card = create_card("Blueprinter", G.jokers, nil, nil, nil, nil, "j_crv_holybanana")
-			new_card:add_to_deck()
-			new_card:set_edition({negative= true},true)
-			G.jokers:emplace(new_card)
-			else
-			local new_card = create_card("Blueprinter", G.jokers, nil, nil, nil, nil, "j_crv_holybanana")
-			new_card:add_to_deck()
-			G.jokers:emplace(new_card)
-			end
+			RevosVault.pseudorandom_printer({card = card,seed = "j_crv_thefax",area = G.jokers, key = "j_crv_holybanana"})
 		end
 	end,
 	in_pool = function(self, wawa, wawa2)
@@ -269,7 +249,7 @@ SMODS.Joker({
 })
 
 SMODS.Joker({
-	key = "hfj",
+	key = "hfj", -- ??????? what the actual fuck is this
 	atlas = "Jokers2",
 	rarity = "crv_chaos",
 	cost = 6,
@@ -359,7 +339,7 @@ SMODS.Joker({
 })
 
 SMODS.Joker({
-	key = "crash",
+	key = "crash", --wow
 	loc_vars = function(self, info_queue, card)
 		return {
 			vars = {},
@@ -382,10 +362,10 @@ SMODS.Joker({
 	calculate = function(self, card, context)
 		if context.setting_blind and G.GAME.blind.boss then
 			for i = 1, G.jokers.config.card_limit - #G.jokers.cards do
-		SMODS.add_card{
-			key = "j_chicot"
-		}
-	end
-	end
+				SMODS.add_card{
+					key = "j_chicot"
+				}
+			end
+		end
 	end,
 })

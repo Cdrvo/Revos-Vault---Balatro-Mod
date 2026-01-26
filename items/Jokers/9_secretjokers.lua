@@ -8,7 +8,7 @@ SMODS.Rarity({
 -- so much for secret jokers :sob:
 
 SMODS.Joker({
-	key = "sgrossprinter",
+	key = "sgrossprinter", -- im NOT touching this either
 	atlas = "Jokers2",
 	rarity = "crv_secret",
 	cost = 10,
