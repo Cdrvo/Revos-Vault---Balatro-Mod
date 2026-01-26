@@ -113,62 +113,34 @@ SMODS.Joker({
 		}
 	end,
 	calculate = function(self, card, context)
-		if context.reroll_shop then
+		if context.reroll_shop and not context.blueprint then
 			local adamcc = pseudorandom_element(adamc, pseudoseed("lpm"))
 			if adamcc == 1 then
-				if
-					G.GAME.used_vouchers["v_crv_printerup"] == true
-						and pseudorandom("ALLPRINTER") < G.GAME.probabilities.normal / 4
-					or G.GAME.used_vouchers["v_crv_printeruptier"] == true
-				then
+				if #G.consumeables.cards < G.consumeables.config.card_limit or self.area == G.consumeables then
 					local scrapselect = pseudorandom_element(scrapselecta, pseudoseed("lpm"))
 					if G.GAME.jojo then
 						if scrapselect == 1 then
 							SMODS.add_card({
 								area = G.consumeables,
 								set = "scrap",
-								edition = "e_negative",
 							})
 						else
 							SMODS.add_card({
 								area = G.consumeables,
 								set = "jojo_Scraps",
-								edition = "e_negative",
 							})
 						end
 					else
 						SMODS.add_card({
 							area = G.consumeables,
 							set = "scrap",
-							edition = "e_negative",
 						})
-					end
-				else
-					if #G.consumeables.cards < G.consumeables.config.card_limit or self.area == G.consumeables then
-						local scrapselect = pseudorandom_element(scrapselecta, pseudoseed("lpm"))
-						if G.GAME.jojo then
-							if scrapselect == 1 then
-								SMODS.add_card({
-									area = G.consumeables,
-									set = "scrap",
-								})
-							else
-								SMODS.add_card({
-									area = G.consumeables,
-									set = "jojo_Scraps",
-								})
-							end
-						else
-							SMODS.add_card({
-								area = G.consumeables,
-								set = "scrap",
-							})
-						end
 					end
 				end
 			end
 		end
-		if context.using_consumeable then
+			
+		if context.using_consumeable and not context.blueprint then
 			if G.GAME.jojo then
 				if
 					context.consumeable.ability.set == "jojo_Scraps"
@@ -189,7 +161,7 @@ SMODS.Joker({
 				x_mult = card.ability.extra.xmult,
 			}
 		end
-		if card.ability.extra.scrapc == 5 then
+		if card.ability.extra.scrapc == 5 and not context.blueprint then
 			card.ability.extra.scrapc = 0
 			SMODS.add_card({
 				set = "Spectral",
