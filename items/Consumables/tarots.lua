@@ -233,7 +233,7 @@ if RevoConfig["8_curses_enabled"] then
 			}))
 		end,
 		in_pool = function(self)
-			return (RevosVault.rarity_in("crv_curse", G.crv_curses.cards) and (RevosVault.rarity_in("crv_curse", G.crv_curses.cards)>0))
+			return (G.crv_curses and (RevosVault.rarity_in("crv_curse", G.crv_curses.cards) and (RevosVault.rarity_in("crv_curse", G.crv_curses.cards)>0)))
 		end
 	})
 end
