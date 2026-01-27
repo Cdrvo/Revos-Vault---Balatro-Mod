@@ -3,7 +3,7 @@ SMODS.Sticker({
 	badge_colour = HEX("830000"),
 	atlas = "enh",
 	pos = {
-		x = 2,
+		x = 7,
 		y = 2,
 	},
 	sets = {
@@ -35,8 +35,8 @@ SMODS.Sticker({
 	atlas = "enh",
 	crv_blacklist = true,
 	pos = {
-		x = 3,
-		y = 2,
+		x = 5,
+		y = 1,
 	},
 	sets = {
 		Joker = true,
@@ -55,8 +55,8 @@ SMODS.Sticker({
 	badge_colour = HEX("008c24"),
 	atlas = "enh",
 	pos = {
-		x = 4,
-		y = 2,
+		x = 6,
+		y = 1,
 	},
 	sets = {
 		Joker = true,
@@ -90,8 +90,8 @@ SMODS.Sticker({
 	badge_colour = HEX("ffe9b5"),
 	atlas = "enh",
 	pos = {
-		x = 2,
-		y = 3,
+		x = 5,
+		y = 2,
 	},
 	sets = {
 		Joker = true,
@@ -131,7 +131,7 @@ SMODS.Sticker({
 	atlas = "enh",
 	pos = {
 		x = 5,
-		y = 1,
+		y = 0,
 	},
 	sets = {
 		Joker = true,
@@ -172,8 +172,8 @@ SMODS.Sticker({
 	badge_colour = HEX("fdffa8"),
 	atlas = "enh",
 	pos = {
-		x = 5,
-		y = 2,
+		x = 7,
+		y = 1,
 	},
 	sets = {
 		Joker = true,
@@ -230,8 +230,8 @@ SMODS.Sticker({
 	badge_colour = SMODS.Gradients["crv_temp"],
 	atlas = "enh",
 	pos = {
-		x = 5,
-		y = 3,
+		x = 6,
+		y = 2,
 	},
 	sets = {
 		Joker = true,
@@ -256,7 +256,7 @@ SMODS.Sticker({
 	atlas = "enh",
 	pos = {
 		x = 6,
-		y = 1,
+		y = 0,
 	},
 	sets = {
 		Joker = true,
@@ -316,7 +316,7 @@ SMODS.Sticker({
 	badge_colour = HEX("000000"),
 	atlas = "enh",
 	pos = {
-		x = 1,
+		x = 5,
 		y = 3,
 	},
 	sets = {
@@ -431,8 +431,8 @@ end
 SMODS.Sticker({
 	key = "wet",
 	pos = {
-		x = 2,
-		y = 4,
+		x = 6,
+		y = 3,
 	},
 	badge_colour = HEX("0075ff"),
 	atlas = "enh",

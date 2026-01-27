@@ -39,7 +39,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "plantain",
-	atlas = "gban",
+	atlas = "Jokers2",
 	no_pool_flag = "pex",
 	rarity = 2,
 	cost = 6,
@@ -48,8 +48,8 @@ SMODS.Joker({
 	blueprint_compat = true,
 	perishable_compat = false,
 	pos = {
-		x = 1,
-		y = 0,
+		x = 12,
+		y = 3,
 	},
 	config = {
 		extra = {
@@ -135,7 +135,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "reban",
-	atlas = "gban",
+	atlas = "Jokers2",
 	no_pool_flag = "rex",
 	rarity = 2,
 	cost = 6,
@@ -144,8 +144,8 @@ SMODS.Joker({
 	blueprint_compat = true,
 	perishable_compat = false,
 	pos = {
-		x = 0,
-		y = 0,
+		x = 11,
+		y = 3,
 	},
 	config = {
 		extra = {
@@ -211,7 +211,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "tundan",
-	atlas = "gban",
+	atlas = "Jokers2",
 	no_pool_flag = "lex",
 	rarity = 2,
 	cost = 5,
@@ -220,8 +220,8 @@ SMODS.Joker({
 	blueprint_compat = true,
 	perishable_compat = false,
 	pos = {
-		x = 2,
-		y = 0,
+		x = 13,
+		y = 3,
 	},
 	config = {
 		extra = {
@@ -308,7 +308,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "bluj",
-	atlas = "gban",
+	atlas = "Jokers2",
 	no_pool_flag = "bex",
 	rarity = 2,
 	cost = 5,
@@ -317,8 +317,8 @@ SMODS.Joker({
 	blueprint_compat = true,
 	perishable_compat = false,
 	pos = {
-		x = 0,
-		y = 1,
+		x = 11,
+		y = 4,
 	},
 	config = {
 		extra = {
@@ -381,7 +381,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "bananavine",
-	atlas = "gban",
+	atlas = "Jokers2",
 	no_pool_flag = "gex",
 	rarity = 2,
 	cost = 5,
@@ -390,8 +390,8 @@ SMODS.Joker({
 	blueprint_compat = false,
 	perishable_compat = false,
 	pos = {
-		x = 1,
-		y = 1,
+		x = 12,
+		y = 4,
 	},
 	pools = {
 		Food = true,
@@ -448,7 +448,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "tickingb",
-	atlas = "gban",
+	atlas = "Jokers2",
 	no_pool_flag = "tex",
 	rarity = 2,
 	cost = 6,
@@ -457,8 +457,8 @@ SMODS.Joker({
 	blueprint_compat = true,
 	perishable_compat = false,
 	pos = {
-		x = 1,
-		y = 2,
+		x = 12,
+		y = 5,
 	},
 	config = {
 		extra = {
@@ -528,13 +528,13 @@ SMODS.Joker({
 		Food = true,
 	},
 	rarity = 2,
-	atlas = "gban",
+	atlas = "Jokers2",
 	blueprint_compat = false,
 	discovered = false,
 
 	pos = {
-		x = 0,
-		y = 2,
+		x = 11,
+		y = 5,
 	},
 	cost = 4,
 	loc_vars = function(self, info_queue, card)
@@ -567,7 +567,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "bananatemp",
-	atlas = "gban",
+	atlas = "Jokers2",
 	no_pool_flag = "btex",
 	rarity = 2,
 	cost = 6,
@@ -576,8 +576,8 @@ SMODS.Joker({
 	blueprint_compat = true,
 	perishable_compat = false,
 	pos = {
-		x = 2,
-		y = 2,
+		x = 13,
+		y = 5,
 	},
 	config = {
 		extra = {
@@ -616,7 +616,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "jimban",
-	atlas = "gban",
+	atlas = "Jokers2",
 	no_pool_flag = "jbex",
 	rarity = 2,
 	cost = 6,
@@ -625,8 +625,8 @@ SMODS.Joker({
 	blueprint_compat = true,
 	perishable_compat = false,
 	pos = {
-		x = 3,
-		y = 0,
+		x = 14,
+		y = 3,
 	},
 	config = {
 		extra = {
@@ -1125,12 +1125,12 @@ SMODS.Joker({
 		},
 	},
 	rarity = 2,
-	atlas = "t",
+	atlas = "Jokers2",
 	blueprint_compat = true,
 	discovered = false,
 	pos = {
-		x = 0,
-		y = 2,
+		x = 11,
+		y = 0,
 	},
 	cost = 6,
 	loc_vars = function(self, info_queue, card)
@@ -1171,12 +1171,12 @@ SMODS.Joker({
 		},
 	},
 	rarity = 2,
-	atlas = "t",
+	atlas = "Jokers2",
 	blueprint_compat = true,
 	discovered = false,
 	pos = {
-		x = 1,
-		y = 2,
+		x = 12,
+		y = 0,
 	},
 	cost = 6,
 	loc_vars = function(self, info_queue, card)
@@ -1220,12 +1220,12 @@ SMODS.Joker({
 		},
 	},
 	rarity = 2,
-	atlas = "t",
+	atlas = "Jokers2",
 	blueprint_compat = true,
 	discovered = false,
 	pos = {
-		x = 2,
-		y = 2,
+		x = 13,
+		y = 0,
 	},
 	cost = 6,
 	loc_vars = function(self, info_queue, card)

@@ -1,6 +1,6 @@
 SMODS.Joker({
 	key = "ghostslices",
-	atlas = "gb",
+	atlas = "Jokers2",
 	rarity = 1,
 	cost = 1,
 	unlocked = true,
@@ -8,8 +8,8 @@ SMODS.Joker({
 	blueprint_compat = true,
 	perishable_compat = false,
 	pos = {
-		x = 1,
-		y = 0,
+		x = 16,
+		y = 3,
 	},
 	config = {
 		extra = {
@@ -38,7 +38,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "divineban",
-	atlas = "gban",
+	atlas = "Jokers2",
 	no_pool_flag = "dibex",
 	rarity = 1,
 	cost = 6,
@@ -47,8 +47,8 @@ SMODS.Joker({
 	blueprint_compat = true,
 	perishable_compat = false,
 	pos = {
-		x = 3,
-		y = 1,
+		x = 14,
+		y = 4,
 	},
 	config = {
 		extra = {

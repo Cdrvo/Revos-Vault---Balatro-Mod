@@ -2539,8 +2539,9 @@ return {
 				text = {
 					"At the and of a round",
 					"{C:attention}double{} your money.",
-					"{s:0.8}max of $20",
-					"If you have more than $100 self destruct.",
+					"{C:inactive,s:0.8}max of {C:money,s:0.8}$#1#{}",
+					"If you have more than {C:money}$#2#{}",
+					"sets money to {C:red}0"
 
 				}
 			},

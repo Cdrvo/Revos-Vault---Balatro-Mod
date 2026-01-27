@@ -183,8 +183,8 @@ SMODS.Consumable({
 	key = "megadoc",
 	set = "EnchancedDocuments",
 	discovered = true,
-	atlas = "megaenh",
-	pos = { x = 1, y = 0 },
+	atlas = "documents",
+	pos = { x = 2, y = 2 },
 	config = {
 		extra = {
 			xmult = 4,
@@ -236,8 +236,8 @@ SMODS.Consumable({
 	key = "t1doc",
 	set = "EnchancedDocuments",
 	discovered = true,
-	atlas = "t",
-	pos = { x = 0, y = 1 },
+	atlas = "documents",
+	pos = { x = 0, y = 3 },
 	config = {
 		extra = {
 			xmult = 50,
@@ -289,8 +289,8 @@ SMODS.Consumable({
 	key = "t2doc",
 	set = "EnchancedDocuments",
 	discovered = true,
-	atlas = "t",
-	pos = { x = 1, y = 1 },
+	atlas = "documents",
+	pos = { x = 1, y = 3 },
 	config = {
 		extra = {
 			xmult = 100,
@@ -344,8 +344,8 @@ SMODS.Consumable({
 	key = "t3doc",
 	set = "EnchancedDocuments",
 	discovered = true,
-	atlas = "t",
-	pos = { x = 2, y = 1 },
+	atlas = "documents",
+	pos = { x = 2, y = 3 },
 	config = {
 		extra = {
 			chips = 200,
@@ -400,8 +400,8 @@ SMODS.Consumable({
 	key = "boostdoc",
 	set = "EnchancedDocuments",
 	discovered = true,
-	atlas = "t",
-	pos = { x = 3, y = 1 },
+	atlas = "documents",
+	pos = { x = 3, y = 3 },
 	config = { extra = { cards = 1 } },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.cards } }

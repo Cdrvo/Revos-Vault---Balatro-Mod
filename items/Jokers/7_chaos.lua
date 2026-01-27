@@ -15,9 +15,9 @@ SMODS.Consumable({
 	loc_vars = function(self, info_queue, card)
 		return { vars = {} }
 	end,
-	pos = { x = 0, y = 0 },
-	soul_pos = { x = 1, y = 0 },
-	atlas = "printersoul",
+	pos = { x = 1, y = 1 },
+	soul_pos = { x = 2, y = 1 },
+	atlas = "spec",
 	cost = 3,
 	unlocked = true,
 	discovered = false,

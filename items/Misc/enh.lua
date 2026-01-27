@@ -76,8 +76,8 @@ SMODS.Enhancement({
 
 SMODS.Enhancement({
 	key = "soulcard",
-	atlas = "ghost",
-	pos = { x = 0, y = 0 },
+	atlas = "enh",
+	pos = { x = 2, y = 1 },
 	discovered = true,
 	unlocked = true,
 	replace_base_card = true,
@@ -152,8 +152,8 @@ SMODS.Enhancement({
 
 SMODS.Enhancement({
 	key = "mega",
-	atlas = "megaenh",
-	pos = { x = 0, y = 0 },
+	atlas = "enh",
+	pos = { x = 2, y = 3},
 	discovered = true,
 	unlocked = true,
 	replace_base_card = false,
@@ -182,8 +182,8 @@ SMODS.Enhancement({
 SMODS.Enhancement({
 	key = "tier1card",
 	from = "m_bonus",
-	atlas = "t",
-	pos = { x = 0, y = 0 },
+	atlas = "enh",
+	pos = { x = 0, y = 4 },
 	discovered = true,
 	unlocked = true,
 	replace_base_card = false,
@@ -212,8 +212,8 @@ SMODS.Enhancement({
 SMODS.Enhancement({
 	key = "tier2card",
 	from = "m_crv_tier1card",
-	atlas = "t",
-	pos = { x = 1, y = 0 },
+	atlas = "enh",
+	pos = { x = 1, y = 4 },
 	discovered = true,
 	unlocked = true,
 	replace_base_card = false,
@@ -243,8 +243,8 @@ SMODS.Enhancement({
 SMODS.Enhancement({
 	key = "tier3card",
 	from = "m_crv_tier2card",
-	atlas = "t",
-	pos = { x = 2, y = 0 },
+	atlas = "enh",
+	pos = { x = 2, y = 4 },
 	discovered = true,
 	unlocked = true,
 	replace_base_card = false,
@@ -274,8 +274,8 @@ SMODS.Enhancement({
 SMODS.Enhancement({
 	from = "m_crv_tier3card",
 	key = "boostcard",
-	atlas = "t",
-	pos = { x = 3, y = 0 },
+	atlas = "enh",
+	pos = { x = 3, y = 4 },
 	discovered = true,
 	unlocked = true,
 	replace_base_card = false,
@@ -468,7 +468,7 @@ SMODS.Enhancement({
 	key = "xmultcard",
 	from = "m_mult",
 	atlas = "enh",
-	pos = { x = 3, y = 3 },
+	pos = { x = 1, y = 3 },
 	discovered = true,
 	unlocked = true,
 	replace_base_card = false,
@@ -495,7 +495,7 @@ SMODS.Enhancement({
 SMODS.Enhancement({
 	key = "superiore",
 	atlas = "enh",
-	pos = { x = 4, y = 3 },
+	pos = { x = 2, y = 2},
 	discovered = true,
 	unlocked = true,
 	replace_base_card = false,

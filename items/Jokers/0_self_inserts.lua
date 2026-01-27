@@ -350,16 +350,16 @@ SMODS.Joker({
 		},
 	},
 	rarity = "crv_holy",
-	atlas = "holybanana",
+	atlas = "Jokers2",
 	blueprint_compat = true,
 	discovered = false,
 	pos = {
-		x = 0,
-		y = 0,
+		x = 11,
+		y = 2,
 	},
 	soul_pos = {
-		x = 1,
-		y = 0,
+		x = 12,
+		y = 2,
 	},
 	cost = 6,
 	loc_vars = function(self, info_queue, card)
@@ -427,16 +427,16 @@ SMODS.Joker({
 	},
 	rarity = "crv_pedro",
 	crv_special =true,
-	atlas = "pedro",
+	atlas = "Jokers2",
 	blueprint_compat = true,
 	discovered = false,
 	pos = {
-		x = 0,
-		y = 0,
+		x = 11,
+		y = 1,
 	},
 	soul_pos = {
-		x = 1,
-		y = 0,
+		x = 12,
+		y = 1,
 	},
 	cost = 6,
 	add_to_deck = function(self,card,from_debuff)

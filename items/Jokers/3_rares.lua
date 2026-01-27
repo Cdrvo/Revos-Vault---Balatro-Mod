@@ -43,7 +43,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "ghostbanana",
-	atlas = "gb",
+	atlas = "Jokers2",
 	rarity = 3,
 	cost = 4,
 	unlocked = true,
@@ -51,8 +51,8 @@ SMODS.Joker({
 	blueprint_compat = true,
 	perishable_compat = false,
 	pos = {
-		x = 0,
-		y = 0,
+		x = 15,
+		y = 3,
 	},
 	config = {
 		extra = {
@@ -87,7 +87,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "plainb",
-	atlas = "gban",
+	atlas = "Jokers2",
 	no_pool_flag = "pex2",
 	rarity = 3,
 	cost = 6,
@@ -96,8 +96,8 @@ SMODS.Joker({
 	blueprint_compat = false,
 	perishable_compat = false,
 	pos = {
-		x = 2,
-		y = 1,
+		x = 13,
+		y = 4,
 	},
 	pools = {
 		Food = true,
@@ -160,7 +160,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "doubleban",
-	atlas = "gban",
+	atlas = "Jokers2",
 	no_pool_flag = "dbex",
 	rarity = 3,
 	cost = 6,
@@ -169,8 +169,8 @@ SMODS.Joker({
 	blueprint_compat = true,
 	perishable_compat = false,
 	pos = {
-		x = 3,
-		y = 2,
+		x = 14,
+		y = 5,
 	},
 	config = {
 		extra = {
@@ -634,11 +634,11 @@ SMODS.Joker({
 	},
 
 	rarity = 3,
-	atlas = "mm",
+	atlas = "Jokers2",
 	blueprint_compat = true,
 	discovered = false,
 	pos = {
-		x = 0,
+		x = 14,
 		y = 0,
 	},
 	cost = 7,
@@ -695,12 +695,12 @@ SMODS.Joker({
 		},
 	},
 	rarity = 3,
-	atlas = "mm",
+	atlas = "Jokers2",
 	no_collection = true,
 	blueprint_compat = true,
 	discovered = false,
 	pos = {
-		x = 1,
+		x = 15,
 		y = 0,
 	},
 	cost = 7,
@@ -755,12 +755,12 @@ SMODS.Joker({
 	},
 
 	rarity = 3,
-	atlas = "mm",
+	atlas = "Jokers2",
 	blueprint_compat = true,
 	discovered = false,
 	no_collection = true,
 	pos = {
-		x = 2,
+		x = 16,
 		y = 0,
 	},
 	cost = 7,
@@ -815,12 +815,12 @@ SMODS.Joker({
 	},
 
 	rarity = 3,
-	atlas = "mm",
+	atlas = "Jokers2",
 	blueprint_compat = true,
 	discovered = false,
 	no_collection = true,
 	pos = {
-		x = 3,
+		x = 17,
 		y = 0,
 	},
 	cost = 7,
@@ -876,12 +876,12 @@ SMODS.Joker({
 	},
 
 	rarity = 3,
-	atlas = "mm",
+	atlas = "Jokers2",
 	blueprint_compat = true,
 	discovered = false,
 	no_collection = true,
 	pos = {
-		x = 4,
+		x = 18,
 		y = 0,
 	},
 	cost = 7,
@@ -937,12 +937,12 @@ SMODS.Joker({
 	},
 
 	rarity = 3,
-	atlas = "mm",
+	atlas = "Jokers2",
 	blueprint_compat = true,
 	discovered = false,
 	no_collection = true,
 	pos = {
-		x = 5,
+		x = 19,
 		y = 0,
 	},
 	cost = 7,

@@ -11,19 +11,19 @@ SMODS.Atlas({
 	py = 95,
 })
 
-SMODS.Atlas({
+--[[SMODS.Atlas({ -- MARKED
 	key = "holybanana",
 	path = "holybanana.png",
 	px = 71,
 	py = 95,
-})
+})]]
 
-SMODS.Atlas({
+--[[SMODS.Atlas({ -- MARKED
 	key = "pedro",
 	path = "pedro.png",
 	px = 71,
 	py = 95,
-})
+})]]
 
 SMODS.Atlas({
 	key = "rev",
@@ -38,36 +38,36 @@ SMODS.Atlas({
 	px = 71,
 	py = 95,
 })
-
-SMODS.Atlas({
+--[[
+SMODS.Atlas({ -- MARKED
 	key = "megaprinter",
 	path = "mega.png",
 	px = 71,
 	py = 95,
 })
-
-SMODS.Atlas({
+]]
+SMODS.Atlas({ 
 	key = "megaprinterc",
 	path = "megac.png",
 	px = 174,
 	py = 95,
 })
-
-SMODS.Atlas({
+--[[
+SMODS.Atlas({ -- MARKED
 	key = "megaenh",
 	path = "megaenh.png",
 	px = 71,
 	py = 95,
 })
 
-SMODS.Atlas({
+SMODS.Atlas({ -- MARKED
 	key = "ghost",
 	path = "Ghost.png",
 	px = 71,
 	py = 95,
-})
+})]]
 
-SMODS.Atlas({
+SMODS.Atlas({ 
 	key = "Decks",
 	path = "Decks.png",
 	px = 71,
@@ -116,47 +116,47 @@ SMODS.Atlas({
 	py = 95,
 })
 
-SMODS.Atlas({
+SMODS.Atlas({ 
 	key = "documents_u",
 	path = "documents2.png",
 	px = 71,
 	py = 95,
 })
 
-SMODS.Atlas({
+SMODS.Atlas({ 
 	key = "enh",
 	path = "enh.png",
 	px = 71,
 	py = 95,
 })
 
-SMODS.Atlas({
+SMODS.Atlas({ 
 	key = "scrapss",
 	path = "Scraps.png",
 	px = 71,
 	py = 95,
 })
 
-SMODS.Atlas({
+--[[SMODS.Atlas({ -- MARKED
 	key = "t",
 	path = "tiers.png",
 	px = 71,
 	py = 95,
 })
 
-SMODS.Atlas({
+SMODS.Atlas({ -- MARKED
 	key = "gb",
 	path = "gb.png",
 	px = 71,
 	py = 95,
 })
 
-SMODS.Atlas({
+SMODS.Atlas({ -- MARKED
 	key = "gban",
 	path = "gban.png",
 	px = 71,
 	py = 95,
-})
+})]]
 
 SMODS.Atlas({
 	key = "spec",
@@ -187,13 +187,13 @@ SMODS.Atlas({
 	py = 34,
 	frames = 21,
 })
-
-SMODS.Atlas({
+--[[
+SMODS.Atlas({ -- MARKED
 	key = "mm",
 	path = "mm.png",
 	px = 71,
 	py = 95,
-})
+})]]
 
 SMODS.Atlas({
 	key = "sleeves",
@@ -422,13 +422,13 @@ SMODS.Atlas({
 	px = 71,
 	py = 95,
 })
-
-SMODS.Atlas({
+--[[
+SMODS.Atlas({ -- MARKED
 	key = "printersoul",
 	path = "Printer_Soul.png",
 	px = 71,
 	py = 95,
-})
+})]]
 
 SMODS.Atlas({
 	key = "starspace",

@@ -736,7 +736,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "head",
-	atlas = "megaprinter",
+	atlas = "Jokers2",
 	rarity = "crv_p",
 	no_printer_list = true,
 	cost = 10,
@@ -744,8 +744,8 @@ SMODS.Joker({
 	discovered = false,
 	blueprint_compat = true,
 	pos = {
-		x = 0,
-		y = 0,
+		x = 13,
+		y = 1,
 	},
 	config = {
 		extra = {
@@ -776,7 +776,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "body",
-	atlas = "megaprinter",
+	atlas = "Jokers2",
 	rarity = "crv_p",
 	cost = 10,
 	unlocked = true,
@@ -784,8 +784,8 @@ SMODS.Joker({
 	blueprint_compat = true,
 	no_printer_list = true,
 	pos = {
-		x = 1,
-		y = 0,
+		x = 14,
+		y = 1,
 	},
 	config = {
 		extra = {
@@ -844,7 +844,7 @@ SMODS.Joker({
 
 SMODS.Joker({
 	key = "back",
-	atlas = "megaprinter",
+	atlas = "Jokers2",
 	rarity = "crv_p",
 	cost = 10,
 	unlocked = true,
@@ -852,8 +852,8 @@ SMODS.Joker({
 	blueprint_compat = true,
 	no_printer_list = true,
 	pos = {
-		x = 2,
-		y = 0,
+		x = 15,
+		y = 1,
 	},
 	config = {
 		extra = {

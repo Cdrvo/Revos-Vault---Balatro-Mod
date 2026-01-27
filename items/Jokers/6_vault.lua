@@ -791,10 +791,9 @@ SMODS.Joker({
 })
 
 
---[[if RevoConfig["experimental_enabled"] then
 	SMODS.Joker({
 		key = "vgold",
-		from = "j_gold_joker",
+		from = "j_golden",
 		atlas = "Jokers2",
 		pos = {
 			x = 4,
@@ -814,14 +813,14 @@ SMODS.Joker({
 		loc_vars = function(self, info_queue, card)
 			local crv = card.ability.extra
 			return {
-				vars = {(G.GAME.probabilities.normal or 1),crv.odds},
+				vars = {crv.max, crv.dollar},
 			}
 		end,
 		calculate = function(self, card, context)
 			local crv = card.ability.extra
 			local c = context
-			if c.end_of_round and not c.blueprint then
-				if to_big(G.GAME.dollars<crv.dollar) then
+			if c.end_of_round and not c.blueprint and c.main_eval then
+				if to_big(G.GAME.dollars)<to_big(crv.dollar) then
 					ease_dollars(math.max(0,math.min(to_big(G.GAME.dollars), crv.max)), true)
 				else
 					ease_dollars(-(to_big(G.GAME.dollars)))
@@ -832,4 +831,3 @@ SMODS.Joker({
 			return true
 		end,
 	})
-end]]
