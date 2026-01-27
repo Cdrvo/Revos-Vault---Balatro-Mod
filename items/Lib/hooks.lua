@@ -49,9 +49,7 @@ function G.FUNCS.evaluate_play(e)
 		trigger = "before",
 		delay = 0,
 		func = function()
-
 			RevosVault.scoring = true
-			
 			return true
 		end
 	}))
@@ -69,6 +67,10 @@ function G.FUNCS.evaluate_play(e)
 		SMODS.insert_pool(G.P_CENTER_POOLS.SuperiorPlanet, G.P_CENTERS.c_crv_superis)
 		unlock3 = true
 	end
+
+	if R.c then R.c = nil hand_chips = 0 end
+	if R.m then R.m = nil mult = 0 end
+
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",
 		delay = 0.3,
@@ -77,8 +79,6 @@ function G.FUNCS.evaluate_play(e)
 			return true
 		end
 	}))
-	if R.c then R.c = nil hand_chips = 0 end
-	if R.m then R.m = nil mult = 0 end
 
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",
@@ -104,12 +104,6 @@ function Blind:crv_hand_sort()
 			return obj:crv_hand_sort()
 		end
 	end
-end
-
-local gfep = G.FUNCS.evaluate_play --Taken from cryptid as well
-function G.FUNCS.evaluate_play(e)
-	gfep(e)
-	G.GAME.blind:crv_after_play()
 end
 
 local sorthandold = G.FUNCS.sort_hand_value
@@ -743,11 +737,11 @@ function Card:remove_from_deck(from_debuff)
 	end
 end
 
-local play_from_highlight_old = G.FUNCS.play_cards_from_highlighted
+--[[local play_from_highlight_old = G.FUNCS.play_cards_from_highlighted
 G.FUNCS.play_cards_from_highlighted = function(e)
 	SMODS.calculate_context({crv_press_play = true})
 	play_from_highlight_old(e)
-end
+end]]
 
 local insert_pool_old = SMODS.insert_pool
 function SMODS.insert_pool(pool, center, replace)
@@ -816,13 +810,4 @@ function SMODS.score_card(card, context)
     if not card.crv_no_trigger then
         return score_card_old(card, context)
     end
-end
-
-local draw_from_play_to_discard_old = G.FUNCS.draw_from_play_to_discard
-G.FUNCS.draw_from_play_to_discard = function(e)
-	for k, v in ipairs(G.play.cards) do
-		if (not v.crv_marked_by_fragile) then
-			draw_from_play_to_discard_old(e)
-		end
-	end
 end
