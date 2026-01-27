@@ -2535,7 +2535,7 @@ return {
 				}
 			},
 			j_crv_vgold = {
-				name = "Vaulted Gold Joker",
+				name = "Vaulted Golden Joker",
 				text = {
 					"At the and of a round",
 					"{C:attention}double{} your money.",
