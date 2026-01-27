@@ -1055,6 +1055,10 @@ to_big = to_big or function(x)
 	return x
 end
 
+to_number = to_number or function(x)
+	return x
+end
+
 function RevosVault.factorial(mod)
 	if to_big(mod) <= to_big(0) then
 		return 1
@@ -1064,8 +1068,8 @@ function RevosVault.factorial(mod)
 end
 
 function RevosVault.perc(mod, perc)
-	local per = (to_big(mod) / 100) * perc
-	return per
+	local per = (to_big(mod) / to_big(100)) * to_big(perc)
+	return to_number(per)
 end
 
 function RevosVault.remove_gem(key)
