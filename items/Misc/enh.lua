@@ -376,7 +376,9 @@ SMODS.Enhancement({
 		then
 			effect.dollars = card.ability.extra.money
 		end
-		return effect
+		if context.main_scoring and context.cardarea == G.play then
+			return effect
+		end
 	end,
 	in_pool = function(self)
 		return false
