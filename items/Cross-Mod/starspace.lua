@@ -1,5 +1,4 @@
-if RevoConfig["experimental_enabled"] then
-  
+
 STAR_UTIL.Patch {
   key = "blessed_patch",
   badge_colour = HEX("00b300"),
@@ -58,5 +57,3 @@ STAR_UTIL.Patch {
     end
   end
 }
-
-end
