@@ -1103,7 +1103,7 @@ function RevosVault.add_gem(key, set)
 end
 
 --I tried some stuff don't question this part. Is this efficent? probably not.
-function RevosVault.values(card, num, extra, only_extra, orig)
+function RevosVault.values(operator, card, num, extra, only_extra, orig)
 	local orig = {
 		name = {},
 		val = {},
@@ -1118,11 +1118,13 @@ function RevosVault.values(card, num, extra, only_extra, orig)
 				and k ~= "x_chips"
 				and k ~= "order"
 				and v ~= 0
-				and k ~= "h_x_chips" -- ?
-				and k ~= "cry_prob" -- ?
 			then
 				if type(v) == "number" then
-					card.ability[k] = card.ability[k] * num
+					if operator == "/" then
+						card.ability[k] = card.ability[k] / num
+					else
+						card.ability[k] = card.ability[k] * num
+					end
 				end
 			end
 		end
@@ -1131,7 +1133,11 @@ function RevosVault.values(card, num, extra, only_extra, orig)
 		if type(card.ability.extra) == "table" then
 			for l, m in pairs(card.ability.extra) do
 				if type(m) == "number" then
-					card.ability.extra[l] = card.ability.extra[l] * num
+					if operator == "/" then
+						card.ability.extra[l] = card.ability.extra[l] * num
+					else
+						card.ability.extra[l] = card.ability.extra[l] * num
+					end
 				end
 			end
 		end
@@ -2244,7 +2250,7 @@ RevosVault.pseudorandom_printer = function(args)
 			if (args.odds and SMODS.pseudorandom_probability(args.card, args.seed, 1, args.odds, nil, args.no_odd_mod)) or not (args.odds) then	
 				SMODS.add_card{
 					area = args.area,
-					set = _sets,
+					set = _sets or "Joker",
 					edition = "e_negative",
 					key = args.key,
 					rarity = args.rarity
@@ -2254,7 +2260,7 @@ RevosVault.pseudorandom_printer = function(args)
 			if (args.odds and SMODS.pseudorandom_probability(args.card, args.seed, 1, args.odds, args.no_odd_mod)) or not(args.odds) then
 				SMODS.add_card{
 					area= args.area,
-					set = _sets,
+					set = _sets or "Joker",
 					key = args.key,
 					rarity = args.rarity
 				}
@@ -2263,4 +2269,14 @@ RevosVault.pseudorandom_printer = function(args)
 			RevosVault.c_message(args.card, (args.message or localize("k_no_room_ex")))
 		end
 	end
+end
+
+function Card:crv_random_sticker(exclude)
+	local tab = {}
+	for k, v in pairs(SMODS.Stickers) do
+		if self.ability[k] and k ~= exclude then
+			tab[#tab + 1] = k
+		end
+	end
+	return pseudorandom_element(tab, pseudoseed("crv_random_sticker"))
 end

@@ -1926,9 +1926,11 @@ SMODS.Joker({
 				G.GAME.joker_buffer = G.GAME.joker_buffer - 1
 				G.E_MANAGER:add_event(Event({
 					func = function()
-						G.GAME.joker_buffer = 0
+						G.GAME.joker_buffer = 0 -- :D?
 						card:juice_up(0.8, 0.8)
-						sliced_card:start_dissolve({ HEX("57ecab") }, nil, 0.1)
+						sliced_card:remove()
+						play_sound("whoosh2", 0.5, 10)
+						play_sound("whoosh1", 0.8, 10)
 						return true
 					end,
 				}))
@@ -3739,4 +3741,35 @@ SMODS.Joker({
 			end
 		end
 	end,
+})
+
+SMODS.Joker({
+	key = "soul_reaper",
+	atlas = "Jokers2",
+	pos = { x = 0, y = 16 },
+	rarity = 2,
+	cost = 4,
+	config = {
+		extra = {
+			souls = 2,
+		},
+	},
+	loc_vars = function(self, info_queue, card)
+		local crv = card.ability.extra
+	end,
+	calculate = function(self, card, context)
+		local crv = card.ability.extra
+		if context.destroy_card and SMODS.get_enhancements(context.destroy_card)["m_crv_soulcard"] then
+			G.GAME.souls = G.GAME.souls + crv.souls
+			return{
+				message = "+"..crv.souls.. " Souls",
+				message_colour = G.C.CHIPS,
+				message_card = context.destroy_card,
+				remove = true
+			}
+		end
+	end,
+	in_pool = function(self)
+		return RevosVault.check_enhancement(G.playing_cards, "m_crv_soulcard") > 0
+	end
 })

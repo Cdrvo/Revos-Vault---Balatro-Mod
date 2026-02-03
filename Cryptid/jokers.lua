@@ -100,127 +100,54 @@ local glprinter = {
 	end,
 }
 
---[[local gldoc = {
-	object_type = "Consumable",
-	key = "gldoc",
-	name = "Glitched Document",
-	set = "EnchancedDocuments",
-	discovered = true,
-	atlas = "cryp",
-	pos = { x = 2, y = 1 },
-	gameset_config = {
-		modest = { disabled = true },
-		mainline = { disabled = false },
-		madness = { disabled = false },
-	},
-	dependencies = {
-		items = {
-			"set_cry_misc",
-		},
-	},
-	config = {
-		extra = {
-			cards = 1,
-		},
-	},
-	loc_vars = function(self, info_queue, card)
-		info_queue[#info_queue + 1] = G.P_CENTERS.m_cry_glitched
-		return { vars = { card.ability.extra.cards } }
-	end,
-	can_use = function(self, card)
-		if G and G.hand then
-			if
-				#G.hand.highlighted ~= 0
-				and #G.hand.highlighted <= card.ability.extra.cards
-				and #G.jokers.highlighted == 0
-			then
-				return true
-			elseif
-				#G.jokers.highlighted ~= 0
-				and #G.jokers.highlighted <= card.ability.extra.cards
-				and #G.hand.highlighted == 0
-			then
-				return true
-			end
-		end
-		return false
-	end,
-	use = function(self, card, area, copier)
-		for i, card in pairs(G.hand.highlighted) do
-			card:set_edition({ cry_glitched = true }, true)
-			G.E_MANAGER:add_event(Event({
-				trigger = "after",
-				delay = 0.2,
-				func = function()
-					G.hand:unhighlight_all()
-					return true
-				end,
-			}))
-			delay(0.5)
-		end
-		for i, card in pairs(G.jokers.highlighted) do
-			card:set_edition({ cry_glitched = true }, true)
-			G.E_MANAGER:add_event(Event({
-				trigger = "after",
-				delay = 0.2,
-				func = function()
-					G.hand:unhighlight_all()
-					return true
-				end,
-			}))
-			delay(0.5)
-		end
-	end,
-	draw = function(self, card, layer)
-		card.children.center:draw_shader("cry_glitched", nil, card.ARGS.send_to_shader)
-	end,
-}]]
-
-local printorium = {
+local not_kitty_printer = {
 	object_type = "Joker",
-	name = "Printorium",
-	key = "printorium",
+	name = "Kitty Printer?",
+	key = "not_kitty_printer",
 	atlas = "cryp",
-	rarity = "cry_exotic",
-	cost = 50,
+	rarity = "crv_p",
+	cost = 20,
 	unlocked = true,
 	discovered = false,
 	blueprint_compat = false,
-	eternal_compat = true,
-	perishable_compat = false,
 	dependencies = {
 		items = {
 			"set_cry_exotic",
 		},
 	},
 	gameset_config = {
-		modest = { disabled = true },
-		mainline = { extra = { odds = 4 }, center = { rarity = "cry_exotic", cost = 50, blueprint_compat = false } },
-		madness = { extra = { odds = 1 }, center = { rarity = "cry_exotic", cost = 45, blueprint_compat = true } },
+		modest = {  blueprint_compat = false },
+		mainline = { blueprint_compat = false  },
+		madness = {  blueprint_compat = true },
 	},
 	pos = {
-		x = 0,
-		y = 0,
-	},
-	soul_pos = {
-		x = 0,
-		y = 1,
+		x = 2,
+		y = 2,
 	},
 	config = {
-		extra = { odds = 4 },
+		extra = {},
 	},
 	loc_vars = function(self, info_queue, card, center)
-		return {
-			vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds },
-		}
+        local key, vars = self.key, {}
 	end,
 
 	calculate = function(self, card, context)
+        local cae = card.ability.extra
 		if context.setting_blind then
-			if pseudorandom("printorium") < G.GAME.probabilities.normal / card.ability.extra.odds then
-				SMODS.add_card({ set = "Joker", area = G.jokers, rarity = "cry_exotic" })
-			end
-		end
+            local tab,tab2,no_tab = G.P_CENTER_POOLS.Joker, {}, false
+            for k, v2 in pairs(tab) do
+                local v = v2.key
+                if not no_tab and G.P_CENTERS[v] and (string.find(string.lower(localize({ type = "name_text", key = v, set = "Joker" })), "cat") or string.find(string.lower(localize({ type = "name_text", key = v, set = "Joker" })), "kitty")) then 
+                    tab2[#tab2 + 1] = v
+                    print(v)
+                end
+            end
+            if #tab2 >= 1 then
+                RevosVault.pseudorandom_printer({card = card, area = G.jokers, seed = "kitty_cat",key = pseudorandom_element(tab2)})
+            else
+                RevosVault.c_message(card, localize("k_crv_no_more"))
+            end
+        end
 	end,
 	in_pool = function(self, wawa, wawa2)
 		return true
@@ -296,7 +223,7 @@ local qtprinter = {
 	},
 	pos = {
 		x = 0,
-		y = 2,
+		y = 3,
 	},
 	config = {
 		extra = {},
@@ -368,6 +295,68 @@ local brprinter = {
 	end,
 }
 
+local printorium = {
+	object_type = "Joker",
+	name = "Printorium",
+	key = "printorium",
+	atlas = "cryp",
+	rarity = "cry_exotic",
+	cost = 50,
+	unlocked = true,
+	discovered = false,
+	blueprint_compat = false,
+	eternal_compat = true,
+	perishable_compat = false,
+	yes_printer_list = true,
+	dependencies = {
+		items = {
+			"set_cry_exotic",
+		},
+	},
+	gameset_config = {
+		modest = { extra = { odds = 16 }, center = { rarity = "cry_exotic", cost = 50, blueprint_compat = false}},
+		mainline = { extra = { odds = 4 }, center = { rarity = "cry_exotic", cost = 45, blueprint_compat = false } },
+		madness = { extra = { odds = 1 }, center = { rarity = "cry_exotic", cost = 40, blueprint_compat = true } },
+	},
+	pos = {
+		x = 0,
+		y = 0,
+	},
+	soul_pos = { x = 0, y = 1, extra = { x = 0, y = 2 } },
+	config = {
+		extra = { odds = 4 },
+	},
+	loc_vars = function(self, info_queue, card, center)
+        local key, vars = self.key, {(G.GAME.probabilities.normal or 1), card.ability.extra.odds }
+        if G.PROFILES[G.SETTINGS.profile].cry_gameset == "madness" then
+            return {
+                vars = vars,
+                key = key .. "_madness",
+            }
+        else
+            info_queue[#info_queue + 1] = {set = "Other", key = "crv_fixed_chances"}
+            return {
+                vars = vars,
+                key = key,
+            }
+        end
+	end,
+
+	calculate = function(self, card, context)
+        local cae = card.ability.extra
+		if context.setting_blind then
+            if G.PROFILES[G.SETTINGS.profile].cry_gameset == "madness" then
+                RevosVault.pseudorandom_printer({card = card, area = G.jokers, rarity = "cry_exotic", seed = "crv_cry_printorium"})
+            elseif not context.blueprint then
+                RevosVault.pseudorandom_printer({card = card, area = G.jokers, rarity = "cry_exotic", seed = "crv_cry_printorium", odds = cae.odds, no_odd_mod = true})
+            end
+        end
+	end,
+	in_pool = function(self, wawa, wawa2)
+		return true
+	end,
+}
+
 return {
 	init = function(self) end,
 	items = {
@@ -376,6 +365,7 @@ return {
 		printorium,
 		rtprinter,
 		qtprinter,
-        brprinter
+        brprinter,
+        not_kitty_printer,
 	},
 }

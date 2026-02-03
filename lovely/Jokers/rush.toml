@@ -1,0 +1,20 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''
+G.STATE = G.STATES.SHOP
+'''
+position = "at"
+payload = '''
+if (#SMODS.find_card("j_crv_rush")>0) and G.GAME.blind_on_deck == "Small" then
+    G.STATE = G.STATES.BLIND_SELECT
+else
+    G.STATE = G.STATES.SHOP
+end
+'''
+match_indent = true

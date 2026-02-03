@@ -178,9 +178,9 @@ end
 
 G.FUNCS.crv_vault_help = function(e)
 	if TheVault.changed then
-		G.FUNCS.RevosVault_info{menu_type = "crv_thevault_alt"}
+		G.FUNCS.RevosVault_info{menu_type = "crv_thevault_alt", no_first_time = true}
 	else
-		G.FUNCS.RevosVault_info{menu_type = "crv_thevault"}
+		G.FUNCS.RevosVault_info{menu_type = "crv_thevault", no_first_time = true}
 	end
 end
 

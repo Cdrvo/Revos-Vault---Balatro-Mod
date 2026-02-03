@@ -1,11 +1,14 @@
 
-if RevoConfig["experimental_enabled"] then
 SMODS.Joker({
+	fg_data = {
+			is_alternate = true,
+			alternate_key ='j_crv_defaultprinter'
+		},	
 	key = "aberration_printer",
 	config = {},
 	rarity = "crv_p",
 	atlas = "fg",
-	blueprint_compat = false,
+	blueprint_compat = true,
 	discovered = false,
 	pos = {
 		x = 0,
@@ -20,26 +23,13 @@ SMODS.Joker({
 	end,
 	calculate = function(self, card, context)
 		if context.starting_shop and not context.blueprint then
-			if
-				G.GAME.used_vouchers["v_crv_printerup"] == true
-					and pseudorandom("ALLPRINTER") < G.GAME.probabilities.normal / 4
-				or G.GAME.used_vouchers["v_crv_printeruptier"] == true
-			then
-				SMODS.add_card({
-					set = "aberration",
-					edition = "e_negative",
-				})
-			else
-				if #G.consumeables.cards < G.consumeables.config.card_limit or self.area == G.consumeables then
-					SMODS.add_card({
-						set = "aberration",
-					})
-				end
-			end
+			RevosVault.pseudorandom_printer({card = card, area = G.consumeables, sets = "aberration"})
 		end
 	end,
-	in_pool = function(self, wawa, wawa2)
-		return true
+	in_pool = function (self, args)
+		if FG and FG.config.extra_jokers and FG.FUNCS.allow_duplicate(self) and not G.GAME.pool_flags.alternate_spawn then return true else return false end
+	end,
+	set_card_type_badge = function(self, card, badges)
+		badges[1] = create_badge(localize("k_printer_qm"), get_type_colour(self or card.config, card), nil, 1.2)
 	end,
 })
-end

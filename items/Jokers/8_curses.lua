@@ -540,3 +540,41 @@ SMODS.Joker({
 		end
  	end
 })
+
+SMODS.Joker({
+	key = "rush",
+	atlas = "Jokers2",
+	pos = {
+		x = 10,
+		y = 16,
+	},
+	config = {
+		extra = {
+			def = nil
+		}
+	},
+	rarity = "crv_curse",
+	blueprint_compat = false,
+	cost = 0,
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = {set = "Other", key = "crv_curse_desc"}
+	end,
+	add_to_deck = function(self,card,from_debuff)
+		G.GAME.modifiers.curse_no_shop = true
+	end,
+	remove_from_deck = function(self, card, from_debuff) 
+		if not RevosVault.purified_curse then
+			local ccard = copy_card(card)
+			if card.crv_curse_triggered then
+				ccard.crv_curse_triggered = true
+			end
+			ccard:add_to_deck()
+			G.crv_curses:emplace(ccard)
+		else
+			G.GAME.modifiers.curse_no_shop = false
+		end
+  	end,
+	calculate = function(self,card,context)
+		
+ 	end
+})

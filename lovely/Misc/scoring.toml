@@ -1,0 +1,38 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -1
+
+# sticker functions
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = '''
+        else
+            if scoring_hand then
+                if in_scoring then context.cardarea = G.play else context.cardarea = 'unscored' end
+            end
+            SMODS.score_card(card, context)
+        end'''
+position = 'before'
+payload = '''
+    elseif scoring_hand and (card.ability.crv_no_score) then
+		if in_scoring then 
+            G.GAME.blind.triggered = true
+            G.E_MANAGER:add_event(Event({
+                trigger = 'immediate',
+                func = (function() SMODS.juice_up_blind() return true end)
+            }))
+            RevosVault.c_message(card, localize("k_crv_noscore_ex"))
+			if card.ability.crv_downgrade then
+				-- local b = card.ability.crv_downgrade
+				SMODS.calculate_context({crv_vaulted_suit = true, suit = card.base.suit})
+				card.ability.crv_downgrade = nil
+			end
+			if card.ability.crv_no_score then
+				card.ability.crv_no_score = nil
+			end
+        end
+'''
+match_indent = true

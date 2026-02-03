@@ -485,3 +485,10 @@ SMODS.Atlas({
 	px = 71,
 	py = 95,
 })
+
+SMODS.Atlas({
+	key = "giga",
+	path = "Cross-Mod/giga.png",
+	px = 71,
+	py = 95,
+})

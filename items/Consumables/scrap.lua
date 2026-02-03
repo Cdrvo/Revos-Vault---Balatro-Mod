@@ -28,7 +28,7 @@ SMODS.Consumable({
 	end,
 	use = function()
 		return {
-			ease_dollars(30),
+			ease_dollars(20),
 		}
 	end,
 })
@@ -49,7 +49,7 @@ SMODS.Consumable({
 	end,
 	use = function()
 		return {
-			ease_dollars(25),
+			ease_dollars(15),
 		}
 	end,
 })
@@ -69,7 +69,7 @@ SMODS.Consumable({
 	end,
 	use = function()
 		return {
-			ease_dollars(20),
+			ease_dollars(10),
 		}
 	end,
 })
@@ -90,7 +90,7 @@ SMODS.Consumable({
 	end,
 	use = function()
 		return {
-			ease_dollars(35),
+			ease_dollars(25),
 		}
 	end,
 })
@@ -111,7 +111,7 @@ SMODS.Consumable({
 	end,
 	use = function()
 		return {
-			ease_dollars(15),
+			ease_dollars(5),
 		}
 	end,
 })

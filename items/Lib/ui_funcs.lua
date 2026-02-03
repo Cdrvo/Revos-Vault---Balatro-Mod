@@ -221,3 +221,9 @@ G.FUNCS.crv_can_curse_area = function(e)
 		e.config.button = nil
 	end
 end
+
+-- First time check for the ifno menu thingy
+function RevosVault.ui_disbled(menu_type)
+	if G.PROFILES[G.SETTINGS.profile].first_time_disable[menu_type] then return true end
+	return false
+end

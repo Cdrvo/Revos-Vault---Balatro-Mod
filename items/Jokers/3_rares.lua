@@ -1818,6 +1818,16 @@ SMODS.Joker({
 			odds = 101,
 		},
 	},
+	add_to_dck = function(self,card,from_debuff)
+		if RevoConfig["9_secretjokers_enabled"] then
+			if context.end_of_round and context.main_eval and not context.blueprint then
+				if SMODS.pseudorandom_probability(card,"kq_secret",1,card.ability.extra.odds) then
+					card:juice_up(0.3, 0.4)
+					card:set_ability("j_crv_kqb")
+				end
+			end
+		end
+	end,
 	loc_vars = function(self, info_queue, card)
 				local area = self.area
 		if G.jokers and G.jokers.cards then area = G.jokers.cards end
@@ -1851,14 +1861,6 @@ SMODS.Joker({
 			return {
 				xmult = card.ability.extra.xmult * RevosVault.stickercheck(G.jokers.cards, {"perishable"}) + 1,
 			}
-		end
-		if RevoConfig["9_secretjokers_enabled"] then
-			if context.end_of_round and context.main_eval and not context.blueprint then
-				if SMODS.pseudorandom_probability(card,"kq_secret",1,card.ability.extra.odds) then
-					card:juice_up(0.3, 0.4)
-					card:set_ability("j_crv_kqb")
-				end
-			end
 		end
 	end,
 	in_pool = function(self, wawa, wawa2)

@@ -74,6 +74,32 @@ return {
                 },
             },
         },
+		crv_curses_ui = {
+			name = "You've been cursed!",
+			text = {
+				{
+					name = "Overview",
+					text = {
+						{
+							"Curses {C:dark_edition}randomly{} appear in then shop and are",
+							'{C:red}forced{} into a new area called "Curses"'
+						},
+						{
+							"Curses are {C:red,E:1,S:1.1}Unremoveable{}! Even if you somehow get rid",
+							"of them they'll {C:attention}re-appear{}"
+						},
+						{
+							"The only way to get rid of curses is with",
+							"the {C:attention}Purify {C:dark_edition}Spectral{} and {C:attention}Prayer {C:tarot}Tarot{} cards"
+						},
+						{
+							"Click the button above the joker area",
+							"to switch between {C:red}Curses{} and {C:attention}Jokers"
+						}
+					}
+				}
+			}
+		}
 	},
 	descriptions = {
 
@@ -2537,11 +2563,69 @@ return {
 			j_crv_vgold = {
 				name = "Vaulted Golden Joker",
 				text = {
-					"At the and of a round",
+					"At the end of a round",
 					"{C:attention}double{} your money.",
 					"{C:inactive,s:0.8}max of {C:money,s:0.8}$#1#{}",
 					"If you have more than {C:money}$#2#{}",
 					"sets money to {C:red}0"
+
+				}
+			},
+
+			j_crv_v_greed = {
+				name = "The Diamond",
+				text = {
+					"Scored {C:diamonds}Diamond{} cards",
+					"give {X:mult,C:white}X#1#{} Mult.",
+					"Other suits {C:red}cannot{} score",
+					"and reduce this Joker's XMULT","by {X:mult,C:white}X#2#{}",
+
+				}
+			},
+			j_crv_v_lust = {
+				name = "The Heart",
+				text = {
+					"Scored {C:hearts}Heart{} cards",
+					"give {X:mult,C:white}X#1#{} Mult.",
+					"Other suits {C:red}cannot{} score",
+					"and reduce this Joker's XMULT","by {X:mult,C:white}X#2#{}",
+
+				}
+			},
+			j_crv_v_wraith = {
+				name = "The Spade",
+				text = {
+					"Scored {C:spades}Spade{} cards",
+					"give {X:mult,C:white}X#1#{} Mult.",
+					"Other suits {C:red}cannot{} score",
+					"and reduce this Joker's XMULT","by {X:mult,C:white}X#2#{}",
+
+				}
+			},
+			j_crv_v_gluttenous = {
+				name = "The Club",
+				text = {
+					"Scored {C:clubs}Club{} cards",
+					"give {X:mult,C:white}X#1#{} Mult.",
+					"Other suits {C:red}cannot{} score",
+					"and reduce this Joker's XMULT","by {X:mult,C:white}X#2#{}",
+
+				}
+			},
+			j_crv_rush = {
+				name = "Rush",
+				text = {
+					"{C:red}Skip{} shop after",
+					"{C:attention}Small{} Blind"
+
+				}
+			},
+			j_crv_soul_reaper = {
+				name = "Soul Scythe",
+				text = {
+					"Played {C:blue}Soul{} cards",
+					"are destroyed and",
+					"give {C:blue}+#1#{} Souls{}"
 
 				}
 			},
@@ -2602,12 +2686,22 @@ return {
 				},
 			},
 			--cryptid below
+			j_crv_printorium_madness = {
+				name = "Printorium",
+				text = {
+					"When Blind is selected,",
+					"Print a {C:attention}Random{}",
+					"{C:cry_exotic} Exotic{} Joker",
+					"{C:inactive}(Must have room)"
+				},
+			},
 			j_crv_printorium = {
 				name = "Printorium",
 				text = {
 					"When Blind is selected,",
-					"{C:green}#1# in #2#{} Chance to create",
+					"{C:green}#1# in #2#{} Chance to print",
 					"an {C:cry_exotic}Exotic{} Joker",
+					"{C:inactive}(Must have room)"
 				},
 			},
 			j_crv_mrinter = {
@@ -2633,6 +2727,16 @@ return {
 			j_crv_brprinter = {
 				name = "Printer Drawing",
 				text = { "When Blind is selected,", "Prints {C:attention}Boredom" },
+			},
+			j_crv_not_kitty_printer = {
+				name = "Kitty Printer?",
+				text = { "When a Blind is selected,",
+				 		"Print a random {C:attention}Joker{}",
+				  		'that has the word {C:attention}"Cat"{} or',
+				   		'{C:attention}"Kitty"{} in its name,',
+				   		"no matter where and how it's written.",
+						"{C:inactive}(ex. Sync {C:attention}Cat{C:inactive}alyst)"
+					 },
 			},
 			--reverse tarots here
 			j_crv_reverseprinter = {
@@ -2857,6 +2961,7 @@ return {
 				text = { "When {C:attention}Blind{} is selected", "print a random {C:mul_transmuted}Myth{} Card"
 			}
 			},
+			-- Fool's Gambit below
 			j_crv_aberration_printer = {
 				name = "Aberration Printer",
 				text = {
@@ -2864,7 +2969,17 @@ return {
 					"print a random",
 					"{C:attention}Aberration{}"
 				}
-			}
+			},
+			-- Giga below
+			j_crv_astralprinter = {
+				name = "Astral Printer",
+				text = {
+					"When {C:attention}Blind{} is selected",
+					"print a random",
+					"{C:purple}Astral{} Card",
+					"{C:inactive}(Must have room)",
+				}
+			},
 			--ends here
 		},
 		Blessing = {
@@ -3074,23 +3189,23 @@ return {
 		scrap = {
 			c_crv_horn = {
 				name = "Horn",
-				text = { "Gives{C:money} 30$" },
+				text = { "Gives{C:money} 20$" },
 			},
 			c_crv_pickles = {
 				name = "Pickles",
-				text = { "Gives{C:money} 25$" },
+				text = { "Gives{C:money} 15$" },
 			},
 			c_crv_mp = {
 				name = "Metal Piece",
-				text = { "Gives{C:money} 20$" },
+				text = { "Gives{C:money} 10$" },
 			},
 			c_crv_ap = {
 				name = "Apparatus",
-				text = { "Gives{C:money} 35$" },
+				text = { "Gives{C:money} 25$" },
 			},
 			c_crv_dc = {
 				name = "Duck",
-				text = { "Gives{C:money} 15$" },
+				text = { "Gives{C:money} 5$" },
 			},
 		},
 		EnchancedDocuments = {
@@ -3943,8 +4058,8 @@ return {
 			crv_heavy = {
 				name = "Heavy",
 				text = {
-					"{C:attention}-1{}",
-					"joker slot"
+					"Applied card",
+					"fills an extra slot"
 				}
 			},
 			crv_wet = {
@@ -4040,6 +4155,25 @@ return {
 				"{C:green}Protect{} this",
 				"card from {C:red}destruction{}",
 				"once"
+				}
+			},
+
+			crv_stable_patch = {
+				name = "Stable",
+				text = {
+				"Cards on the left",
+				"and right cannot",
+				"get debuffed or flipped"
+				}
+			},
+
+			crv_purified_patch = {
+				name = "Purified",
+				text = {
+				"{C:red}Remove{} a random",
+				"sticker from this",
+				"card when entering a blind",
+				"{C:inactive}(Excluding self)"
 				}
 			},
 		},
@@ -4348,7 +4482,12 @@ return {
 			crv_bloom_edition = "Bloom",
 			crv_magnetised_edition = "Magnetised",
 			crv_antichrome_edition = "Antichrome",
-			crv_radiatede = "Radiated"
+			crv_radiatede = "Radiated",
+
+			-- Starspace cross-mod
+			crv_blessed_patch = "Blessed",
+			crv_stable_patch = "Stable",
+			crv_purified_patch = "Purified",
 		},
 		dictionary = {
 			crv_revosvault = "Revo's Vault",
@@ -4435,6 +4574,11 @@ return {
 			crv_curses_button = "Curses",
 			crv_jokers_button = "Jokers",
 			crv_none = "None",
+			crv_not_again = "Do not show again",
+			k_crv_noscore_ex = "No Score!",
+			k_crv_downgrade_ex = "Downgrade!",
+			k_crv_no_more = "No More!",
+			k_printer_qm = "Printer?",
 
 
 

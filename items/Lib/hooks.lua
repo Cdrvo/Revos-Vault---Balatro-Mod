@@ -365,6 +365,26 @@ function Game:update(dt)
 					if _card.debuff and _card.ability.crv_wet then
 						_card.debuff = false
 					end
+					for i = 1, #area.cards do
+						if area.cards[i] and area.cards[i].ability.crv_stable_patch then
+							if area.cards[i-1] then
+								if area.cards[i-1].debuff then
+									area.cards[i-1].debuff = false
+								end
+								if area.cards[i-1].facing == "back" then
+									area.cards[i-1]:flip()
+								end
+							end 
+							if area.cards[i+1] then
+								if area.cards[i+1].debuff then
+									area.cards[i+1].debuff = false
+								end
+								if area.cards[i+1].facing == "back" then
+									area.cards[i+1]:flip()
+								end
+							end 
+						end
+					end
 				end
 			end
 		end
@@ -555,6 +575,10 @@ function CardArea:emplace(card, location, stay_flipped)
 				if card.area and not card.crv_moved_curse and card.area ~= G.crv_curses then
 					card.crv_moved_curse = true
 					RevosVault.move_card(card, G.crv_curses, {add_to_deck = true})
+					G.curse_button.states.visible = true
+					if not RevosVault.ui_disbled("crv_curses_ui") then
+						G.FUNCS.RevosVault_info{menu_type = "crv_curses_ui"}
+					end
 					card.added_to_deck = true
 					check_for_unlock({type = "clovering_it"})
 				end
@@ -672,6 +696,7 @@ function Game:start_run(args)
             bond = 'Weak'
         }
     }
+	if not G.crv_curses or (G.crv_curses and RevosVault.rarity_in("crv_curse",G.crv_curses.cards)==0) then G.curse_button.states.visible = false end
     self.HUD:recalculate()
 	end
 end
