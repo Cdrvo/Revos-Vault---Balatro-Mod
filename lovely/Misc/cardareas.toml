@@ -39,8 +39,8 @@ payload = '''
     self.crv_curses_H = 0.95*G.CARD_H
 
     self.real_modicon_area = CardArea(
-        G.vouchers.T.x,
-        G.vouchers.T.y, 
+        G.jokers.T.x,
+        -15, 
         G.jokers.T.w, 
         G.jokers.T.h, 
         {card_limit = 1e300, type = 'discard'}
@@ -49,7 +49,7 @@ payload = '''
     '''
 match_indent = true
 
-# Mod Icon message
+# Mod Icon message  
 
 [[patches]]
 [patches.pattern]
