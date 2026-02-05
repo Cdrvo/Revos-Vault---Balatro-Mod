@@ -2629,6 +2629,15 @@ return {
 
 				}
 			},
+			j_crv_fan = {
+				name = "The Fan",
+				text = {
+					"{C:attention}Jokers{}, {C:attention}Consumables",
+					"and {C:attention}Playing Cards{} are shuffled",
+					"before scoring"
+
+				}
+			},
 			-- QUICK JOKER
 			--GARBSHIT below
 			j_crv_stamprinter = {
@@ -3183,6 +3192,14 @@ return {
 					"{C:green}#2# in #3#{} Chance to{}",
 					"Destroy up to {C:attention}#1#",
 					"{C:black}Curse{} Card"
+				}
+			},
+			c_crv_bottleflip = {
+				name = "Bottleflip",
+				text = {
+					"{C:green}#1# in #2#{} Chance to",
+					"make all jokers",
+					"{C:crv_polychrome}Polychrome{}"
 				}
 			},
 		},

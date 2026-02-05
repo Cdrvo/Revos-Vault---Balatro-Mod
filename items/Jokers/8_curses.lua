@@ -21,8 +21,8 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
-			if card.crv_curse_triggered then
-				ccard.crv_curse_triggered = true
+			if card.ability.crv_curse_triggered then
+				ccard.ability.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
 			G.crv_curses:emplace(ccard)
@@ -50,8 +50,8 @@ SMODS.Joker({
 		info_queue[#info_queue+1] = {set = "Other", key = "crv_curse_desc"}
 	end,
 	add_to_deck = function(self,card,from_debuff)
-		if not card.crv_curse_triggered and not card.crv_curse_temp_trigger then
-			card.crv_curse_triggered = true
+		if not card.ability.crv_curse_triggered and not card.crv_curse_temp_trigger then
+			card.ability.crv_curse_triggered = true
 			change_shop_size(-1)
 			RevosVault.change_shop_size(-1, "shop_booster")
 		end
@@ -59,8 +59,8 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
-			if card.crv_curse_triggered then
-				ccard.crv_curse_triggered = true
+			if card.ability.crv_curse_triggered then
+				ccard.ability.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
 			G.crv_curses:emplace(ccard)
@@ -102,8 +102,8 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
-			if card.crv_curse_triggered then
-				ccard.crv_curse_triggered = true
+			if card.ability.crv_curse_triggered then
+				ccard.ability.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
 			G.crv_curses:emplace(ccard)
@@ -127,16 +127,16 @@ SMODS.Joker({
 		info_queue[#info_queue+1] = {set = "Other", key = "crv_curse_desc"}
 	end,
 	add_to_deck = function(self,card,from_debuff)
-		if not card.crv_curse_triggered then
-			card.crv_curse_triggered = true
+		if not card.ability.crv_curse_triggered then
+			card.ability.crv_curse_triggered = true
 			G.GAME.curse_cashout = G.GAME.curse_cashout + 1
 		end
 	end,
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
-			if card.crv_curse_triggered then
-				ccard.crv_curse_triggered = true
+			if card.ability.crv_curse_triggered then
+				ccard.ability.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
 			G.crv_curses:emplace(ccard)
@@ -165,8 +165,8 @@ SMODS.Joker({
 		info_queue[#info_queue+1] = {set = "Other", key = "crv_curse_desc"}
 	end,
 	add_to_deck = function(self,card,from_debuff)
-		if not card.crv_curse_triggered then
-			card.crv_curse_triggered = true
+		if not card.ability.crv_curse_triggered then
+			card.ability.crv_curse_triggered = true
 			card.ability.extra.def = G.GAME.rare_mod
 			G.GAME.rare_mod = 0
 		end
@@ -174,8 +174,8 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
-			if card.crv_curse_triggered then
-				ccard.crv_curse_triggered = true
+			if card.ability.crv_curse_triggered then
+				ccard.ability.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
 			G.crv_curses:emplace(ccard)
@@ -207,8 +207,8 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
-			if card.crv_curse_triggered then
-				ccard.crv_curse_triggered = true
+			if card.ability.crv_curse_triggered then
+				ccard.ability.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
 			G.crv_curses:emplace(ccard)
@@ -252,8 +252,8 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
-			if card.crv_curse_triggered then
-				ccard.crv_curse_triggered = true
+			if card.ability.crv_curse_triggered then
+				ccard.ability.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
 			G.crv_curses:emplace(ccard)
@@ -306,8 +306,8 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
-			if card.crv_curse_triggered then
-				ccard.crv_curse_triggered = true
+			if card.ability.crv_curse_triggered then
+				ccard.ability.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
 			G.crv_curses:emplace(ccard)
@@ -341,8 +341,8 @@ SMODS.Joker({
 		info_queue[#info_queue+1] = {set = "Other", key = "crv_curse_desc"}
 	end,
 	add_to_deck = function(self,card,from_debuff)
-		if not card.crv_curse_triggered then
-			card.crv_curse_triggered = true
+		if not card.ability.crv_curse_triggered then
+			card.ability.crv_curse_triggered = true
 			card.ability.extra.def = G.GAME.starting_params.ante_scaling
 			G.GAME.starting_params.ante_scaling = G.GAME.starting_params.ante_scaling * 3
 			card.ability.extra.def = G.GAME.starting_params.ante_scaling - card.ability.extra.def
@@ -351,8 +351,8 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
-			if card.crv_curse_triggered then
-				ccard.crv_curse_triggered = true
+			if card.ability.crv_curse_triggered then
+				ccard.ability.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
 			G.crv_curses:emplace(ccard)
@@ -387,8 +387,8 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
-			if card.crv_curse_triggered then
-				ccard.crv_curse_triggered = true
+			if card.ability.crv_curse_triggered then
+				ccard.ability.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
 			G.crv_curses:emplace(ccard)
@@ -427,16 +427,16 @@ SMODS.Joker({
 		info_queue[#info_queue+1] = {set = "Other", key = "crv_curse_desc"}
 	end,
 	add_to_deck = function(self,card,from_debuff)
-		if not card.crv_curse_triggered and not card.crv_curse_temp_trigger then
-			card.crv_curse_triggered = true
+		if not card.ability.crv_curse_triggered and not card.crv_curse_temp_trigger then
+			card.ability.crv_curse_triggered = true
 			RevosVault.change_shop_size(-1, "shop_vouchers")
 		end
 	end,
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
-			if card.crv_curse_triggered then
-				ccard.crv_curse_triggered = true
+			if card.ability.crv_curse_triggered then
+				ccard.ability.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
 			G.crv_curses:emplace(ccard)
@@ -477,16 +477,16 @@ SMODS.Joker({
 		info_queue[#info_queue+1] = {set = "Other", key = "crv_curse_desc"}
 	end,
 	add_to_deck = function(self,card,from_debuff)
-		if not card.crv_curse_triggered then
-			card.crv_curse_triggered = true
+		if not card.ability.crv_curse_triggered then
+			card.ability.crv_curse_triggered = true
 			RevosVault.total_limit(-1)
 		end
 	end,
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
-			if card.crv_curse_triggered then
-				ccard.crv_curse_triggered = true
+			if card.ability.crv_curse_triggered then
+				ccard.ability.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
 			G.crv_curses:emplace(ccard)
@@ -521,8 +521,8 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
-			if card.crv_curse_triggered then
-				ccard.crv_curse_triggered = true
+			if card.ability.crv_curse_triggered then
+				ccard.ability.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
 			G.crv_curses:emplace(ccard)
@@ -565,8 +565,8 @@ SMODS.Joker({
 	remove_from_deck = function(self, card, from_debuff) 
 		if not RevosVault.purified_curse then
 			local ccard = copy_card(card)
-			if card.crv_curse_triggered then
-				ccard.crv_curse_triggered = true
+			if card.ability.crv_curse_triggered then
+				ccard.ability.crv_curse_triggered = true
 			end
 			ccard:add_to_deck()
 			G.crv_curses:emplace(ccard)

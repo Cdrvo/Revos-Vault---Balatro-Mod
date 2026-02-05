@@ -50,6 +50,7 @@ function G.FUNCS.evaluate_play(e)
 		delay = 0,
 		func = function()
 			RevosVault.scoring = true
+			SMODS.calculate_context({crv_before = true})
 			return true
 		end
 	}))
