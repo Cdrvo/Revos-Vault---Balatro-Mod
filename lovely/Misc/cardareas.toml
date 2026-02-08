@@ -35,8 +35,8 @@ pattern = '''G.SPLASH_BACK = Sprite(-30, -6, G.ROOM.T.w+60, G.ROOM.T.h+12, G.ASS
 position = "before"
 payload = '''
 
-    self.crv_curses_W = G.CARD_W*1.1
-    self.crv_curses_H = 0.95*G.CARD_H
+    self.real_modicon_area_W = G.CARD_W*1.1
+    self.real_modicon_area_H = 0.95*G.CARD_H
 
     self.real_modicon_area = CardArea(
         G.jokers.T.x,

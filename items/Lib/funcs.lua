@@ -1,4 +1,4 @@
-RevosFunctions = {}
+RevosFunctions = {} -- mostly unused
 
 function RevosVault.check_enhancement(area, enhancement)
 	local blss = 0
@@ -179,7 +179,7 @@ function RevosVault.total_limit(mod, silent)
 	end
 end
 
-function RevosVault.joker_limit(mod) end
+function RevosVault.joker_limit(mod) end --????
 
 function RevosVault.defeat()
 	G.E_MANAGER:add_event(Event({

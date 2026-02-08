@@ -239,3 +239,40 @@ if RevoConfig["8_curses_enabled"] then
 		end
 	})
 end
+
+SMODS.Consumable({
+	key = "bottleflip",
+	set = "Tarot",
+	config = { extra = { odds = 8 } },
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_CENTERS.e_polychrome
+		local cae = card.ability.extra
+		local num, den = SMODS.get_probability_vars(card,1,cae.odds,"bottlingmyflip")
+		return { vars = { num,  den } }
+	end,
+	pos = { x = 2, y = 1 },
+	atlas = "tarots",
+	cost = 3,
+	unlocked = true,
+	discovered = true,
+	can_use = function(self, card)
+		for k, v in pairs(G.jokers.cards) do
+			if v and not v.edition then
+				return true
+			end
+		end
+		return false
+	end,
+	use = function(self, card)
+		if SMODS.pseudorandom_probability(card,"bottlingmyflip",1,card.ability.extra.odds) then
+			for k, v in pairs(G.jokers.cards) do
+				if not v.edition then
+					v:set_edition("e_polychrome")
+				end
+			end
+		else
+			RevosVault.nope({card = card})
+		end
+		delay(0.6)
+	end,
+})

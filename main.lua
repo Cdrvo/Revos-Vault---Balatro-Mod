@@ -5,8 +5,7 @@ RevosPath = SMODS.current_mod.path
 
 SMDOS = SMODS
 
---BEHOLD! THE WORST CODE IN HISTORY UNFOLDS UPON YOUR EYES!
---No but seriously goodluck understanding anything
+-- yes
 
 
 SMODS.current_mod.optional_features = function()
