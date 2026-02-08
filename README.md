@@ -17,8 +17,7 @@ Currently there are 5 New Rarities (Printer, Chaos, Vaulted, Secret and Curse), 
 
 **[Cryptid](https://github.com/MathIsFun0/Cryptid)**
 
-- 6 Jokers
-- 1 Consumable
+- 7 Jokers
 
 **[CardSleeves](https://github.com/larswijn/CardSleeves)**
 
@@ -35,9 +34,7 @@ Currently there are 5 New Rarities (Printer, Chaos, Vaulted, Secret and Curse), 
 - 3 Consumables
 - 2 Enhancements
 
-----
-
-- And arround 30 more!
+And arround 30 more mods!
 
 ------
 
