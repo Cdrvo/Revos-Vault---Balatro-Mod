@@ -425,12 +425,11 @@ function RevosVault.index(table, cards)
 end
 
 function Card:is_playing_card()
-    if self.ability.set == "Default" or self.ability.set == "Enhanced" then
-        return true
-    end
-    return false
+	if self.ability.set == "Default" or self.ability.set == "Enhanced" then
+		return true
+	end
+	return false
 end
-
 
 --ok you see nothing. there is nothing for 241 lines
 -- _flip works?
@@ -439,6 +438,7 @@ end
 -- Playing cards broken
 
 -- RevosVault.replacecards(G.hand.cards,nil,nil,true,nil,nil)
+-- kill me
 
 function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporiginal, _flip) --Cards not keeping editions/seals/stickers is intended. //Probably extremely inefficient /// Like why tf did i make the keep n entire seperate section. I probably wont even use "replace" or teh destruction part of this like ever.
 	local playing_card_detected = false
@@ -459,7 +459,9 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 			for i = 1, #area do
 				local tab = {}
 				for i = 1, #RevosVault.get_eligible_cards(nil, "Booster", true) do
-					tab[#tab + 1] = RevosVault.get_eligible_cards(nil, "Booster", true)[i].key
+					if RevosVault.get_eligible_cards(nil, "Booster", true)[i] then
+						tab[#tab + 1] = RevosVault.get_eligible_cards(nil, "Booster", true)[i].key
+					end
 				end
 				if area[i] ~= keeporiginal and area[i].ability.set == "Booster" then
 					local tab2 = pseudorandom_element(tab)
@@ -494,14 +496,16 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 			for i = 1, #area do
 				local tab = {}
 				for i = 1, #RevosVault.get_eligible_cards(nil, "Voucher", true) do
-					if not  RevosVault.get_eligible_cards(nil, "Voucher", true)[i].requires then
-						if not G.GAME.used_vouchers[RevosVault.get_eligible_cards(nil, "Voucher", true)[i].key] then
-							tab[#tab + 1] = RevosVault.get_eligible_cards(nil, "Voucher", true)[i].key
-						end
-					else
-						for k, v in pairs(RevosVault.get_eligible_cards(nil, "Voucher", true)[i].requires) do
-							if G.GAME.used_vouchers[v] then
+					if RevosVault.get_eligible_cards(nil, "Booster", true)[i] then
+						if not RevosVault.get_eligible_cards(nil, "Voucher", true)[i].requires then
+							if not G.GAME.used_vouchers[RevosVault.get_eligible_cards(nil, "Voucher", true)[i].key] then
 								tab[#tab + 1] = RevosVault.get_eligible_cards(nil, "Voucher", true)[i].key
+							end
+						else
+							for k, v in pairs(RevosVault.get_eligible_cards(nil, "Voucher", true)[i].requires) do
+								if G.GAME.used_vouchers[v] then
+									tab[#tab + 1] = RevosVault.get_eligible_cards(nil, "Voucher", true)[i].key
+								end
 							end
 						end
 					end
@@ -560,8 +564,10 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 						local set = area[i].ability.set
 						local tab = {}
 						for i = 1, #RevosVault.get_eligible_cards(nil, "Joker", true) do
-							if RevosVault.get_eligible_cards(nil, "Joker", true)[i].rarity == b then
-								tab[#tab + 1] = RevosVault.get_eligible_cards(nil, "Joker", true)[i].key
+							if RevosVault.get_eligible_cards(nil, "Booster", true)[i] then
+								if RevosVault.get_eligible_cards(nil, "Joker", true)[i].rarity == b then
+									tab[#tab + 1] = RevosVault.get_eligible_cards(nil, "Joker", true)[i].key
+								end
 							end
 						end
 						if area[i] ~= keeporiginal then
@@ -606,8 +612,10 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 						end
 						local tab = {}
 						for i = 1, #RevosVault.get_eligible_cards(nil, "Joker", true) do
-							if RevosVault.get_eligible_cards(nil, "Joker", true)[i].rarity == b then
-								tab[#tab + 1] = RevosVault.get_eligible_cards(nil, "Joker", true)[i].key
+							if RevosVault.get_eligible_cards(nil, "Booster", true)[i] then
+								if RevosVault.get_eligible_cards(nil, "Joker", true)[i].rarity == b then
+									tab[#tab + 1] = RevosVault.get_eligible_cards(nil, "Joker", true)[i].key
+								end
 							end
 						end
 						if area[i] ~= keeporiginal then
@@ -643,8 +651,10 @@ function RevosVault.replacecards(area, replace, bypass_eternal, keep, keeporigin
 					local tab = {}
 
 					for i = 1, #RevosVault.get_consumable_pool() do
-						if RevosVault.get_consumable_pool()[i].set == set then
-							tab[#tab + 1] = RevosVault.get_consumable_pool()[i].key
+						if RevosVault.get_eligible_cards(nil, "Booster", true)[i] then
+							if RevosVault.get_consumable_pool()[i].set == set then
+								tab[#tab + 1] = RevosVault.get_consumable_pool()[i].key
+							end
 						end
 					end
 
@@ -844,7 +854,7 @@ function RevosVault.check(check, area)
 end
 
 --Sadly this requires manually adding/removing cards. :((
-function RevosVault.modify_rarity(card, by, ext, no_set_cost)
+function RevosVault.modify_rarity(card, by, ext, no_set_cost, ret) -- idk what im doing send help
 	local shouldgo = true
 	local rarity_order = {
 		1,
@@ -886,12 +896,16 @@ function RevosVault.modify_rarity(card, by, ext, no_set_cost)
 		if shouldgo then
 			if ext then
 				local f = future_rarity
-				if not future_rarity then f = rarity_order[#rarity_order] end
-				return RevosVault.index(rarity_order, f)*10
+				if not future_rarity then
+					f = rarity_order[#rarity_order]
+				end
+				return RevosVault.index(rarity_order, f) * 10
 			end
 			local new_card = pseudorandom_element(G.P_JOKER_RARITY_POOLS[future_rarity]).key
 			card:juice_up()
-			card:set_ability(new_card)
+			if ret then
+				return new_card
+			end
 			if not no_set_cost then
 				card:set_cost()
 			end
@@ -1113,12 +1127,7 @@ function RevosVault.values(operator, card, num, extra, only_extra, orig)
 	end
 	if not only_extra then
 		for k, v in pairs(card.ability) do
-			if
-				k ~= "x_mult"
-				and k ~= "x_chips"
-				and k ~= "order"
-				and v ~= 0
-			then
+			if k ~= "x_mult" and k ~= "x_chips" and k ~= "order" and v ~= 0 then
 				if type(v) == "number" then
 					if operator == "/" then
 						card.ability[k] = card.ability[k] / num
@@ -1248,19 +1257,18 @@ function RevosVault.all_stickers(card)
 			for k, v in pairs(SMODS.Stickers) do
 				card:add_sticker(k, true)
 			end
-		end
+		end,
 	}))
 end
 
-
-function Card:remove_sticker_calc(sticker, card) 
-    sticker:removed(self, card)
-	SMODS.calculate_context({sticker_removed = true, other_sticker = sticker, other_card = card})
+function Card:remove_sticker_calc(sticker, card)
+	sticker:removed(self, card)
+	SMODS.calculate_context({ sticker_removed = true, other_sticker = sticker, other_card = card })
 end
 
-function Card:apply_sticker_calc(sticker, card) 
-    sticker:applied(self, card)
-	SMODS.calculate_context({sticker_applied = true, other_sticker = sticker, other_card = card})
+function Card:apply_sticker_calc(sticker, card)
+	sticker:applied(self, card)
+	SMODS.calculate_context({ sticker_applied = true, other_sticker = sticker, other_card = card })
 	RevosVault.sticker_thingy(card)
 end
 
@@ -1284,7 +1292,6 @@ function RevosVault.move(card, by)
 	if by > area.config.card_limit then
 		sendWarnMessage("num big adashfdgvasdk")
 	else
-
 		area:remove_card(card)
 		table.insert(area.cards, by, card)
 		card.area = area
@@ -1296,15 +1303,15 @@ function RevosVault.sticker_thingy(card)
 	if card and card.ability then
 		for k, v in pairs(SMODS.Stickers) do
 			if string.find(k, "crv") then
-				eligible[#eligible+1] = k
+				eligible[#eligible + 1] = k
 			end
 		end
 
 		for k, v in pairs(eligible) do
 			if not card.ability[v] then
-				break 
+				break
 			else
-				check_for_unlock({type = "howdidwegethere"})
+				check_for_unlock({ type = "howdidwegethere" })
 			end
 		end
 	end
@@ -1344,7 +1351,6 @@ function RevosVault.vanilla_cards(args) -- incomplete
 	return tab
 end
 
-
 function RevosVault.random_voucher(mod) --i love overcomplicating stuff
 	local mode
 	if not mod then
@@ -1364,12 +1370,11 @@ function RevosVault.random_voucher(mod) --i love overcomplicating stuff
 		mode = "Mod"
 	end
 
-
 	local vouchers = {}
 	if mode == "Mod" then
 		vouchers = RevosVault.get_eligible_cards(mod)
 	else
-		vouchers = RevosVault.vanilla_cards({type = "Voucher"})
+		vouchers = RevosVault.vanilla_cards({ type = "Voucher" })
 	end
 	local voucher_key = nil
 	local real_voucher = nil
@@ -1377,39 +1382,39 @@ function RevosVault.random_voucher(mod) --i love overcomplicating stuff
 		voucher_key = pseudorandom_element(vouchers)
 	end
 
-	
 	if voucher_key then
-		real_voucher = SMODS.create_card{
-			key = voucher_key
-		}
+		real_voucher = SMODS.create_card({
+			key = voucher_key,
+		})
 	end
 
 	if real_voucher then
 		real_voucher:add_to_deck()
-
 
 		RevosVault.redeem(real_voucher, 0, true)
 	end
 end
 
 function RevosVault.get_eligible_cards(mod, type, ret_center)
-	if not type then type = "Voucher" end
+	if not type then
+		type = "Voucher"
+	end
 	local vv = get_current_pool(type)
-        local tab = {}
-		local tab_centers = {}
-        for k, v in pairs(vv) do
-			if mod then
-				if v ~= 'UNAVAILABLE' and G.P_CENTERS[v] and G.P_CENTERS[v].mod and G.P_CENTERS[v].mod.id == mod then
-					tab[#tab+1] = v
-					tab_centers[#tab_centers+1] = G.P_CENTERS[v]
-				end
-			else
-				if G.P_CENTERS[v] then
-					tab[#tab+1] = v
-					tab_centers[#tab_centers+1] = G.P_CENTERS[v]
-				end
+	local tab = {}
+	local tab_centers = {}
+	for k, v in pairs(vv) do
+		if mod then
+			if v ~= "UNAVAILABLE" and G.P_CENTERS[v] and G.P_CENTERS[v].mod and G.P_CENTERS[v].mod.id == mod then
+				tab[#tab + 1] = v
+				tab_centers[#tab_centers + 1] = G.P_CENTERS[v]
 			end
-        end
+		else
+			if G.P_CENTERS[v] then
+				tab[#tab + 1] = v
+				tab_centers[#tab_centers + 1] = G.P_CENTERS[v]
+			end
+		end
+	end
 	if not ret_center then
 		return tab
 	else
@@ -1418,7 +1423,6 @@ function RevosVault.get_eligible_cards(mod, type, ret_center)
 end
 
 function RevosVault.redeem(card, cost, reset_to_shop)
-
 	local old_state = G.STATE
 
 	if card.area then
@@ -1437,9 +1441,8 @@ function RevosVault.redeem(card, cost, reset_to_shop)
 			card:start_dissolve()
 			G.STATE = old_state
 			return true
-		end
+		end,
 	}))
-
 end
 
 function RevosVault.get_consumable_pool(mod)
@@ -1447,12 +1450,17 @@ function RevosVault.get_consumable_pool(mod)
 	for k, v in pairs(SMODS.ConsumableTypes) do
 		for k, vv in pairs(get_current_pool(k)) do
 			if mod then
-				if vv ~= "UNAVAILABLE" and G.P_CENTERS[vv] and G.P_CENTERS[vv].mod and G.P_CENTERS[vv].mod.id == mod then
-					tab[#tab+1] = G.P_CENTERS[vv]
+				if
+					vv ~= "UNAVAILABLE"
+					and G.P_CENTERS[vv]
+					and G.P_CENTERS[vv].mod
+					and G.P_CENTERS[vv].mod.id == mod
+				then
+					tab[#tab + 1] = G.P_CENTERS[vv]
 				end
 			else
 				if G.P_CENTERS[vv] then
-					tab[#tab+1] = G.P_CENTERS[vv]
+					tab[#tab + 1] = G.P_CENTERS[vv]
 				end
 			end
 		end
@@ -1461,18 +1469,18 @@ function RevosVault.get_consumable_pool(mod)
 end
 
 function reset_other_types()
-
-	if not RevosVault.mod_categories then RevosVault.mod_categories = {} end
+	if not RevosVault.mod_categories then
+		RevosVault.mod_categories = {}
+	end
 
 	RevosVault.mod_categories = {
 		with_voucher = {},
 		with_consumable = {},
-		with_joker = {}
+		with_joker = {},
 	}
 end
 
 function check_mod_contents(mod)
-
 	local rvm = RevosVault.mod_categories
 
 	local avb = 0
@@ -1516,17 +1524,15 @@ function check_mod_contents(mod)
 	return false
 end
 
-	
-
 function get_eligible_mods()
-    local tab = {}
-    for k, v in pairs(SMODS.Mods) do
-        if v.can_load then
-            if check_mod_contents(v.id) then
+	local tab = {}
+	for k, v in pairs(SMODS.Mods) do
+		if v.can_load then
+			if check_mod_contents(v.id) then
 				tab[v.id] = v.id
 			end
-        end
-    end
+		end
+	end
 	return tab
 end
 
@@ -1535,24 +1541,27 @@ function get_eligible_cards(mod, type)
 	G.GAME.unvaulted_cons = {}
 	G.GAME.unvaulted_vouchers = {}
 
-
-	
 	if type == "Joker" then
 		for _, v in pairs(get_current_pool("Joker")) do
-			if G.P_CENTERS[v] and G.P_CENTERS[v].mod and G.P_CENTERS[v].mod.id == mod and not G.P_CENTERS[v].no_collection and v ~= "UNAVAILABLE" then
-				G.GAME.unvaulted_jokers[#G.GAME.unvaulted_jokers+1] = v
+			if
+				G.P_CENTERS[v]
+				and G.P_CENTERS[v].mod
+				and G.P_CENTERS[v].mod.id == mod
+				and not G.P_CENTERS[v].no_collection
+				and v ~= "UNAVAILABLE"
+			then
+				G.GAME.unvaulted_jokers[#G.GAME.unvaulted_jokers + 1] = v
 			end
 		end
 	elseif type == "Consumable" then
-			for k, v in pairs(RevosVault.get_consumable_pool(mod)) do
-				if v.mod and v.mod.id == mod and not v.no_collection then
-					G.GAME.unvaulted_cons[#G.GAME.unvaulted_cons+1] = v.key
-				end
+		for k, v in pairs(RevosVault.get_consumable_pool(mod)) do
+			if v.mod and v.mod.id == mod and not v.no_collection then
+				G.GAME.unvaulted_cons[#G.GAME.unvaulted_cons + 1] = v.key
 			end
+		end
 	elseif type == "Voucher" then
 		-- hmm
 	end
-
 
 	if type == "Joker" then
 		return pseudorandom_element(G.GAME.unvaulted_jokers, pseudoseed("crv_kys"))
@@ -1563,136 +1572,173 @@ function get_eligible_cards(mod, type)
 	end
 end
 
+function calculate_modded_printer()
+	if G.GAME then
+		reset_other_types()
 
-function calculate_modded_printer()	
-if G.GAME then
+		RevosVault.other_card = "j_joker"
+		RevosVault.other_type = "Consumable"
+		RevosVault.other_mod = "RevosVault"
+		RevosVault.other_mod_display = "Revo's Vault"
 
-	reset_other_types()
+		get_eligible_mods()
 
-	RevosVault.other_card = "j_joker"
-	RevosVault.other_type = "Consumable"
-	RevosVault.other_mod = "RevosVault"
-	RevosVault.other_mod_display = "Revo's Vault"
-	
-
-	get_eligible_mods()
-	
-	local categs = {}
-	if #RevosVault.mod_categories.with_joker > 0 then
-		table.insert(categs, "Joker")
-	end
-
-	if #RevosVault.mod_categories.with_consumable > 0 then
-		table.insert(categs, "Consumable")
-	end
-
-	if #RevosVault.mod_categories.with_voucher > 0 then
-		table.insert(categs, "Voucher")
-	end
-	RevosVault.other_type = pseudorandom_element(categs, pseudoseed("wewewewe"))
-
-	if RevosVault.other_type == "Joker" then
-		RevosVault.other_mod = pseudorandom_element(RevosVault.mod_categories.with_joker)
-	elseif RevosVault.other_type == "Consumable" then
-		RevosVault.other_mod = pseudorandom_element(RevosVault.mod_categories.with_consumable)
-	else
-		RevosVault.other_mod = pseudorandom_element(RevosVault.mod_categories.with_voucher)
-	end
-
-	for k, v in pairs(SMODS.Mods) do
-		if v.id == RevosVault.other_mod then
-			RevosVault.other_mod_display = v.name
+		local categs = {}
+		if #RevosVault.mod_categories.with_joker > 0 then
+			table.insert(categs, "Joker")
 		end
+
+		if #RevosVault.mod_categories.with_consumable > 0 then
+			table.insert(categs, "Consumable")
+		end
+
+		if #RevosVault.mod_categories.with_voucher > 0 then
+			table.insert(categs, "Voucher")
+		end
+		RevosVault.other_type = pseudorandom_element(categs, pseudoseed("wewewewe"))
+
+		if RevosVault.other_type == "Joker" then
+			RevosVault.other_mod = pseudorandom_element(RevosVault.mod_categories.with_joker)
+		elseif RevosVault.other_type == "Consumable" then
+			RevosVault.other_mod = pseudorandom_element(RevosVault.mod_categories.with_consumable)
+		else
+			RevosVault.other_mod = pseudorandom_element(RevosVault.mod_categories.with_voucher)
+		end
+
+		for k, v in pairs(SMODS.Mods) do
+			if v.id == RevosVault.other_mod then
+				RevosVault.other_mod_display = v.name
+			end
+		end
+
+		RevosVault.other_card = get_eligible_cards(RevosVault.other_mod, RevosVault.other_type)
 	end
-
-	RevosVault.other_card = get_eligible_cards(RevosVault.other_mod, RevosVault.other_type)
 end
-end
-
 
 -- hotpot be like
 function RevosVault.show_shop()
-    if G.shop and G.shop.alignment.offset.py then
-        G.shop.alignment.offset.y = G.shop.alignment.offset.py
-        G.shop.alignment.offset.py = nil
-    end
+	if G.shop and G.shop.alignment.offset.py then
+		G.shop.alignment.offset.y = G.shop.alignment.offset.py
+		G.shop.alignment.offset.py = nil
+	end
 end
 
 function RevosVault.hide_shop()
-    if G.shop and not G.shop.alignment.offset.py then
-        G.shop.alignment.offset.py = G.shop.alignment.offset.y
-        G.shop.alignment.offset.y = G.ROOM.T.y + 29
-    end
+	if G.shop and not G.shop.alignment.offset.py then
+		G.shop.alignment.offset.py = G.shop.alignment.offset.y
+		G.shop.alignment.offset.y = G.ROOM.T.y + 29
+	end
 end
 
-function RevosVault.move_card(card, _area, args) 
+function RevosVault.move_card(card, _area, args)
 	G.E_MANAGER:add_event(Event({
 		trigger = "before",
 		func = function()
 			RevosVault.remove_lock = true
 			return true
-		end
+		end,
 	}))
-    local area = card.area
-    if args then
+	local area = card.area
+	if args then
 		if args.add_to_deck then
-			
-       		card:add_to_deck()
+			card:add_to_deck()
 		end
 		if args.remove_from_deck then
-			
 			card:remove_from_deck()
 		end
 	end
-	if not card.getting_sliced then	
+	if not card.getting_sliced then
 		area:remove_card(card)
 		_area:emplace(card)
-    end
+	end
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",
 		func = function()
 			RevosVault.remove_lock = false
 			return true
-		end
+		end,
 	}))
 end
 
-  function RevosVault.create_gem_timer(card)
-      G.E_MANAGER:add_event(Event({
-        trigger = 'after',
-        delay = 0.43,
-        blocking = false,
-        blockable = false,
-        func = (function()
-          if card.opening then return true end
-          local t1 = {
-              n=G.UIT.ROOT, config = {minw = 0.6, align = 'tm', colour = darken(G.C.BLACK, 0.2), shadow = true, r = 0.05, padding = 0.05, minh = 1}, nodes={
-                  {n=G.UIT.R, config={align = "cm", colour = lighten(G.C.BLACK, 0.1), r = 0.1, minw = 1, minh = 0.55, emboss = 0.05, padding = 0.03}, nodes={
-                    {n=G.UIT.O, config={object = DynaText({string = {card.ability.extra.destroy_time .. "/" .. card.ability.extra.destroy_time_max+1}, colours = {G.C.MONEY},shadow = true, silent = true, bump = true, pop_in = 0, scale = 0.5})}},
-                  }}
-              }}
-            
+function RevosVault.create_gem_timer(card)
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0.43,
+		blocking = false,
+		blockable = false,
+		func = function()
+			if card.opening then
+				return true
+			end
+			local t1 = {
+				n = G.UIT.ROOT,
+				config = {
+					minw = 0.6,
+					align = "tm",
+					colour = darken(G.C.BLACK, 0.2),
+					shadow = true,
+					r = 0.05,
+					padding = 0.05,
+					minh = 1,
+				},
+				nodes = {
+					{
+						n = G.UIT.R,
+						config = {
+							align = "cm",
+							colour = lighten(G.C.BLACK, 0.1),
+							r = 0.1,
+							minw = 1,
+							minh = 0.55,
+							emboss = 0.05,
+							padding = 0.03,
+						},
+						nodes = {
+							{
+								n = G.UIT.O,
+								config = {
+									object = DynaText({
+										string = {
+											card.ability.extra.destroy_time
+												.. "/"
+												.. card.ability.extra.destroy_time_max + 1,
+										},
+										colours = { G.C.MONEY },
+										shadow = true,
+										silent = true,
+										bump = true,
+										pop_in = 0,
+										scale = 0.5,
+									}),
+								},
+							},
+						},
+					},
+				},
+			}
 
-          card.children.gem_time = UIBox{
-            definition = t1,
-            config = {
-              align="tm",
-              offset = {x=0,y=1.5},
-              major = card,
-              bond = 'Weak',
-              parent = card
-            }
-          }
+			card.children.gem_time = UIBox({
+				definition = t1,
+				config = {
+					align = "tm",
+					offset = { x = 0, y = 1.5 },
+					major = card,
+					bond = "Weak",
+					parent = card,
+				},
+			})
 
-          card.children.gem_time.alignment.offset.y = 0.38
+			card.children.gem_time.alignment.offset.y = 0.38
 
-            return true
-        end)
-      }))
-  end
+			return true
+		end,
+	}))
+end
 
 function RevosVault.c_message(card, message, type)
-	if not type then type = "extra" end
+	if not type then
+		type = "extra"
+	end
 	if type ~= "SMODS" then
 		card_eval_status_text(card, type, nil, nil, nil, { message = message })
 	end
@@ -1711,13 +1757,27 @@ end
 function RevosVault.upgrade_enhancement(card, ret)
 	local enh
 	local check
-	if card and card.ability and card.ability.name and card.ability.name ~= "Default Base" and card.ability.name ~= "Wild Card" and card.ability.name ~= "Stone Card" and card.ability.name ~= "Gold Card" then
-		if card.ability.name == "Bonus" then enh = "m_bonus"
-		elseif card.ability.name == "Mult" then enh = "m_mult"
-		elseif card.ability.name == "Glass Card" then enh = "m_glass"
-		elseif card.ability.name == "Steel Card" then enh = "m_steel"
-		elseif card.ability.name == "Lucky Card" then enh = "m_lucky"
-		else enh = card.ability.name
+	if
+		card
+		and card.ability
+		and card.ability.name
+		and card.ability.name ~= "Default Base"
+		and card.ability.name ~= "Wild Card"
+		and card.ability.name ~= "Stone Card"
+		and card.ability.name ~= "Gold Card"
+	then
+		if card.ability.name == "Bonus" then
+			enh = "m_bonus"
+		elseif card.ability.name == "Mult" then
+			enh = "m_mult"
+		elseif card.ability.name == "Glass Card" then
+			enh = "m_glass"
+		elseif card.ability.name == "Steel Card" then
+			enh = "m_steel"
+		elseif card.ability.name == "Lucky Card" then
+			enh = "m_lucky"
+		else
+			enh = card.ability.name
 		end
 	end
 	if enh then
@@ -1741,74 +1801,100 @@ end
 
 function RevosVault.boost_hand(m, c)
 	local R = RevosFunctions
-	if not m then m = 1.5 end
-	if not c then c = 1.5 end
-	if not R.c then R.c = hand_chips*c else R.c = R.c*c end
-	if not R.m then R.m = mult*m else R.m = R.m*m end
+	if not m then
+		m = 1.5
+	end
+	if not c then
+		c = 1.5
+	end
+	if not R.c then
+		R.c = hand_chips * c
+	else
+		R.c = R.c * c
+	end
+	if not R.m then
+		R.m = mult * m
+	else
+		R.m = R.m * m
+	end
 	local tot = R.c + R.m
-        update_hand_text({delay = 0}, {mult = R.m, chips = R.c})
-		mult = R.m
-		hand_chips = R.c
+	update_hand_text({ delay = 0 }, { mult = R.m, chips = R.c })
+	mult = R.m
+	hand_chips = R.c
 
-        G.E_MANAGER:add_event(Event({
-            func = (function()
-                local text = "Boosted!"
-                play_sound('gong', 0.94, 0.3)
-                play_sound('gong', 0.94*1.5, 0.2)
-                play_sound('tarot1', 1.5)
-                ease_colour(G.C.UI_CHIPS, HEX("fdd017"))
-                ease_colour(G.C.UI_MULT, HEX("fdd017"))
-                attention_text({
-                    scale = 1.4, text = text, hold = 2, align = 'cm', offset = {x = 0,y = -2.7},major = G.play
-                })
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    blockable = false,
-                    blocking = false,
-                    delay =  4.3,
-                    func = (function() 
-                            ease_colour(G.C.UI_CHIPS, G.C.BLUE, 2)
-                            ease_colour(G.C.UI_MULT, G.C.RED, 2)
-                        return true
-                    end)
-                }))
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    blockable = false,
-                    blocking = false,
-                    no_delete = true,
-                    delay =  6.3,
-                    func = (function() 
-                        G.C.UI_CHIPS[1], G.C.UI_CHIPS[2], G.C.UI_CHIPS[3], G.C.UI_CHIPS[4] = G.C.BLUE[1], G.C.BLUE[2], G.C.BLUE[3], G.C.BLUE[4]
-                        G.C.UI_MULT[1], G.C.UI_MULT[2], G.C.UI_MULT[3], G.C.UI_MULT[4] = G.C.RED[1], G.C.RED[2], G.C.RED[3], G.C.RED[4]
-                        return true
-                    end)
-                }))
-                return true
-            end)
-        }))
+	G.E_MANAGER:add_event(Event({
+		func = function()
+			local text = "Boosted!"
+			play_sound("gong", 0.94, 0.3)
+			play_sound("gong", 0.94 * 1.5, 0.2)
+			play_sound("tarot1", 1.5)
+			ease_colour(G.C.UI_CHIPS, HEX("fdd017"))
+			ease_colour(G.C.UI_MULT, HEX("fdd017"))
+			attention_text({
+				scale = 1.4,
+				text = text,
+				hold = 2,
+				align = "cm",
+				offset = { x = 0, y = -2.7 },
+				major = G.play,
+			})
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				blockable = false,
+				blocking = false,
+				delay = 4.3,
+				func = function()
+					ease_colour(G.C.UI_CHIPS, G.C.BLUE, 2)
+					ease_colour(G.C.UI_MULT, G.C.RED, 2)
+					return true
+				end,
+			}))
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				blockable = false,
+				blocking = false,
+				no_delete = true,
+				delay = 6.3,
+				func = function()
+					G.C.UI_CHIPS[1], G.C.UI_CHIPS[2], G.C.UI_CHIPS[3], G.C.UI_CHIPS[4] =
+						G.C.BLUE[1], G.C.BLUE[2], G.C.BLUE[3], G.C.BLUE[4]
+					G.C.UI_MULT[1], G.C.UI_MULT[2], G.C.UI_MULT[3], G.C.UI_MULT[4] =
+						G.C.RED[1], G.C.RED[2], G.C.RED[3], G.C.RED[4]
+					return true
+				end,
+			}))
+			return true
+		end,
+	}))
 
-        delay(0.6)
+	delay(0.6)
 end
 
 function RevosVault.attention_text(_text, _hold, _major, _scale, _offset, _align)
 	attention_text({
-		scale = (_scale or 1.4), text = _text, hold = (_hold or 2), align = (_align or 'cm'), offset = (_offset or {x = 0,y = -2.7}),major = (_major or G.play)
+		scale = (_scale or 1.4),
+		text = _text,
+		hold = (_hold or 2),
+		align = (_align or "cm"),
+		offset = (_offset or { x = 0, y = -2.7 }),
+		major = (_major or G.play),
 	})
 end
 
 function RevosVault.random_playing_card(id, suit, area, other_args)
-	if not other_args then other_args = {} end
+	if not other_args then
+		other_args = {}
+	end
 	local _enhancement = "c_base"
-	if not other_args.no then 
-		_enhancement = SMODS.poll_enhancement({guaranteed = other_args.guaranteed})
+	if not other_args.no then
+		_enhancement = SMODS.poll_enhancement({ guaranteed = other_args.guaranteed })
 	end
 	local acard = SMODS.add_card({
 		set = "Playing Card",
 		rank = id,
 		suit = suit,
 		enhancement = _enhancement,
-		area = area or G.deck
+		area = area or G.deck,
 	})
 end
 
@@ -1827,7 +1913,10 @@ function Card:is_enhanced()
 end
 
 function RevosVault.is_an_enhancement(center)
-	if (G.P_CENTERS[center] and G.P_CENTERS[center].set == "Enhanced") or (center and center.set and center.set == "Enhanced") then
+	if
+		(G.P_CENTERS[center] and G.P_CENTERS[center].set == "Enhanced")
+		or (center and center.set and center.set == "Enhanced")
+	then
 		return true
 	end
 	return false
@@ -1855,7 +1944,6 @@ function RevosVault.change_shop_size(mod, shop_area)
 		G.GAME.shop[shop_area] = G.GAME.shop[shop_area] + mod
 		if G[shop_area] and G[shop_area].cards then
 			if mod < 0 then
-
 				for i = #G[shop_area].cards, G.GAME.shop[shop_area] + 1, -1 do
 					if G[shop_area].cards[i] then
 						G[shop_area].cards[i]:remove()
@@ -1865,7 +1953,7 @@ function RevosVault.change_shop_size(mod, shop_area)
 			G[shop_area].config.card_limit = G.GAME.shop[shop_area]
 			G[shop_area].T.w = math.min(G.GAME.shop[shop_area] * 1.02 * G.CARD_W, 4.08 * G.CARD_W)
 
-		--[[if G[shop_area].config.card_limit > #G[shop_area].cards then
+			--[[if G[shop_area].config.card_limit > #G[shop_area].cards then
 				local rep = (G[shop_area].config.card_limit - #G[shop_area].cards)
 				if shop_area == "shop_vouchers" then
 					for i = 1, rep do
@@ -1906,26 +1994,26 @@ function RevosVault.change_shop_size(mod, shop_area)
 end
 
 function RevosVault.remove_all_stickers(card, ignore)
-    if card then
-        for k, v in pairs(SMODS.Stickers) do
-            if (card.ability[k] or card[k]) and k ~= ignore then
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'immediate',
-                    func = function()
+	if card then
+		for k, v in pairs(SMODS.Stickers) do
+			if (card.ability[k] or card[k]) and k ~= ignore then
+				G.E_MANAGER:add_event(Event({
+					trigger = "immediate",
+					func = function()
 						card:remove_sticker(k, true)
-                        return true
-                    end
-                }))
-            end
-        end
-    end
+						return true
+					end,
+				}))
+			end
+		end
+	end
 end
 
 function RevosVault.has_room(area, ret_num, ret_num_modify)
 	if area then
 		if area.cards and #area.cards < area.config.card_limit then
 			if ret_num then
-				ret_num = area.config.card_limit-(#area.cards)
+				ret_num = area.config.card_limit - #area.cards
 				if ret_num_modify then
 					ret_num = ret_num + ret_num_modify
 				end
@@ -1969,10 +2057,9 @@ function Card:calculate_cavendish()
 	end
 end
 
-
 function Card:calculate_gros_michel()
 	if pseudorandom("calculate_gros_michel") < G.GAME.probabilities.normal / (self.ability.odds or 6) then
-G.E_MANAGER:add_event(Event({
+		G.E_MANAGER:add_event(Event({
 			func = function()
 				play_sound("tarot1")
 				self.T.r = -0.2
@@ -1997,17 +2084,15 @@ G.E_MANAGER:add_event(Event({
 	end
 end
 
-
 function Card:has_potential()
 	local tab = {}
 	for k, v in pairs(G.P_CENTER_POOLS.Superior) do
 		if G.P_CENTERS[v.key] then
-			tab[#tab+1] = v.key
+			tab[#tab + 1] = v.key
 		end
 	end
 
 	for k, v in pairs(tab) do
-
 		local mod_prefix = G.P_CENTERS[v].mod.prefix
 		local _string = string.gsub(v, "sup", "")
 		_string = string.gsub(_string, mod_prefix .. "_", "")
@@ -2024,7 +2109,7 @@ function RevosVault.unleash_potential(card)
 	local tab = {}
 	for k, v in pairs(G.P_CENTER_POOLS.Superior) do
 		if G.P_CENTERS[v.key] then
-			tab[#tab+1] = v.key
+			tab[#tab + 1] = v.key
 		end
 	end
 
@@ -2058,7 +2143,9 @@ function Card:is_banana()
 end
 
 function RevosVault.nope(args)
-	if not args.text then args.text = "k_nope_ex" end
+	if not args.text then
+		args.text = "k_nope_ex"
+	end
 	G.E_MANAGER:add_event(Event({
 		trigger = "after",
 		delay = 0.4,
@@ -2094,7 +2181,9 @@ function RevosVault.nope(args)
 end
 
 function RevosVault.get_key_pos(key, type)
-	if not type then type = "jokers" end
+	if not type then
+		type = "jokers"
+	end
 	for _, area in pairs(SMODS.get_card_areas(type)) do
 		if area and area.cards then
 			for i = 1, #area.cards do
@@ -2108,88 +2197,116 @@ function RevosVault.get_key_pos(key, type)
 end
 
 function Card:crv_silent_sell()
-    G.CONTROLLER.locks.selling_card = true
-    stop_use()
-    local area = self.area
-    G.CONTROLLER:save_cardarea_focus(area == G.jokers and 'jokers' or 'consumeables')
+	G.CONTROLLER.locks.selling_card = true
+	stop_use()
+	local area = self.area
+	G.CONTROLLER:save_cardarea_focus(area == G.jokers and "jokers" or "consumeables")
 
-    if self.children.use_button then self.children.use_button:remove(); self.children.use_button = nil end
-    if self.children.sell_button then self.children.sell_button:remove(); self.children.sell_button = nil end
-    
-    local eval, post = eval_card(self, {selling_self = true})
-    local effects = {eval}
-    for _,v in ipairs(post) do effects[#effects+1] = v end
-    if eval.retriggers then
-        for rt = 1, #eval.retriggers do
-            local rt_eval, rt_post = eval_card(self, { selling_self = true, retrigger_joker = true})
-            if next(rt_eval) then
-                table.insert(effects, {eval.retriggers[rt]})
-                table.insert(effects, rt_eval)
-                for _, v in ipairs(rt_post) do effects[#effects+1] = v end
-            end
-        end
-    end
-    SMODS.trigger_effects(effects, self)
+	if self.children.use_button then
+		self.children.use_button:remove()
+		self.children.use_button = nil
+	end
+	if self.children.sell_button then
+		self.children.sell_button:remove()
+		self.children.sell_button = nil
+	end
 
-    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function()
-        --play_sound('coin2')
-        self:juice_up(0.3, 0.4)
-        return true
-    end}))
-    delay(0.2)
-    G.E_MANAGER:add_event(Event({trigger = 'immediate',func = function()
-       	RevosVault.silent_ease_dollars(self.sell_cost, true)
-        self:start_dissolve({G.C.GOLD}, true)
-        delay(0.3)
+	local eval, post = eval_card(self, { selling_self = true })
+	local effects = { eval }
+	for _, v in ipairs(post) do
+		effects[#effects + 1] = v
+	end
+	if eval.retriggers then
+		for rt = 1, #eval.retriggers do
+			local rt_eval, rt_post = eval_card(self, { selling_self = true, retrigger_joker = true })
+			if next(rt_eval) then
+				table.insert(effects, { eval.retriggers[rt] })
+				table.insert(effects, rt_eval)
+				for _, v in ipairs(rt_post) do
+					effects[#effects + 1] = v
+				end
+			end
+		end
+	end
+	SMODS.trigger_effects(effects, self)
 
-       --inc_career_stat('c_cards_sold', 1)
-        if self.ability.set == 'Joker' then 
-            --inc_career_stat('c_jokers_sold', 1)
-        end
-        if self.ability.set == 'Joker' and G.GAME.blind and G.GAME.blind.name == 'Verdant Leaf' then 
-            G.E_MANAGER:add_event(Event({trigger = 'immediate',func = function()
-                G.GAME.blind:disable()
-                return true
-            end}))
-        end
-        G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.3, blocking = false,
-        func = function()
-            G.E_MANAGER:add_event(Event({trigger = 'immediate',
-            func = function()
-                G.E_MANAGER:add_event(Event({trigger = 'immediate',
-                func = function()
-                    G.CONTROLLER.locks.selling_card = nil
-                    G.CONTROLLER:recall_cardarea_focus(area == G.jokers and 'jokers' or 'consumeables')
-                return true
-                end}))
-            return true
-            end}))
-        return true
-        end}))
-        return true
-    end}))
+	G.E_MANAGER:add_event(Event({
+		trigger = "after",
+		delay = 0.2,
+		func = function()
+			--play_sound('coin2')
+			self:juice_up(0.3, 0.4)
+			return true
+		end,
+	}))
+	delay(0.2)
+	G.E_MANAGER:add_event(Event({
+		trigger = "immediate",
+		func = function()
+			RevosVault.silent_ease_dollars(self.sell_cost, true)
+			self:start_dissolve({ G.C.GOLD }, true)
+			delay(0.3)
+
+			--inc_career_stat('c_cards_sold', 1)
+			if self.ability.set == "Joker" then
+				--inc_career_stat('c_jokers_sold', 1)
+			end
+			if self.ability.set == "Joker" and G.GAME.blind and G.GAME.blind.name == "Verdant Leaf" then
+				G.E_MANAGER:add_event(Event({
+					trigger = "immediate",
+					func = function()
+						G.GAME.blind:disable()
+						return true
+					end,
+				}))
+			end
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = 0.3,
+				blocking = false,
+				func = function()
+					G.E_MANAGER:add_event(Event({
+						trigger = "immediate",
+						func = function()
+							G.E_MANAGER:add_event(Event({
+								trigger = "immediate",
+								func = function()
+									G.CONTROLLER.locks.selling_card = nil
+									G.CONTROLLER:recall_cardarea_focus(area == G.jokers and "jokers" or "consumeables")
+									return true
+								end,
+							}))
+							return true
+						end,
+					}))
+					return true
+				end,
+			}))
+			return true
+		end,
+	}))
 end
 
 function RevosVault.silent_ease_dollars(mod, instant)
-    local function _mod(mod)
-        local dollar_UI = G.HUD:get_UIE_by_ID('dollar_text_UI')
-        mod = mod or 0
-        --local text = '+'..localize('$')
-        --local col = G.C.MONEY
-        if mod < 0 then
-           -- text = '-'..localize('$')
-           -- col = G.C.RED              
-        else
-          inc_career_stat('c_dollars_earned', mod)
-        end
-        --Ease from current chips to the new number of chips
-        G.GAME.dollars = G.GAME.dollars + mod
-        check_and_set_high_score('most_money', G.GAME.dollars)
-        check_for_unlock({type = 'money'})
-        dollar_UI.config.object:update()
-        G.HUD:recalculate()
-        --Popup text next to the chips in UI showing number of chips gained/lost
-        --[[attention_text({
+	local function _mod(mod)
+		local dollar_UI = G.HUD:get_UIE_by_ID("dollar_text_UI")
+		mod = mod or 0
+		--local text = '+'..localize('$')
+		--local col = G.C.MONEY
+		if mod < 0 then
+		-- text = '-'..localize('$')
+		-- col = G.C.RED
+		else
+			inc_career_stat("c_dollars_earned", mod)
+		end
+		--Ease from current chips to the new number of chips
+		G.GAME.dollars = G.GAME.dollars + mod
+		check_and_set_high_score("most_money", G.GAME.dollars)
+		check_for_unlock({ type = "money" })
+		dollar_UI.config.object:update()
+		G.HUD:recalculate()
+		--Popup text next to the chips in UI showing number of chips gained/lost
+		--[[attention_text({
           text = text..tostring(math.abs(mod)),
           scale = 0.8, 
           hold = 0.7,
@@ -2199,22 +2316,21 @@ function RevosVault.silent_ease_dollars(mod, instant)
           })
         -- Play a chip sound
         play_sound('coin1')]]
-    end
-    if instant then
-        _mod(mod)
-    else
-        G.E_MANAGER:add_event(Event({
-        trigger = 'immediate',
-        func = function()
-            _mod(mod)
-            return true
-        end
-        }))
-    end
+	end
+	if instant then
+		_mod(mod)
+	else
+		G.E_MANAGER:add_event(Event({
+			trigger = "immediate",
+			func = function()
+				_mod(mod)
+				return true
+			end,
+		}))
+	end
 end
 
-RevosVault.pseudorandom_printer = function(args) 
-
+RevosVault.pseudorandom_printer = function(args)
 	args.voucher_tier1 = args.voucher_tier1 or "v_crv_printerup"
 	args.voucher_tier2 = args.voucher_tier2 or "v_crv_printeruptier"
 	args.voucher_odds = args.voucher_odds or 4
@@ -2240,30 +2356,43 @@ RevosVault.pseudorandom_printer = function(args)
 		if _sets == "Playing Card" then
 			RevosVault.random_playing_card(nil, nil, args.area)
 		elseif _sets == "Default" then
-			RevosVault.random_playing_card(nil, nil, args.area, {no = true})
+			RevosVault.random_playing_card(nil, nil, args.area, { no = true })
 		else
-			RevosVault.random_playing_card(nil, nil, args.area, {guaranteed = true})
+			RevosVault.random_playing_card(nil, nil, args.area, { guaranteed = true })
 		end
 	else
-		args.area = args.area or G.jokers 
-		if (G.GAME.used_vouchers[args.voucher_tier1] == true and SMODS.pseudorandom_probability(args.card, args.seed, 1, args.voucher_odds)) or (G.GAME.used_vouchers[args.voucher_tier2] == true) or (args.always_negative) then
-			if (args.odds and SMODS.pseudorandom_probability(args.card, args.seed, 1, args.odds, nil, args.no_odd_mod)) or not (args.odds) then	
-				SMODS.add_card{
+		args.area = args.area or G.jokers
+		if
+			(
+				G.GAME.used_vouchers[args.voucher_tier1] == true
+				and SMODS.pseudorandom_probability(args.card, args.seed, 1, args.voucher_odds)
+			)
+			or (G.GAME.used_vouchers[args.voucher_tier2] == true)
+			or args.always_negative
+		then
+			if
+				(args.odds and SMODS.pseudorandom_probability(args.card, args.seed, 1, args.odds, nil, args.no_odd_mod))
+				or not args.odds
+			then
+				SMODS.add_card({
 					area = args.area,
 					set = _sets or "Joker",
 					edition = "e_negative",
 					key = args.key,
-					rarity = args.rarity
-				}
+					rarity = args.rarity,
+				})
 			end
 		elseif args.area and args.area.cards and #args.area.cards < args.area.config.card_limit then
-			if (args.odds and SMODS.pseudorandom_probability(args.card, args.seed, 1, args.odds, args.no_odd_mod)) or not(args.odds) then
-				SMODS.add_card{
-					area= args.area,
+			if
+				(args.odds and SMODS.pseudorandom_probability(args.card, args.seed, 1, args.odds, args.no_odd_mod))
+				or not args.odds
+			then
+				SMODS.add_card({
+					area = args.area,
 					set = _sets or "Joker",
 					key = args.key,
-					rarity = args.rarity
-				}
+					rarity = args.rarity,
+				})
 			end
 		else
 			RevosVault.c_message(args.card, (args.message or localize("k_no_room_ex")))
@@ -2279,4 +2408,76 @@ function Card:crv_random_sticker(exclude)
 		end
 	end
 	return pseudorandom_element(tab, pseudoseed("crv_random_sticker"))
+end
+
+function RevosVault.set_ability(args)
+	args = args or {}
+	args.effect_table = args.effect_table or {}
+	args.lock = args.lock or pseudoseed("lockingitsogood") -- ideal?
+	if not args.card then
+		return nil
+	end
+	local trig, trig2 = 0, false
+	local acard = args.card
+
+	G.E_MANAGER:add_event(Event({
+		trigger = "immediate",
+		func = function()
+			acard:flip()
+            G.CONTROLLER.locks[args.lock] = true
+			return true
+		end,
+	}))
+	local function triple_juice(timer)
+		if timer >= 4 then
+			acard:flip()
+			G.CONTROLLER.locks[args.lock] = false
+			return nil
+		else
+			trig = trig + 1
+			G.E_MANAGER:add_event(Event({
+				trigger = "after",
+				delay = args.delay or 2.5,
+				func = function()
+					acard:juice_up()
+					if timer <= 2 then
+						play_sound(args.sound or "explosion_release1", 2+(timer/2), 0.5)
+					end
+					if not trig2 then
+						trig2 = true
+						if not args.custom_func then
+							for k, v in pairs(args.effect_table) do
+								local aet = args.effect_table
+								if aet.edition then
+									acard:set_edition(aet.edition, true, true)
+								end
+								if aet.center then
+									acard:set_ability(aet.center)
+								end
+								if aet.seal then
+									acard:set_seal(aet.seal)
+								end
+								if aet.sticker then
+									if type(aet.sticker) == "table" then
+										for k, v in pairs(aet.sticker) do
+											acard:add_sticker(v, true)
+										end
+									else
+										acard:add_sticker(aet.sticker, true)
+									end
+								end
+							end
+						else
+							args.custom_func()
+						end
+					end
+					triple_juice(trig)
+					return true
+				end,
+			}))
+		end
+	end
+	if trig == 0 then
+		triple_juice(trig)
+	end
 end

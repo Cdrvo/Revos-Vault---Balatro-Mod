@@ -2742,7 +2742,7 @@ SMODS.Joker({
 			card.ability.extra.rerolls = card.ability.extra.rerolls - 1
 			G.jokers:unhighlight_all()
 		end
-		if context.end_of_round and context.main_eval then
+		if context.end_of_round and context.main_eval and card.ability.extra.rerolls < 3 then
 			card.ability.extra.rerolls = 3
 			return {
 				message = localize("k_reset"),

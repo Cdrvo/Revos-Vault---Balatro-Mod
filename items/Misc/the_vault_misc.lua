@@ -119,11 +119,14 @@ function Card:crv_is_upgradeable()
 	end
 end
 
-function RevosVault.vaultify(card, no_juice)
+function RevosVault.vaultify(card, no_juice, ret)
 	for k, v in pairs(G.P_JOKER_RARITY_POOLS["crv_va"]) do
 		if type(v.from) == "table" then
 			for kk, vv in pairs(v.from) do
 				if card.config.center.key == vv then
+					if ret then
+						return v.key
+					end
 					card:set_ability(v.key)
 					if not no_juice then
 						card:juice_up()
@@ -133,6 +136,9 @@ function RevosVault.vaultify(card, no_juice)
 			end
 		else
 			if card.config.center.key == v.from then
+				if ret then
+					return v.key
+				end
 				card:set_ability(v.key)
 				if not no_juice then
 					card:juice_up()
@@ -205,6 +211,7 @@ G.FUNCS.crv_vault_vault_can = function(e)
                 and G.GAME.souls
                 and (G.GAME.souls >= TheVault.vault_cost)
     			and not TheVault.vault_lock
+				and not G.CONTROLLER.locked
 				and not G.vault_card.cards[1].crv_harvested
             )
         then
@@ -248,7 +255,8 @@ G.FUNCS.crv_vault_vault = function(e)
 		
         G.GAME.souls = G.GAME.souls - TheVault.vault_cost
 
-        RevosVault.vaultify(G.vault_card.cards[1])
+        local vault_ver = RevosVault.vaultify(G.vault_card.cards[1], true, true)
+		RevosVault.set_ability({card = G.vault_card.cards[1], sound = "gong", effect_table = {center = vault_ver}})
         play_sound("coin1")
     else
 		G.E_MANAGER:add_event(Event({
@@ -285,6 +293,7 @@ G.FUNCS.crv_vault_enhance_can = function(e)
 			and G.GAME.souls
 			and (G.GAME.souls >= TheVault.enhance_cost)
 			and not TheVault.vault_lock
+			and not G.CONTROLLER.locked
 			and not G.vault_card.cards[1].crv_harvested
 		)
 	then
@@ -331,6 +340,7 @@ G.FUNCS.crv_vault_upgrade_can = function(e)
 			and G.GAME.souls
 			and (G.GAME.souls >= TheVault.upgrade_cost)
 			and not TheVault.vault_lock
+			and not G.CONTROLLER.locked
 			and not G.vault_card.cards[1].crv_harvested
 		)
 	then
@@ -369,7 +379,8 @@ G.FUNCS.crv_vault_upgrade = function(e)
 	}))
 	G.GAME.souls = G.GAME.souls - TheVault.upgrade_cost
 
-	RevosVault.modify_rarity(G.vault_card.cards[1], 1)
+	local new_key = RevosVault.modify_rarity(G.vault_card.cards[1], 1, nil, nil, true)
+	RevosVault.set_ability({card = G.vault_card.cards[1], sound = nil, effect_table = {center = new_key}})
 	play_sound("coin1")
 
 	G.E_MANAGER:add_event(Event({
@@ -393,6 +404,7 @@ G.FUNCS.crv_vault_harvest_can = function(e)
 			and G.vault_card.cards[1].sell_cost
 			and not SMODS.is_eternal(G.vault_card.cards[1])
 			and not TheVault.vault_lock
+			and not G.CONTROLLER.locked
 			and not G.vault_card.cards[1].crv_harvested
 		)
 	then
