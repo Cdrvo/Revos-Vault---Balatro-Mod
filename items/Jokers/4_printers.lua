@@ -166,7 +166,7 @@ SMODS.Joker({
 	calculate = function(self, card, context)
 		local crv = card.ability.extra
 		if context.setting_blind and not context.blueprint then
-			local joker_to_make = "j_crv_gros_michel"
+			local joker_to_make = "j_gros_michel"
 			if SMODS.pseudorandom_probability(card, "grossprinter", 1, crv.odds) then
 				joker_to_make = "j_cavendish"
 			end
