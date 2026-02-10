@@ -455,7 +455,7 @@ RevosVault.button_func = function(card, args) -- idk what im doing
 	}
 end
 
--- This specific hook exits a lot in my current code. Im not planning to remove them nor move them just yet but the future ones will be implemented here under the same hook
+-- nomore
 
 local cardhighold = Card.highlight
 function Card:highlight(is_highlighted)
@@ -621,10 +621,10 @@ function Card:highlight(is_highlighted)
 			self.children.use_button:remove()
 			self.children.use_button = nil
 		end
-	elseif self.highlighted and string.find(self.ability.name, "j_crv_thed6") and self.area == G.jokers then
+	elseif self.highlighted and self.config and self.config.center and self.config.center.key and self.config.center.key == "j_crv_thed6" and self.area == G.jokers then
 		if self.children.use_button then
 			self.children.use_button:remove()
-			self.children.use_button = nil
+			self.children.use_button = nil	
 		end
 
 		self.children.use_button = UIBox({
@@ -664,7 +664,7 @@ function Card:highlight(is_highlighted)
 				parent = self,
 			},
 		})
-	elseif self.highlighted and string.find(self.ability.name, "j_crv_brj") and self.area == G.jokers then
+	elseif self.highlighted and self.config and self.config.center and self.config.center.key and self.config.center.key == "j_crv_brj" and self.area == G.jokers then
 		if self.children.use_button then
 			self.children.use_button:remove()
 			self.children.use_button = nil
@@ -707,29 +707,7 @@ function Card:highlight(is_highlighted)
 				parent = self,
 			},
 		})
-	elseif self.highlighted and string.find(self.ability.name, "j_crv_adamap") and self.area == G.jokers then
-		if self.children.use_button then
-			self.children.use_button:remove()
-			self.children.use_button = nil
-		end
-
-		self.children.use_button = UIBox({
-			definition = RevosVault.button_func(self, {
-				sell = true,
-				use = true,
-				text = localize("crv_eat"),
-				button = "crv_eaten",
-			}),
-			config = {
-				align = "cr",
-				offset = {
-					x = -0.4,
-					y = 0,
-				},
-				parent = self,
-			},
-		})
-	elseif self.highlighted and string.find(self.ability.name, "j_crv_invest") and self.area == G.jokers then
+	elseif self.highlighted and self.config and self.config.center and self.config.center.key and self.config.center.key == "j_crv_invest" and self.area == G.jokers then
 		if self.children.use_button then
 			self.children.use_button:remove()
 			self.children.use_button = nil
@@ -753,7 +731,7 @@ function Card:highlight(is_highlighted)
 				parent = self,
 			},
 		})
-	elseif self.highlighted and string.find(self.ability.name, "j_crv_roulj") and self.area == G.jokers then
+	elseif self.highlighted and self.config and self.config.center and self.config.center.key and self.config.center.key == "j_crv_roulj" and self.area == G.jokers then
 		if self.children.use_button then
 			self.children.use_button:remove()
 			self.children.use_button = nil
@@ -792,7 +770,7 @@ function Card:highlight(is_highlighted)
 				parent = self,
 			},
 		})
-	elseif self.highlighted and string.find(self.ability.name, "j_crv_dealb") and self.area == G.jokers then
+	elseif self.highlighted and self.config and self.config.center and self.config.center.key and self.config.center.key == "j_crv_dealb" and self.area == G.jokers then
 		if self.children.use_button then
 			self.children.use_button:remove()
 			self.children.use_button = nil
