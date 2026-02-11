@@ -405,7 +405,7 @@ SMODS.Joker({
 				and not G.jokers.cards[1].getting_sliced
 			then
 				if G.jokers.cards[1] ~= card then
-					if SMODS.pseudorandom_probability(card, "vrev_seed", 1, card.abiltiy.extra.odds, nil, true) then
+					if SMODS.pseudorandom_probability(card, "vrev_seed", 1, card.ability.extra.odds, nil, true) then
 						local sliced_card = G.jokers.cards[1]
 						sliced_card.getting_sliced = true
 						G.GAME.joker_buffer = G.GAME.joker_buffer - 1
