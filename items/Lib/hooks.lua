@@ -247,6 +247,16 @@ Game.init_game_object = function(self)
 
 	ret.superior_mod = 1
 
+	ret.crv_blacklisted_balance = {
+		"METRICS",
+		"crv_curses",
+		"vouchers",
+		"discard",
+		--[["deck",
+		"hand",
+		"play"]]
+	}
+
 --[[if next(SMODS.find_mod("JoJoMod")) then
 		ret.crv_jojo = true
 	else
@@ -836,4 +846,12 @@ function SMODS.score_card(card, context)
     if not card.crv_no_trigger then
         return score_card_old(card, context)
     end
+end
+
+local calculate_context_old = SMODS.calculate_context
+function SMODS.calculate_context(context, ...)
+    if context.hand_drawn then
+		G.GAME.current_round.crv_drawn_hands = G.GAME.current_round.crv_drawn_hands + 1
+	end
+    return calculate_context_old(context, ...)
 end

@@ -406,6 +406,7 @@ end
 SMODS.current_mod.reset_game_globals = function(run_start)
 	if run_start then
 		calculate_modded_printer()
+		G.GAME.current_round.crv_drawn_hands = 0
 
 		TheVault = {
 			vault_cost = 75,
@@ -436,6 +437,7 @@ SMODS.current_mod.reset_game_globals = function(run_start)
 		end
 	end
 
+	G.GAME.current_round.crv_drawn_hands = 0
 	calculate_modded_printer()
 
 end

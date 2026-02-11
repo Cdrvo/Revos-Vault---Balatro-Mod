@@ -2481,3 +2481,13 @@ function RevosVault.set_ability(args)
 		triple_juice(trig)
 	end
 end
+
+
+function RevosVault.balance_blacklist(area_name)
+	for k, v in pairs(G.GAME.crv_blacklisted_balance) do
+		if v == area_name then
+			return true
+		end
+	end
+	return false
+end

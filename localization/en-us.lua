@@ -305,7 +305,17 @@ return {
 					"One random suit is debuffed",
 					"after every hand",
 				},
-			}
+			},
+			bl_crv_balance = {
+				name = "The Balance",
+				text = {
+					"When first hand is drawn,",
+					"if the number of cards",
+					"in a card area is an odd number,",
+					"debuff the cards in that area",
+					"until the end of the round"
+				},
+			},
 		},
 		Partner = {
 			pnr_crv_pprinter = {
