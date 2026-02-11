@@ -97,7 +97,7 @@ SMODS.Joker({
 		},
 	},
 	loc_vars = function(self, info_queue, card)
-		if not G.real_modicon_area then
+		if not G.real_modicon_area and G.jokers then
 			G.real_modicon_area = CardArea(G.jokers.T.x, -15, G.jokers.T.w, G.jokers.T.h, { card_limit = 1e300, type = "discard" })
 		end
 		info_queue[1] = { set = "Other", key = "crv_crash_desc" }
