@@ -164,7 +164,7 @@ SMODS.Joker({
 		local cae = card.ability.extra
 
 		if context.setting_blind and not context.blueprint then
-			if not G.real_modicon_area then
+			if not G.real_modicon_area and G.jokers then
 				G.real_modicon_area = CardArea(G.jokers.T.x, -15, G.jokers.T.w, G.jokers.T.h, { card_limit = 1e300, type = "discard" })
 			end
 			local tab = {}
