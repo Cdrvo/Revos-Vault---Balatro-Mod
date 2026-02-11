@@ -1524,6 +1524,35 @@ SMODS.Joker({
 })
 
 SMODS.Joker({
+	key = "chicken_printer",
+	atlas = "Jokers2",
+	rarity = "crv_p",
+	cost = 20,
+	unlocked = true,
+	discovered = false,
+	blueprint_compat = true,
+	pos = { x = 3, y = 16 },
+	config = {
+		extra = {
+		},
+	},
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_CENTERS.j_egg
+	end,
+	calculate = function(self, card, context)
+		local cae = card.ability.extra
+		if context.setting_blind then
+			RevosVault.pseudorandom_printer({card = card, area = G.jokers, sets = "Joker",key = "j_egg", seed = "chickeningityeashdjahgsfahjsdjhflaksjhgfhjasdgfgahjsmdnfja" })
+		end
+	end,
+	in_pool = function(self)
+		return false
+	end
+})
+
+
+
+SMODS.Joker({
 	key = "legendaryprinter",
 	atlas = "Jokers",
 	rarity = 4,

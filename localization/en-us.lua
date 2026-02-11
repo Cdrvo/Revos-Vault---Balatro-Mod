@@ -2638,6 +2638,22 @@ return {
 
 				}
 			},
+			j_crv_golden_egg = {
+				name = "Golden Egg",
+				text = {
+					"After {C:attention}#1#{C:inactive} (#2#){} Rounds",
+					"turns into a {C:attention}Chicken Printer{}"
+
+				}
+			},
+			j_crv_chicken_printer = {
+				name = "Chicken Printer",
+				text = {
+					"When a {C:attention}Blind{} is selected",
+					"print an {C:attention}Egg{}"
+
+				}
+			},
 			-- QUICK JOKER
 			--GARBSHIT below
 			j_crv_stamprinter = {

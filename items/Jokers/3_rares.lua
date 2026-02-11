@@ -2770,3 +2770,42 @@ SMODS.Joker({
 		end
 	end,
 })
+
+SMODS.Joker({
+	key = "golden_egg",
+	atlas = "Jokers2",
+	pos = { x = 2, y = 16 },
+	config = {
+		extra = {
+			rounds = 3,
+			rounds_left = 3
+		}
+	},
+	rarity = 3,
+	cost = 6,
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_CENTERS.j_crv_chicken_printer
+		local cae = card.ability.extra
+		return {
+			vars = { cae.rounds, cae.rounds_left },
+		}
+	end,
+	add_to_deck = function(self,card,context)
+		card.ability.extra_value = card.ability.extra_value or 0
+		card.ability.extra_value = card.ability.extra_value + (30 - card.sell_cost)
+		card:set_cost()
+	end,
+	calculate = function(self, card, context)
+		local cae = card.ability.extra
+		if context.end_of_round and not context.blueprint and context.main_eval then
+			if cae.rounds_left > 1 then
+				cae.rounds_left = cae.rounds_left - 1
+				RevosVault.c_message(card, "-1")
+			else
+				cae.rounds_left = 0
+				card:juice_up()
+				card:set_ability("j_crv_chicken_printer")
+			end
+		end
+	end,
+})
